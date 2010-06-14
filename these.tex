@@ -1,0 +1,71 @@
+\documentclass[a4paper]{report}
+
+\usepackage[american,french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{bbm}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{mdwlist}
+\usepackage{graphicx}
+\usepackage{mathrsfs}
+\usepackage{url}
+\usepackage{color}
+\usepackage[all]{xypic}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,automata}
+\usepackage{eurosym}
+\usepackage{listings}
+\usepackage{textcomp}
+
+%%%%%%%%%%%%%% Aliases
+
+%% Typographie
+\renewcommand{\le}{\leqslant}
+\renewcommand{\ge}{\geqslant}  % comme François le demande...
+\newcommand{\todo}{\dots}  % un marqueur pour un trou
+
+%% Nombres, corps
+\newcommand{\N}{\mathbb{N}}  % les naturels
+\newcommand{\Z}{\mathbb{Z}}  % les entiers
+\newcommand{\K}{\mathbb{K}}  % un corps
+\newcommand{\Q}{\mathbb{Q}}  % les rationnels
+\newcommand{\R}{\mathbb{R}}  % les réels
+\newcommand{\C}{\mathbb{C}}  % les complexes
+
+%% Diagrammes
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\La}{\Leftarrow}
+\newcommand{\Ra}{\Rightarrow}
+
+
+
+%%Théorèmes
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+
+
+\title{Ma thèse}
+\author{Luca De Feo}
+
+\begin{document}
+\frontmatter
+
+\maketitle
+
+\mainmatter
+\include{trans/trans}
+\include{artin/artin}
+\include{isogeny/isogeny}
+
+\backmatter
+\bibliographystyle{plain}
+\bibliography{defeo}
+
+\end{document}
+
