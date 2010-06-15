@@ -1,6 +1,6 @@
 \documentclass[a4paper]{report}
 
-\usepackage[american,french]{babel}
+\usepackage[french,american]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{bbm}
 \usepackage{amsmath}
@@ -30,6 +30,7 @@
 \newcommand{\N}{\mathbb{N}}  % les naturels
 \newcommand{\Z}{\mathbb{Z}}  % les entiers
 \newcommand{\K}{\mathbb{K}}  % un corps
+\newcommand{\F}{\mathbb{C}}  % un corps fini
 \newcommand{\Q}{\mathbb{Q}}  % les rationnels
 \newcommand{\R}{\mathbb{R}}  % les réels
 \newcommand{\C}{\mathbb{C}}  % les complexes
@@ -40,6 +41,28 @@
 \newcommand{\La}{\Leftarrow}
 \newcommand{\Ra}{\Rightarrow}
 
+%% Opérateurs
+\DeclareMathOperator{\inp}{in}
+\DeclareMathOperator{\outp}{out}  % input and output ports/nodes in circuits
+\DeclareMathOperator{\eval}{eval}
+\DeclareMathOperator{\lave}{coeval}  % (co)evaluation of an arithmetic circuit
+\DeclareMathOperator{\size}{size}
+\DeclareMathOperator{\depth}{depth}  % size and depth of a circuit
+\DeclareMathOperator{\hub}{H}  % a hub node
+\DeclareMathOperator{\id}{id}  % identity
+\DeclareMathOperator{\proc}{proc}  % proc keywors in transAL
+\DeclareMathOperator{\diff}{d}  % differential operator
+%
+\DeclareMathOperator{\car}{car}  % caractéristique d'un corps
+\DeclareMathOperator{\Frac}{Frac}  % corps des fractions
+\DeclareMathOperator{\Gal}{Gal}  % groupe de Galois
+\DeclareMathOperator{\Tr}{Tr}  % trace
+\DeclareMathOperator{\PTr}{T}  % pseudotrace
+\DeclareMathOperator{\Norm}{N} % norme
+\DeclareMathOperator{\coeff}{coeff}  % coefficient
+\DeclareMathOperator{\ord}{ord}  % l'ordre d'un élément
+\DeclareMathOperator{\rev}{rev}  % le reverse d'un polynôme
+\DeclareMathOperator{\Fix}{Fix}  % les points fixes
 
 
 %%Théorèmes
@@ -54,18 +77,23 @@
 \author{Luca De Feo}
 
 \begin{document}
-\frontmatter
-
+%\frontmatter
 \maketitle
 
-\mainmatter
+%\mainmatter
 \include{trans/trans}
-\include{artin/artin}
+%\include{artin/artin}
 \include{isogeny/isogeny}
 
-\backmatter
+%\backmatter
 \bibliographystyle{plain}
 \bibliography{defeo}
 
 \end{document}
 
+
+% Local Variables:
+% mode:TeX-PDF
+% mode:reftex
+% End:
+%

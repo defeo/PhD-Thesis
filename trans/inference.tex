@@ -1,0 +1,254 @@
+\section{Inferring linearity}
+\label{sec:inference}
+\lstset{language=haskell}
+
+The main drawback of the technique described in the previous Section
+is that the user has to explicitly split the computation in a linear
+and a scalar part. This requires a lot of man-work and is arguably the
+most time consuming task when transposing code by hand as done in
+\cite{Sho95,BoLeSc03}. Another limitation of the technique is that if
+one is interested in obtaining all the transpositions of a multilinear
+algorithms as in Section \ref{sec:multi}, she has essentially to
+rewrite it once for each linearization.
+
+In this section we show how the type system of common statically typed
+functional languages can be extended to automatically infer all the
+possible \emph{linearizations} of a computer program. We first present
+the non-commutative case, which can be fully expressed inside the
+Haskell type system, then we discuss how to extend to the commutative
+case.
+
+Suppose we have defined some data type \lstinline{R} implementing
+elements of a ring $R$ together with the usual constants (say
+\lstinline{zeroR}, \lstinline{oneR}, etc.), arithmetic operations (say
+\lstinline{plus}, \lstinline{times}, etc.), tests and so on. To
+simplify, we assume --as usual in algebraic complexity theory-- that
+the type \lstinline{R} is isomorphic to $R$, i.e. the elements of $R$
+can be represented exactly, the operations don't introduce any
+rounding error, etc. This assumptions takes us out of the Turing
+model, right into a BSS-like model \cite{BSS}, but this won't affect
+our results.
+
+For any term involving elements of type \lstinline{R} we would like
+the type system to tell us whether its outputs are linear in its
+inputs. For example the term
+\begin{lstlisting}
+  \x y -> plus x y
+\end{lstlisting}
+has type \lstinline{R -> R -> R}, but we would like the type checker
+to also output something like $\ell\ra\ell\ra\ell$ telling that the
+term is a (left) module homomorphism from $R^2$ to $R$ (after
+uncurrying). For consistency, we want to view constants as mappings
+from $R^0$ to $R$, thus for the term \lstinline{zeroR} we want the
+type checker to compute something like $0\ra\ell$, that we simply
+write as $\ell$.
+
+Now, what do we expect about \lstinline{oneR} or \lstinline{times}?
+The former is the mapping $\bom\mapsto1$, which is not a module
+homomorphism; by analogy with the linearization technique we want the
+type checker to output something like $0\ra s$, or simply $s$, telling
+that \lstinline{oneR} is a scalar. The second can be made into a
+linear mapping by \emph{fixing} its second argument (remember that for
+the moment we are restricting to left modules) as we did in Section
+\ref{sec:multi}; thus we expect the type checker to output $\ell\ra
+s\ra\ell$, telling that the section \lstinline{flip times x} is a
+homomorphism $R\ra R$ for any \lstinline{x::R}.
+
+Finally consider the following term
+\begin{lstlisting}
+  z x n = if n <= 0 then zeroR else plus x (z x (n-1))
+\end{lstlisting}
+as before we expect something like $\ell\ra\N\ra\ell$ telling that the
+section \lstinline{flip z n} is a homomorphism $R\ra R$ for any
+integer \lstinline{n}.
+
+Observe that in order to make a correct inference about a term such as
+\begin{lstlisting}
+  \x y -> times x (plus y y)
+\end{lstlisting}
+we must also admit for any of the previous cases the possibility where
+everything is a scalar, so that from the hypothesis that
+\lstinline{plus} has type $s\ra s\ra s$ we can deduce the correct type
+$\ell\ra s\ra\ell$ for the term above. Summarizing, we would like to
+have two types \lstinline{L} and \lstinline{S} such that the all
+following equations hold
+\begin{lstlisting}
+  plus :: L -> L -> L
+  plus :: S -> S -> S
+  times :: L -> S -> L
+  times :: S -> S -> S
+  zeroR :: L
+  zeroR :: S
+  oneR :: S
+\end{lstlisting}
+
+If we define \lstinline{L} and \lstinline{S} as wrappers around
+\lstinline{R}
+\begin{lstlisting}
+  data L = L R
+  data S = S R
+\end{lstlisting}
+then, using Haskell type classes \cite{WaBl89}, we can conveniently
+express all the equations above as
+\begin{lstlisting}
+  class Ring r where
+    zero :: r
+    (<+>) :: r -> r -> r
+    neg :: r -> r
+    (<*>) :: r -> S -> r
+\end{lstlisting}
+together with the obvious \lstinline{instance}
+definitions\footnote{The type \lstinline{S} is somewhat redundant with
+  \lstinline{R}, but we present it for clarity.}. Any other function
+acting on \lstinline{R} can be wrapped inside a function acting on
+\lstinline{S} as, for example,
+\begin{lstlisting}
+  one = S oneR
+  (S a) == (S b) = a == b
+\end{lstlisting}
+but it is important that no other function is exported to
+\lstinline{L}.
+
+If now we forbid the use of the type constructor \lstinline{L}, then
+we can show that for any given term $t$ any correct type implies that
+a certain section (up to some \lstinline{flip}'s) of $t$ is an
+$R$-module homomorphism. The proof for the full language would be too
+long, thus we restrict to a simply typed $\lambda$-calculus with
+constants defined by the following grammar, where $x$ are identifiers
+and $c$ are constants,
+\begin{equation}
+  \label{eq:lambda}
+  t ::= c \;|\; x \;|\; t_0 t_1 \;|\; \lambda x . t  \text{ .}
+\end{equation}
+We suppose all the constants and types above are defined; observe that
+our grammar forbids type constructors all together (including
+\lstinline{L} and \lstinline{S}, but also including constructors for
+lists and tuples). In this context we use the type names $\ell$ and
+$s$ in place of the Haskell types \lstinline{L} and \lstinline{S}
+defined above.
+
+\begin{definition}[Linear section]
+  Let $t::\tau$ be a term and let
+  $\tau=\alpha_0\ra\cdots\ra\alpha_n\ra\beta$ where $\beta$ is not a
+  function type. Let $(i_j)_{j<m}$ be the set of indices such that
+  $\alpha_{i_j}=\ell$ and set $s_{i_j}=x_j$ for any $j<m$, where $x_j$
+  is a fresh identifier.  For any $\alpha_i\ne\ell$ let
+  $s_i::\alpha_i$ be any term, then the term
+  \begin{equation}
+    \lambda x_1.\cdots\lambda x_m.ts_1\cdots s_n
+  \end{equation}
+  is called a \emph{linear section} of $t::\tau$.
+\end{definition}
+
+\begin{proposition}
+  \label{th:lininference}
+  Using the same notation as above, assume that $t$ and all the
+  $s::\alpha_i$ for $\alpha_i\ne\ell$ are closed terms. Then any
+  linear section of $t::\tau$ is (semantically equivalent to)
+  \begin{enumerate}
+  \item a constant function if $\beta\ne\ell$,
+  \item a module homomorphism $R^m\ra R$ if $\beta=\ell$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  \todo
+\end{proof}
+
+In the commutative case we shall add a second multiplication operator
+allowing multiplication on the left by a scalar
+\begin{lstlisting}
+  class Ring r => CommRing r where
+    (>*<) :: S -> r -> r 
+\end{lstlisting}
+but this would force the user to chose between the two operators any
+time she multiplies two elements of $R$. Although this is slightly
+easier than translating an algorithm in the arrow jargon, it still
+requires a supplementary effort to the user; to avoid this problem we
+need to overload the operator \lstinline{(<*>)} with both type
+signatures, a technique sometimes called \emph{ad-hoc} polymorphism
+\cite{Str00}, but this is not possible in Haskell's type system since
+the two types are contradictory.  To make it possible we need to
+extend the type inference algorithm: our idea is not new, but it has
+been rarely implemented because it is not practical for solving
+generic \emph{ad-hoc} polymorphism; it perfectly fits the needs of our
+special case, though.
+
+First observe that type classes can be translated to ordinary types of
+the Hindley-Milner type system as explained in \cite[$\S 4$]{WaBl89},
+thus it suffices to modify the classic type inference algorithm
+\cite{DM82,Cardelli}. Second observe that there is some redundancy
+between the two signatures of \lstinline{(<*>)} and that a more
+concise version is
+\begin{lstlisting}
+  (<*>) :: Ring r => r -> S -> r
+  (<*>) :: S -> L -> L
+\end{lstlisting}
+
+A review of the Hindley-Milner algorithm and its implementation can be
+found in \cite{Cardelli}. The idea is to first assign type variables
+to terms, then solve type equations by unifying them.  In our
+generalization, instead of handling a single unification, we keep a
+list of possible unifications: when a type equation implies that a
+certain unification is not acceptable, the unification is discarded
+from the list; if the list gets empty the term cannot by typed and an
+error is returned, otherwise any unification in the list is valid and
+is returned.
+
+In practice, the only term that makes the list of unification grow is
+\lstinline{(<*>)}: any time an equation involving it has to be solved,
+the list of unifications potentially doubles. This exponential
+increase is the reason why this solution is not practical to solve
+generic \emph{ad-hoc} polymorphism; but in our case we really are
+interested in knowing all the possible types of a term because each of
+them gives rise to a different linearization and, hence, to a
+different transposition.
+
+In Section \ref{sec:} we will present an implementation of these
+ideas.
+
+Finally we remark that by allowing tuples and lists, proposition
+\ref{th:lininference} can be generalized to morphisms $R^m\ra R^n$ and
+even to infinite dimensional modules using lazy lists. Elements of
+type \lstinline{L}, \lstinline{[L]}, \lstinline{(L,L)}, etc. share a
+common pattern: they can be viewed as $R$-modules. It is convenient to
+summarize their properties in an unique interface\footnote{We make use
+  of some experimental modules of Haskell: this codes needs the flags
+  \lstinline{-XMultiParamTypeClasses},
+  \lstinline{-XFunctionalDependencies} and
+  \lstinline{-XFlexibleInstances} in order to work.}
+\begin{lstlisting}
+  class Ring r => Module m r | m -> r where
+    zeroM :: m
+    (<<*) :: m -> S -> m
+    (>>>) :: m -> Integer -> r
+    (<<<) :: r -> Integer -> m
+    (<++>) :: m -> m -> m
+    add :: m -> m -> Integer -> m
+    add a b n = foldl (<++>) zeroM
+                [((a>>>i) <+> (b>>>i))<<<i | i <- [1..n]]
+\end{lstlisting}
+
+Instances of this class represent free $R$-modules: \lstinline{zeroM}
+is the zero element, \lstinline{(<<*)} is scalar multiplication,
+\lstinline{(<++>)} is addition, \lstinline{<<<} and \lstinline{(>>>)}
+are canonical injections and projections. 
+
+This interface doesn't add anything to the linearity inference system,
+but it will be of great use in the next Sections.  Also notice the
+presence of the operator \lstinline{add} that performs addition up to
+a truncation order, it is of no great importance in this section, but
+for efficiency reasons we will eventually prefer it to plain addition.
+
+A fully worked Haskell example of the ideas presented in this section
+(without the extension to the commutative case) is given in the
+appendix where we implement karatsuba multiplication of polynomials in
+$\Z[X]$.
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"american"
+% mode:TeX-PDF
+% TeX-master: "transAL"
+% End:
+%

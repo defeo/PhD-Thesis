@@ -1,0 +1,177 @@
+\section{Smallest degree isogeny}
+\label{sec:bounded}
+
+We now present an extension to Couveignes algorithm that could be
+useful in cryptographic application. It is well known that two curves
+having the same number of points over a finite field are isogenous,
+however this doesn't say anything on the degree of the isogeny
+connecting them. Given two elliptic curves $E$ and $E'$ defined over
+$\F_q$ and having the same number of points, we want to find the
+smallest degree isogeny between them.
+
+The simplest solution is to take any algorithm computing a fixed
+degree isogeny and try all the degrees until an isogeny is found. If
+$\ell$ is the degree of the smallest isogeny, this of course adds a
+factor $\ell$ to the complexity of any polynomial time algorithm.
+
+Couveignes' algorithm can be easily adapted to solve this problem at
+no additional cost. We call this algorithm C2SD and we will only
+discuss its most efficient variant C2SD-AS-FI.
+
+Observe that, apart for the choice of $k$, the computation of $E[p^k]$
+and the polynomial interpolation step do not depend at all on
+$\ell$. The degree of the isogeny only comes into play in the last
+part of the Cauchy interpolation, that is the rational function
+reconstruction. We study more in detail this last step.
+
+
+\paragraph{Rational Function Reconstruction}
+Rational function reconstruction takes as input a degree $n$
+polynomial $T$, a polynomial $A$ of degree less than $n$ and a target
+degree $m\le n$ and outputs the unique rational function such that
+\begin{equation*}
+  A \equiv \frac{R}{V} \bmod T
+\end{equation*}
+and $\deg R < m$, $\deg V \le n-m$. This is done by computing a Bezout
+relation $AV + TU = R$ with the expected degrees via an XGCD
+algorithm. If a classical XGCD algorithm is used, one simply computes
+all the lines
+\begin{equation}
+  \label{eq:XGCD}
+  \begin{aligned}
+    R_0 &= T, & U_0 &= 1, & V_0 &= 0,\\
+    R_1 &= A, & U_1 &= 0, & V_1 &= 1,\\
+    R_{i-1} &= Q_iR_i + R_{i+1}, & U_{i+1} &= U_{i-1}-Q_iU_i, & V_{i+1} &= V_{i-1}-Q_iV_i
+  \end{aligned}
+\end{equation}
+and stops as soon as a remainder $R_{i+1}$ with $\deg R_{i+1}<m$ is
+found. If a fast XGCD algorithm as \cite[Algo. 11.4]{vzGG} is used,
+one directly aims at the two lines
+\begin{equation}
+  \label{eq:FastGCD}
+  \begin{aligned}
+    R_{h-2} &= Q_{h-1}R_{j-1} + R_h\\
+    R_{h-1} &= Q_hR_h + R_{h+1}
+  \end{aligned}
+\end{equation}
+such that $\deg R_{h+1} < m \le \deg R_h$ without computing the
+intermediate lines.
+
+When looking for an $\ell$-isogeny, one simply sets
+$m=\ell+1$. Observe that if the algorithm doesn't return a rational
+fraction $\frac{R}{V}$ with $\deg R = \ell$ and $\deg V = \ell -1 $,
+then no such fraction congruent to $A$ modulo $T$ exists.
+
+If $\ell$ is not \emph{a priori} known, we can still use the fact that
+a separable isogeny with cyclic kernel must have $\deg R = \deg V +
+1$. In fact if we suppose $R = R_i$ and $V = V_i$, then
+\begin{align*}
+  \deg T &= \deg V_{i+1} + \deg R_i,\\
+  \deg R_i - \deg V_i &= \deg R_{i-1} - \deg V_{i+1}
+\end{align*}
+implies
+\begin{equation*}
+  \deg T + 1 = \deg R_{i-1} + \deg R_i  
+  \;\text{.}
+\end{equation*}
+Hence, if $A$ is congruent to an $\ell$-isogeny with $\ell =
+\left\lfloor\frac{\deg T}{2}\right\rfloor - t$ for some $t\ge0$, then
+\begin{equation}
+  \label{eq:degseq}
+  \deg R_{i-1} =
+  \left\lceil\frac{\deg T}{2}\right\rceil + t + 1 >
+  \left\lfloor\frac{\deg T}{2}\right\rfloor - t = \deg R_i
+  \;\text{.}
+\end{equation}
+Thus we can recover any isogeny having degree less than
+$\left\lfloor\frac{\deg T}{2}\right\rfloor$ using either a classical
+or a fast XGCD algorithm setting $m = \left\lceil\frac{\deg
+    T}{2}\right\rceil + 1$.
+
+
+\paragraph{Recognising an isogeny}
+Once we have a rational fraction with the required degree, we have to
+test if it really is an isogeny. In order to understand how often we
+have to make this test, we introduce some more terminology. Let $n_i =
+\deg R_i$, we call $(n_0,\ldots,n_r)$ the \emph{degree sequence} of
+$A$ and $T$; a degree sequence is said \emph{normal} if $n_i = n_{i+1}
++ 1$ for any $i$.
+
+\begin{proposition}
+  \label{th:normseq}
+  Let $f,g\in\F_q[X]$ be uniformly chosen random polynomials of
+  respective degrees $n_0>n_1>0$ and let $(n_0, n_1, \ldots, n_r)$ be
+  their degree sequence. For $0\le i < n_1$ define the binary random
+  variables $X_i = 1 \Leftrightarrow i\in(n_0,n_1,\ldots,n_r)$, then
+  the $X_i$ are independent random variables and $\mathrm{Prob}(X_i=0) =
+  \frac{1}{q}$.
+\end{proposition}
+\begin{proof}
+  Pairs of polynomials $f,g$ are in bijection with the GCD-sequence
+  $(R_r, Q_r, \ldots, Q_1)$ constituted by their GCD and the quotients
+  of the GCD algorithm. To each such sequence is associated a degree
+  sequence
+  \begin{equation*}
+    (n_0,n_1,\ldots,n_r) =
+    \left(\deg R_r + \sum_{i=1}^r\deg Q_i, \ldots, \deg R_r + \sum_{i=1}^1\deg Q_i, \deg R_r\right)
+    \;\text{,} 
+  \end{equation*}
+  thus for any given degree sequence there are
+  \begin{equation*}
+    (q-1)q^{n_0-n_1}\cdot(q-1)q^{n_1-n_2}\cdot\cdots\cdot(q-1)q^{n_r} =
+    (q-1)^{r+1}q^{n_0}
+  \end{equation*}
+  GCD-sequences.
+ 
+  Let $I$ and $O$ be two disjoints subsets of $\{X_i\}$, the number of
+  GCD-sequences such that $X\in I \Rightarrow X=1$ and $X\in O
+  \Rightarrow X=0$,
+  \begin{equation*}
+     \sum_{s=0}^{n_1-\card{I}-\card{O}}\binom{n_1-\card{I}-\card{O}}{s}(q-1)^{s+2+\card{I}}q^{n_0} =
+    (q-1)^{2+\card{I}}q^{n_0}q^{n_1-\card{I}-\card{O}}
+    \;\text{.}
+  \end{equation*}
+  There are $(q-1)^2q^{n_0}q^{n_1}$ pairs of polynomials of degrees
+  $n_0,n_1$, thus
+  \begin{equation}
+   \label{th:normseq:prob}
+    \mathrm{Prob}\bigl(\{X = 1 \mid X\in I\},
+    \{X=0\mid X\in O\}\bigr) = \left(\frac{q-1}{q}\right)^{\card{I}}\left(\frac{1}{q}\right)^{\card{O}}
+    \;\text{.}
+  \end{equation}
+  The claim follows.
+\end{proof}
+
+Degree sequences associated to isogenies are in general not normal, in
+fact if $\ell\le\left\lfloor\frac{\deg T}{2}\right\rfloor-t$, equation
+\eqref{eq:degseq} shows that there must be at least a gap of degree
+$2c$ in the degree sequence. Heuristically, we can expect that if the
+polynomial $A$ doesn't correspond to an isogeny, then $A$ and $T$ act
+like random polynomials, thus, by the proposition above, the
+probability that $A$ looks like an isogeny of degree
+$\ell\le\left\lfloor\frac{\deg T}{2}\right\rfloor-t$ is less than $\frac{1}{q^{2t}}$.
+
+Therefore, by choosing an appropriate $t\in O(\log_q p^k)$, C2SD can
+find any isogeny of degree less than $\frac{p^k-1}{4}-t$ at the same
+cost of one run of C2. Also notice that C2SD is not restricted to
+isogenies of degree prime to $p$ as it was already mentioned in
+Section \ref{sec:C2:non-prime}.
+
+No other method for computing isogenies is known to have a similar
+generalisation, this makes C2SD-AS-FI interesting for practical
+applications.
+
+
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"british"
+% mode:TeX-PDF
+% TeX-master: "ec-isogeny"
+% End:
+%
+% LocalWords:  Schreier Artin pseudotrace frobenius bivariate Joux Sirvent FFT
+% LocalWords:  Couveignes isogenies Schoof isogeny cryptosystems Lercier
+% LocalWords:  precomputation arithmetics polylogarithmic Karatsuba precomputes
+% LocalWords:  endomorphisms  isogenous

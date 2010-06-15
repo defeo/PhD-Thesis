@@ -1,0 +1,48 @@
+\newcommand{\trans}[1]{#1^\top}  % transposé
+\newcommand{\dual}[1]{#1^\ast}  % dual
+\newcommand{\bom}{\perp}  % bottom _|_
+\newcommand{\al}{\prec}
+\newcommand{\tAL}{\textsf{transAL}}
+\newcommand{\Sbasis}{\mathcal{S}}  % standard basis
+\newcommand{\Tbasis}{\mathcal{L}}  % linear basis
+\newcommand{\lmul}[1]{{}_{#1}*}  % left multiplication node
+\newcommand{\rmul}[1]{*_{#1}}  % right multiplication node
+\newcommand{\op}{\mathrm{op}}  % opposite
+\newcommand{\RMod}[1]{#1\text{\sf-Mod}}  % The category of left R-modules
+\newcommand{\ModR}[1]{\text{\sf Mod-}#1}  % The category of right R-modules
+\newcommand{\pspace}{\mathcal{P}}  % the parameter space
+\newcommand{\s}{\underline}
+\renewcommand{\l}{\overline}
+
+
+\lstset{
+  upquote=true,
+  basicstyle=\ttfamily\small,          % print whole listing in typewriter
+  keywordstyle=\color{blue}\bfseries, % bold blue keywords
+  %identifierstyle=,           % nothing happens
+  commentstyle=\color{green}, % green comments
+  stringstyle=\color{red},      % typewriter type for strings
+  showstringspaces=false     % no special string spaces
+}
+
+
+\part{The transposition principle}
+
+\input{trans/introduction}
+\input{trans/circuits}
+\input{trans/multi}
+\input{trans/haskell}
+\input{trans/inference}
+\input{trans/transal}
+\input{trans/ad}
+\input{trans/haskatsuba}
+
+
+
+%%% Local Variables: 
+%%% mode:flyspell
+%%% ispell-local-dictionary:"american"
+%%% mode: TeX-PDF
+%%% mode: reftex
+%%% TeX-master: "../these"
+%%% End: 

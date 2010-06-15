@@ -1,0 +1,191 @@
+\section{Implementation}
+\label{sec:implementation}
+
+We implemented C2-AS-FI-MC as \texttt{C++} programs using the
+libraries \texttt{NTL}~\cite{NTL} for finite field arithmetics,
+\texttt{gf2x}~\cite{gf2x} for fast arithmetics in characteristic $2$
+and \texttt{FAAST}~\cite{DFS09} for fast arithmetics in Artin-Schreier
+towers.
+
+This section mainly deals with some tricks we implemented in order to
+speed up the computation. At the end of the section we briefly discuss
+the implementation we made in Magma~\cite{Magma} of the algorithm
+in~\cite{LeSi09}.
+
+\subsection{Building $E[p^k]$ and $E'[p^k]$}
+\label{sec:impl:torsion}
+
+\paragraph{$p$-torsion}
+For $p\ne2$, C2 and its variants require to build the extension
+$\F_q[c]$ where $c$ is a $p-1$-th root of $H_E$. In order to deal with
+the lowest possible extension degree, it is a good idea to modify the
+curve so that $[\F_q[c]:\F_q]$ is the smallest possible.
+
+$[\F_q[c]:\F_q]$ is invariant under isomorphism, but taking a twist
+can save us a quadratic extension. Let $u=c^{-2}$, the curve
+\begin{equation*}
+  \bar{E} : y^2 = x^3 + a_2ux^2 + a_4u^2x + a_6u^3
+\end{equation*}
+is defined over $\F_q[c^2]$ and is isomorphic to $E$ over $\F_q[c]$
+via $(x,y)\mapsto(\sqrt{u}^2x,\sqrt{u}^3y)$. Its Hasse invariant is
+$H_{\bar{E}} = (u)^{\frac{p-1}{2}}H_E = 1$, thus its $p$-torsion
+points are defined over $\F_q[c^2]$.
+
+In order to compute the $p^k$-torsion points of $E$ we build
+$\F_q[c^2]$, we compute $\bar{P}$ a $p^k$-torsion points of $\bar{E}$
+using $p$-descent, then we invert the isomorphism to compute the
+abscissa of $P\in E[p^k]$. Since the Cauchy interpolation only needs
+the abscissae of $E[p^k]$, this is enough to complete the
+algorithm. Scalar multiples of $P$ can be computed without knowledge
+of $y(P)$ using Montgomery formulae \cite{Mon87}.
+
+Remark that for $p=2$ we use the same construction in an implicit way
+since we do a $p$-descent on the Kummer surface.
+
+
+\paragraph{$p^k$-torsion points}
+For $p\ne2$ we use Voloch's $p$-descent to compute the $p^k$-torsion
+points iteratively as described in Section \ref{sec:C2}. To factor the
+Artin-Schreier polynomial \eqref{th:voloch:cover}, we use the
+algorithms from \cite{Cou00} and \cite{DFS09} that were analysed in
+Section \ref{sec:C2-AS}. All these algorithms were provided by the
+library \texttt{FAAST}.
+
+To solve system \eqref{th:voloch:isom} we first compute
+\begin{equation*}
+  V(x,y) = \left(\frac{g(x)}{h^2(x)}, 
+    sy\left(\frac{g(x)}{h^2(x)}\right)'\right)
+\end{equation*}
+through Vélu formulae.\footnote{Vélu formulae compute this isogeny up
+  to an indeterminacy on the sign of the ordinate, the actual value of
+  $s$ must be determined by composing $V$ with $\frobisog$ and
+  verifying that it corresponds to $[p]$ by trying some random
+  points.} Recall that we work on a curve having Hasse invariant $1$,
+system \eqref{th:voloch:isom} can then be rewritten
+\begin{equation*}
+  \left\{
+    \begin{aligned}
+      X &= \frac{g(x)}{h^2(x)}\\
+      Y &= sy\left(\frac{g(x)}{h^2(x)}\right)'\\
+      Z &= -2y\frac{h'(x)}{h(x)}
+    \end{aligned}
+  \right.
+\end{equation*}
+where $(X,Y,Z)$ is the point on the cover $C$ that we want to pull
+back. After some substitutions this is equivalent to
+\begin{equation*}
+  \left\{
+    \begin{aligned}
+      Xh^2(x) - g(x) &= 0\\
+      \left(Xh^2(x) - g(x) - \frac{Y}{sZ}h^2(x)\right)' &= 0
+    \end{aligned}
+  \right.
+\end{equation*}
+Then a solution to this system is given by the GCD of the two
+equations. Remark that proposition \ref{th:voloch} ensures there is
+one unique solution. This formulae are slightly more efficient than
+the ones in \cite[$\S$6.2]{Ler97}.
+
+For $p=2$ we use the library \texttt{FAAST} (for solving
+Artin-Schreier equations) on top of \texttt{gf2x} (for better
+performance). There is nothing special to remark about the
+$2$-descent.
+
+
+\subsection{Cauchy interpolation and loop}
+\label{sec:impl:cauchy}
+The polynomial interpolation step is done as described in Section
+\ref{sec:C2-AS-FI}. As a result of this implementation, the polynomial
+interpolation algorithm was added to the library \texttt{FAAST}.
+
+The rational fraction reconstruction is implemented using a fast XGCD
+algorithm on top of \texttt{NTL} and \texttt{gf2x}. This algorithm was
+added to \texttt{FAAST} too.
+
+The loop uses modular composition as in Section~\ref{sec:C2-AS-FI-MC}
+in order to minimise the number of interpolations. The timings in the
+next section clearly show that this non-asymptotically-optimal variant
+performs much faster in practice.
+
+To check that the rational fractions are isogenies we test their
+degrees, that their denominator is a square and that they act as group
+morphisms on a fixed number of random points. All these checks take a
+negligible amount of time compared to the rest of the algorithm.
+
+
+\subsection{Parallelisation of the loop}
+\label{parallel}
+
+The most expensive step of C2-AS-FI-MC, in theory as well as in
+practice, is the final loop over the points of $E'[p^k]$. Fortunately,
+this phase is very easy to parallelise with very few overhead.
+
+Let $n$ be the number of processors we wish to parallelise on, suppose
+that $[\U_k:\F_q]$ is maximal, then we make only one interpolation
+followed by $\euler(p^k)/2$ modular compositions.\footnote{If
+  $[\U_k:\F_q]$ is not maximal, the parallelisation is straightforward
+  as we simply send one interpolation to each processor in turn.} We
+set $m=\left\lfloor\frac{\euler(p^k)}{2n}\right\rfloor$ and we compute
+the action of $\frob^{m}$ on $E[p^k]$ as in
+Section~\ref{sec:C2-AS-FI-MC}:
+\begin{equation*}
+  F^{(m)}(X) = F(X) \circ \cdots \circ F(X) \bmod T(X)
+  \;\text{,}
+\end{equation*}
+this can be done with $\Theta(\log m)$ modular compositions via a
+binary square-and-multiply approach as in~\cite[Algorithm
+5.2]{vzGS92}.
+
+Then we compute the $n$ polynomials
+\begin{equation*}
+  A_{mi}(X) = A_{m(i-1)}(X) \circ F^{(m)}(X) \bmod T(X)
+\end{equation*}
+and distribute them to the $n$ processors so that they each work on a
+separate slice of the $A_i$'s. The only overhead is $\Theta(\log
+(\ell/n))$ modular compositions with coefficients in $\F_q$, this is
+acceptable in most cases.
+
+
+\subsection{Implementation of~\cite{LeSi09}}
+In order to compare our implementation with the state-of-the-art
+algorithms, we implemented a Magma prototype of~\cite{LeSi09}; in what
+follows, we will refer to this algorithm as LS. The algorithm
+generalises~\cite{BoMoSaSc08} by lifting the curves in the $p$-adics
+to avoid divisions by zero. Given two curves $E$ and $E'$ and an
+integer $\ell$, it performs the following steps
+\begin{enumerate}
+\item Lift $E$ to $\bar{E}$ in $\Q_q$,
+\item Lift the modular polynomial $\Phi_\ell$ to $\bar{\Phi}_\ell$ in
+  $\Q_q$,
+\item Find a root in $\Q_q$ of $\bar{\Phi}(X,j_{\bar{E}})$ that
+  reduces to $j_{E'}$ in $\F_q$,
+\item Apply~\cite{BoMoSaSc08} in $\Q_q$ to find an isogeny between
+  $\bar{E}$ and $\bar{E}'$,
+\item Reduce the isogeny to $\F_q$.
+\end{enumerate}
+
+We implemented this algorithm using Magma support for the
+$p$-adics. Instead of the classical modular polynomials $\Phi_\ell$ we
+used Atkin's canonical polynomials $\Phi^\ast_\ell$ since they have
+smaller coefficients and degree; this does not change the other steps
+of the algorithm. The modular polynomials were taken from the tables
+precomputed in Magma.
+
+The bottleneck of the algorithm is the use of the modular polynomial
+as its bit size is $O(\ell^3)$, thus LS is asymptotically worse in
+$\ell$ than C2. However the next section will show that LS is more
+practical than C2 in many circumstances.
+
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"british"
+% mode:TeX-PDF
+% TeX-master: "ec-isogeny"
+% End:
+%
+% LocalWords:  Schreier Artin pseudotrace frobenius bivariate Joux Sirvent FFT
+% LocalWords:  Couveignes isogenies Schoof isogeny cryptosystems Lercier Hasse
+% LocalWords:  precomputation arithmetics polylogarithmic Karatsuba precomputes
+% LocalWords:  endomorphisms 

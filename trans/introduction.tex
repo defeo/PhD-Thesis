@@ -1,0 +1,105 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Computer Algebra is devoted to develop algorithms to work on symbolic
+representations of mathematical objects. Linear maps over vector
+spaces or, more generally, free modules are often represented by
+matrices, either in dense or sparse form.  The so-called black-box
+model gives another way of representing a linear application $L:V\ra
+W$: a computer program that on any input $v\in V$ gives as output
+$L(v)$ is taken as a symbolic representation of $L$; this of course
+assumes a precise computer representation of the elements of $V$ and
+$W$.
+
+Since the seminal paper \cite{wiedemann:sparse}, computer algebraists
+have developed algorithms to work with black-box represented linear
+maps.  In the black-box model, algorithms are only allowed to query
+the black-box by feeding an input to the black-box program and reading
+its output; no other information on the linear map can be obtained, in
+particular the source code of the program cannot be analyzed. The
+complexity of black-box algorithms is measured as in the computational
+model being used to describe the algorithm, plus the number of calls
+to the black-box program is taken into account as a special parameter.
+
+In the black-box model, algorithms are known to compute the minimal
+polynomial, the determinant, the inverse, the rank \cite{Wie86,KaSa91}
+and the characteristic polynomial \cite{Ebe00,Vil00,DPS09}.  This
+model is interesting whenever the matrix representing the linear map
+is too big to allow efficient processing by a computer program,
+however its information can easily be compressed in a black-box
+program: sparse or Vandermonde matrices are a classical example.
+
+On the other side, Algebraic Complexity studies the complexity of
+computer programs that perform algebraic computations by abstracting
+from the actual representation of algebraic elements. Only arithmetic
+operations in the ring of interest are accounted for. One of the
+standard models used in algebraic complexity is the arithmetic
+circuit: a directed acyclic graph is used to represent the flow of
+arithmetic evaluations, each node of the DAG accounts for one
+arithmetic operation (usually $+$ or $*$).
+
+In particular, arithmetic circuits can be used to represent black-box
+programs computing linear maps. Then it is a well known theorem
+\cite{Bor56}, \cite{Fid73}, \cite[Th. 13.20]{BuClSh} that a linear map
+and its transpose have similar algebraic complexities in the
+arithmetic circuit model; this is often known as \emph{transposition
+  theorem} or \emph{Tellegen's theorem}. By a well known equivalence
+\cite[Lemma 13.17]{BuClSh}, the transposition theorem extends to the
+straight-line program (SLP) model. These results justify the fact that
+some extensions of the black-box model allow black-box algorithms to
+query the linear form as well as its transpose \cite{}.
+
+Besides that, extensions of the transposition theorem to the RAM model
+have been successfully applied in computer algebra to develop
+efficient algorithms \cite{Sho95,shoup99,BoLeSc03,PS06,DFS09}. The key
+to all these results is to realize that a certain map is the transpose
+of some other well known linear map $L$. Then, an efficient algorithm
+in the RAM model for $L$ is translated to the arithmetic circuit
+model, the transposition theorem is applied and the resulting
+arithmetic circuit is translated back to a RAM algorithm. All the
+papers use \emph{ad hoc} transformations to/from the arithmetic
+circuit model but give no general technique to perform such
+translation; the only notable exception is \cite{BoLeSc03} that
+defines a very restricted language --not far away from the SLP
+paradigm-- in which a constructive proof of the transposition
+principle is possible.
+
+The aim of this paper is to extend the transposition theorem to a
+BSS-equivalent model \cite{BSS} and to provide a constructive proof of
+it. Our approach is an extension of \cite{BoLeSc03}: we define an
+\emph{ad-hoc} programming language, that we call \emph{The
+  Transposable Algebraic Language} (\tAL{} in short), in which one
+writes black-box programs. We then give an algorithm that takes as
+input a program written in \tAL{} and outputs a program that computes
+the transposed of the linear form corresponding to the original
+program. The language abstracts from the actual representation of ring
+elements, thus allowing an algebraic complexity analysis: we finally
+show the relationship between the algebraic complexities of the input
+and the output programs.
+
+The key realization in our work is that, despite there is no unique
+way to identify a computer program to a linear map, an algorithm
+exists that discovers all the possible \emph{linearizations} of a
+program without any help from the user. Once a linearization has been
+chosen, the computer program can be automatically translated to an
+arithmetic circuit and the transposition theorem can be applied.
+
+The plan is the following:
+\begin{itemize}
+\item arithmetic circuits, uniformity
+\item linear function, linearizations
+\item \tAL{}
+\item transposition theorem
+\item linearization inference
+\item implementation, transalpyne
+\end{itemize}
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"american"
+% mode:reftex
+% mode:TeX-PDF
+% TeX-master: "../these"
+% End:
+%

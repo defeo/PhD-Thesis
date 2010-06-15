@@ -1,0 +1,86 @@
+\section{The algorithm C2-AS-FI-MC}
+\label{sec:C2-AS-FI-MC}
+
+However asymptotically fast, the polynomial interpolation step is
+quite expensive for reasonably sized data. Instead of repeating it
+$\frac{\euler(p^k)}{2}$ times, one can use composition with the
+Frobenius endomorphism $\frobisog_E$ in order to reduce the number of
+interpolations in the final loop.
+
+\subsection{The algorithm}
+Suppose we have computed, by the algorithm of the previous Section,
+the polynomial $T$ vanishing on the abscissae of $E[p^k]$ and an
+interpolating polynomial $A_0\in\F_q[X]$ such that
+\begin{equation*}
+  A_0\bigl(x\bigl([n]P\bigr)\bigr) = x\bigl([n]P'\bigr)
+  \quad\text{for any $n$.}
+\end{equation*}
+The group $\Gal(\U_k/\F_q) = \langle\frob\rangle$ acts on $E'[p^k]$
+permuting its points and preserving the group structure. Thus, the
+polynomial
+\begin{equation*}
+  A_1 = A_0\circ\frob = \frob\circ A_0
+\end{equation*}
+is an interpolating polynomial such that
+\begin{equation*}
+  A_1\bigl(x\bigl([n]P\bigr)\bigr) = x\bigl([n]\frobisog_{E'}(P')\bigr)
+  \quad\text{for any $n$,}
+\end{equation*}
+where $\frobisog_{E'}$ is the Frobenius endomorphism of $E'$.  Since
+$\frobisog_{E'}(P')$ is a generator of $E'[p^k]$, $A_1$ is one of the
+polynomials that the algorithm C2 tries to identify to an isogeny. By
+iterating this construction we obtain $[\U_k:\F_q]/2$ different
+polynomials $A_i$ for the algorithm C2 with only interpolation.
+
+To compute the $A_i$'s, we first compute $F\in\F_q[X]$
+\begin{equation}
+  \label{eq:frob}
+  F(X) = X^q \bmod T(X)
+  \text{,}
+\end{equation}
+then for any $1\le i<[\U_k:\F_q]/2$
+\begin{equation}
+  \label{eq:modcomp}
+  A_i(X) = A_{i-1}(X)\circ F(X) \bmod T(X)\text{.}
+\end{equation}
+
+If $\frac{\euler(p^k)}{[\U_k:\F_q]} = p^{i_0-1}r$, we must compute
+$p^{i_0-1}r$ polynomial interpolations and apply this algorithm to
+each of them in order to deduce all the polynomials needed by C2.
+
+
+\subsection{Complexity analysis}
+We compute \eqref{eq:frob} via square-and-multiply, this costs
+$\Theta(d\Mult(p^kd)\log p)$ operations. Each application of
+\eqref{eq:modcomp} is done via a \emph{modular composition}, the cost
+is thus $O(\ModComp(p^k))$ operations in $\F_q$, that is
+$O(\ModComp(p^k)\Mult(d))$ operations in $\F_p$. Using the algorithm
+of~\cite{KeUm08} for modular composition, the complexity of
+C2-AS-FI-MC wouldn't be essentially different from the one of
+C2-AS-FI; however, in practice the fastest algorithm for modular
+composition is~\cite{BrKu78}, and in particular the variant
+in~\cite[Lemma 3]{KS98}, which has a worse asymptotic complexity, but
+performs better on the instances we treat in
+Section~\ref{sec:benchmarks}.
+
+Notice that a similar approach could be used inside the polynomial
+interpolation step (see Section \ref{sec:C2-AS-FI}) to deduce
+$A_k^{(0)}$ from $A_0^{(0)}$ using modular composition with the
+multiplication maps of $E$ and $E'$ as described in
+\cite[$\S$2.3]{Cou96}. This variant, though, has an even worse
+complexity because of the cost of computing multiplication maps.
+
+
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"british"
+% mode:TeX-PDF
+% TeX-master: "ec-isogeny"
+% End:
+%
+% LocalWords:  Schreier Artin pseudotrace frobenius bivariate Joux Sirvent FFT
+% LocalWords:  Couveignes isogenies Schoof isogeny cryptosystems Lercier moduli
+% LocalWords:  precomputation arithmetics polylogarithmic Karatsuba embeddings
+% LocalWords:  irreducibility

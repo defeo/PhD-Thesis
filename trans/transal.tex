@@ -1,0 +1,328 @@
+\section{\tAL}
+\label{sec:transAL}
+
+In the previous Section we saw how the scalar and linear parts of a
+computation can be automatically inferred through type checking, this
+is however not enough to generate transposed code for a generic
+program. In this section we define \tAL{}, a very narrow sublanguage
+of purely functional languages, and give an algorithm to transpose
+programs written in it. Our approach is similar to \cite{BoLeSc03},
+but \tAL{} is more powerful than the language defined there.
+
+The main obstacle to transposition of $\lambda$-terms is the
+possibility to form terms whose types contain an arbitrary number of
+arrows; transposition, on the other hand, only deals with types
+containing one unique arrow. To avoid this problem \tAL{} only permits
+to declare function types with one arrow, it is defined by the
+following EBNF grammar
+\begin{align}
+  S &::= F^\ast\\
+  \tau &::= \ell \;|\; s \;|\; \ldots\\
+  A &::= x::\tau\\
+  \label{eq:tAL-exp}
+  E &::= A^\ast\\
+  \label{eq:tAL-if}
+  E &::= A_b \;?\; E_i : E_e\\
+  \label{eq:tAL-apply}
+  E &::= f \al A^\ast\\
+  \label{eq:tAL-let}
+  E &::= A^\ast\la E_1.E_2\\
+  \label{eq:tAL-fun}
+  F &::= f = \proc A_i^\ast \ra E
+\end{align}
+where $x$ are identifiers and $f$ function names (the two namespaces
+are separate). Its semantics are given by the following translation to
+a functional language (using Haskell syntax)
+\begin{align}
+  [x_1::\tau_1\cdots x_n::\tau_n]_\delta &\quad=_\delta\quad (x_1::\tau_1,\ldots,x_n::\tau_n)
+  \quad\text{,}\\
+  [A_b \;?\; E_i : E_e]_\delta &\quad=_\delta\quad
+  \text{if }A_b\text{ then }[E_i]_\delta\text{ else }[E_e]_\delta
+  \quad\text{,}\\
+  [f \al A_i^\ast]_\delta &\quad=_\delta\quad
+  f [A_i^\ast]_\delta \quad\text{,}\\
+  [A^\ast\la E_1.E_2]_\delta &\quad=_\delta\quad
+  \text{let } [A^\ast]_\delta = [E_1]_\delta \text{ in } [E_2]_\delta
+  \quad\text{,}\\
+  [f = \proc A_i^\ast \ra E]_\delta &\quad=_\delta\quad
+  f = \lambda [A_i^\ast]_\delta.[E]_\delta\quad\text{.}
+\end{align}
+For simplicity, we assume a strict evaluation strategy.
+
+Some functions and identifiers are supposed predefined in \tAL{}:
+besides the usual arithmetic and logic constants, there are the
+constants \lstinline{zero}, \lstinline{(<+>)}, etc., defined in the
+previous Section. Constants of function type are exported to \tAL{} as
+predefined functions, constants of non-function type as identifiers,
+with the only exception of \lstinline{zero} that is exported as a
+function of type $()\ra\tau$.
+
+\tAL{} programs must be valid programs after translation to the
+functional language and they must type correctly according to the
+rules given in the previous Section; in practice the types of
+identifiers could be omitted since they can automatically be computed
+by the generalized Hindley-Milner inference we sketched there, but we
+explicitly list them in \tAL{} for simplicity. In our grammar we only
+listed the types $\ell$ and $s$, since they are the only significant
+ones for transposition; in our examples we will note $\ast$ for any
+type different from $\ell$ and $s$, or simply omit it.
+
+A \tAL{} program is then just a collection of function definitions,
+here's an example that multiplies an element $x$ by a scalar $n\in\Z$:
+\begin{equation}
+  \label{eq:tALprog}
+  \begin{aligned}
+    &f = \proc x::\ell \;\; n::\ast \ra\\[-1ex]
+    &\qquad b::\ast \la (==) \al n::\ast \;\; 0::\ast\\[-1ex]
+    &\qquad b::\ast \;?\\[-1ex]
+    &\qquad\qquad \text{zero} \al\\[-1ex]
+    &\qquad :\\[-1ex]
+    &\qquad\qquad n::\ast \la (-) \al n::\ast \;\; 1::\ast.\\[-1ex]
+    &\qquad\qquad y::\ell \la f \al x::\ell \;\; n::\ast.\\[-1ex]
+    &\qquad\qquad (\langle+\rangle) \al x::\ell \;\; y::\ell\\[-1ex]
+  \end{aligned}
+\end{equation}
+
+\tAL{} programs are very similar to straight line programs, in fact,
+avoiding the production \eqref{eq:tAL-if} and recursive calls, the two
+are strictly equivalent. Just like straight line programs are
+isomorphic to circuits \cite[Lemma 13.17]{BuClSh}, terminating \tAL{}
+programs are isomorphic to circuit families. To prove this, we
+\emph{fix} the values of the variables appearing in the tests of
+conditional statements, then a \tAL{} function is just a straight line
+program. Furthermore, if we also \emph{fix} all the variables of type
+$*$, then we obtain circuit families over $(R,\Sbasis)$; if we
+\emph{fix} variables of type $s$ too, we obtain families over
+$(R,\Tbasis)$.
+
+We only detail the last isomorphism. First we need to distinguish the
+scalar and the linear part of the computation.
+
+\begin{definition}[Scalar restriction]
+  The \emph{scalar restriction} of a predefined function $f$, noted
+  $\s{f}$, is $f$ itself if its type does not involve any $\ell$, the
+  zero function $()\mapsto()$ otherwise. 
+
+  The \emph{scalar restriction} of a \tAL{} function $f$ is defined
+  together with the \emph{scalar restriction} $\s{t}$ of a \tAL{} term
+  $t$ as follows:
+
+  \begin{align}
+    \s{x::\ell\;A^\ast} &\quad=\quad \s{A^\ast} \text{ ,}\\
+    \s{x::\tau\;A^\ast} &\quad=\quad x::\tau\;\s{A^\ast}
+    \qquad\text{if $\tau\ne\ell$,}\\
+    \s{A_b\,?\,E_i:E_e} &\quad=\quad A_b\,?\,\s{E_i}:\s{E_e} \text{ ,}\\
+    \notag
+    \label{eq:scalar-let}
+    \s{f \al A^\ast} &\quad=\quad \s{f} \al \s{A^\ast}
+    \text{ ,}\\
+    \s{A^\ast\la E_1.E_2} &\quad=\quad \s{A_o^\ast}\la\s{E_1}.\s{E_2}\text{ ,}\\
+    \label{eq:scalar-fun}
+    \s{f = \proc A_i^\ast\ra E} &\quad=\quad \s{f} = \proc \s{A_i^\ast}\ra\s{E}
+    \text{ .}
+  \end{align}
+\end{definition}
+
+In practice, scalar restriction removes all the names having type
+$\ell$ from a function definition. Notice that if $t$ is a valid term,
+then $\s{t}$ is valid too: it can be easily shown, in fact, that no
+identifier with type $\tau\ne\ell$ depends on any identifier with type
+$\ell$.
+
+In the following definition we make use of an environment $\Gamma$,
+that is a partial function from names to values.  Let $\Gamma$ be an
+environment such that it is defined on all the free variables of a
+\tAL{} expression $E$, then the evaluation of $E$ in $\Gamma$, noted
+$\Gamma(E)$, is obtained by assigning the values in $\Gamma$ to its
+free variables and then evaluating as defined by the semantics.  The
+environment $\Gamma:A^\ast\la E$ is the environment $\Gamma$ augmented
+by matching the names in $A^\ast$ to the value of $\Gamma(E)$.
+
+\begin{definition}[Linearization of predefined functions]
+  Let $v$ be a value of type $s$, the \emph{linearization} by $s$ of
+  \lstinline{<*>}$::\ell\ra s\ra\ell$, noted \lstinline{<*>}$_v$, is
+  the section $($\lstinline{<*>}$v)$; the linearization of
+  \lstinline{<*>}$::s\ra\ell\ra\ell$ is also noted\lstinline{<*>}$_v$
+  and is defined analogously. Since the type is always specified by
+  the context, we never need to precise which of the two
+  linearizations we are talking about.
+  
+  The functions \lstinline{zero}, \lstinline{<+>} and \lstinline{neg}
+  are their own linearization if and only if their type contains
+  $\ell$'s. The linearization of any other predefined function is the
+  zero function $()\mapsto()$.
+\end{definition}
+
+\begin{definition}[Linearization]
+  Let $f=\proc x_1::\tau_1\cdots x_n::\tau_n\ra E$ be the definition
+  of a \tAL{} function. Up to permutation of the indices, we can
+  suppose that $\tau_i=\ell$ if and only if $i\le m$. Let $v_i$ be a
+  value of type $\tau_i$ for any $m<i\le n$, the \emph{linearization}
+  by $(v_i)_i$ of $f$ is the function defined by
+  \begin{equation}
+    f_{(v_i)_i} = \proc x_1::\tau_1\cdots x_m::\tau_m\ra [E]_\Gamma
+    \text{ ,}
+  \end{equation}
+  where $\Gamma$ is the environment defined by
+  \begin{equation}
+    \Gamma(x) =
+    \begin{cases}
+      v_i \quad\text{if $x=x_i$ for some $i\in[m+1,\ldots,n]$,}\\
+      \text{undefined otherwise,}
+    \end{cases}
+  \end{equation}
+  and $[E]_\Gamma$ is defined by the following rules:
+  \begin{align}
+    \l{x::\ell\;A^\ast} &\quad=\quad x::\ell\;\l{A^\ast} \text{ ,}\\
+    %%
+    \l{x::\tau\;A^\ast} &\quad=\quad \l{A^\ast}
+    \qquad\text{if $\tau\ne\ell$,}\\
+    %%
+    \label{eq:linear-if}
+    [x::*\,?\,E_i:E_e]_\Gamma &\quad=\quad 
+    [E_i]_\Gamma \qquad\text{if $\Gamma(x)=$ true,}\\
+    %%
+    \label{eq:linear-else}
+    [x::*\,?\,E_i:E_e]_\Gamma &\quad=\quad 
+    [E_e]_\Gamma \qquad\text{if $\Gamma(x)=$ false,}\\
+    %%
+    \label{eq:linear-apply}
+    [f \al A^\ast]_\Gamma &\quad=\quad f_{\Gamma(\s{A^\ast})} \al  \l{A^\ast} \text{ ,}\\
+    \label{eq:linear-let}
+    [A^\ast\la E_1.E_2]_\Gamma &\quad=\quad
+    \l{A^\ast}\la[E_1]_\Gamma.[E_2]_{\Gamma:\s{A^\ast}\la\s{E_1}}
+    \text{ .}
+  \end{align}
+\end{definition}
+
+Using the same notation as in the definition, set
+$\pspace_f=\prod_{m<i\le n}\tau_i$. Then for any $v\in\pspace_f$,
+$f_v$ has no branchings thanks to rules \eqref{eq:linear-if} and
+\eqref{eq:linear-else}. If $f$ terminates on some input $u$, then it
+terminates for any other input such that its projection on $\pspace_f$
+is equal to the projection of $u$, because linear inputs cannot
+influence boolean values, thus they cannot influence branchings. This
+implies that either $f_v$ terminates on any input or it always
+loops.
+
+Suppose that $f_v$ terminates, if we recursively substitute each
+expression $g_{v'}\al A^\ast$ with the definition of $g$, then it is
+easily seen by induction that this process eventually terminates and
+one ends up with a straight-line program over the basis
+\lstinline{zero}, \lstinline{<+>}, \lstinline{neg},
+\lstinline{<*>}$_a$. Hence $f_v$ is equivalent to an arithmetic
+circuit. To summarize, the mapping $v\mapsto f_v$ from $\pspace_f$ to
+\tAL{} programs defines an uniform circuit family if and only if $f$
+terminates on any input. Here's the linearization of the example
+program \eqref{eq:tALprog}
+
+\begin{align}
+  &\begin{aligned}
+    &f_0 = \proc x::\ell \ra {\tt zero}\al
+  \end{aligned}\\[0.5ex]
+  &\begin{aligned}
+    &f_{n>0} = \proc x::\ell \ra\\[-1ex]
+    &\qquad y::\ell \la f_{n-1} \al x::\ell.\\[-1ex]
+    &\qquad (\langle+\rangle) \al x::\ell \;\; y::\ell\\[-1ex]
+  \end{aligned}
+\end{align}
+
+
+Once a function has been linearized, it is straightforward to write
+down its dual: one simply reads it from top to bottom and swaps input
+and output arguments to functions as in \cite{BoLeSc03}. The exact
+transformation is made slightly technical by rule \eqref{eq:tAL-let};
+instead of presenting it we will rather discuss in the next sections
+how we practically transpose code in our implementation.
+
+Before discussing practice, we make some remarks on our linearization
+technique. First observe that in order to derive a linearization, rule
+\eqref{eq:linear-let} forces to evaluate the scalar part first. The
+simplest way to achieve this is to evaluate $\s{f} v$ and to store all
+the pairs name-value before computing $f_v$. This technique is similar
+to what is called \emph{forward sweep} in automatic differentiation
+\cite{GVM91,Gri92} and it may seem that its cost is at most a constant
+factor of the cost of evaluating the whole $f$, with an additional
+penalty in space because all the values of the scalar part must be
+hold in memory. There are, however, some important differences:
+\begin{itemize}
+\item The \emph{forward sweep} is only needed on the scalar part,
+  while in automatic differentiation one needs to evaluate the whole
+  $f$ before differentiating. In many practical cases, as in our
+  example, the scalar part is negligible compared to the rest.
+\item In presence of recursive calls, the forward sweep breaks head
+  recursion optimization (this is the case in our example). Dually, it
+  breaks tail recursion optimization in the transposed function.
+\item The use of recursion may make the forward sweep far more
+  expensive than just a constant factor. Consider the function
+  \begin{equation}
+    \begin{aligned}
+      &f = \proc c::\ell \;\; d::s \ra\\[-1ex]
+      &\qquad b::* \la (>) \al d::s \;\; \text{\tt zero}::s.\\[-1ex]
+      &\qquad b::*\;?\\[-1ex]
+      &\qquad\qquad t::s \la (\langle-\rangle) \al d::s \;\; \text{\tt one}::s.\\[-1ex]
+      &\qquad\qquad x::\ell \;\; y::s \la f \al c::\ell \;\; t::s.\\[-1ex]
+      &\qquad\qquad a::\ell \la (\langle*\rangle) \al x::\ell \;\; y::s.\\[-1ex]
+      &\qquad\qquad b::s \la (\langle+\rangle) \al y::s\;\;\text{\tt one}::s.\\[-1ex]
+      &\qquad\qquad a::\ell\;\;b::s\\[-1ex]
+      &\qquad :\\[-1ex]
+      &\qquad\qquad c::\ell\;\;d::s
+    \end{aligned}
+  \end{equation}
+  Its linearization is 
+  \begin{align}
+    &f_0 = \proc c::\ell \ra  c::\ell\\[0.5ex]
+    \label{eq:mechant-lin}
+    &\begin{aligned}
+      &f_d = \proc c::\ell \ra\\[-1ex]
+      &\qquad x::\ell \la f_{d-1} \al c::\ell.\\[-1ex]
+      &\qquad a::\ell \la (\langle*\rangle)_{\s{f}(d-1)} \al x::\ell.\\[-1ex]
+      &\qquad a::\ell\\[-1ex]
+    \end{aligned}
+  \end{align}
+  and its scalar restriction is
+  \begin{equation}
+    \begin{aligned}
+      &\s{f} = \proc d::s \ra\\[-1ex]
+      &\qquad b::* \la (>) \al d::s \;\; \text{\tt zero}::s.\\[-1ex]
+      &\qquad b::*\;?\\[-1ex]
+      &\qquad\qquad t::s \la (\langle-\rangle) \al d::s \;\; \text{\tt one}::s.\\[-1ex]
+      &\qquad\qquad y::s \la \s{f} \al t::s.\\[-1ex]
+      &\qquad\qquad b::s \la (\langle+\rangle) \al y::s\;\;\text{\tt one}::s.\\[-1ex]
+      &\qquad\qquad b::s\\[-1ex]
+      &\qquad :\\[-1ex]
+      &\qquad\qquad d::s
+    \end{aligned}
+  \end{equation}
+  Thus, in order to compute $f_d$ one has to compute $\s{f}(d-1)$ in
+  the forward sweep, and that requires a recursive call to
+  $\s{f}(d-2)$. Then one has to compute $f_{d-1}$ and the value of
+  $\s{f}(d-2)$ is needed again for this. In conclusion, any recursive
+  call is potentially doubled and this can make the overall cost of
+  evaluating $f_v$ (or its transpose) much worse than the cost of
+  evaluating $f$. The workaround is to realize that all the recursive
+  calls to $\s{f}$ always happen with the same arguments, thus it is
+  enough to apply a lazy evaluation strategy on the scalar parts by
+  memoizing them.
+\end{itemize}
+Applying all these ideas, we can guarantee that the
+linearization/transposition only yields a constant increase in time
+and an increase in space that is at most the size of the scalar part
+
+Finally, we remark that \tAL{} is a very limited language as it
+doesn't even have support for lists. Functions that act on lists are
+usually written using pattern-matching, but this interacts very poorly
+with transpostion because the information on which pattern matches the
+output is lost. A good compromise is to add two types $M(\ell)$ and
+$M(s)$ representing infinite dimensional modules over $R$ and to
+expose an interface as in the previous Section. However, this adds
+some issues that will be discussed in the next section.
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"american"
+% mode:TeX-PDF
+% TeX-master: "transAL"
+% End:
+%

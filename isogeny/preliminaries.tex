@@ -1,0 +1,144 @@
+\section{Preliminaries on Isogenies}
+\label{sec:preliminaries}
+
+Let $E$ be an ordinary elliptic curve over the field $\F_q$. We
+suppose it is given to us as the locus of zeroes of an affine
+Weierstrass equation
+\[y^2 + a_1xy + a_3y = x^3 + a_2x^2 + a_4x + a_6
+\qquad a_1,\ldots,a_6\in\F_q\text{.}\]
+
+\paragraph{Simplified forms} If $p>3$ it is well known that the curve
+$E$ is isomorphic to a curve in the form
+\begin{equation}
+  \label{eq:weierstrass>3}
+  y^2 = x^3 + ax + b
+\end{equation}
+and its $j$-invariant is $j(E) = \frac{1728(4a)^3}{16(4a^3 + 27b^2)}$.
+
+When $p=3$, since $E$ is ordinary, it is isomorphic to a curve
+\begin{equation}
+  \label{eq:weierstrass=3}
+  y^2 = x^3 + ax^2 + b
+\end{equation}
+and its $j$-invariant is $j(E) = -\frac{a^3}{b}$.
+
+Finally, when $p=2$, since $E$ is ordinary, it is isomorphic to a curve
+\begin{equation}
+  \label{eq:weierstrass=2}
+  y^2 + xy = x^3 + ax^2 + b
+\end{equation}
+and its $j$-invariant is $j(E) = \frac{1}{b}$.
+
+These isomorphism are easy to compute and we will always assume that
+the elliptic curves given to our algorithms are in such simplified
+forms.
+
+\paragraph{Isogenies}
+Elliptic curves are endowed with the classic group structure through
+the chord-tangent law. A group morphism having finite kernel is called
+an \emph{isogeny}. Isogenies are regular maps, as such they can be
+represented by rational functions. An isogeny is said to be
+$\K$-rational if it is $\K$-rational as regular map; its degree is the
+degree of the regular map.
+
+One important property about isogenies is that they factor the
+multiplication-by-$m$ map.
+
+\begin{definition}[Dual isogeny]
+  Let $\I : E \rightarrow E'$ be a degree $m$ isogeny. There exists an
+  unique isogeny $\hat{\I} : E' \rightarrow E$, called the \emph{dual
+    isogeny} such that
+  \[\I\circ\hat{\I} = [m]_E \qquad\text{and}\qquad \hat{\I}\circ\I =
+  [m]_{E'}\]
+\end{definition}
+
+As regular maps, isogenies can be separable, inseparable or purely
+inseparable. In the case of finite fields, purely inseparable
+isogenies are easily understood as powers of the frobenius map. Let
+\[E^{(p)} : y^2 + a_1^pxy + a_3^py = x^3 + a_2^px^2 + a_4^px + a_6^p\]
+then the map
+\begin{align*}
+  \frobisog : E &\rightarrow E^{(p)}\\
+          (x,y) &\mapsto (x^p,y^p)
+\end{align*}
+is a degree $p$ purely inseparable isogeny. Any purely inseparable
+isogeny is a composition of such frobenius isogenies.
+
+Let $E$ and $E'$ be two elliptic curves defined over $\F_q$, by
+finding an \emph{explicit isogeny} we mean to find an
+($\F_q$-rational) rational function from $E(\clot{\F}_q)$ to
+$E'(\clot{\F}_q)$ such that the map it defines is an isogeny.
+
+\begin{figure}
+  \centering
+  \[\xymatrix{
+    E \ar[r]^{[m]}\ar@/_1pc/[rrr]_{\I'} & E \ar[r]^\I & E' \ar[r]^{\frobisog^n} & E'^{(p^n)}\\
+  }\]
+  \label{fig:fact}
+  \caption{Factorization of an isogeny. $\I'$ has kernel $E[m]\oplus\ker\I$.}
+\end{figure}
+
+Since an isogeny can be uniquely factored in the product of a
+separable and a purely inseparable isogeny, we focus ourselves on the
+problem of computing explicit separable isogenies. Furthermore one can
+factor out multiplication-by-$m$ maps, thus reducing the problem to
+compute explicit separable isogenies with cyclic kernel (see figure
+\ref{fig:fact}).
+
+In the rest of this paper, unless otherwise stated, by $\ell$-isogeny
+we mean a separable isogeny with kernel isomorphic to $\Z/\ell\Z$.
+
+\paragraph{Vélu formulae}
+For any finite subgroup $G \subset E(\clot{\K})$, Vélu formulae
+\cite{Vel71} give in a canonical way an elliptic curve $\bar{E}$ and
+an explicit isogeny $\I:E\rightarrow \bar{E}$ such that
+$\ker\I=G$. The isogeny is $\K$-rational if and only if the polynomial
+vanishing on the abscissae of $G$ belongs to $\K[X]$.
+
+In practice, if $E$ is defined over $\F_q$ and if
+\[h(X) = \prod_{\substack{P\in G\\P\ne\0}}(X - x(P)) \in \F_q[X]\]
+is known, Vélu formulae compute a rational function
+\begin{equation}
+  \label{eq:isog}
+  \bar{\I}(x,y) = \left(\frac{g(x)}{h(x)}, \frac{k(x,y)}{l(x)}\right)  
+\end{equation}
+and a curve $\bar{E}$ such that $\bar{\I} : E\rightarrow\bar{E}$ is an
+$\F_q$-rational isogeny of kernel $G$. A consequence of Vélu formulae
+is
+\begin{equation}
+  \label{eq:velu-deg}
+  \deg g = \deg h + 1 = \card{G}
+  \text{.}
+\end{equation}
+
+Given two curves $E$ and $E'$, Vélu formulae reduce the problem of
+finding an explicit isogeny between $E$ and $E'$ to that of finding
+the kernel of an isogeny between them. Once the polynomial $h(X)$
+vanishing on $\ker\I$ is found, the explicit isogeny is computed
+composing Vélu formulae with the isomorphism between $\bar{E}$ and
+$E'$ as in figure \ref{fig:velu}.
+
+\begin{figure}
+  \centering
+  \[\xymatrix{
+    E \ar[r]^{\bar{\I}} \ar[rd]^\I & \bar{E} \ar[d]^{\simeq}\\
+    & E'
+  }\]
+  \caption{Using Vélu formulae to compute an explicit isogeny.}
+  \label{fig:velu}
+\end{figure}
+
+
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"british"
+% mode:TeX-PDF
+% TeX-master: "ec-isogeny"
+% End:
+%
+% LocalWords:  Schreier Artin pseudotrace frobenius bivariate Joux Sirvent FFT
+% LocalWords:  Couveignes isogenies Schoof isogeny cryptosystems Lercier
+% LocalWords:  precomputation arithmetics polylogarithmic Karatsuba
+% LocalWords:  endomorphisms

@@ -1,0 +1,51 @@
+%% Algèbre
+%\newcommand{\trans}[1]{#1^\top}  % transposé
+%\newcommand{\dual}[1]{#1^\ast}  % dual
+\newcommand{\clot}[1]{\bar{#1}}  % clôture algèbrique
+\newcommand{\card}[1]{\# #1}  % cardinalité d'un ensemble
+\newcommand{\LK}{\mathbb{L}}  % encore un corps
+\newcommand{\U}{\mathbb{U}}  % encore un corps
+\newcommand{\isom}{\cong}  % isomorphisme de corps
+\newcommand{\frob}{\varphi}  % l'isomorphisme de frobenius
+\newcommand{\res}{\rho}  % the residue form
+\newcommand{\euler}{\phi}  % indicatrice d'Euler
+\newcommand{\Cyclo}{\Phi}  % le polynome cyclotomique
+%% Courbes
+\newcommand{\Proj}{\mathbb{P}}  % espace projectif
+\newcommand{\0}{\mathcal{O}}  % point de base d'une courbe
+\newcommand{\ecpoint}[3]{[#1:#2:#3]}  % un point d'une courbe
+\newcommand{\isog}[1]{\mathcal{#1}}  % la police des isogénies
+\newcommand{\I}{\isog{I}}  % une isogénie I
+\newcommand{\frobisog}{\phi}  % l'isogénie de frobenius
+\newcommand{\Hasse}{H}  % l'invariant de Hasse
+\newcommand{\divpol}{f}  % polynôme de division
+%% Autre
+\newcommand{\tildO}{\tilde{O}}  % la notation O~ qui oublie les log
+\newcommand{\Mult}{\mathrm{\sf M}}  % fonction de multiplication
+\newcommand{\ModComp}{\mathrm{\sf C}}  % fonction de composition modulaire
+\newcommand{\alg}[1]{{\sf #1}}  % la police des algorithmes
+\newcommand{\algref}[1]{\alg{\ref{#1}}}  % la police des algorithmes
+\newcommand{\wrt}{\dashv}  % appartenance forte, a\wrt A signifie que a est représenté comme un élément de A
+\newcommand{\ndiv}{\nmid}  % ne divise pas
+
+
+\part{Calcul d'isogenies et applications cryptographiques}
+
+\input{isogeny/introduction}
+\input{isogeny/preliminaries}
+\input{isogeny/C2}
+\input{isogeny/C2-AS}
+\input{isogeny/C2-AS-FI}
+\input{isogeny/C2-AS-FI-MC}
+\input{isogeny/bounded}
+\input{isogeny/implementation}
+\input{isogeny/benchmarks}
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"american"
+% mode:TeX-PDF
+% mode:reftex
+% End:
+%
+
