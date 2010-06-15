@@ -18,6 +18,7 @@
 \usepackage{eurosym}
 \usepackage{listings}
 \usepackage{textcomp}
+\usepackage{makeidx}
 
 %%%%%%%%%%%%%% Aliases
 
@@ -25,6 +26,11 @@
 \renewcommand{\le}{\leqslant}
 \renewcommand{\ge}{\geqslant}  % comme François le demande...
 \newcommand{\todo}{\dots}  % un marqueur pour un trou
+
+%% Bases
+\newcommand{\card}[1]{\# #1}  % cardinalité 
+\newcommand{\ndiv}{\nmid}  % ne divise pas
+\newcommand{\wrt}{\dashv}  % appartenance forte, a\wrt A signifie que a est représenté comme un élément de A
 
 %% Nombres, corps
 \newcommand{\N}{\mathbb{N}}  % les naturels
@@ -34,12 +40,48 @@
 \newcommand{\Q}{\mathbb{Q}}  % les rationnels
 \newcommand{\R}{\mathbb{R}}  % les réels
 \newcommand{\C}{\mathbb{C}}  % les complexes
+\newcommand{\LK}{\mathbb{L}}  % encore un corps
+\newcommand{\U}{\mathbb{U}}  % encore un corps
+
+%% Algèbre
+\newcommand{\trans}[1]{#1^\top}  % transposé
+\newcommand{\dual}[1]{#1^\ast}  % dual
+\newcommand{\clot}[1]{\bar{#1}}  % clôture algèbrique
+\newcommand{\frob}{\varphi}  % l'isomorphisme de frobenius
+\newcommand{\res}{\rho}  % the residue form
+\newcommand{\euler}{\phi}  % indicatrice d'Euler
+\newcommand{\Cyclo}{\Phi}  % le polynome cyclotomique
+\newcommand{\Proj}{\mathbb{P}}  % espace projectif
+
+%% Courbes
+\newcommand{\0}{\mathcal{O}}  % point de base d'une courbe
+\newcommand{\ecpoint}[3]{[#1:#2:#3]}  % un point d'une courbe
+\newcommand{\isog}[1]{\mathcal{#1}}  % la police des isogénies
+\newcommand{\I}{\isog{I}}  % une isogénie I
+\newcommand{\frobisog}{\phi}  % l'isogénie de frobenius
+\newcommand{\Hasse}{H}  % l'invariant de Hasse
+\newcommand{\divpol}{f}  % polynôme de division
 
 %% Diagrammes
 \newcommand{\la}{\leftarrow}
 \newcommand{\ra}{\rightarrow}
 \newcommand{\La}{\Leftarrow}
 \newcommand{\Ra}{\Rightarrow}
+
+%% Complexité
+\newcommand{\tildO}{\tilde{O}}  % la notation O~ qui oublie les log
+\newcommand{\Mint}{\mathrm{\sf M}_\text{int}}  % fonction de multiplication
+\newcommand{\Mpol}[1][]{\mathrm{\sf M}_\text{pol}^{#1}}  % fonction de multiplication
+\newcommand{\Mult}{\mathrm{\sf M}}  % fonction de multiplication
+\newcommand{\MulM}{\mathrm{\sf Mul}}  % multiplication
+\newcommand{\Inv}{\mathrm{\sf Inv}}  % inversion
+\newcommand{\Push}{\mathrm{\sf P}}  % fonction de push-down
+\newcommand{\Lift}{\mathrm{\sf L}}  % fonction de lift-up
+\newcommand{\Trace}{\mathrm{\sf T}}  % fonction de trace
+\newcommand{\Frob}{\mathrm{\sf F}}  % fonction de frobenius itéré
+\newcommand{\Ptr}{\mathrm{\sf PT}}  % fonction de pseudo-trace
+\newcommand{\ModComp}{\mathrm{\sf C}}  % fonction de composition modulaire
+
 
 %% Opérateurs
 \DeclareMathOperator{\inp}{in}
@@ -62,7 +104,8 @@
 \DeclareMathOperator{\coeff}{coeff}  % coefficient
 \DeclareMathOperator{\ord}{ord}  % l'ordre d'un élément
 \DeclareMathOperator{\rev}{rev}  % le reverse d'un polynôme
-\DeclareMathOperator{\Fix}{Fix}  % les points fixes
+\DeclareMathOperator{\Fix}{Fix}  % les points fixe
+\DeclareMathOperator{\AST}{AS}  % extension d'Artin-Schreier
 
 
 %%Théorèmes
@@ -71,10 +114,30 @@
 \newtheorem{lemma}{Lemma}
 \newtheorem{corollary}{Corollary}
 \newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+
+%% Algorithmes
+\newenvironment{algorithm}[3]{\begin{center}\begin{minipage}{0.85\textwidth}
+      \sf
+      \rule{\textwidth}{0.2pt}\\
+      \makebox[\textwidth][c]{\textbf{#1}}\\
+      \rule[0.5\baselineskip]{\textwidth}{0.2pt}\\
+      \parbox{\textwidth}{\textbf{Input~~~: } #2}
+      \parbox{\textwidth}{\textbf{Output~: } #3}
+      \begin{enumerate}
+}{\end{enumerate}
+      \rule{\textwidth}{0.2pt}
+\end{minipage}\end{center}}
+
+\newcommand{\alg}[1]{{\sf #1}}  % la police des algorithmes
+\newcommand{\algref}[1]{\alg{\ref{#1}}}  % la police des algorithmes
+
 
 
 \title{Ma thèse}
 \author{Luca De Feo}
+\makeindex
 
 \begin{document}
 %\frontmatter
@@ -82,10 +145,11 @@
 
 %\mainmatter
 \include{trans/trans}
-%\include{artin/artin}
+\include{artin/artin}
 \include{isogeny/isogeny}
 
 %\backmatter
+\printindex
 \bibliographystyle{plain}
 \bibliography{defeo}
 

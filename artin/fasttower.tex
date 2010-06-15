@@ -1,0 +1,309 @@
+\section{A \emph{nice} tower}
+\label{sec:fast-tower}
+
+This section is devoted to the proof of the following theorem which
+extends a result by Cantor~\cite{Can89}.
+
+\begin{theorem}
+  \label{th:cantor}
+  Let $d=[\U_0 :\F_p]$ be prime to $p$ and let $x_0$ be a generator of
+  $\U_0$ over $\F_p$ such that $\Tr_{\U_0/\F_p}(x_0)\ne0$. Define
+  $\gamma_i$, $\AS{P}_i$ and $x_i$ as
+  \begin{eqnarray*}
+    \gamma_0 &=& x_0\\
+    \gamma_1 &=& 
+    \begin{cases}
+      x_1        &\text{if $p=2$,}\\
+      x_1^{2p-1}      &\text{if $p>2$,}
+    \end{cases} \\
+    \gamma_i &=&  x_i^{2p-1} \quad i \ge 2\\
+    \\
+    \AS{P}_{i}(X) &=& X^p - X - \gamma_i\\
+    x_{i+1} &&\text{ a root of } \AS{P}_i
+  \end{eqnarray*}
+  Then, for $i=0,\dots,k-1$, the polynomial $\AS{P}_i$ is irreducible
+  over $\U_i$ and $x_{i+1}$ generates $\U_{i+1}$ over $\F_p$.
+\end{theorem}
+
+In \cite[Theorem 1.2]{Can89} Cantor proves the case $\U_0 = \F_p$ and
+$x_0=1$. His statement is more generic than ours because it asks for
+less restrictive conditions on the $\gamma_i$'s, but such greater
+generality has to be paid off with a more complicated proof. We would
+like to discuss the relationship between his proof and ours.
+
+In order to prove his theorem, Cantor introduces the linear operator
+$S:x\mapsto x^p-x$, remarks that its kernel is $\F_p$ and studies the effects
+of its application on the $x_i$'s. In order to extend such a technique
+to the case $\U_0\ne\F_p$, we need consider a similar operator and we
+want its kernel to be $\U_0$. A natural choice is then
+\[S:x\mapsto x^{p^d}-x\text{.}\]
+As in Cantor's proof, in order to study the action of $S$ one needs to
+see $\U_k$ as a vector space over $\U_0$ and consider some linear
+subspaces that are not necessarily fields. There is a way of getting
+rid of such an abundance of linear subspaces by considering only some
+iterated applications of the operator $S$. Indeed
+\[S^{p^i-p^j} = \PTr_{(p^i,dp^j)}\]
+where $\PTr$ is the operator we will introduce in definition
+\ref{def:pseudotrace}. This way, the only subspaces of $\U_k$ one
+needs to consider are the $\U_i$'s and the proof is made extremely
+simple by the particular conditions we asked on the $\gamma_i$'s.
+
+We now give the proof of the theorem. We start with a classic lemma.
+
+\begin{lemma}
+  \label{Lemma:trace-AS}
+  Let $\LK/\K$ be an Artin-Schreier extension and let $x$ be a
+  generator of $\LK$ over $\K$ whose minimal polynomial is
+  Artin-Schreier, then
+  \begin{equation*}
+    \Tr_{\LK/\K}(x^i) = \begin{cases}
+      0  & \text{if $i=0,\ldots,p-2$,}\\
+      -1 & \text{if $i=p-1$.}
+    \end{cases}
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  Consider the formal power series of $\Tr_{\LK/\K}(x^i)$
+  \begin{equation*}
+    \sum_{i\ge0}\Tr(x^i)T^i = \sum_{i\ge0}\sum_{\zeta\in B}\zeta^iT^i
+    \text{,}
+  \end{equation*}
+  where $B$ is the set of the conjugates of $x$ over $\K$ and the
+  equality follows from the fact that the conjugation distributes over
+  the product. By swapping sums
+  \begin{equation*}
+    \sum_{i\ge0}\Tr(x^i)T^i = \sum_{\zeta\in B}\frac{1}{1-\zeta T} =
+    \frac{\sum_{\zeta\in B}\prod_{\zeta'\ne\zeta}(1-\zeta'T)}
+         {\prod_{\zeta\in B}(1-\zeta T)} \text{.}
+  \end{equation*}
+  
+  Let $\AS{P} = X^p-X-\alpha$ be the minimal polynomial of $x$ over
+  $\K$, remark the following equalities
+  \begin{equation*}
+    \AS{P}(T) = \prod_{\zeta\in B}(T-\zeta) \;\text{,} \qquad
+    \frac{\partial\AS{P}}{\partial X}(T) =
+    \sum_{\zeta\in B}\prod_{\zeta'\ne\zeta}(T-\zeta') = -1\text{.}
+  \end{equation*}
+  Notice that the two polynomials have degrees in $T$ respectively $p$
+  and $p-1$. Then, by taking reverse polynomials (see also section
+  \ref{sec:level-embedding}, definition \ref{def:rev}), we have
+  \begin{equation*}
+    \sum_{i\ge0}\Tr(x^i)T^i =
+    \frac{T^{p-1}\frac{\partial\AS{P}}{\partial X}(\frac{1}{T})}
+      {T^p\AS{P}(1/T)} = \frac{-T^{p-1}}{1 - T^{p-1} - \alpha T^p}
+      \text{.}
+  \end{equation*}
+  
+  Hence we see that the first non-null coefficient of the formal power
+  series is the $(p-1)$-th one and its value is exactly $-1$.
+\end{proof}
+
+We first address the irreducibility of $\AS{P}_i$.
+
+\begin{lemma}
+  \label{Lemma:irreducibility}
+  For $i=0,\dots,k-1$ the polynomial $\AS{P}_i$ is
+  irreducible and $x_{i+1}$ generates $\U_{i+1}$ over $\U_i$.
+\end{lemma}
+\begin{proof}
+  We will show by induction on $i$ that $\Tr_{\U_i/\F_p}\ne0$ for
+  every $i$, then, by theorem \ref{th:asfundamental}, $\AS{P}_i$ is
+  irreducible and $x_{i+1}$ generates $\U_{i+1}$ over $\U_i$.
+  
+  For $i=0$ this is true by hypothesis. For $i \ge 1$, $x_i$ generates
+  $\U_i$ over $\U_{i-1}$ by induction hypothesis and its minimal
+  polynomial $\AS{P}_{i-1}$ is evidently Artin-Schreier. Then $x_i$
+  meets the hypotheses of lemma \ref{Lemma:trace-AS}.
+
+  Suppose that $p\ge3$, then
+  \begin{equation*}
+    \gamma_i=x_i^{2p-1}  = x_i^px_i^{p-1} =
+    \gamma_{i-1} + x_i + x_i^{p-1} \gamma_{i-1}\text{.}
+  \end{equation*}
+  By the linearity of the trace and by lemma \ref{Lemma:trace-AS}
+  \begin{equation}
+    \label{eq:trace>2}
+    \Tr_{\U_i/\U_{i-1}}(\gamma_i) = -\gamma_{i-1}
+  \end{equation}
+  and by the composition of traces $\Tr_{\U_i/\F_p}(\gamma_i) =
+  -\Tr_{\U_{i-1}/\F_p}(\gamma_{i-1})$ is different from $0$ by induction
+  hypothesis.
+
+  When $p=2$, and $i=1$, using the same technique yields
+  \begin{equation}
+    \label{eq:trace=2,1}
+    \Tr_{\U_1/\F_2}(\gamma_1)= \Tr_{\U_1/\F_2}(x_1)=
+    \Tr_{\U_0/\F_2}(\Tr_{\U_1/\U_0}(x_1))= \Tr_{\U_0/\F_2}(1)\text{,}
+  \end{equation}
+  which is different from $0$ because $[\U_0:\F_2]$ is odd.
+
+  For $p=2$ and $i > 1$, we get $x_i^{3} = \gamma_{i-1} + x_i (1+
+  \gamma_{i-1})$ and as a consequence
+  \begin{equation}
+    \label{eq:trace=2}
+    \Tr_{\U_i/\U_{i-1}}(\gamma_i)=\Tr(x_i^3)=1+\gamma_{i-1}
+    \text{.}
+  \end{equation}
+  Since $\U_{i-1}$ has even degree over $\F_2$, we deduce
+  $\Tr_{\U_{i-1}/\F_2}(1)=0$, and thus
+  \[\Tr_{\U_{i}/\F_2}(\gamma_i)=\Tr_{\U_{i-1}/\F_2}(\gamma_{i-1})\]
+  and we conclude by induction.
+\end{proof}
+
+As a consequence of the proof of the lemma, we have the following
+
+\begin{corollary}
+  \label{coro:trace}
+  For $0\le j < i \le k-1$ we have
+  \begin{equation*}
+    \Tr_{\U_i/\U_{j}}(\gamma_i) = \begin{cases}
+      (-1)^{i-j}\gamma_{j}  &\text{if $p\ge3$,}\\
+      1+\gamma_{j}         &\text{if $p=2$ and $j\ge1$,}\\
+      1                    &\text{if $p=2$ and $j=0$.}
+    \end{cases}
+  \end{equation*}
+\end{corollary}
+\begin{proof}
+  The case $p\ge3$ follows from equation \eqref{eq:trace>2} by
+  induction on $j$. The case $p=2$ follows from equations
+  \eqref{eq:trace=2,1} and \eqref{eq:trace=2} and the fact that
+  $\Tr_{\U_i/\F_p}(1)=0$ for $i\ge1$.
+\end{proof}
+
+We have just showed that $\U_{i+1} = \F_p[x_0,\ldots,x_i]$; the next
+step is to show $\U_{i+1}=\F_p[x_i]$. To do so we introduce some more
+notation.
+
+\begin{definition}[Pseudotrace]
+  \label{def:pseudotrace}
+  The $i$-th pseudotrace of order $j$ is the linear operator
+  defined by
+  \begin{equation*}
+    \PTr_{(i,j)} \;:\; x \mapsto \sum_{l=0}^{i-1}x^{p^{jl}}\text{.}
+  \end{equation*}
+  When $j=1$ we simply call it the $i$-th pseudotrace and we note
+  $\PTr_i$.
+\end{definition}
+
+Notice that the pseudotrace is defined by the polynomial
+$\PTr_{(i,j)}(X)$ in $\F_p[X]$. It is a ``linearized'' polynomial and
+it has many special properties, the most important of which is being
+$\F_{p^j}$-linear in its argument. See \cite[3.4]{LN} for more
+details. It is also important to notice that $\PTr_{(p^i,dp^j)}$
+coincides with $\Tr_{\U_{i+j}/\U_j}$ over elements of $\U_{i+j}$. For
+the sake of convenience, we will note $\PTr_{\U_{i+j}/\U_{j}}$ instead
+of $\PTr_{(p^i,dp^j)}$.
+
+\begin{lemma}
+  \label{Lemma:primitive>2}
+  If $p\ge3$, $x_i$ generates $\U_i$ over $\F_p$ for $i=0,\ldots,k$.
+\end{lemma}
+\begin{proof}
+  Induction on $i$. For $i=0$ this is true by hypothesis.
+
+  For $i\ge1$, $x_i$ generates $\U_i$ over $\U_{i-1}$ by lemma
+  \ref{Lemma:irreducibility} and $x_{i-1}$ generates $\U_{i-1}$ over
+  $\F_p$ by induction hypothesis, so that $\U_i =
+  \F_p[x_{i-1},x_i]$. Then it suffices to show that there is a
+  polynomial $P\in\F_p[X]$ such that $P(x_i) = x_{i-1}$.
+
+  For $i=1$ we know by definition that $x_1^p-x_1=x_0$, so that the
+  polynomial $X^p-X$ does the trick.
+
+  For $i\ge2$, consider the following equality, given by the linearity
+  of the pseudotrace
+  \begin{equation*}
+    \PTr_{\U_{i-1}/\U_{i-2}}(x_i)^p - \PTr_{\U_{i-1}/\U_{i-2}}(x_i) =
+    \PTr_{\U_{i-1}/\U_{i-2}}(x_i^p-x_i)\text{.}
+  \end{equation*}
+  We know by definition that $x_i^p-x_i=\gamma_{i-1}$, but
+  $\gamma_{i-1}$ is in $\U_{i-1}$, so that the pseudotrace coincides
+  with the trace as remarked above. We have
+  \begin{equation*}
+    \PTr_{\U_{i-1}/\U_{i-2}}(x_i)^p - \PTr_{\U_{i-1}/\U_{i-2}}(x_i) =
+    \Tr_{\U_{i-1}/\U_{i-2}}(\gamma_{i-1}) = -\gamma_{i-2} \text{,}
+  \end{equation*}
+  where the last equality comes from corollary \ref{coro:trace}.
+
+  We have shown that $\PTr_{\U_{i-1}/\U_{i-2}}(x_i)$ is a root of
+  ${X^p-X+\gamma_{i-2}}$. But ${x_{i-1}^p-x_i=\gamma_{i-2}}$, hence we
+  have the equality
+  \begin{equation*}
+    \PTr_{\U_{i-1}/\U_{i-2}}(x_i) = -x_{i-1}+\beta_i
+    \qquad\text{with $\beta_i\in\F_p$.}
+  \end{equation*}
+  We conclude by observing that the polynomial
+  $-\PTr_{\U_{i-1}/\U_{i-2}}(X)+\beta_i$ is in $\F_p[X]$ and sends
+  $x_i$ over $x_{i-1}$.
+\end{proof}
+
+The case $p=2$ uses the same technique, but requires a bit more
+work. Recall that $\F_4$ is the field $\{0,1,\omega,\omega+1\}$, where
+$\omega$ and $\omega+1$ are two primitive cubic roots of the unit and
+their minimal polynomial is $X^2-X-1$. Notice that $\F_4$ is not a
+subfield of $\U_0$ because $d$ is odd, but it is a subfield of $\U_1$.
+
+\begin{lemma}
+  \label{Lemma:primitive=2-F4}
+  If $p=2$, $x_i$ generates $\U_i$ over $\F_4$ for $i=1,\ldots,k$.
+\end{lemma}
+\begin{proof}
+  Induction on $i$. For $i=1$, $\U_1 = \F_2[x_0,x_1]$, but
+  $x_1^2-x_1=x_0$, so $\U_1 = \F_2[x_1]$. Since $\F_4\subset\U_1$,
+  $x_1$ generates $\U_1$ over $\F_4$.
+  
+  For $i=2$, $\U_2=\F_4[x_1,x_2]$ by lemma \ref{Lemma:irreducibility}
+  and induction hypothesis. But $x_2^2-x_2=x_1$, so that
+  $\U_2=\F_4[x_2]$.
+
+  For $i\ge3$, like in lemma \ref{Lemma:primitive>2},
+  \begin{equation*}
+    \PTr_{\U_{i-1}/\U_{i-2}}(x_i)^2 - \PTr_{\U_{i-1}/\U_{i-2}}(x_i) =
+    \Tr_{\U_{i-1}/\U_{i-2}}(\gamma_{i-1}) = 1+\gamma_{i-2}
+  \end{equation*}
+  so that $\PTr_{\U_{i-1}/\U_{i-2}}(x_i)$ is a root of
+  $X^2-X-(1+\gamma_{i-2})$. We deduce
+  \[\PTr_{\U_{i-1}/\U_{i-2}}(x_i) = x_{i-1} + \omega_i\text{,}\]
+  where $\omega_i$ is one of the two primitive roots of the unity,
+  hence in $\F_4$. Then $\PTr_{\U_{i-1}/\U_{i-2}}(X) - \omega_i$ is in
+  $\F_4[X]$ and sends $x_i$ over $x_{i-1}$.
+\end{proof}
+
+\begin{lemma}
+  \label{Lemma:primitive=2}
+  If $p=2$, $x_i$ generates $\U_i$ over $\F_2$ for $i=0,\ldots,k$.
+\end{lemma}
+\begin{proof}
+  For $i=0$ this is true by hypothesis and for $i=1$ we already showed
+  in the proof of lemma \ref{Lemma:primitive=2-F4} that
+  $\U_1=\F_2[x_1]$.
+
+  For $i\ge2$ we know by lemma \ref{Lemma:primitive=2-F4} that
+  $\U_i=\F_2[x_i,\omega]$ where $\omega$ is a primitive root of
+  unity. We then look for a polynomial in $\F_2[X]$ that sends $x_i$
+  over $\omega$.
+
+  By the same technique as in lemmas \ref{Lemma:primitive>2} and
+  \ref{Lemma:primitive=2-F4}
+  \begin{equation*}
+    \PTr_{\U_{i-1}/\U_0}(x_i)^2-\PTr_{\U_{i-1}/\U_0}(x_i) = 
+    \Tr_{\U_{i-1}/\U_0}(\gamma_{i-1}) = 1 \text{,}
+  \end{equation*}
+  where the last equality comes from corollary \ref{coro:trace}.
+  
+  Then $\PTr_{\U_{i-1}/\U_0}(x_i)$ is a root of $X^2-X-1$, hence
+  \begin{equation*}
+    \PTr_{\U_{i-1}/\U_0}(x_i) = \omega + \beta_i
+    \qquad\text{with $\beta_i\in\F_2$.}
+  \end{equation*}
+  Then the polynomial $\PTr_{\U_{i-1}/\U_0}(X) - \beta_i$ is in
+  $\F_2[X]$ and sends $x_i$ over $\omega$.
+\end{proof}
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"british"
+% End:
+%
+% LocalWords:  Schreier Artin pseudotrace frobenius bivariate memoization

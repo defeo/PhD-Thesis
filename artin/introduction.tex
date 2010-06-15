@@ -1,0 +1,88 @@
+\section{Introduction}
+\label{sec:introduction}
+Artin-Schreier towers are important.
+
+\begin{definition}[Artin-Schreier polynomial]
+  \label{def:aspolynomial}
+  Let $\K$ be a field of characteristic $p$ and $\alpha\in\K$. The polynomial
+  \[X^p - X - \alpha\]
+  is called an Artin-Schreier polynomial.
+\end{definition}
+
+\begin{proposition}
+  \label{th:asfundamental}
+  Let $\F_q$ be a finite field of characteristic $p$, the polynomial
+  \[X^p - X - \alpha\]
+  is irreducible if and only if $\Tr_{\F_q/\F_p}(\alpha) \ne 0$. If
+  the polynomial has a root $\eta\in\F_q$, then it splits completely
+  over $\F_q$ and its roots are $\eta, \eta + 1, \ldots, \eta +
+  (p-1)$.
+\end{proposition}
+\begin{proof}
+  \cite[Theorem 2.25]{LN}.
+\end{proof}
+
+\begin{definition}[Artin-Schreier extension]
+  \label{def:asextension}
+  Let $\K$ be a field and let $\AS{P}$ be an irreducible
+  Artin-Schreier polynomial. The field extension $\LK/\K$ where $\LK =
+  \K[X]/\AS{P}(X)$ is called an Artin-Schreier extension.
+\end{definition}
+
+We are interested in towers of Artin-Schreier extensions over the
+field $\U_0=\F_{p^d}$, with $p\ndiv d$. For $k$ a non-negative
+integer, an {\em Artin-Schreier tower} is a sequence of Artin-Schreier
+extensions $\U_i / \U_{i-1}$, for $1\le i \le k$; it is denoted by
+$(\U_0, \U_1, \ldots, \U_k)$. Remark that $\U_i$ is of degree $p^i$
+over $\U_0$, and thus of degree $dp^i$ over $\F_p$.
+
+We look for efficient algorithms for arithmetic operations in such a
+tower. To measure them, we use the notion of {\em multiplication
+  function}; we count all time complexities of our algorithms in
+number of operations in $\F_p$ and all space complexities in number of
+elements of $\F_p$.
+
+\begin{definition}[Multiplication function]
+  \label{def:mult}
+  A function $\Mult : \N \rightarrow \N$ is a multiplication function
+  if
+  \begin{itemize}
+  \item polynomials in $\F_p[X]$ of degree less than $n$ can be
+    multiplied in $\Mult(n)$ operations in $\F_p$;
+  \item $\Mult(n + n') \ge \Mult(n) + \Mult(n')$ holds for all $n,n'$.
+  \end{itemize}
+\end{definition}
+Typical orders of magnitude for $\Mult(n)$ are $O(n^{\log_2 3})$ for
+Karatsuba multiplication or $O(n\log n \log\log n)$ for FFT
+multiplication.
+
+Using Newton iteration and the Cook-Sieveking-Kung algorithm, one can
+compute the quotient and remainder in the Euclidean division of two
+polynomials in $\F_p[X]$ of degree at most $n$ in $O(\Mult(n))$
+$\F_p$-operations. The extended GCD of two polynomials of degree at
+most $n$ can be computed in time $O(n^2)$ by a naive algorithm;
+half-GCD techniques yield algorithms of complexity $O(\Mult(n)\log
+n)$.
+
+We let $\ModComp(m)$ be the cost of the modular composition of
+polynomials in $\F_p[X]$ of degree at most $m$: given $a,b,c$ in
+$\F_p[X]$ of degree at most $m$, this operation returns $a(b) \bmod
+c$.  A typical value for $\ModComp(m)$ is $O\left(\Mult(m)\sqrt{m} +
+  m^\frac{\omega+1}{2}\right)$, where $\omega$ is the exponent of
+linear algebra; this is the actual algorithm implemented in NTL.
+Umans-Kedlaya!!
+
+In all that follows, a multiplication function is fixed. Then, for
+most operations, we achieve algorithms with complexity
+$\tildO_{p,k,d}\left(\Mult(p^{k+a}k^{b}d^{c})\right)$ where $a,b,c$
+are some (small) integer constants. We use the soft-$O$ notation
+$\tildO_{x_1,\ldots,x_m}$ to ignore logarithmic factors in the
+variables $x_1,\ldots,x_m$; we omit the variables names when they are
+evident from the context.
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"british"
+% End:
+%
+% LocalWords:  Schreier Artin pseudotrace frobenius bivariate memoization

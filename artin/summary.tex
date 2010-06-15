@@ -1,0 +1,31 @@
+
+\begin{table}
+  \fbox{ \renewcommand\arraystretch{1.5}
+    \begin{tabular}{l|c|c}
+      \textbf{Operation} & \textbf{Symbol} & \textbf{Complexity}\\
+      \hline
+      Construction of $\U_i$ & & $O\left(\Mult(p^{i+1}d)\log p\right)$\\
+      Addition, subtraction, equality in $\U_i$ & & $O(p^id)$\\
+      Multiplication in $\F_p[X]$, degree $n$ & $\Mult(n)$ & \\
+      Division in $\F_p[X]$, degree $n$ & & $O(\Mult(n))$\\
+      XGCD in $\F_p[X]$, degree $n$ & & $O(\Mult(n)\log n)$\\
+      Multiplication in $\U_i$ & $\MulM(i)$ & $O\left(\Mult(p^id)\right)$\\
+      Inversion in $\U_i$ & $\Inv(i)$ & $O\left(\Mult(p^id)\log(p^id)\right)$\\
+      Level embedding & $\Push(i)$, $\Lift(i)$ & $  O\left(\Mult(p^{i+1}d)\log (p^id)\right)$\\
+      $n$-th power & & $O(\MulM(i)\log n)$ \\
+      $\Tr_{\F_{p^d}/\F_p}$ & $\Trace(d)$ & \\
+      $\Tr_{\U_i/\U_j}$ & & $O\left(\sum_{l=j}^i\Push(i)\right)$\\
+      $\Tr_{\U_i/\F_p}$ & & $O\left(\sum_{l=0}^i\Push(i) + \Trace(d)\right)$\\
+      Frobenius map & $\Frob(i)$ & $O\left(\MulM(i) \log p\right)$ \\
+      $p^jd$-th pseudotrace & $\Ptr(i,p^jd)$ & $\tildO\left(p^i\ModComp(d) + pij\Mult(p^{i+1}d)\right)$\\
+      $p^jd$-th iterated frobenius map & $\Frob(i,p^jd)$ & $O\left((i-j)\Mult(p^{i+1}d)\log(p^{\frac{i+j}{2}}d)\right)$\\
+      Isomorphism between $\U_i$ and $\K_i$ & & $O\left(d^\omega + \Ptr(i,p^{i-1}d)\right)$\\
+      Arithmetics in $\U_i[X]$, degree $n$ & & $O\left(\Mult(p^idn)\right)$\\
+      Minimal polynomials & & \\
+      Evaluation, interpolation & & 
+  \end{tabular}}
+  
+  \caption{\label{tab:complexities}Time complexities of arithmetic
+    operations. We assume $\Mult(n) = n\log n\log\log n$ to simplify
+    some estimates.}
+\end{table}

@@ -1,0 +1,214 @@
+\section{Working in a generic tower}
+\label{sec:isomorphism}
+
+This Section is devoted to show how to perform fast arithmetics in any
+tower $(\K_0,\ldots,\K_k)$ defined by a sequence of
+$(\alpha_0,\ldots,\alpha_{k-1})$.
+
+Notice that the condition $\Tr_{\K_i/\F_p}(\alpha_i)\ne0$ guarantees
+that $\K_i = \F_p[x_0',\ldots,x_i']$, but this is not enough to
+guarantee that $\K_i = \F_p[x_i']$ and in general this won't be the
+case. As a consequence, the best representation for the elements of
+$\K_i$ is as multivariate $\F_p$-polynomials in the variables
+$x_0',\ldots,x_i'$, with $\deg_{x_0}<d$ and $\deg_{x_i}<p$ for any
+$i\ge1$.
+
+In practice, we will never represent elements of $\K_i$ this
+way. Instead, we will directly work on their images in $\U_i$, that is
+as elements $\wrt\U_i$. This allows us to automatically have fast
+multiplication and most of the other arithmetic operations presented
+in Section \ref{sec:arithmetics}. The only data we need to have in
+order to work this way is $\sigma(x_i')\wrt\U_i$ for every $i$, which
+is easily computed by Couveignes' algorithm.
+
+This is satisfactory for most algorithms using Artin-Schreier
+towers, as, for example, Couveignes' algorithm for isogeny computation
+\cite{Cou96}. We notice though that two of the operations of Section
+\ref{sec:arithmetics} are not possible in this setting, namely the
+push-down and the lift-up. This Section shows how to perform this two
+operations for elements of $\K_i$ represented as $\wrt\U_i$. At the
+end of the section we will show how this two algorithms allow to work
+on the multivariate representation of elements of $\K_i$ and
+efficiently go back and forward between these two representations.
+
+\subsection{Lift-up}
+\label{sec:isomorphism:lift-up}
+The problem of lift-up is stated as follows : let
+$v_0,\ldots,v_{p-1}\wrt\U_{i-1}$ be elements of $\K_{i-1}$ (through
+the isomorphism $\sigma$), we look for the element $v\wrt\U_i$ such
+that
+\begin{equation*}
+  \sigma^{-1}(v) =
+  \sigma^{-1}(v_0) + \sigma^{-1}(v_1)x_i' +
+  \cdots + \sigma^{-1}(v_{p-1})x_i'^{p-1}
+  \text{.}
+\end{equation*}
+
+Since we know $\sigma(x_i')\wrt\U_i$, this is an easy task. The
+algorithm \alg{Lift-up$^\sigma$} accomplishes it.
+
+\begin{algorithm}
+  {Lift-up$^\sigma$}
+  {$v_0,\ldots,v_{p-1}\wrt\U_{i-1}$.}
+  {$v\wrt\U_i$ such that $v = \sum v_i\sigma(x_i')^i$.}
+\item Let $y = \sigma(x_i')$;
+\item let $v = 0$;
+\item for $j = p-1$ to $0$,
+  \begin{enumerate}
+  \item \label{alg:lift-sigma:lift}$v_j' = $ Lift-up($v_j$);
+  \item \label{alg:lift-sigma:horner}$v = vy + v_j$;
+  \end{enumerate}
+\item return $v$.
+\end{algorithm}
+
+\begin{theorem}
+  The algorithm \alg{Lift-up$^\sigma$} is correct and computes its
+  output in $O(p\Lift(i))$ operations.
+\end{theorem}
+\begin{proof}
+  Correctness is self-evident since the algorithm is just applying
+  Horner's rule.
+
+  For the complexity we suppose that all the $\sigma(x_i')\wrt\U_i$
+  have already been computed by Couveignes algorithm. Then step
+  \ref{alg:lift-sigma:lift} contributes $p\Lift(i)$ operations and
+  step \ref{alg:lift-sigma:horner} contributes $p-1$ multiplications
+  in $\U_i$ and $p-1$ sums in $\U_i$. Then the dominating step is
+  obviously \ref{alg:lift-sigma:lift}.
+\end{proof}
+
+
+\subsection{Push-down}
+\label{sec:isomorphism:push-down}
+The push-down problem is stated as follows : let $v\wrt\U_i$ be an
+element of $\K_{i-1}$ (through the isomorphism $\sigma$), we look for
+the elements $v_0,\ldots,v_{p-1}\wrt\U_{i-1}$ such that
+\begin{equation*}
+  \sigma^{-1}(v) =
+  \sigma^{-1}(v_0) + \sigma^{-1}(v_1)x_i' +
+  \cdots + \sigma^{-1}(v_{p-1})x_i'^{p-1}
+  \text{.}
+\end{equation*}
+
+To solve the problem we use the same technique as in Section
+\ref{sec:level-embedding:lift-up}. Consider $\U_i$ as an extension
+over $\U_{i-1}$, then $\sigma(x_i')$ generates $\U_i$ over $\U_{i-1}$
+and its minimal polynomial is Artin-Schreier. Therefore, if we note
+$B$ the set of conjugates of $\sigma(x_i')$, lemmas
+\ref{Lemma:trace-AS} and \ref{th:lift-up}\footnote{Well, an easy
+  generalisation of it.} apply :
+\begin{align*}
+  \sum_{j\ge0}\Tr_{\U_i/\U_{i-1}}\left(\sigma(x_i')^j\right)T^j &=
+  \frac{\sum_{\zeta\in B}\prod_{\zeta\ne\zeta'}(1-\zeta'T)}
+       {\prod_{\zeta}(1-\zeta T)} =
+  \frac{-T^{p-1}}{1-T^{p-1}-\alpha_{i-1}T^{p}}
+  \text{,}\\
+  %%
+  \sum_{j\ge0}\Tr_{\U_i/\U_{i-1}}\left(v\sigma(x_i')^j\right)T^j &=
+  \frac{\sum_{\zeta\in B}v(\zeta)\prod_{\zeta\ne\zeta'}(1-\zeta'T)}
+       {\prod_{\zeta}(1-\zeta T)}
+       \text{.}
+\end{align*}
+
+As already observed in section \ref{sec:level-embedding:lift-up}, 
+\begin{multline*}
+  V(T) =
+  \frac{\sum_{\zeta\in B}v(\zeta)\prod_{\zeta\ne\zeta'}(T-\zeta')}
+       {\sum_{\zeta\in B}\prod_{\zeta\ne\zeta'}(T-\zeta')} 
+       \bmod T^p-T-\alpha_{i-1} = \\
+  \frac{\rev_{p-1}(\sum_{\zeta\in B}v(\zeta)\prod_{\zeta\ne\zeta'}(1-\zeta'T))}
+       {\rev_{p-1}(\sum_{\zeta\in B}\prod_{\zeta\ne\zeta'}(1-\zeta'T))}
+       \bmod T^p-T-\alpha_{i-1}
+\end{multline*}
+is the $\U_{i-1}$-polynomial we are looking for. In fact,
+$V(\zeta)=v(\zeta)$ for any $\zeta\in B$ and there's only one
+$\U_{i-1}$-polynomial with degree less than $p$ with this property.
+
+But observe that $\sum_{\zeta\in B}\prod_{\zeta\ne\zeta'}(1-\zeta'T) =
+-T^{p-1}$, so that
+\begin{equation*}
+  V(T) =
+  \frac{\sum_{\zeta\in B}v(\zeta)\prod_{\zeta\ne\zeta'}(T-\zeta')}{-1} 
+  \bmod T^p-T-\alpha_{i-1} =
+  -\sum_{\zeta\in B}v(\zeta)\prod_{\zeta\ne\zeta'}(T-\zeta')
+  \text{.}
+\end{equation*}
+Now, to compute the rightmost member of this equation, it suffices to
+compute the following multiplication truncated at order $p-1$
+\begin{equation*}
+  -\rev_{p-1}(V(T)) =
+  \left(\sum_{j\ge0}\Tr_{\U_i/\U_{i-1}}\left(v\sigma(x_i')^j\right)T^j\right)
+  (1-T^{p-1}-\alpha_{i-1}T^p)
+  \text{.}
+\end{equation*}
+Since we truncate at order $p-1$, we have
+\begin{multline*}
+  -\rev_{p-1}(V(T)) =
+  \left(\sum_{j\ge0}^{p-1}\Tr_{\U_i/\U_{i-1}}\left(v\sigma(x_i')^j\right)T^j\right)
+  (1-T^{p-1}) =\\
+  \left(\sum_{j\ge0}^{p-1}\Tr_{\U_i/\U_{i-1}}\left(v\sigma(x_i')^j\right)T^j\right)
+  - \Tr_{\U_i/\U_{i-1}}(v)T^{p-1}
+  \text{;}
+\end{multline*}
+we conclude
+\begin{equation*}
+  V(T) =
+  \Tr_{\U_i/\U_{i-1}}(v) -
+  \sum_{j\ge0}^{p-1}\Tr_{\U_i/\U_{i-1}}\left(v\sigma(x_i')^{p-1-j}\right)T^j 
+  \text{.}
+\end{equation*}
+
+Remember that computing $\Tr_{\U_i/\U_{i-1}}$ is just doing a push-down
+and taking the opposite of the coordinate of $x_i^{p-1}$, then the
+algorithm \alg{Push-down$^\sigma$} follows easily.
+
+\begin{algorithm}
+  {Push-down$^\sigma$}
+  {$v\wrt\U_i$.}
+  {$v_0,\ldots,v_{p-1}\wrt\U_{i-1}$ such that $v = \sum v_i\sigma(x_i')^i$.}
+\item Let $y = \sigma(x_i')$;
+\item Let $s_0 = v$;
+\item \label{alg:push-sigma:sigmas}for $j = 1$ to $p-1$, compute $s_j
+  = s_{j-1}y$;
+\item \label{alg:push-sigma:traces}for $j = 0$ to $p-1$, compute $t_j
+  = \Tr_{\U_i/\U_{i-1}}(s_j)$;
+\item compute $v_0 = t_0 - t_{p-1}$;
+\item for $j = 1$ to $p-1$, compute $v_j = -t_{p-1-j}$;
+\item return $v_0, \ldots, v_{p-1}$;
+\end{algorithm}
+
+\begin{theorem}
+  The algorithm \alg{Push-down$^\sigma$} is correct and computes its
+  output in $O(p\Push(i))$ $\F_p$-operations.
+\end{theorem}
+\begin{proof}
+  Correctness is evident from the discussion above. For the
+  complexity, step \ref{alg:push-sigma:sigmas} costs $p-1$
+  multiplications in $\U_i$, step \ref{alg:push-sigma:traces} costs
+  $p$ \alg{Push-down}'s, as already remarked, and all the other steps
+  are negligible. It is then evident that step
+  \ref{alg:push-sigma:traces} dominates.
+\end{proof}
+
+
+\subsection{Multivariate representation}
+Suppose now that we have an element $v\wrt\U_i$ and that we want to
+write down $\sigma^{-1}(v)$ as an element of
+$\F_p[x_0',\ldots,x_i']$. This can be done by computing
+$v_0,\ldots,v_{p-1}=$ \alg{Push-down$^\sigma$($v$)} and by recursively
+applying this procedure on $v_0,\ldots,v_{p-1}$. The complexity of
+such conversion is $\sum_{j=1}^ip^{i-j}p\Push(j) = O(pi\Push(i))$.
+
+The opposite conversion is just doing the same thing in the opposite
+direction using \alg{Lift-up$^\sigma$}. The overall complexity is then
+easily seen to be $O(pi\Lift(i))$.
+
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"british"
+% End:
+%
+% LocalWords:  Schreier Artin pseudotrace frobenius bivariate memoization
+% LocalWords:  precomputed precomputation precompute precomputations Couveignes

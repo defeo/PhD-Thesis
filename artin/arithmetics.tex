@@ -1,0 +1,301 @@
+\section{Arithmetic operations}
+\label{sec:arithmetics}
+
+Let $\U_0 = \F_{p^d}$ with $p\ndiv d$, and let $(\U_0, \U_1, \ldots,
+\U_k)$ be an Artin-Schreier tower.  We now go through the arithmetic
+operations we are interested in for such a tower and discuss their
+implementation. 
+
+%% We suppose we have at our disposal an implementation of $\F_p$ using
+%% $O(\log p)$ bits to represent an element and all usual arithmetic
+%% operations in $\F_p$ having bit complexity $\tildO(\log p)$.
+
+
+\paragraph{Representation.} 
+For $i = 0,\ldots,k-1$, let $\alpha_i\in\U_i$ and $\AS{P}_i = X^p - X
+- \alpha_i$ be such that $\U_{i+1} = \U_i[X_{i+1}]/\AS{P}_i(X_{i+1})$
+and let $\U_0 = \F_p[X_0]/Q_0(X_0)$ for a polynomial $Q_0$. We let
+$x_i$ be the residue class of $X_i$ in $\U_i$.
+
+Let $Q_i$ be the minimal polynomial of $x_i$ over $\F_p$, by theorem
+\ref{th:cantor} it has degree $p^id$. This allows us to uniquely
+represent the elements of $\U_i$ as polynomials in $x_i$ modulo $Q_i$,
+that is, on the basis $1,x_i,\dots,x_i^{p^id-1}$. Unless otherwise
+stated, this is the representation we are going to use. The space
+required to store an element of $\U_i$ is thus $p^id$ elements of
+$\F_p$. In our algorithms, if we want to stress the fact that an
+element $v\in\U_i$ is represented on this basis, we will write
+$v\wrt\U_i$. Of course, other representations are possible, and
+discussed below.
+
+
+\paragraph{Field operations in $\U_i$.}
+Equality test, addition and subtraction are done coefficient-wise;
+their cost is $p^id$ $\F_p$-operations. Next, we let $\MulM(i)$ be a
+function such that any two elements $v,w\wrt \U_i$ can be multiplied
+using $\MulM(i)$ $\F_p$-operations; using the algorithm for fast
+Euclidean division, we can take $\MulM(i) \in O(\Mult(p^id))$;
+constant-time speed-ups are possible using pre-computations on $Q_i$.
+Finally, we let $\Inv(i)$ be such that any non-zero $v \wrt \U_i$ can
+be inverted in $\Inv(i)$ $\F_p$-operations; using fast extended GCD
+computation, we can take $\Inv(i) \in
+O\left(\Mult(p^id)\log(p^id)\right)$.
+
+\paragraph{Polynomial arithmetic over $\U_i$.}
+Extending our previous notation, we write $P \wrt \U_i[X]$ to signify
+that all coefficients of $P$ are given as univariate polynomials in
+$x_i$. Basic arithmetic operations on polynomials in $\U_i[X]$ can be
+computed in a quasi-optimal time through Kronecker substitution. \cite{}
+
+Given $P,Q \wrt \U_i[X]$ of degree $n$, to compute $P Q \wrt \U_i[X]$ we map $P$ and
+$Q$ to two polynomials $\bar{P},\bar{Q}\in\F_p[X_i]$ of degree less
+than $2p^idn$ by the rule
+\[\bar{P} = P(X_i,X_i^{2p^id}),\quad  \bar{Q} = Q(X_i,X_i^{2p^id}).\]
+Then, we compute $\bar{R}=\bar{P}\bar{Q}$ in $\F_p[X_i]$ in time
+$\Mult(2p^idn)$; we set
+\[R = \bar{R} \mod X_i^{2p^id} - X\]
+to obtain a polynomial in $\F_p[X_i][X]$ and reduce each of the
+coefficients of $R(X)$ modulo $Q_i$ for a total cost of
+$O\left(n\Mult(p^id)\right)$. The overall cost is then bounded by
+$O\left(\Mult(p^idn)\right)$. A similar algorithm with the same
+complexity exists for Euclidean division of degree $n$ in $\U_i[X]$
+
+%  and the XGCD
+% in $\U_i[X]$.
+
+Such algorithms are implemented in most computer algebra systems. As
+far as we know, NTL implements them for $p > 2$.
+%% Both operations may be sped up by pre-computations on the modulus
+%% $Q_i$.
+%% Pas evident en ce qui concerne le XGCD
+%%% pas evident, a cause du log.
+%% We note $\Mult(\U_i)$ for the complexity of element multiplication in
+%% $\U_i$ in $\F_p$-operations, thus element inversion in $\U_i$ costs
+%% $O(\Mult(\U_i))$ $\F_p$-operations.
+Most of the algorithms for multiplication, inversion and XGCD are
+implemented in computer algebra systems. Victor Shoup's NTL implements
+Karatsuba multiplication and Newton iteration for $\F_p[X]$ for any
+$p$, while it implements FFT multiplication and fast XGCD only for $p
+> 2$; it also implements fast multiplication in $\F_p[X]/P(X)$ for any
+$p$ and fast inversion in $\F_p[X]/P(X)$ for $p>2$.
+
+\paragraph{Level embedding.}
+By construction, the field $\U_i$ also admits the $\U_{i-1}$-basis
+$1,x_i,\dots,x_i^{p-1}$. Hence, every element $v\in\U_i$ can also be
+written in an unique way as
+\begin{equation}
+  \label{eq:vectorspace}
+  v = v_0 + v_1 x_i + v_2 x_i^2 + \cdots + v_{p-1} x_i^{p-1}, \quad v_i \in \U_{i-1}.
+\end{equation}
+We call \emph{push-down} the operation that takes $v\wrt\U_i$ as input
+and outputs the coefficients $v_0,\ldots,v_{p-1}\wrt\U_{i-1}$ such
+that \eqref{eq:vectorspace} holds; we denote $\Push(i)$ the cost of
+this operation. The inverse operation takes $p$ elements
+$v_0,\ldots,v_{p-1}\wrt\U_{i-1}$ as input and outputs $v\wrt\U_i$ such
+that \eqref{eq:vectorspace} holds. We call \emph{lift-up} this
+operation and note $\Lift(i)$ its cost.  Remark that both
+push-down and lift-up are $\F_p$-linear maps.
+
+Often we deal with the special case where $v_1 = \ldots = v_{p-1} =
+0$. By abuse of language, we will say that the push-down of $v$ is
+$v_0$ and that the lift-up of $v_0$ is $v$.
+
+We will give in Section \ref{sec:level-embedding} an algorithm for
+level embedding in the context of some specific Artin-Schreier
+towers. 
+
+Such algorithms are implemented in some computer algebra systems. NTL
+doesn't implement them, while Magma implements a general algorithm for
+any type of finite field embedding. 
+In Section \ref{sec:benchmarks} we compare our algorithm to
+Magma's generic one.
+
+\paragraph{Powering.}
+For $n\in \N$, the $n$-th power of an element of $\U_i$ can be
+computed in $O(\log n)$ multiplications in $\U_i$ by repeated
+squaring, thus yielding a complexity of $O(\MulM(i)\log n)$.
+
+The Frobenius map $\frob : \U_i \rightarrow \U_i$ is the $\F_p$-linear
+map defined by
+\[\frob \;:\; x \mapsto x^p \text{.}\]
+We write $\Frob(i)$ for the number of $\F_p$-operations needed to
+compute $\frob(v) \wrt \U_i$ given $v \wrt \U_i$. Thus, we have
+$\Frob(i) \in O(\MulM(i)\log p)$.
+
+%%%% je ne crois pas que ce soit si bon que ca..
+% For very
+% small $p$, in particular for $p=2$, it may be faster to use the
+% linearity of the frobenius map to obtain a polynomial of degree less
+% than $p^{i+1}d$ using only $p^id$ operations and then reduce it modulo
+% $Q_i$; the asymptotic complexity of this algorithm is not optimal in
+% $p$, though.  
+
+The $n$th iterated Frobenius map is the map $\frob^n$. A naive
+algorithm computes this map in $n\Frob(i)$ operations. A first
+observation is that if $v\in\U_i$ and ${n=[\U_i:\F_p]}$, then
+$\frob^n(v) = v$; thus we are only interested in the case where $n <
+p^id$ and more specifically in the case $n=p^jd$ with $j<i$. We note
+$\Frob(i,j)$ for the number of $\F_p$-operations needed to compute
+$\frob^{p^jd}(v)\wrt \U_i$ on input $v\wrt\U_i$.
+
+\paragraph{Trace.}
+For $0 \le i \le n$, the {\em trace} of $\U_i$ over $\F_p$ is the
+$\F_p$-linear form ${\Tr_{\U_i/\U_j} : \U_i \rightarrow \F_p}$
+\begin{equation}
+  \label{eq:tracec0}
+  \Tr_{\U_i/\F_p}  \;:\; x \mapsto \sum_{l=0}^{[\U_i:\F_p] - 1}x^{p^l};
+\end{equation}
+similarly, for $0 \le j \le i \le n$, the {\em trace} of $\U_i$ over
+$\U_j$ is the $\U_j$-linear form $\Tr_{\U_i/\U_j} : \U_i \rightarrow
+\U_j$ defined by
+\[\Tr_{\U_i/\U_j} \;:\; x \mapsto \sum_{l=0}^{[\U_i:\U_j] - 1}x^{p^{p^jdl}}.\]
+The trace has two main properties: the \emph{composition property}
+\begin{equation}
+  \label{eq:tracecomp}
+  \Tr_{\U_i/\U_j} = 
+  \Tr_{\U_{i-1}/\U_j} \circ \Tr_{\U_i/\U_{i-1}};\quad
+\Tr_{\U_i/\F_p} = \Tr_{\U_0/\F_p} \circ \Tr_{\U_i/\U_0}
+\end{equation}
+that holds in general for every tower of finite extensions, and the
+\emph{push-down property}
+\begin{equation}
+  \label{eq:tracepush}
+  \Tr_{\U_i/\U_{i-1}}\left(\sum_{l=0}^{p-1}v_lx_i^l\right) = -v_{p-1} 
+  \qquad
+  \text{with } v_0,\ldots,v_{p-1}\in\U_{i-1}
+\end{equation}
+that holds for towers of Artin-Schreier extensions. 
+
+Given $x \wrt \U_i$, we discuss how to obtain $\Tr_{\U_i/\U_j}(x) \wrt
+\U_j$, as well as $\Tr_{\U_i/\F_p}(x) \in \F_p$, exploiting
+Equation~\eqref{eq:tracepush}.
+
+First, combining \eqref{eq:tracecomp} and \eqref{eq:tracepush} we
+obtain an algorithm that uses $i-j$ push-downs to compute
+$\Tr_{\U_i/\U_j}(x)$, thus yielding a complexity of
+$\sum_{l=j+1}^i\Push(l)+p^{dp^i}$, where the extra $p^{dp^i}$
+operations account for the change of sign. For simplicity, we use the
+upper bound $\sum_{l=j}^i\Push(l)$.
+
+To compute $\Tr_{\U_i/\F_p}$, we compute $\Tr_{\U_i/\U_0}$ by the
+algorithm we just gave, then apply $\Tr_{\U_0/\F_p}$.  Let thus
+$\Trace(n)$ be the cost of computing $\Tr_{\F_{p^n}/\F_p}$; the best
+know algorithm~\cite{GaShXX} for this task uses equation
+\eqref{eq:tracecomp} together with a fast algorithm for modular
+composition, yielding a cost of $\Trace(n) \in O(\ModComp(n)\log
+n)$. Thus, the total cost of our algorithm for $\Tr_{\U_i/\F_p}$ is
+$\sum_{l=0}^i\Push(l) + \Trace(d)$.
+
+\textbf{NB :} NTL semble implanter la trace en utilisant une espèce de
+formule des résidus ; essentiellement, c'est ça :
+{\footnotesize
+\begin{verbatim}
+   GF2X x = reverse(-LeftShift(reverse(diff(reverse(f)), n-1), n-1)/f, n-1);
+   project(result, x, a);  //c'est un coup d'InnerProduct
+\end{verbatim}}
+Donc la complexité est dominée par la division à la première ligne et
+elle est bien meilleure que $O(\ModComp(n)\log n)$. D'un autre côté,
+l'équation \eqref{eq:tracepush} est tout simplement une conséquence de
+la formule des résidus. Les expériences (voir tableau) semblent
+confirmer que la trace de NTL est (beaucoup) plus rapide que l'algo
+récursif, même s'il n'est pas clair que son asymptotique soit
+meilleur. Au vu de ça, je me demande si ce n'est pas plutôt la peine
+de virer toute cette discussion et de citer le papier de Shoup (lequel
+?).
+
+\begin{tabular}{|l|r|r|r|r|}
+  \hline
+  niveau & NTL $\F_{2^{101}}$ & récursif $\F_{2^{101}}$ & NTL $\F_{2^{1999}}$ &
+  récursif $\F_{2^{1999}}$ \\
+  \hline
+  9  & 0 &  0 &  0 &   7\\
+  10 & 0 &  1 &  1 &  17\\
+  11 & 0 &  1 &  3 &  44\\
+  12 & 0 &  3 & 10 & 116\\
+  13 & 0 &  6 & 30 & 316\\
+  14 & 1 & 15 & 90 & 885\\
+  15 & 3 & 37 &  ? &   ?\\
+  \hline
+\end{tabular}
+
+
+\paragraph{Pseudotrace.}
+In a way similar to the trace, we define the $n$th {\em pseudotrace}
+as the $\F_p$-linear map $\PTr_n : \U_i \rightarrow \U_i$ 
+\[\PTr_n \;:\; x \mapsto \sum_{l=0}^{n-1} x^{p^l} \text{.}\]
+First, we observe that if $v\in\U_i$ and $n=[\U_i:\F_p]=p^id$, then
+${\PTr_n(v) = \Tr_{\U_i/\F_p}(v)}$. We are then interested in the case
+$n<p^id$ and more specifically in the case $n = p^jd$ with $j<i$; if
+$v\wrt\U_i$, we note $\Ptr(i,j)$ for the number of
+$\F_p$-operations needed to compute $\PTr_{p^jd}(v)$.
+
+In Section~\ref{sec:pseudotrace-frobenius} we give quasi-optimal algorithms
+to compute the pseudotrace and the iterated frobenius. These
+operations are pretty unusual for computer algebra systems and we are
+not aware of any providing optimised algorithms for them.
+
+\paragraph{Minimal polynomials, evaluation, interpolation.}
+Given an element $v\in\U_i$, its minimal polynomial over $\U_j$ is
+the smallest degree polynomial $P\in\U_j[X]$ such that $v$ is a root
+of $P$.
+
+Given a polynomial $P\in\U_j[X]$ of degree less than $p^{i-j}d$ and a
+point $v\in\U_i$, the evaluation of $P$ at $v$ is the value $P(v)$.
+
+The interpolation is a hassle to define !
+
+In Section \ref{sec:minpol} we give quasi-optimal algorithms for these
+operations that are of great interest when $j=0$. Most computer
+algebra systems have algorithms to compute minimal polynomials; we
+don't know their complexities but we believe our algorithms to be by
+far better for they work in this special setting. Our versions of
+evaluation and interpolation are very unusual ones and we are not
+aware of any computer algebra system implementing them in a special
+way.
+
+
+\paragraph{Isomorphism}
+Finally, given two towers $(\U_0,\ldots,\U_k)$ and
+$(\U_0',\ldots,\U_k')$ with $\U_0=\U_0'$, defined by two sequences
+$\alpha_0,\ldots,\alpha_{k-1}$ and $\alpha_0',\ldots,\alpha_{k-1}'$,
+we want to be able to explicitly compute an isomorphism between
+them. In other words, let $\sigma : \U_k\rightarrow\U_k'$ be one of
+the isomorphisms that fix $\U_0$, we want an algorithm that given
+$v\wrt\U_i$ returns $v'\wrt\U_i'$ such that $v'=\sigma(v)$ for any
+$i$.
+
+Using the level embedding algorithms, it suffices to know the images
+$\widetilde{x}_i'\wrt\U_i'$ by $\sigma$ of each $x_i\wrt\U_i$. This can be
+done by factoring $X^p - X - \alpha_0$ in $\U_1'$ to know
+$\widetilde{x}_1'\wrt\U_1'$ and then deduce $\widetilde{\alpha}_1'\wrt\U_1'$
+such that $\sigma(\alpha_1) = \widetilde{\alpha}_1'$. The process can then be
+repeated at each level to compute the whole isomorphism.
+
+A general algorithm for factoring polynomials would be too slow for
+our purpose. In \cite{}, Couveignes gives a quasi-optimal algorithm to
+factor Artin-Schreier polynomials in Artin-Schreier towers; we
+describe it in Section \ref{sec:couveignes-algorithm}.
+
+An interesting application of this algorithm is that we do not need to
+give generic algorithms to perform all the arithmetic operations in a
+generic tower. We can instead fix a special sequence of
+$\alpha_0,\alpha_1,\ldots$ that defines an increasing sequence of
+Artin-Schreier towers with optimal arithmetics and then use the
+isomorphism algorithm to bring such fast arithmetics to every
+tower. We present such a \emph{fast} tower in Section
+\ref{sec:fast-tower}.
+
+This is exactly the way the computer algebra system MAGMA deals with
+finite fields: it uses special finite fields defined by Conway
+polynomials and performs arithmetics in them by multiplication tables.
+Then, if asked to create a finite field defined by a different
+polynomial, it computes the isomorphism between the two fields
+\cite{}. Our algorithms are faster than MAGMA ones since they work in
+the special context of Artin-Schreier towers.
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"british"
+% End:
+%
+% LocalWords:  Schreier Artin pseudotrace frobenius bivariate memoization

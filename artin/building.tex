@@ -1,0 +1,321 @@
+\section{Building up the tower}
+\label{sec:building-up}
+
+Using theorem \ref{th:cantor} we can build an Artin-Schreier tower for
+which all of the arithmetic operations listed in Section
+\ref{sec:arithmetics} have quasi-optimal algorithms. In Section
+\ref{sec:couveignes-algorithm} we develop a method to bring such fast
+arithmetics to any Artin-Schreier tower.
+
+We want to build the tower defined by $\gamma_0,\gamma_1,\ldots$ as in
+theorem \ref{th:cantor}. We will give algorithms for the arithmetics
+in the same order as in Section \ref{sec:arithmetics}.
+
+\subsection{Representation}
+Suppose we are given the polynomial $Q_0$ defining $\U_0$ as the field
+$\F_p[X_0]/Q_0(X_0)$ and let $x_0$ be the class of $X_0$ in $\U_0$,
+then $x_0$ generates $\U_0$ over $\F_p$. If
+$\Tr_{\U_0/\F_p}(x_0)\ne0$, the hypotheses of theorem \ref{th:cantor}
+are met and we can start building the tower. If this is not the case,
+though, define $x_0'=x_0+1$, then $x_0'$ obviously generates $\U_0$
+over $\F_p$. Moreover, since $d$ is prime to $p$,
+$\Tr_{\U_0/\F_p}(1)\ne0$ and $x_0'$ meets the required
+hypotheses.
+
+What we need now is to find $Q_0'$, the minimal polynomial of
+$x_0'$. It is easy to observe that $x_0'$ is a root of $Q_0(X-1)$ and
+since $Q_0(X-1)$ is monic of degree $d$ and $x_0'$ generates $U_0$,
+then $Q_0'(X) = Q_0(X-1)$. To compute $Q_0'$ we use the algorithm
+\alg{Compose\_X-1}.
+
+\begin{figure}[!h]
+  \begin{algorithm}
+    {Compose\_X-1}
+    {$P\in\F_p[X]$,}
+    {$P(X-1)$.}
+  \item If $\deg(P) < 1$, return $P$.
+  \item Else, let $P = P_0 + X^{p^{i-1}}P_1$ with $p^{i-1}\le\deg(P)<p^i$,
+    \begin{enumerate}
+      \item Compute $P_0' =$ Compose\_X-1($P_0$) ;
+      \item Compute $P_1' =$ Compose\_X-1($P_1$) ;
+      \item \label{alg:compose-x-1:sum}Compute and return $P_0' - P_1'
+        + X^{p^{i-1}}P_1'$.
+    \end{enumerate}
+  \end{algorithm}
+\end{figure}
+
+\begin{theorem}
+  \label{th:x-1}
+  The algorithm \alg{Compose\_X-1} is correct. If its input has degree
+  less than $n$, it computes its result in $O(pn\log_pn)$
+  $\F_p$-operations.\footnote{A similar algorithm that splits $P$ into
+    $p$ polynomials of the same degree and then uses Horner's rule to
+    obtain the result does exactly the same number of additions and
+    polynomial shifts as this one. Indeed, splitting $P$
+    asymmetrically and then composing as in step
+    \ref{alg:compose-x-1:sum}, is just a concealed Horner's rule. This
+    accounts for the supplementary $p$ factor in the complexity,
+    compared to the quasi-optimal complexity $O(n\log_pn)$.}
+\end{theorem}
+\begin{proof}
+  The correctness is evident from the equation
+  \begin{equation*}
+    P_0(X-1) + (X-1)^{p^{i-1}}P_1(X-1) =
+    P_0(X-1) + (X^{p^{i-1}}-1)P_1(X-1)\text{.}
+  \end{equation*}
+
+  We note by $C$ the complexity of the algorithm. We start by
+  analysing $C(p^i-1)$. If $i=0$, $C(0) = 1\in O(1)$.
+
+  For $i\ge1$, 
+  \begin{align*}
+    \deg(P_0)&\le p^{i-1}-1\text{,}\\
+    \deg(P_1)&\le p^{i-1}(p-1)-1\text{.}
+  \end{align*}
+  Then step \ref{alg:compose-x-1:sum} requires one polynomial shift by
+  $p^{i-1}$ and $p^{i-1}(p-1)$ scalar sums (since $P_0'$ and
+  $X^{p^i}P_1'$ have no common non-zero coefficient). The overall
+  complexity of step \ref{alg:compose-x-1:sum} is then $O(p^i)$, so
+  that we have
+  \[C(p^i-1) = C(p^{i-1}-1) + C(p^{i-1}(p-1)-1) + O(p^i)\text{.}\]
+
+  If we analyse the recursive call on $P_1$, we see that the algorithm
+  splits it in two polynomials of degree $p^{i-1}-1$ and
+  $p^{i-1}(p-2)-1$ and that step \ref{alg:compose-x-1:sum} costs one
+  polynomial shift by $p^{i-1}$ and $p^{i-1}(p-2)$ scalar sums. By
+  continuing to follow the recursive call on $P_1$ until it has degree
+  $p^{i-1}-1$, one sees that
+  \[C(p^i-1) = pC(p^{i-1}-1) + pO(p^i)\text{.}\]
+  From which we deduce $C(p^i-1) = O(p^{i+1}i)$.
+
+  Let now $cp^i\le n<(c+1)p^i$ with $1\le c<p$. By the above approach
+  we see that
+  \[C(n) \le C((c+1)p^i-1)) = (c+1)C(p^i-1) + (c+1)O(p^{i+1})\text{,}\]
+  so that from what we have shown before
+  \begin{equation*}
+    C(n) \le O\left((c+1)p^{i+1}i + (c+1)p^{i+1}\right) = 
+    O\left(cp^{i+1}i\right)
+    \text{.}
+  \end{equation*}
+  By observing that $cp^i\le n$ and that $i\le\log_pn$ we conclude
+  that $C(n) \le O(pn\log_pn)$.
+\end{proof}
+
+Now we can start building up the tower. What we need is the sequence
+$Q_1,Q_2,\ldots$ of the minimal polynomials of $x_1,x_2,\ldots$ over
+$F_p$. For $i=1$, we know that $x_1^p-x_1=\gamma_0=x_0$, so that $x_1$
+is a root of $Q_0(X^p-X)$ (if $\gamma_0=x_0+1$ we use $Q_0'$
+instead). Since $Q_0(X^p-X)$ is monic and has degree $pd$ and $x_1$ is
+a primitive element over $\F_p$, we deduce $Q_1(X)=Q_0(X^p-X)$. The
+same considerations hold for $i=2$ when $p=2$. To compute $Q_i(X^p-X)$
+we use the algorithm \alg{Compose\_X$^p$-X}.
+
+\begin{figure}[!h]
+  \begin{algorithm}
+    {Compose\_X$^p$-X}
+    {$P\in\F_p[X]$,}
+    {$P(X-1)$.}
+  \item If $\deg(P) < 1$, return $P$.
+  \item Else, let $P = P_0 + X^{p^{i-1}}P_1$ with $p^{i-1}\le\deg(P)<p^i$,
+    \begin{enumerate}
+      \item Compute $P_0' =$ Compose\_X$^p$-X($P_0$) ;
+      \item Compute $P_1' =$ Compose\_X$^p$-X($P_1$) ;
+      \item \label{alg:compose-xp-x:sum}Compute and return $P_0' -
+        X^{p^{i-1}}P_1' + X^{p^i}P_1'$.
+    \end{enumerate}
+  \end{algorithm}
+\end{figure}
+
+\begin{theorem}
+  The algorithm \alg{Compose\_X$^p$-X} is correct. If its input has
+  degree less than $n$, it computes its result in $O(p^2n\log_pn)$
+  $\F_p$-operations.
+\end{theorem}
+\begin{proof}
+  The correctness is evident from the equation
+  \begin{equation*}
+    P_0(X^p-X) + (X^p-X)^{p^{i-1}}P_1(X^p-X) =
+    P_0(X^p-X) + (X^{p^i}-X^{p^{i-1}})P_1(X^p-X)\text{.}
+  \end{equation*}
+
+  We note by $C$ the complexity of the algorithm. As in the proof of
+  theorem \ref{th:x-1}, we start by studying $C(p^i-1)$.If $i=0$,
+  $C(0) = 1\in O(1)$.
+
+  For $i\ge1$,
+  \begin{align*}
+    \deg(P_0')&\le p^i-p\text{,}\\
+    \deg(P_1')&\le p^i(p-1)-p\text{.}
+  \end{align*}
+  Then step \ref{alg:compose-xp-x:sum} requires two polynomial shifts
+  by $p^{i-1}$ and $p^i$ and $(p^i-1)(p-1)$ scalar sums (since $P_0'$
+  and $X^{p^i}P_1'$ have no common non-zero coefficient). The overall
+  complexity of step \ref{alg:compose-x-1:sum} is then $O(p^{i+1})$,
+  so that we have
+  \[C(p^i-1) = C(p^{i-1}-1) + C(p^{i-1}(p-1)-1) + O(p^{i+1})\text{.}\]
+
+  Like in the proof of theorem \ref{th:x-1}, we analyse the rightmost
+  branching of the recursion tree at depth $p$ and we find that
+  \[C(p^i-1) = pC(p^{i-1}-1) + pO(p^{i+1})\text{,}\]
+  From which we deduce $C(p^i-1) = O(p^{i+2}i)$.
+
+  Let now $cp^i\le n<(c+1)p^i$ with $1\le c<p$. As in theorem
+  \ref{th:x-1}
+  \begin{equation*}
+    C(n) \le C((c+1)p^i-1)) \le O\left((c+1)p^{i+2}i + (c+1)p^{i+2}\right) = 
+    O\left(cp^{i+2}i\right)
+    \text{.}
+  \end{equation*}
+  By observing that $cp^i\le n$ and that $i\le\log_pn$ we conclude
+  that $C(n) \le O(p^2n\log_pn)$.
+\end{proof}
+
+Before constructing the other levels of the tower, we will have to do
+some more theory.
+
+In what follows, $n$ is prime to $p$, $\Cyclo_n$ is the $n$-th
+cyclotomic polynomial and $\omega$ one of its root (thus a primitive
+$n$-th root of unity). It is well known (see \cite[Section 2.4]{LN})
+that $\deg(\Cyclo_n)$ has degree $\euler(n)$, and that its roots are
+the generators of the (multiplicative) cyclic group of the $n$-th
+roots of unity. It is also known that $\Cyclo_n$ factors over $\F_p$
+in $\euler(n)/d$ distinct factors of degree $d$, where $d$ is the
+least positive integer such that $p^d=1\bmod n$.
+
+It is less well known, yet fundamental, that $\F_p[X]/P(X)$, where $P$
+is any divisor (not necessary irreducible) of $\Cyclo_n$, is a
+\emph{polynomially cyclic $\F_p$-algebra} in the sense of Mih\u
+ailescu and Vuletescu \cite{MV}. This is an easy consequence of the
+factorisation of $\Cyclo_n$ and of \cite[Theorem 2.4]{MV}.
+
+Mih\u ailescu and Vuletescu show that for any polynomially cyclic
+$\K$-algebra $A=\K[X]/f(X)$, there is an automorphism $\nu$ such that
+for any root $\omega\in A$ of $f$,
+\[\nu(\omega),\nu^2(\omega),\ldots,\nu^{\deg(f)}(\omega)\]
+are all distinct roots of $f$. The cyclic group generated by $\nu$ has
+order $\deg(f)$ and is noted $\Gal(A/\K)$.
+
+\cite[Theorem 3.2]{MV} says that $\Fix(\Gal(A/\K)) = \K$, thus in
+order to show that an element of $A$ is in $\K$, one may show that it
+is fixed under the action of $\Gal(A/\K)$. This argument is easily
+extended to show that polynomials in $A[Y]$ are in $\K[Y]$.
+
+Going back to the case $A_{\Cyclo_n} = \F_p[X]/\Cyclo_n(X)$, if we
+note by $\mathcal{S}_{\Cyclo_n}$ the group of permutations of the
+roots of $\Cyclo_n$, then $\Gal(A_{\Cyclo_n}/\K)$ is the largest
+subgroup of $\mathcal{S}_{\Cyclo_n}$ that is compatible with the group
+structure of the $n$-th roots of unity. When $A = \F_p[X]/P(X)$ with
+$P$ a divisor of $\Cyclo_n$, \cite[Theorem 5.2]{MV} tells us that
+$\Gal(A/\K) = \Gal(A_{\Cyclo_n}/\K)/H$ where $H$ is the subgroup of
+$\Gal(A_{\Cyclo_n}/\K)$ letting the roots of $P$ stable. Such a group
+is isomorphic to the Galois group of $A/\K$ when $P$ is irreducible.
+
+Using these tools, we can easily show the following lemma
+
+\begin{lemma}
+  \label{lemma:poly-cyclic}
+  Let $P$ be a divisor of $\Cyclo_n$, let $A = \F_p[X]/P(X)$ and let
+  $\omega\in A$ be a root of $P$. Let $Q\in\F_p[Y]$ and define
+  \[Q'(Y) = \prod_{i=0}^{n-1}Q(\omega^iY)\text{.}\]
+  \begin{enumerate}
+  \item $Q'(Y)$ is in $\F_p[Y]$,
+  \item $Q'(Y) = q'(Y^n)$ for a polynomial $q'\in\F_p[Y]$.
+  \end{enumerate}
+\end{lemma}
+\begin{proof}
+  1. Let $\nu\in\Gal(A/\K)$. Since $\nu\in\mathcal{S}_{\Cyclo_n}$ and
+  since $\omega$ is a generator of the cyclic group of the $n$-th
+  roots of unity, $\nu(\omega) = \omega^j$ for a certain $j$ prime to
+  $n$. Then
+  \begin{equation*}
+    \nu(Q'(Y)) = \prod_{i=0}^{n-1}Q(\nu(\omega^i)Y) =
+    \prod_{i=0}^{n-1}Q(\omega^{ij}Y) = \prod_{i'=0}^{n-1}Q(\omega^{i'}Y) =
+    Q'(Y)\text{.}
+  \end{equation*}
+  Thus $Q'$ is stable under the action of $\Gal(A/\K)$ and we conclude
+  that it is in $\F_p[Y]$.
+
+  2. Observe the following identity
+  \begin{equation*}
+    Q'(\omega Y) = \prod_{i=0}^{n-1}Q(\omega^{i+1}Y) =
+    \prod_{i'=1}^{n}Q(\omega^{i'}Y) = Q'(Y) \text{.}
+  \end{equation*}
+  If $Q'(Y) = \sum a_jY^j$, the above equality tells that $a_j =
+  a_j\omega^j$ for all $j$, hence 
+  \[\omega^j = 1 \;\Leftrightarrow\; a_j \text{ is invertible.}\]
+  But $\omega$ is a primitive root of unity, then
+  \[\omega^j = 1 \;\Leftrightarrow\; n|j\]
+  which implies the thesis.
+\end{proof}
+
+Suppose now that we know $Q_i$, the minimal polynomial of $x_i$ over
+$\F_p$, and consider the following polynomials in $\F_p[Y]$
+\[q_i'(Y^{2p-1}) = Q_i'(Y) = \prod_{i=0}^{2p-2}Q_i(\omega^i Y)\text{,}\]
+where $\omega$ is a primitive $2p-1$-th root of unity in a
+polynomially cyclic algebra.
+
+$x_i$ is a root of $Q_i$, hence it is a root of $Q_i'$ too ; we deduce
+that $\gamma_i=x_i^{2p-1}$ is a root of $q_i'$. If we define
+\[Q_{i+1}(Y) = q_i'(Y^p-Y)\text{,}\]
+we see that $x_{i+1}$ is a root of $Q_{i+1}$. It is easy to see that
+$Q_{i+1}$ is a monic polynomial of degree $p^{i+1}d$, hence it is the
+minimal polynomial of $x_{i+1}$ over $\F_p$.
+
+\begin{theorem}
+  To compute $Q_{i+1}$ knowing $Q_i$ it takes $O\left(\Mult(p^{i+2}d)\log p
+  + p^{i+2}d\log_p(p^id)\right)$ $\F_p$-operations.
+\end{theorem}
+\begin{proof}
+  In order to compute the polynomial $q_i'$ we need to work in the
+  algebra $A=\F_p[X]/P(X)$ where $P$ is a divisor of
+  $\Cyclo_{2p-1}$. Our choice\footnote{It is evident that
+    $\euler(2p-1)$ is about the same number of bits as $p$, thus
+    arithmetics in $A$ may be slow for too large $p$'s. Factoring
+    $\Cyclo_{2p-1}$ usually yields polynomials with much less degree
+    and it would be interesting in general to compute modulo such
+    polynomials. The state of the art factoring techniques, though,
+    don't have a satisfactory asymptotic complexity, this is why we
+    don't try to factor the cyclotomic polynomial. From a practical
+    point of view, the computation of $P$ has to be done once for all
+    for the whole tower, while arithmetics in $A$ have to be performed
+    at each time we add up a level to it. It may be interesting, then,
+    to use a quick probabilistic factoring method to reduce the degree
+    of $P$ at the beginning of the computation. Since the choice of
+    $P$ only depends on the characteristic, such polynomials may even
+    be stored in a file for small $p$'s.} is to pick
+  $P=\Cyclo_{2p-1}$. Using the algorithm in \cite{}, it takes
+  $O(\Mult(p)\log p)$ operations to compute $\Cyclo_{2p-1}$ and this
+  can be done once for all for any tower in characteristic $p$.
+  
+  Once we know $\Cyclo_{2p-1}$, the multiplication of polynomials of
+  degree $n$ in $A[Y]$ can be performed in $\Mult(n\euler(2p-1)) =
+  O(\Mult(np))$ $\F_p$-operations by Kronecker substitution. The
+  overall cost of computing $Q_i'$ is then $O(\Mult(p^{i+2}d)\log p)$
+  using a subproduct tree approach. To compute $Q_{i+1}$ we then use
+  algorithm \alg{Compose\_X$^p$-X} which takes $O(p^{i+2}d\log_p(p^id))$
+  operations.
+\end{proof}
+
+\subsection{Arithmetics}
+Now that we are able to represent the elements of $\U_i$ as
+polynomials in $\F_p[X_i]$ modulo $Q_i$, we can perform all the
+standard operations such as addition, multiplication, powering, traces
+and polynomial arithmetics using the classical algorithms sketched in
+Section \ref{sec:arithmetics}.
+
+Level embedding, iterated Frobenius, pseudotraces and tower
+isomorphism need special treating and they are going to be the object
+of Sections \ref{sec:level-embedding}, \ref{sec:pseudotrace-frobenius} and
+\ref{sec:couveignes-algorithm} respectively.
+
+
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"british"
+% End:
+%
+% LocalWords:  Schreier Artin pseudotrace frobenius bivariate memoization monic
+% LocalWords:  Horner Horner's cyclotomic polynomially automorphisms
+% LocalWords:  automorphism
