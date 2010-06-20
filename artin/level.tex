@@ -1,692 +1,331 @@
-\section{Level embedding}
-\label{sec:level-embedding}
+\section{Level embedding}\label{sec:level-embedding}
 
-As stated in Section \ref{sec:arithmetics}, an element $v\wrt\U_i$ is
-represented as a minimal degree representative of its residue class in
-$\F_p[X_i]/Q_i(X_i)$. We also know that $\U_i$ can be seen as the
-extension $\U_{i-1}[X_i]/\AS{P}_{i-1}(X_i)$ with $\AS{P}_{i-1}$ as in
-Theorem \ref{th:cantor}. We then look for an algorithm, called
-\alg{Push-down}, that takes a $v\wrt\U_i$ as input and gives as output
-$v_0,\ldots,v_{p-1}\wrt\U_{i-1}$ such that
+
+We discuss here change-of-basis algorithms for the tower $(\U_0,
+\ldots, \U_k)$ of the previous section; these algorithms are needed
+for most further operations. We detail the main case where $P_i =
+X_i^p - X_i - X_{i-1}^{2p-1}$; the case $P_1= X_1^p - X_1 - X_0$ (and
+$P_2=X_2^2+X_2+X_1$ for $p=2$ and $d$ odd) is easier.
+
+By Theorem~\ref{th:cantor}, $\U_i$ equals $\F_p[X_{i-1},X_i]/I$, where
+the ideal $I$ admits the following Gr{\"o}bner bases, for respectively
+the lexicographic orders $X_i>X_{i-1}$ and $X_{i-1}>X_i$:
+\begin{equation*}
+  \left |
+  \begin{array}{rl}
+    X_i^p - X_i - X_{i-1}^{2p-1} \\
+    Q_{i-1}(X_{i-1})         
+  \end{array}
+\right.
+  \quad \text{and}\quad
+  \left |
+  \begin{array}{rl}
+    X_{i-1} - R_i(X_i) \\
+    Q_i(X_i),
+  \end{array}
+\right.
+\end{equation*}
+with $R_i$ in $\F_p[X_i]$. Since $\deg(Q_{i-1})=p^{i-1}d$ and
+$\deg(Q_{i})=p^id$, we associate the following $\F_p$-bases of $\U_i$
+to each system:
+\begin{eqnarray}
+{\bf D}_i&   =   &(x_i^j,\,x_{i-1}x_i^j,\,\ldots,\,x_{i-1}^{p^{i-1}d-1}x_i^j)_{0 \le j < p},\notag\\[-1mm]
+\bC_i&   =   &(1,\,x_i,\,\ldots,\,x_i^{p^id-1}).  \label{eq:bases}
+\end{eqnarray}
+We describe an algorithm called \alg{Push-down} which takes $v$
+written on the basis $\bC_i$ and returns its coordinates on the basis
+${\bf D}_i$; we also describe the inverse operation, called \alg{Lift-up}. 
+In other words, \alg{Push-down} inputs $v\wrt\U_i$ and outputs the
+representation of $v$ as
 \begin{equation}
-  \tag{\ref{eq:vectorspace}}
-  v = v_0 + x_iv_1 + \cdots + x_i^{p-1}v_{p-1} \text{,}
+  \label{eq:vectorspace}
+  v = v_0 + v_1x_i + \cdots + v_{p-1}x_i^{p-1}, \quad\text{with all~} v_j \wrt \U_{i-1}
 \end{equation}
+and \alg{Lift-up} does the opposite.
 
-We also are interested in its inverse algorithm, called
-\alg{Lift-up}. We will note respectively $\Push(i)$ and $\Lift(i)$ for
-the complexities of the two algorithms in terms of $\F_p$-operations.
-
-We will give the algorithms only for the case where $\AS{P}_{i-1} =
-X^p - X - x_{i-1}^{2p-1}$, the other cases being easier and
-straightforwardly derivable by this one. To ease the reading, since
-our algorithms work only on a bivariate system, we will rename
-variables and polynomials and we will set
-\begin{gather*}
-  Y=X_{i-1},\quad Z=X_i,\quad y=x_{i-1},\quad z=x_i \\
-  P=Q_{i-1},\quad Q=Q_i,\quad \biv{R}=\AS{P}_{i-1}
-  \text{.}
-\end{gather*}
-The structure of $\U_i/\U_{i-1}$ is thus described by the two
-equivalent systems of equations
-\begin{equation}
-  \left\{
-  \begin{aligned}
-    \biv{R}(Z,Y) &= Z^p - Z - Y^{2p-1} = 0\\
-    P(Y)         &= 0
-  \end{aligned}
-  \right.
-  %%
-  \qquad \leftrightarrow \qquad
-  %%
-  \left\{
-  \begin{aligned}
-    Q(Z)       &= 0\\
-    Y - \pi(Z) &= 0
-  \end{aligned}
-  \right.    
-  \;\text{.}
-\end{equation}
-Then one naturally associates an $\F_p$-basis to each system :
-\begin{equation}
-  \label{eq:bases}
-  \begin{aligned}
-    D &= (1,y,\ldots,y^{p^{i-1}d-1},z,zy,\ldots,z^{p-1}y^{p^{i-1}d-1})\text{,}\\
-    U &= (1,z,\ldots,z^{p^id-1})\text{.}
-  \end{aligned}
-\end{equation}
-So that \alg{Lift-up} just takes an element written over the basis $D$
-and returns its representation over the basis $U$, while
-\alg{Push-down} does the opposite.
-
-Some aspects of this problem have already been treated in \cite{PS06}
-for the more general case of extension rings. Our algorithms extend
-and improve the ones in \cite{PS06}.
-
-\subsection{Push-down}
-\label{sec:level-embedding:push-down}
-The \alg{Push-down} algorithm is really simple : given a polynomial in
-the variable $Z$ it simply reduces it modulo $\biv{R}(Z,Y)$ to obtain
-a bivariate polynomial $\biv{v}$ of degree at most $p$ in $Z$. In
-order to have a good complexity, it uses a divide and conquer
-strategy; the recursive algorithm doing this computation is called
-\alg{Push-down-$\infty$}.
-
-Then, each of the coefficients of $Z^i$ in $\biv{v}$ is reduced modulo
-$P(Y)$ to obtain $p$ elements of $\U_{i-1}$. This is the algorithm
-called \alg{Push-down}.
-
-\begin{figure}
-  \begin{algorithm}
-    {Push-down-$\infty$}
-    {$v(Z)\wrt\U_i$}
-    {$v_0(T),\ldots,v_{p-1}(T)\wrt\F_p[T]$ s.t. $\sum_{j=0}^{p-1}v_j(y)
-      z^j = v(z)$}
-  \item If $\deg_Z(v) < p$, let $\biv{v}(Z,T) = v(Z)$.
-  \item Else,
-    \begin{enumerate}
-    \item let $n$ s.t. $2^n < \deg_Z v \le 2^{n+1}$;
-    \item let $\;a^{(0)} = v \bmod Z^{2^n}\;$ and $\;a^{(1)} = v \div Z^{2^n}$;
-    \item \label{alg:push-down:rec1} compute
-      $a^{(0)}_0,\ldots,a^{(0)}_{p-1} = $
-      Push-down-$\infty$($a^{(0)}$);
-    \item \label{alg:push-down:rec2} compute
-      $a^{(1)}_0,\ldots,a^{(1)}_{p-1} = $
-      Push-down-$\infty$($a^{(1)}$);
-    \item \label{alg:push-down:rec3} compute $z_0,\ldots,z_{p-1} = $
-    Push-down-$\infty$($Z^{2^n}$);
-    \item let
-      \begin{enumerate}
-      \item $\biv{a}^{(0)}(Z,T) = \sum_{j=0}^{p-1}a^{(0)}_j(T)Z^j$,
-      \item $\biv{a}^{(1)}(Z,T) = \sum_{j=0}^{p-1}a^{(1)}_j(T)Z^j$,
-      \item $\biv{z}(Z,T) = \sum_{j=0}^{p-1}z_j(T)Z^j$;
-      \end{enumerate}
-    \item \label{alg:push-down:bivv} compute \[\biv{v}(Z,T) =
-      \biv{a}^{(0)}(Z,T) + (\biv{a}^{(1)}\biv{z})(Z,T) \bmod
-      \biv{R}(Z,T)\] by the following algorithm :
-      \begin{enumerate}
-      \item \label{alg:push-down:prod} compute $\biv{a}^{(1)}\biv{z}$
-      by polynomial multiplication ;
-      \item let $\;\biv{b}^{(0)} = \biv{a}^{(1)}\biv{z} \bmod Z^p\;$ and
-	$\;\biv{b}^{(1)} = \biv{a}^{(1)}\biv{z} \div Z^p$
-      \item \label{alg:push-down:sum} compute $\biv{v} =
-	\biv{a}^{(0)} + \biv{b}^{(0)} + \biv{b}^{(1)}T^{2p-1} +
-	\biv{b}^{(1)}Z$;
-      \end{enumerate}
-    \end{enumerate}
-  \item return $\coeff_Z(\biv{v},j)$ for $j=0,\ldots,p-1$;
-  \end{algorithm}
-\end{figure}
-
-\begin{figure}
-  \begin{algorithm}
-    {Push-down} {$v(Z)\wrt\U_i$} {$v_0(Y),\ldots,v_{p-1}(Y)\wrt\U_{i-1}$
-      s.t. $\sum_{j=0}^{p-1}v_j(y) z^j = v(z)$}
-  \item compute $v_0,\ldots,v_{p-1} = $ Push-down-$\infty$($v$);
-  \item \label{alg:push-down:reduction} return $v_j(Y) \bmod P(Y)$ for
-    $j = 0,\ldots,p-1$.
-  \end{algorithm}
-\end{figure}
-
-\begin{theorem}
-  The algorithm \alg{Push-down} is correct.
+Hereafter, we let $\L:\N-\{0\} \to \N$ be such that both
+\alg{Push-down} and \alg{Lift-up} can be performed in time $\L(i)$; to
+simplify some expressions appearing later on, we add the mild
+constraints that $p\,\L(i) \le \L(i+1)$ and $p\,\Mult(p^{i}d)
+\in O(\L(i))$.
+To reflect the implementation's behavior, we also allow
+precomputations. These precomputations are performed when we build
+the tower; further details are at the end of this section.
+\begin{theorem}\label{theo:L}
+   One can take $\L(i)$ in $O( p^{i+1}d\log_p(p^id)^2 \ + \
+\,p\,\Mult(p^{i}d))$.
 \end{theorem}
-\begin{proof}
-  To prove the correctness of \alg{Push-down} we just need to show
-  that \alg{Push-down-$\infty$} correctly computes some
-  representatives of $v_0,\ldots,v_p$ in $\F_p[Y]/P(Y)$, then step
-  \algref{alg:push-down:reduction} of \alg{Push-down} insures us that
-  the minimal degree representatives of $v_0,\ldots,v_p$ are returned.
+Remark that the input and output have size $p^id$; using fast
+multiplication, the cost is linear in $p^{i+1}d$, up to logarithmic
+factors. The rest of this section is devoted to proving this
+theorem.  \alg{Push-down} is a divide-and-conquer process, adapted to
+the shape of our tower; \alg{Lift-up} uses classical ideas of trace
+computations (as in the algorithm \alg{FindParameterization} of
+Section~\ref{ssec:duality}); the values we need will be obtained using
+the transposed version of \alg{Push-down}.
 
-  Let then $v\wrt\U_i$, if $\deg_Z(v) < p$ then $v_j = \coeff_Z(v,j)$
-  for $j = 0,\ldots,p-1$, thus
-  \[\sum_{j=0}^{p-1}v_j(y)z^j = \sum_{j=0}^{p-1}\coeff_Z(v,j)z^j = v(z)
-  \text{.}\]
-  
-  Suppose now that $\deg_Z(v) \ge p$, by induction hypothesis
-  \begin{equation}
-    \label{eq:push-down:induction}
-    \begin{aligned}
-      \biv{a}^{(0)}(z, y) &= a^{(0)}(z) \text{,}\\
-      \biv{a}^{(1)}(z, y) &= a^{(1)}(z) \text{,}\\
-      \biv{z}(z, y)      &= z^{2^n} \text{.}
-    \end{aligned}
-  \end{equation}
-  Let's put 
-  \begin{equation}
-    \label{eq:push-down:nomod}
-    \biv{v}'(Z,T) = \biv{a}^{(0)}(Z,T) + (\biv{a}^{(1)}\biv{z})(Z,T)
-  \end{equation}
-  so that $\biv{v} = \biv{v}' \bmod \biv{R}$. Then, putting
-  \eqref{eq:push-down:induction} and \eqref{eq:push-down:nomod}
-  together, we have
-  \[\biv{v}'(z,y) = a^{(0)}(z) + z^{2^n}a^{(1)}(z) = v(z) \text{;}\]
-  but $\biv{R}(z,y) = 0$, hence 
-  \[\sum_{j=0}^{p-1}v_j(y)z^j = \sum_{j=0}^{p-1}\coeff_Z(\biv{v},j)(y)z^j =
-  \biv{v}(z,y) = \biv{v}'(z,y) = v(z) \text{.}\]
+As said before, the algorithms of this section (and of the following
+ones) use precomputed quantities. To keep the pseudo-code simple, we
+do not explicitly list them in the inputs of the algorithms;
+we show, later, that the precomputation is fast too.
 
-  To complete the proof, we just need to show that step
-  \algref{alg:push-down:bivv} correctly computes $\biv{v}$. This is
-  easily seen because $\deg_Z(\biv{a}^{(0)}) < p$ and
-  $\deg_Z(\biv{a}^{(1)}\biv{z}) < 2p-1$, then $\deg_Z(\biv{b}^{(0)}) <
-  p$ and $\deg_Z(\biv{b}^{(1)}) < p-1$, thus every member of the sum
-  at step \algref{alg:push-down:sum} has $\deg_Z$ less than $p$ and
-  it's easy to verify that the formula is correct because
-  \[\biv{b}^{(1)}(Z,T)Z^P = \biv{b}^{(1)}(Z,T)(Z + T^{2p-1}) \mod \biv{R}(Z,T) 
-  \text{.}\]
-\end{proof}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Now we want to estimate the complexity class of $\Push(i)$, the cost
-of applying \alg{Push-down} to an element $v\wrt\U_i$. For this we'll
-need a lemma first.
+\subsection{Modular multiplication}\label{ssec:mulmod}
+
+We first discuss a routine for multiplication by $X_i^{p^n}$
+in $\F_p[Y,X_i]/(X_i^p-X_i-Y)$, and its transpose. We start by
+remarking that $X_i^{p^n}=X_i+R_n \bmod X_i^p-X_i-Y$, with
+\begin{equation}
+  \label{eq:Kn}
+ \begin{array}{c}R_n = \sum_{j=0}^{n-1}
+  Y^{p^j}.
+\end{array}
+\end{equation}
+Then, precisely, for $k$ in $\N$, we are interested in the operation
+$\alg{MulMod}_{k,n}: A \mapsto (X_i+R_n)A \bmod X_i^p-X_i-Y$,
+with $A\in \F_p[Y,X_i]$, $\deg(A,Y) < k$ and $\deg(A,X_i) <p$.
+
+Since $R_n$ is sparse, it is advantageous to use the naive algorithm;
+besides, to make transposition easy, we explicitly give the matrix of
+$\alg{MulMod}_{k,n}$. Let $m_0$ be the $(k+p^{n-1})\times k$ matrix
+having $1$'s on the diagonal only, and for $\ell \le p^{n-1}$, let
+$m_\ell$ be the matrix obtained from $m_0$ by shifting the diagonal
+down by $\ell$ places. Let finally $m'$ be the sum $\Sigma_{j=0}^{n-1}
+m_{p^j}$. Then one verifies that the matrix of $\alg{MulMod}_{k,n}$
+is $$\left [
+\begin{matrix}
+m'  &     &        &        & m_1 \\
+m_0 & m'  &        &        & m_0 \\
+    & m_0 & m'     &        &     \\
+    &     & \ddots & \ddots &     \\
+    &     &        & m_0    & m'
+\end{matrix}
+\right ],$$ with columns indexed by 
+$(X_i^j,\dots,Y^{k-1}X_i^j)_{j < p}$ and rows by
+$(X_i^j,\dots,Y^{k+p^{n-1}-1}X_i^j)_{j < p}$.  Since this matrix
+has $O(pnk)$ non-zero entries,  we can compute both 
+$\alg{MulMod}_{k,n}$ and its dual $\dual{\alg{MulMod}_{k,n}}$ in time $O(pnk)$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Push-down}\label{sec:level-embedding:push-down}
+
+The input of \alg{Push-down} is $v \wrt \U_i$, that is, given on the
+basis $\bC_i$; we see it as a polynomial $V \in \F_p[X_i]$ of degree
+less than $p^id$. The output is the normal form of $V$ modulo
+$X_i^p-X_i-X_{i-1}^{2p-1}$ and $Q_{i-1}(X_{i-1})$. We first use a
+divide-and-conquer subroutine to reduce $V$ modulo
+$X_i^p-X_i-X_{i-1}^{2p-1}$; then, the result is reduced modulo
+$Q_{i-1}(X_{i-1})$ coefficient-wise.
+
+\smallskip
+
+To reduce $V$ modulo $X_i^p-X_i-X_{i-1}^{2p-1}$, we first compute $W=V \bmod
+X_i^p-X_i-Y$, then we replace $Y$ by $X_{i-1}^{2p-1}$ in~$W$.  Because our
+algorithm will be recursive, we let $\deg(V)$ be arbitrary; then, we
+have the following estimate for $W$.
 
 \begin{lemma}
-  \label{th:push-down-degree}
-  If $2^{n-1} < \deg_Z(v) \le 2^n$ then each of the output polynomials
-  of \alg{Push-down-$\infty$} has $\deg_T$ less than $2^{n+2} <
-  8\deg_Z(v)$.\footnote{la vraie borne est plutôt quelque chose du
-    type $(2-\frac{1}{p})\deg_Z(V)$, mais j'ai l'impression que cette
-    preuve est plus courte et claire.}
+  \label{th:push-down-degree} We have $\deg(W,Y)\le \deg(V)/p$.
 \end{lemma}
-\begin{proof}
-  If $\deg_Z(v) < p$, than each of the outputs has degree zero and the
-  thesis holds.
+\begin{proof} Consider the matrix $M$ of multiplication by $X_i^p$ modulo
+$X_i^p-X_i-Y$; it has entries in $\F_p[Y]$. Due to the
+sparseness of the modulus, one sees that $M$ has degree at most $1$,
+and so $M^k$ has coefficients of degree at most $k$. Thus, the
+remainders of $X_i^{pk},\dots,X_i^{pk+p-1}$ modulo $X_i^p-X_i-Y$
+have degree at most $k$ in $Y$. \end{proof}
 
-  Else, let $c=0$ if $p=2$ or $c = \lfloor\log_2p\rfloor$ elsewhere
-  and let $x=2p+1$. Let $D(n)$ be a bound on $\deg_T$ when $\deg_Z(v)
-  \le 2^n$, then obviously $D(c) = 0$.
+\smallskip 
 
-  When $n > c$, steps \algref{alg:push-down:rec1} through
-  \algref{alg:push-down:rec3} give polynomials with $\deg_T \le D(n-1)$,
-  step \algref{alg:push-down:prod} combines those polynomials to obtain
-  others with $\deg_T \le 2D(n-1)$ and finally step
-  \algref{alg:push-down:sum} multiplies part of these last ones by
-  $T^x$. The function $D(n)$ is thus seen to obey the following
-  recurrence :
-  \begin{equation*}
-    \begin{cases}
-      D(c) = 0\\
-      D(n) = 2D(n-1) + x &\text{if $n>c$}
-    \end{cases}
-  \end{equation*}
-  which is easily recognised as the sequence $D(n) = (2^{n-c}-1)x$.
+We compute $W$ by a recursive subroutine \alg{Push-down-rec}, similar
+to \alg{Compose}. As before, we let $c,n$ be such that $1\le c<p$ and
+$\deg(V) < (c+1)p^n$, so that we have
+$$V=V_0+ V_1X_i^{p^n}+\cdots+V_c X_i^{cp^n},$$ with all $V_j$ in
+$\F_p[X_i]$ of degree less than $p^n$. First, we recursively reduce
+$V_0,\dots,V_c$ modulo $X_i^p-X_i-Y$, to obtain bivariate
+polynomials $W_0,\dots,W_{c}$. Let $R_n$ be the polynomial defined in
+Equation~\eqref{eq:Kn}. Then, we get $W$ by computing
+$\Sigma_{j=0}^c W_j(X_i+R_n)^j$ modulo $X_i^p-X_i-Y$,
+using Horner's scheme as in \alg{Compose}. Multiplications by
+$X_i+R_n$ modulo $X_i^p-X_i-Y$ are done using \alg{MulMod}.
 
-  To conclude we just need to observe that
-  \begin{equation*}
-    (2^{n-c}-1)(2p-1) < \frac{2^{n+2}p}{2^{c+1}} =
-    \frac{2^{n+2}p}{2^{\lceil\log_2p\rceil}} \le 2^{n+2}\text{.}
-  \end{equation*}
-\end{proof}
+\begin{algorithm}
+  {Push-down-rec} {$V\in \F_p[X_i]$ and $c,n\in\N$.}{$W \in\F_p[Y,X_i]$.}
+\item if $n=0$ return $V$
+\item write $V=\sum_{j=0}^{c} V_j X_i^{jp^n}$, with $V_j \in \F_p[X_i], \deg V_j<p^n$
+\item for $j\in [0,\dots,c]$, let $W_j=\text{{\sf Push-down-rec}}(V_j,p-1,n-1)$
+\item $W=0$
+\item\label{pd:loop} for $j\in [c,\dots,0]$, let $W = \alg{MulMod}_{(c+1)p^{n-1},n}(W) + W_j$
+\item return $W$
+\end{algorithm}
+\begin{algorithm}
+  {Push-down}{$v\wrt \U_i$.}{ $v$ written as $v_0+\cdots+v_{p-1}x_i^{p-1}$ with $v_j \wrt \U_{i-1}$.}
+\item let $V$ be the canonical preimage of $v$ in $\F_p[X_i]$
+\item let $n=\lfloor \log_p(p^id-1) \rfloor$ and $c=(p^id-1){\sf~div~} p^n$
+\item let $W = \text{\alg{Push-down-rec}}(V,c,n)$
+\item let $Z = \text{Evaluate}(W,[X_{i-1}^{2p-1},X_i])$
+\item \label{step:pd:mod} let $Z = Z {\sf~mod~} Q_{i-1}$
+\item \label{step:pd:return} return the residue class of $Z$ mod $(X_i^p - X_i - X_{i-1}^{2p-1},Q_{i-1})$
+\end{algorithm}
 
-\begin{theorem}
-  Given an input $v\wrt\U_i$, the algorithm \alg{Push-down} computes
-  its output in $O\left(\Mult(p^{i+1}d)\log(p^id)\right)$ amortised
-  $\F_p$-operations.
-\end{theorem}
-\begin{proof}
-  If $\deg_Z(v) < p$, then the algorithm simply copies the
-  coefficients of $v(Z)$, so its cost is $O(p)$ $\F_p$-operations.
+\begin{proposition}\label{prop:pd}
+  Algorithm \alg{Push-down} is correct and takes time $O(p^{i+1}d
+  \log_p(p^id)^2 + p\,\Mult(p^id))$.
+\end{proposition}
+\begin{proof} Correctness is straightforward; note that at
+step~\ref{pd:loop} of \alg{Push-down-rec}, $\deg(W,Y) <
+(c+1)p^{n-1}$, so our call to $\alg{MulMod}_{(c+1)p^{n-1},n}$ is
+justified. By the claim of Subsection~\ref{ssec:mulmod} on the cost of
+$\alg{MulMod}$, the total time spent in that loop is $O(nc^2p^n)$. As
+in Theorem~\ref{theo:comp}, we deduce that the time spent in
+\alg{Push-down-rec} is $O(n^2c^2p^n)$.
 
-  Let $c=0$ if $p=2$ or $c = \lfloor\log_2p\rfloor$ elsewhere and let
-  $C(n)$ be a bound on the number of $\F_p$-operations needed to
-  execute \alg{Push-down-$\infty$} on $v\wrt\U_i$ when $\deg_Z(v)\le
-  2^n$. Then clearly $C(c) = O(p)$.
+In \alg{Push-down}, we have $cp^n< p^id$ and $n<\log_p (p^id)$, so the
+previous cost is seen to be $O(p^{i+1}d \log_p(p^id)^2)$. Reducing one
+coefficient of $Z$ modulo $Q_{i-1}$ takes time $O(\Mult(p^id))$, so
+step~\ref{step:pd:mod} has cost
+$O(p\,\Mult(p^id))$. Step~\ref{step:pd:return} is free, since at this
+stage $Z$ is already reduced. \end{proof}
 
-  If $n > c$, the three recursive calls \algref{alg:push-down:rec1}
-  through \algref{alg:push-down:rec3} contribute $3C(n-1)$ operations
-  to $C(n)$. We can reduce this cost by storing the values of
-  $z_0,\ldots,z_{p-1}$ once they're are computed; the contribution
-  then goes down to $2C(n-1)$ amortised operations.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  By lemma \ref{th:push-down-degree}
-  \begin{equation}
-    \label{eq:push-down:degT}
-    \deg_T(\biv{a}^{(0)}), \deg_T(\biv{a}^{(1)}), \deg_T(\biv{z}_j) < e2^{n-1}
-  \end{equation}
-  for some constant $e$, and by construction
-  \[\deg_Z(\biv{a}^{(0)}), \deg_Z(\biv{a}^{(1)}), \deg_Z(\biv{z}_j) < p\]
-  so that step \algref{alg:push-down:prod} costs
-  $O\left(\Mult(p2^{n-1})\right)$ operations by Kronecker substitution.
-  
-  By \eqref{eq:push-down:degT} we deduce
-  \[\deg_Z(\biv{b}^{(0)}), \deg_Z(\biv{b}^{(1)}) < e2^n \text{,}\]
-  step \algref{alg:push-down:sum} is then done by $p$ sums of
-  polynomials in $\F_p[T]$ of degree at most $e2^n+2p-1 < e2^n+2^{c+1}
-  \le (e+1)2^n$, for a total cost of $O(p2^n)$ $F_p$-operations.
+\subsection{Transposed push-down}
 
-  Putting things together, we have the following recurrence for
-  $C(n)$:
-  \begin{equation*}
-    \begin{cases}
-      C(c) = O(p)\\
-      C(n) = 2C(n-1) + O(\Mult(p2^n)) &\text{if $n>c$}
-    \end{cases}
-  \end{equation*}
-  from which we easily deduce
-  \[C(n) = O\left(p2^{n-c} +
-  \sum_{i=0}^{n-c-1} 2^i\Mult(p2^{n-i})\right)\text{,}\]
-  then, neglecting the term $p2^{n-c}$ and using two times definition
-  \ref{def:mult}, we conclude
-  \[C(n) = O\left(\sum_{i=0}^{n-c-1} \Mult(p2^n)\right) =
-  O\left((n-c)\Mult(p2^n)\right) \text{.}\]
+Before giving the details for \alg{Lift-up}, we discuss here the
+transpose of \alg{Push-down}.  \alg{Push-down} is the $\F_p$-linear
+change-of-basis from the basis $\bC_i$ to $\bD_i$, so its transpose
+takes an $\F_p$-linear form $\ell \in \dual{\U_i}$ given by its values
+on $\bD_i$, and outputs its values on $\bC_i$. The input is the
+(finite) generating series $L=\Sigma_{a < p^{i-1}d,\, b < p}\,
+\ell(x_{i-1}^ax_i^b)X_{i-1}^aX_i^b$; the output is $M=\Sigma_{a <
+  p^id}\, \ell(x_i^a)X_i^a$.
 
-  In general, if $v\wrt\U_i$ we know that $\deg_Z(v) < p^id$, so we
-  can set $n = \lceil\log_2p^id-1\rceil$ and we get the bound
-  $O\left(\Mult(p^{i+1}d)\log (p^id)\right)$ on the number of operations
-  in \alg{Push-down-$\infty$}.
+As in~\cite{BoLeSc03}, the transposed algorithm is obtained by
+reversing the initial algorithm step by step, and replacing
+subroutines by their transposes. The overall cost remains the same; we
+review here the main transformations.
 
-  Now, using again lemma \ref{th:push-down-degree}, we know that the
-  output of \alg{Push-down-$\infty$} has $\deg_T$ at most $e2^n =
-  O(p^id)$, so that step \algref{alg:push-down:reduction} of
-  \alg{Push-down} costs $O(p\Mult(p^id))$. We conclude that $P(i) =
-  O\left(\Mult(p^{i+1}d)\log (p^id)\right)$.
-\end{proof}
+In \alg{Push-down-rec}, the initial loop at step~\ref{pd:loop} is a
+Horner scheme; the transposed loop is run backward, and its core
+becomes $L_j=L\bmod Y^{n-1}$ and
+$L=\dual{\alg{MulMod}_{(c+1)p^{n-1},n}}(L)$; a small simplification
+yields the pseudo-code we give.  In \alg{Push-down}, after calling
+\alg{Push-down-rec}, we evaluate $W$ at $[X_{i-1}^{2p-1},X_i]$: the
+transposed operation $\dual{{\sf Evaluate}}$ maps the series
+$\Sigma_{a,b}\, \ell_{a,b} X_{i-1}^a X_i^b$ to $\Sigma_{a,b}\,
+\ell_{(2p-1)a,b}\, Y^a X_i^b$. Then, originally, we perform a
+Euclidean division by $Q_{i-1}$ on $Z$. The transposed algorithm
+$\dual{\sf mod}$ is in~\cite[Sect.~5.2]{BoLeSc03}: the transposed
+Euclidean division amounts to compute the values of a sequence
+linearly generated by the polynomial $Q_{i-1}$ from its first
+$p^{i-1}d$ values.
 
-\begin{remark}
-  The algorithm requires the memoization of the values of
-  \alg{Push-down-$\infty$($Z^{2^n}$)} for all the $n$ up to
-  $\lceil\log_2p^id - 1\rceil - 1$ for every $\U_i$, this requires to
-  store $O(p^id)$ elements of $\F_p$ for each level of the tower.
+\begin{algorithm}
+  {$\dual{\alg{\text{Push-down-rec}}}$}
+  {$L\in\F_p[Y,X_i]$ and $c,n\in\N$.}
+  {$M\in \F_p[X_i]$}
+\item If $n=0$ return $L$
+\item\label{pdt:loop} for $j\in [c,\dots,0]$,
+  \begin{itemize*}
+  \item let $L_j = L \bmod Y^{n-1}$
+  \item let $M_j=\dual{\text{\sf Push-down-rec}}(L_j,p-1,n-1)$
+  \item let $L = \dual{\alg{MulMod}_{(c+1)p^{n-1},n}}(L)$
+  \end{itemize*}
+\item return $\sum_{j=0}^{c} M_j X_i^{jp^n}$
+\end{algorithm}
+\begin{algorithm}
+  {$\dual{\alg{\text{Push-down}}}$} {$L\in \F_p[X_{i-1},X_i]$} {$M \in \F_p[X_i]$}
+\item let $n=\lfloor \log_p(p^id-1) \rfloor$ and $c=(p^id-1) {\sf~div~} p^n$
+\item let $P=\dual{{\sf mod}}(L,Q_{i-1})$
+\item let $M = \dual{\text{Evaluate}}(P,[X_{i-1}^{2p-1},X_i])$
+\item return $\dual{\text{\alg{Push-down-rec}}}(M,c,n)$
+\end{algorithm}
 
-  A first optimisation is to store the results of
-  \alg{Push-down($Z^{2^n}$)} instead, though this optimisation does
-  not change the asymptotic number of elements one has to store.
-
-  When $p=2$ all the memoization steps can be avoided thus yielding an
-  algorithm whose complexity is not amortised. This is done by
-  observing that
-  \[Z^{p^n} = Z + \sum_{j=0}^n T^{(2p-1)p^j} \mod \biv{R}(Z,T)\]
-  so that multiplication by $\biv{z}$ is done by $n$ polynomial
-  shifts, followed by $n-1$ polynomial sums; the complexity of this
-  computation stays the same as for the standard algorithm.
-\end{remark}
-
-\textbf{NB :} Il existe un algorithme qui, plutôt que couper en deux le
-polynôme $v$, le coupe en $p$ parties et procède sans mémoization comme
-notre variante pour $p=2$. Sa complexité devrait être plus ou moins la
-même, le seul point difficile étant le pas \algref{alg:push-down:bivv}
-qui demande de reduire un polynôme de degré $p^2$ modulo $\biv{R}$ et
-qui risque de nous faire terminer avec une complexité
-$O\left(\Mult(p^{i+2}di\log pd)\right)$ (je n'ai pas vérifié, mais
-j'ai vraiment l'impression que ce soit ça). Est-ce que ça vaut le
-coup d'en parler ?
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Lift-up}
 \label{sec:level-embedding:lift-up}
 
-Before giving an algorithm for the lift-up, we shall give some
-preliminaries first.
+Let $v$ be given on the basis $\bD_i$ and let $W$ be its canonical
+preimage in $\F_p[X_{i-1},X_i]$.  The lift-up algorithm finds $V$ in
+$\F_p[X_i]$ such that $W=V \bmod (X_i^p-X_i-X_{i-1}^{2p-1},Q_{i-1})$
+and outputs the residue class of $V$ modulo $Q_i$. Hereafter, we
+assume that both $Q_i'^{-1} \bmod Q_i$ and the values of the trace
+$\Tr_{\U_i/\F_p}$ on the basis $\bD_i$ are known.  The latter will be
+given under the form of the (finite) generating series
+$$\begin{array}{c}
+  S_i=\sum_{a < p^{i-1}d,\, b < p} \Tr_{\U_i/\F_p}(x_{i-1}^ax_i^b)X_{i-1}^a X_i^b,
+\end{array}
+$$ 
+see the discussion below.
 
-\subsubsection{Linear forms}
-Given a field $\K$ and a vector space $V$ over it, it is usual to
-define the dual space $\dual{V}$ made of all the linear functions (or
-linear forms) $V \rightarrow \K$. $\dual{V}$ is again a vector space
-over $\K$ and its dual space is $V$. When $V$ is finite dimensional,
-$\dual{V}$ has the same dimension, in fact, given any basis
-$e_1,\ldots,e_n$ for $V$, the basis $e^1,\ldots,e^n$ defined by
-\begin{equation*}
-  e^i(e_j) = \begin{cases}
-    1 &\text{if $i=j$,}\\
-    0 &\text{otherwise}
-  \end{cases}
-\end{equation*}
-is a basis for $\dual{V}$, called the \emph{dual basis} of
-$e_1,\ldots,e_n$. Many other properties of interest are verified when
-$V$ is a field and we're going to discuss them in the rest of this
-Section; the more general case where $V$ is a ring has been treated in
-\cite{PS06}.
-
-When a finite field $\K$ is seen as a vector space over $\F_p$, the
-\emph{trace} form plays a special role. It has been already introduced
-in Section \ref{sec:arithmetics}:
+Then, as in Subsection~\ref{ssec:duality}, we use trace formulas to
+write $v$ as a polynomial in $x_i$: we see $\U_i$ as a separable
+extension over $\F_p$ and we look for a parameterization
+$v=A(x_i)$. To do this, we compute the values of
+$L=v\cdot\Tr_{\U_i/\F_p}$ on the basis $\bD_i$ via transposed
+multiplication (see Subsection~\ref{ssec:duality}) and rewrite
+equations~\eqref{eq:MN} as
 \begin{equation}
-  \tag{\ref{eq:tracec0}}
-  \Tr_{\K/\F_p} \;:\; x \mapsto \sum_{l=0}^{[\K:\F_p]-1} x^{p^l}
-  \text{.}
+  \label{eq:MNliftup}
+  M = \sum_{j < p^id}L(x_i^j)X_i^j,\quad N = M\rev_{p^id}(Q_i) \bmod X_i^{p^id}.
 \end{equation}
+To compute the values of $M$ we could use~\cite[Th.~4]{Sho94} as we
+did in step~\ref{alg:para:trmodcomp} of \alg{FindParameterization}; it
+is however more efficient to use \alg{Push-down$^\ast$} as it was
+shown in the previous subsection. The rest of the computation goes as
+in steps~\ref{alg:para:multrunc} and~\ref{alg:para:mulmod} of
+\alg{FindParametrization}.
 
-Loosely speaking the trace of an element $a\in\K$ is the sum of its
-conjugates, eventually repeated a certain number of times if $a$ does
-not generate the whole field $\K$.
+\begin{algorithm}{Lift-up}
+  { $v$ written as $v_0+\cdots+v_{p-1}x_i^{p-1}$ with $v_j \wrt \U_{i-1}$.}{$v\wrt \U_i$.}
+\item let $W$ be the canonical preimage of $v$ in $\F_p[X_{i-1},X_i]$
+\item \label{alg:lift-up:transmul} let $L = \alg{TransposedMul}(W,\,S_i)$
+\item \label{alg:lift-up:pow} let $M=\dual{{\text{\sf Push-down}}}(L)$
+\item \label{alg:lift-up:mult} let $N = M \rev_{p^id}(Q_i) {\sf ~mod~} X_i^{p^id}$
+\item \label{alg:lift-up:mulmod} let $V=\rev_{p^id-1}(N) {Q_i'}^{-1} {\sf ~mod~} Q_i$
+\item \label{alg:lift-up:ret} return the residue class of $V$ modulo $Q_i$
+\end{algorithm}
 
-To make it more precise, we recall the definition of the frobenius map
-$\frob : x\mapsto x^p$, the trace can then be written as
-\[\Tr_{\K/\F_p}(a) = \sum_{i=0}^{[\K/\F_p]-1} \frob^i(a) \text{.}\]
-Let now be $z$ a generator of $\K$, then every element $a\in\K$ has a
-representation $a(z)$ as an element of $\F_p[z]$, thus we deduce by
-the linearity of $\frob$
-\[\frob^i(a) = a\left(\frob^i(z)\right)\text{.}\]
-The following lemma is then an easy consequence.
-
-\begin{lemma}
-  \label{th:trace}
-  Let $\K = \F_p(z)$, let $Q$ be the minimal polynomial of $z$ over
-  $\F_p$ and let $B$ be the set
-  \[B = \left\{\zeta \in\U_i \;\middle|\; Q(\zeta) = 0 \right\} \]
-  of all the conjugates of $z$. Then for every $a\in\K$
-  \[\Tr_{\K/\F_p}(a) = \sum_{\zeta\in B} a(\zeta)
-  \text{.}\]
-\end{lemma}
-
-In the context of finite fields, we can also define the \emph{dual} of
-the field multiplication. Given an element $b\in\K$, consider the
-application $M_b : \K\rightarrow\K$ given by $M_b(a) = ab$; it is a
-$\F_p$-linear application and its dual, noted $\dual{M_b} : \dual{\K}
-\rightarrow \dual{\K}$ acts over elements $\ell\in\dual{\K}$ in the
-following way
-\[\dual{M_b}(\ell)(a) = \ell\left(M_b(a)\right) = \ell(ab) \qquad\text{for every $a\in\K$.}\]
-
-\begin{definition}[Transposed mutliplication]
-  \label{def:transmul}
-  Let $\K$ be a finite field of characteristic $p$, let $\dual{\K}$ be
-  its dual space relatively to $\F_p$, let $b\in\K$ and
-  $\ell\in\dual{\K}$. The result of the transposed multiplication of
-  $\ell$ by $b$, noted $b\cdot\ell$, is the linear form defined by
-  \[(b\cdot\ell)(a) = \ell(ab) \qquad\text{for every $a\in\K$.}\]
-\end{definition}
-
-
-Now, let $b\in\K$, we define $\ell_b$ as the linear form
-\begin{equation}
-  \ell_b = b\cdot\Tr_{\K/\F_p} \text{,}
-\end{equation}
-then the following properties are easily verified.
-\begin{itemize}
-\item $\ell_0 = 0$
-\item $\ell_b \ne 0$ if $b\ne0$,
-\item $\ell_b + \ell_c = \ell_{b+c}$,
-\item $c \cdot \ell_b = \ell_{bc}$.
-\end{itemize}
-with $b,c\in\K$. Then a counting argument \cite[Theorem 2.24]{LN}
-shows that
-\begin{theorem}
-  \label{th:linearforms}
-  Let $\K$ be a finite field. For any linear form $\ell$ over $\K$
-  there exists a unique $b\in\K$ such that $\ell =
-  b\cdot\Tr_{\K/\F_p}$.
-\end{theorem}
-
-Finally, we can now give a lemma that will be at the heart of the
-lift-up algorithm.
-
-\begin{lemma}
-  \label{th:lift-up}
-  Let $b\in\K$ different from $0$ and let $\ell_b =
-  b\cdot\Tr_{\K/\F_p}$. Let $z$ be a generator of $\K$ over $\F_p$ and
-  $B$ the set of its conjugates. Then the following equality over
-  formal series holds:
-  \begin{equation*}
-    \sum_{j\ge0} \ell_b(z^j)T^j =
-    \frac{\sum_{\zeta\in B} b(\zeta)\prod_{\zeta'\ne\zeta}(1 - \zeta' T)}
-	 {\prod_{\zeta\in B} (1- \zeta T)}
-	 \text{.}
-  \end{equation*}
-\end{lemma}
-\begin{proof}
-  By the definition of $\ell_b$
-  \[\sum_{j\ge0} \ell_b(z^j)T^j = \sum_{j>0} \Tr_{\K/\F_p}(bz^j)T^j
-  \text{,}\]
-  which, by lemma \ref{th:trace}, is equal to
-  \[\sum_{j\ge0} \sum_{\zeta\in B} b(\zeta) \zeta^j T^j \text{.}\]
-  Inverting the sums we get
-  \[\sum_{\zeta \in B} \frac{b(\zeta)}{1- \zeta T} \]
-  and the thesis follows.
-\end{proof}
-
-
-\subsubsection{Transposition principle}
-TODO.
-
-\begin{theorem}[Transposition theorem]
-  \label{th:transposition}
-  
-\end{theorem}
-
-
-\subsubsection{Power projection}
-\label{sec:level-embedding:power-projection}
-The power projection problem was first introduced by V. Shoup in
-\cite{Sho94} and can be defined as follows.
-
-\begin{definition}[Power projection]
-  Let $\K$ be a field of characteristic $p$, and let $\dual{\K}$ be
-  its dual space relatively to $\F_p$. Let $a\in\K$ and
-  $\ell\in\dual{\K}$.
-  
-  The power projection problem consists in computing the values
-  \[\ell(a^0), \ell(a^1), \ldots, \ell(a^{n-1}) \in\F_p \text{,}\]
-  where $n=[\K:\F_p]$.
-\end{definition}
-
-Our goal is to apply lemma \ref{th:lift-up}, so we are interested in
-the following instance of the power projection problem:
-\begin{equation*}
-  \K = \U_i,\qquad a=z
-  \text{;}
-\end{equation*}
-hence our problem is to compute 
-\begin{equation}
-  \label{eq:power-projection}
-  \ell(1), \ell(z), \ell(z^2), \ldots, \ell(z^{p^id-1}) \in\F_p
-\end{equation}
-given an $\ell\in \dual{\K}$. It will be sufficient for our purpose to
-solve the power projection problem with $\ell$ represented over
-$\dual{D}$, the dual basis of
-\begin{equation}
-  D = (1,y,\ldots,y^{p^{i-1}d},z,zy,\ldots,z^{p-1}y^{p^{i-1}d}) \text{.}
-\end{equation}
-
-In \cite{Sho94} it is observed that the power projection is the
-transposed problem of the modular composition of polynomials, so that
-the values in \eqref{eq:power-projection} can be computed in
-$O(\ModComp(p^id))$ operations in $\F_p$. We can do much better,
-though, by observing that our instance is the transposed problem of
-the push-down.
-
-In fact, the push-down is an $\F_p$-linear application, more precisely
-it is the change of bases from $U$ to $D$ as in equation
-\eqref{eq:bases}, so it's matrix is given by
-\begin{equation*}
-  M = \left(\begin{array}{c|c|c|c}
-    %%
-    &&&\\
-    %%
-    \biv{z}_0 & \biv{z}_1 &
-    \;\cdots\; & \biv{z}_{p^id-1} \\
-    %%
-    &&&
-  \end{array}\right)
-\end{equation*}
-where $\biv{z_i}$ is the representation of $z^i$ on the basis $D$.
-
-It is then straightforward to verify the equality 
-\begin{equation*}
-  \trans{M}\trans{\biv{l}} = 
-  \begin{pmatrix}
-    \ell(z^0)\\ \ell(z^1)\\ \vdots\\ \ell(z^{p^id-1})
-  \end{pmatrix}
-\end{equation*}
-where $\biv{l}$ is the line vector representing $\ell$ on the basis
-$\dual{D}$.
-
-By theorem \ref{th:transposition} we conclude there is an algorithm,
-called \alg{Push-down$\trans{}$}, that, given a linear form $\ell$
-represented over $\dual{D}$, computes the vector
-\[\left(\ell(z^0), \ell(z^1), \ldots, \ell(z^{p^id-1})\right)\]
-using $O(P(i))$ operations in $\F_p$.
-
-\subsubsection{Polynomial operations}
-
-TODO : truncated power series ?
-
-\begin{definition}[Reverse]
-  \label{def:rev}
-  Let $P$ be a polynomial in the variable $T$ of degree at most $d$,
-  we define the reverse $P$ around the degree $d$ as
-  \[\rev_d(P)(T) = T^dP(1/T) \text{.}\]
-\end{definition}
-From an algorithmic point of view, a reverse is implemented by adding
-enough zeroes to the right of $P$ to make it of formal degree $d$,
-then reading its coefficients right to left. The total cost is thus
-$O(d)$ operations.
-
-\begin{proposition}
-  The following properties hold
-  \begin{enumerate}
-  \item $\rev_d(\rev_d(P)) = P$,
-  \item $\rev_d(P+Q) = \rev_d(P) + \rev_d(Q)$,
-  \item $\rev_{d_1+d_2}(PQ) = \rev_{d_1}(P)\rev_{d_2}(Q)$.
-  \end{enumerate}
+\begin{proposition}\label{prop:lu}
+ Algorithm \alg{Lift-up} is correct and takes time $O(p^{i+1}d\log_p(p^id)^2+p\,\Mult(p^{i}d))$.
 \end{proposition}
+\begin{proof} Correctness is clear by the discussion
+above. \alg{TransposedMul} implements the transposed multiplication;
+an algorithm of cost $O(\Mult(p^id))$ for this is
+in~\cite[Coro.~2]{PS06}.  The last subsection showed that
+step~\ref{alg:lift-up:pow} has the same cost as \alg{Push-down}. Then,
+the costs of steps~\ref{alg:lift-up:mult} and~\ref{alg:lift-up:mulmod}
+are $O(\Mult(p^id))$ and step~\ref{alg:lift-up:ret} is free since $V$
+is reduced.\end{proof}
 
 
-\subsubsection{The algorithm}
-We are now ready to give the algorithm for the lift-up.
+\smallskip
 
-Let $\ell\in\dual{\U_i}$ be any non null linear form represented over
-the basis $\dual{D}$ and let $b\in\U_i$ such that
-$\ell=b\cdot\Tr_{\U_i/\F_p}$. Suppose we have elements
-$v_0,\ldots,v_{p-1}\wrt\U_{i-1}$ that we want to lift-up, that is, we
-want to represent the element
-\[v = v_0 + v_1z + \ldots + v_{p-1}z^{p-1} \]
-over the basis $U$, while we can easily write down its representation
-over the basis $D$ simply by concatenating the representations of
-$v_0,\ldots,v_{p-1}$.
+Propositions~\ref{prop:pd} and~\ref{prop:lu} prove
+Theorem~\ref{theo:L}. The precomputations, that are done at the
+construction of $\U_i$, are as follows. First, we need the values of
+the trace on the basis ${\bf D}_i$; they are obtained in time $O(\Mult(p^id))$
+by~\cite[Prop.~8]{PS06}. Then, we need ${Q_i'}^{-1} \bmod Q_i$; this
+takes time $O(\Mult(p^id) \log(p^id))$ by fast extended GCD
+computation.  These precomputations save logarithmic factors at best,
+but are useful in practice.
 
-Set $\ell_v = v\cdot\ell = (bv)\cdot\Tr_{\U_i/\F_p}$, let $B$ be the
-set of all the conjugates of $z$, we can apply lemma \ref{th:lift-up}
-to obtain the two equalities over elements of $\F_p[[T]]$
-\begin{align}
-  P_1(T)& = \sum_{j>0}\ell(z^j)T^j =
-  \frac{\sum_{\zeta\in B}b(\zeta)\prod_{\zeta'\ne\zeta}(1-\zeta'T)}
-       {\prod_{\zeta\in B}(1-\zeta T)} \text{,}\\
-  P_v(T)& = \sum_{j>0}\ell_v(z^j)T^j =
-  \frac{\sum_{\zeta\in B}b(\zeta)v(\zeta)\prod_{\zeta'\ne\zeta}(1-\zeta'T)}
-       {\prod_{\zeta\in B}(1-\zeta T)} \text{.}
-\end{align}
-
-Now remark that the reverse of the denominator of $P_1(T)$ and $P_v(T)$ is
-the minimal polynomial of $z$, indeed
-\[\rev_{p^id}\left(\prod_{\zeta\in B}(1-\zeta T)\right) =
-\prod_{\zeta\in B}(T -\zeta) = Q(T)\text{.}\]
-We can then easily extract the two numerators
-\begin{align}
-  N_1(T) &= P_1(T)\rev_{p^id}(Q)(T) =
-  \sum_{\zeta\in B}b(\zeta)\prod_{\zeta'\ne\zeta}(1-\zeta'T) \text{,}\\
-  N_v(T) &= P_v(T)\rev_{p^id}(Q)(T) =
-  \sum_{\zeta\in B}b(\zeta)v(\zeta)\prod_{\zeta'\ne\zeta}(1-\zeta'T)
-  \text{,}
-\end{align}
-and reverse them in order to obtain
-\begin{align}
-  V_1(T) = \rev_{p^id-1}(N_1)(T) &=
-  \sum_{\zeta\in B}b(\zeta)\prod_{\zeta'\ne\zeta}(T-\zeta') \text{,}\\
-  V_v(T) = \rev_{p^id-1}(N_v)(T) &=
-  \sum_{\zeta\in B}b(\zeta)v(\zeta)\prod_{\zeta'\ne\zeta}(T-\zeta')
-  \text{.}
-\end{align}
-
-We can now go back to elements in $\F_p[Z]/Q(Z)$ and claim that
-\begin{equation}
-  v(Z) = \frac{V_v(Z)}{V_1(Z)} \mod Q(Z) \text{,}
-\end{equation}
-in fact
-\begin{equation*}
-  \frac{V_v(z)}{V_1(z)} =
-  \frac{b(z)v(z)\prod_{\zeta'\ne z}(z-\zeta')}{b(z)\prod_{\zeta'\ne z}(z-\zeta')}
-  = v(z) \text{.}
-\end{equation*}
-
-This discussion, together with the properties of truncated power
-series show the following theorem.
-
-\begin{theorem}
-  The algorithm \alg{Lift-up} given below is correct.
-\end{theorem}
-
-\begin{figure}
-  \begin{algorithm}{Pre-Lift-up}
-    {$\ell\in\dual{\U_i}$ written over the basis $\dual{D}$.}
-    {$1/V_1(Z) \bmod Q(Z)$.}
-  \item \label{alg:pre-lift-up:pow} compute
-    $\ell(z^0),\ldots,\ell(z^{p^id-1}) =$ Push-down$\trans{}(\ell)$,
-  \item set $P_1(T) = \sum_{j=0}^{p^id-1}\ell(z^j)T^j$,
-  \item \label{alg:pre-lift-up:rev1} compute $Q_r = \rev_{p^id}(Q)$,
-  \item \label{alg:pre-lift-up:mult} compute $N_1(T) = P_1(T)Q_r(T)
-    \bmod T^{p^id}$,
-  \item \label{alg:pre-lift-up:rev2} compute $V_1 =
-    \rev_{p^id-1}(N_1)$,
-  \item \label{alg:pre-lift-up:inv} return $1 / V_1(Z) \bmod Q(Z)$.
-  \end{algorithm}
-\end{figure}
-
-\begin{figure}
-  \begin{algorithm}{Lift-up}
-    {$\ell\in\dual{\U_i}$ written over the basis $\dual{D}$,
-      $v_0,\ldots,v_{p-1}\wrt\U_{i-1}$.}
-    {$v\wrt\U_i$ s.t. $v_0z^0 + \cdots + v_{p-1}z^{p-1} = v$.}
-  \item \label{alg:lift-up:transmul} compute $\ell_v = v\cdot\ell$,
-  \item \label{alg:lift-up:pow} compute
-    $\ell_v(z^0),\ldots,\ell_v(z^{p^id-1}) =$ Push-down$\trans{}(\ell_v)$,
-  \item set $P_v(T) = \sum_{j=0}^{p^id-1}\ell_v(z^j)T^j$,
-  \item \label{alg:lift-up:rev1} compute $Q_r = \rev_{p^id}(Q)$,
-  \item \label{alg:lift-up:mult} compute $N_v(T) = P_v(T)Q_r(T)
-    \bmod T^{p^id}$,
-  \item \label{alg:lift-up:rev2} compute $V_v = \rev_{p^id-1}(N_v)$,
-  \item get $\hat{V}_1 =$ Pre-Lift-up$(\ell)$,
-  \item \label{alg:lift-up:mulmod} return $V_v(Z)\hat{V}_1(Z) \bmod Q(Z)$.
-  \end{algorithm}
-\end{figure}
-
-Now we can analyse the complexity of the algorithm. Step
-\ref{alg:pre-lift-up:pow} of \alg{Pre-Lift-up} and step
-\ref{alg:lift-up:pow} of \alg{Lift-up} both cost
-\[O(\Push(i)) = O\left(\Mult(p^{i+1}d)\log(p^id)\right)\]
-as seen in Sections \ref{sec:level-embedding:power-projection} and
-\ref{sec:level-embedding:push-down}. Steps \ref{alg:pre-lift-up:rev1}
-and \ref{alg:pre-lift-up:rev2} of \alg{Pre-Lift-up} and steps
-\ref{alg:lift-up:rev1} and \ref{alg:lift-up:rev2} of \alg{Lift-up} all
-cost $O(p^id)$, while step \ref{alg:pre-lift-up:mult} of
-\alg{Pre-Lift-up} and steps \ref{alg:lift-up:mult} and
-\ref{alg:lift-up:mulmod} of \alg{Lift-up} cost $O(\Mult(p^id))$, so
-that the dominant cost is still $O(\Push(i))$.
-
-Step \ref{alg:pre-lift-up:inv} of \alg{Pre-Lift-up} is a modular
-inversion and can be done in
-\[\Inv(i) = O\left(\Mult(p^id)\log(p^id)\right) \]
-as seen in Section \ref{sec:arithmetics}. This is still less than
-$O(\Push(i))$ and we remark as well that the algorithm
-\alg{Pre-Lift-up} is always called on the same input $\ell$, so that
-its output can be stored once for all and its cost amortised over all
-the calls of \alg{Lift-up}.
-
-Finally, step \ref{alg:lift-up:transmul} of \alg{Lift-up} is a
-transposed multiplication in the basis $\dual{D}$. Theorem
-\ref{th:transposition} tells us that its computation can be done in
-the same time as a multiplication in the basis $D$ up to a constant
-factor, that is $O\left(\Mult(p^id)\right)$ using Kronecker
-substitution. A speed up of a constant factor may be achieved by
-choosing a suitable $\ell$.\footnote{For example, when $\ell$ is
-  chosen to be the residue form, the cost for this drops down to one
-  sum in $\U_{i-1}$ and $p$ transposed multiplications in the standard
-  basis of $\U_{i-1}$.... Faut-il le justifier ? Est-ce que c'est la
-  peine de montrer l'optimalité du résidu (si c'est bien
-  optimal... j'en suis pas sûr) ?}
-
-Putting things together, we have proven the theorem
-\begin{theorem}
-  Let $\ell\in\dual{\U_i}$ be fixed. Given an input
-  $v_0,\ldots,v_{p-1}\wrt\U_{i-1}$, the algorithm \alg{Lift-up}
-  computes its output in $O(\Push(i))$ amortised $\F_p$-operations.
-\end{theorem}
-
-
+%\eject 
 
 % Local Variables:
 % mode:flyspell
-% ispell-local-dictionary:"british"
+% ispell-local-dictionary:"american"
+% mode: TeX-PDF
+% mode: reftex
+% TeX-master: "../these"
 % End:
 %
 % LocalWords:  Schreier Artin pseudotrace frobenius bivariate memoization
+% LocalWords:  precomputations precomputation

@@ -1,88 +1,120 @@
 \section{Introduction}
-\label{sec:introduction}
-Artin-Schreier towers are important.
 
-\begin{definition}[Artin-Schreier polynomial]
-  \label{def:aspolynomial}
-  Let $\K$ be a field of characteristic $p$ and $\alpha\in\K$. The polynomial
-  \[X^p - X - \alpha\]
-  is called an Artin-Schreier polynomial.
-\end{definition}
+\paragraph*{\bf Definitions.} If $\U$ is a field of characteristic $p$,
+polynomials of the form $P=X^p - X - \alpha$, with $\alpha \in \U$,
+are called {\em Artin-Schreier polynomials}; a field extension
+$\U'/\U$ is {\em Artin-Schreier} if it is of the form $\U' = \U[X]/P$,
+with $P$ an Artin-Schreier polynomial.
 
-\begin{proposition}
-  \label{th:asfundamental}
-  Let $\F_q$ be a finite field of characteristic $p$, the polynomial
-  \[X^p - X - \alpha\]
-  is irreducible if and only if $\Tr_{\F_q/\F_p}(\alpha) \ne 0$. If
-  the polynomial has a root $\eta\in\F_q$, then it splits completely
-  over $\F_q$ and its roots are $\eta, \eta + 1, \ldots, \eta +
-  (p-1)$.
-\end{proposition}
-\begin{proof}
-  \cite[Theorem 2.25]{LN}.
-\end{proof}
+An {\em Artin-Schreier tower} of height $k$ is a sequence of
+Artin-Schreier extensions $\U_i / \U_{i-1}$, for $1\le i \le k$; it is
+denoted by $(\U_0, \ldots, \U_k)$. In what follows, we only consider
+extensions of finite degree over $\F_p$. Thus, $\U_i$ is of degree
+$p^i$ over $\U_0$, and of degree $p^id$ over $\F_p$, with
+$d=[\U_0:\F_p]$.
 
-\begin{definition}[Artin-Schreier extension]
-  \label{def:asextension}
-  Let $\K$ be a field and let $\AS{P}$ be an irreducible
-  Artin-Schreier polynomial. The field extension $\LK/\K$ where $\LK =
-  \K[X]/\AS{P}(X)$ is called an Artin-Schreier extension.
-\end{definition}
+The importance of this concept comes from the fact that all Galois
+extensions of degree $p$ are Artin-Schreier. As such, they arise
+frequently, e.g., in number theory (for instance, when computing
+$p^k$-torsion groups of Abelian varieties over $\F_p$). The need for
+fast arithmetics in these towers is motivated in particular by
+applications to isogeny computation and point-counting in cryptology,
+as in~\cite{Couveignes96}.
 
-We are interested in towers of Artin-Schreier extensions over the
-field $\U_0=\F_{p^d}$, with $p\ndiv d$. For $k$ a non-negative
-integer, an {\em Artin-Schreier tower} is a sequence of Artin-Schreier
-extensions $\U_i / \U_{i-1}$, for $1\le i \le k$; it is denoted by
-$(\U_0, \U_1, \ldots, \U_k)$. Remark that $\U_i$ is of degree $p^i$
-over $\U_0$, and thus of degree $dp^i$ over $\F_p$.
+\paragraph*{\bf Our contribution.} The purpose of this paper is to
+give fast algorithms for arithmetic operations in Artin-Schreier
+towers. Prior results for this task are due to Cantor~\cite{Can89} and
+Couveignes~\cite{Couveignes00}. However, the algorithms
+of~\cite{Couveignes00} need as a prerequisite a fast multiplication
+algorithm in some towers of a special kind, called ``Cantor towers''
+in~\cite{Couveignes00}. Such an algorithm is unfortunately not in the
+literature, making the results of~\cite{Couveignes00} non practical.
 
-We look for efficient algorithms for arithmetic operations in such a
-tower. To measure them, we use the notion of {\em multiplication
-  function}; we count all time complexities of our algorithms in
-number of operations in $\F_p$ and all space complexities in number of
-elements of $\F_p$.
+This paper fills the gap. Technically, our main algorithmic
+contribution is a fast change-of-basis algorithm; it makes it possible
+to obtain fast multiplication routines, and by extension completely
+explicit versions of all algorithms of~\cite{Couveignes00}. Along the
+way, we also extend constructions of Cantor to the case of a general
+finite base field $\U_0$, where Cantor had $\U_0=\F_p$.  We present
+our implementation, in a library called \texttt{FAAST}, based on
+Shoup's \texttt{NTL}~\cite{NTL}. As an application, we put to practice
+Couveignes' isogeny computation algorithm~\cite{Couveignes96} (or,
+more precisely, its refined version presented in~\cite{DeFeo10}).
 
-\begin{definition}[Multiplication function]
-  \label{def:mult}
-  A function $\Mult : \N \rightarrow \N$ is a multiplication function
-  if
-  \begin{itemize}
-  \item polynomials in $\F_p[X]$ of degree less than $n$ can be
-    multiplied in $\Mult(n)$ operations in $\F_p$;
-  \item $\Mult(n + n') \ge \Mult(n) + \Mult(n')$ holds for all $n,n'$.
-  \end{itemize}
-\end{definition}
-Typical orders of magnitude for $\Mult(n)$ are $O(n^{\log_2 3})$ for
-Karatsuba multiplication or $O(n\log n \log\log n)$ for FFT
-multiplication.
+\paragraph*{\bf Complexity notation.} We count time complexity
+in number of operations in $\F_p$. Then, notation being as before,
+optimal algorithms in $\U_k$ would have complexity $O(p^kd)$; most of
+our results are (up to logarithmic factors) of the form
+$O(p^{k+\alpha} d^{1+\beta})$, for small constants $\alpha,\beta$ such as
+$0,1,2$ or $3$.
 
-Using Newton iteration and the Cook-Sieveking-Kung algorithm, one can
-compute the quotient and remainder in the Euclidean division of two
-polynomials in $\F_p[X]$ of degree at most $n$ in $O(\Mult(n))$
-$\F_p$-operations. The extended GCD of two polynomials of degree at
-most $n$ can be computed in time $O(n^2)$ by a naive algorithm;
-half-GCD techniques yield algorithms of complexity $O(\Mult(n)\log
-n)$.
+Many algorithms below rely on fast multiplication; thus, we let $\Mult
+: \N \rightarrow \N$ be a {\em multiplication function}, such that
+polynomials in $\F_p[X]$ of degree less than $n$ can be multiplied in
+$\Mult(n)$ operations, under the conditions of~\cite[Ch.~8.3]{vzGG}.
+Typical orders of magnitude for $\Mult(n)$ are $O(n^{\log_2(3)})$ for
+Karatsuba multiplication or $O(n\log (n) \log\log (n))$ for FFT
+multiplication. Using fast multiplication, fast algorithms are
+available for Euclidean division or extended GCD~\cite[Ch.~9 \&
+11]{vzGG}.
 
-We let $\ModComp(m)$ be the cost of the modular composition of
-polynomials in $\F_p[X]$ of degree at most $m$: given $a,b,c$ in
-$\F_p[X]$ of degree at most $m$, this operation returns $a(b) \bmod
-c$.  A typical value for $\ModComp(m)$ is $O\left(\Mult(m)\sqrt{m} +
-  m^\frac{\omega+1}{2}\right)$, where $\omega$ is the exponent of
-linear algebra; this is the actual algorithm implemented in NTL.
-Umans-Kedlaya!!
+The cost of {\em modular composition}, that is, of computing $F(G)
+\bmod H$, for $F,G,H\in\F_p[X]$ of degrees at most $n$, will be
+written $\ModComp(n)$. We refer to~\cite[Ch.~12]{vzGG} for a
+presentation of known results in an algebraic computational model: the
+best known algorithms have subquadratic (but superlinear) cost in
+$n$. Note that in a boolean RAM model, the algorithm of~\cite{KeUm08}
+takes quasi-linear time.
 
-In all that follows, a multiplication function is fixed. Then, for
-most operations, we achieve algorithms with complexity
-$\tildO_{p,k,d}\left(\Mult(p^{k+a}k^{b}d^{c})\right)$ where $a,b,c$
-are some (small) integer constants. We use the soft-$O$ notation
-$\tildO_{x_1,\ldots,x_m}$ to ignore logarithmic factors in the
-variables $x_1,\ldots,x_m$; we omit the variables names when they are
-evident from the context.
+For several operations, different algorithms will be available, and
+their relative efficiencies can depend on the values of $p$, $d$ and
+$k$. In these situations, we always give details for the case where
+$p$ is small, since cases such as $p=2$ or $p=3$ are especially useful
+in practice. Some of our algorithms could be slightly
+improved, but we usually prefer giving the simpler solutions.
+
+\paragraph*{\bf Previous work.} As said above, this paper
+builds on former results of Cantor~\cite{Can89} and
+Couveignes~\cite{Couveignes00,Couveignes96}; to our knowledge, prior
+to this paper, no previous work provided the missing ingredients to
+put Couveignes' algorithms to practice. Part of Cantor's
+  results were independently discovered by Wang and Zhu~\cite{WaZh88}
+and have been extended in another direction (fast polynomial
+multiplication over arbitrary finite fields) by von zur Gathen and
+Gerhard~\cite{GaGe96} and Mateer~\cite{GaMa08}.
+
+This paper is an expanded version of the conference
+paper~\cite{DeSc09}. We provide a more thorough description of the
+properties of Cantor towers (Section~\ref{sec:fast-tower}),
+improvements to some algorithms (e.g. the Frobenius or pseudo-trace
+computations) and a more extensive experimental section.
+
+\paragraph*{\bf Organization of the paper.}
+Section~\ref{sec:arithmetics} consists in preliminaries: trace
+computations, duality, basics on Artin-Schreier extensions. In
+Section~\ref{sec:fast-tower}, we define a specific Artin-Schreier
+tower, where arithmetic operations will be fast. Our key
+change-of-basis algorithm for this tower is in
+Section~\ref{sec:level-embedding}. In
+Sections~\ref{sec:pseudotrace-frobenius}
+and~\ref{sec:couveignes-algorithm}, we revisit Couveignes' algorithm
+for isomorphism between Artin-Schreier towers~\cite{Couveignes00} in
+our context, which yields fast arithmetics for {\em any}
+Artin-Schreier tower. Finally, Section~\ref{sec:benchmarks} presents
+our implementation of the \texttt{FAAST} library and gives
+experimental results obtained by applying our algorithms to
+Couveignes' isogeny algorithm~\cite{Couveignes96} for elliptic curves.
+
+
+
 
 % Local Variables:
 % mode:flyspell
-% ispell-local-dictionary:"british"
+% ispell-local-dictionary:"american"
+% mode: TeX-PDF
+% mode: reftex
+% TeX-master: "../these"
 % End:
 %
 % LocalWords:  Schreier Artin pseudotrace frobenius bivariate memoization
+% LocalWords:  isogeny Couveignes

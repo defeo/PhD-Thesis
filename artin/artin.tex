@@ -2,21 +2,42 @@
 \newcommand{\AS}[1]{\mathcal{#1}}  % la police des polynômes d'AS
 \newcommand{\biv}[1]{\mathfrak{#1}}  % la police des polynomes bivariés
 \newcommand{\vect}[1]{\vec{#1}}  % la police des vecteurs colonne
+\newcommand{\bs}{\mathbf{s}}  % s boldface
+\newcommand{\bC}{\mathbf{C}}  % C boldface
+\newcommand{\bB}{\mathbf{B}}  % B boldface
+\newcommand{\bD}{\mathbf{D}}  % D boldface
+\newcommand{\bP}{\mathbf{P}}  % D boldface
+
+\newcommand{\sC}{\mathsf{K}}  % K sans serif -- used to clash with ModComp
+\renewcommand{\L}{\mathsf{L}}  % L sans serif
 
 \part{Change of order in triangular sets}
 
+\chapter{Summary}
 \input{artin/introduction}
+
+\chapter{Standard techniques}
+\section{Gröbner bases}
+\section{Resultants}
+\section{The case of finite fields}
+
+
+\chapter{Trace formulae}
+\section{Rouiller's algorithm}
+\section{Shoup's algorithm}
+\section{Pascal-Schost algorithm}
+
+\chapter{The Artin-Schreier case}
 \input{artin/arithmetics}
 \input{artin/fasttower}
 \input{artin/building}
 \input{artin/level}
 \input{artin/tracefrob}
 \input{artin/couveignes}
-\input{artin/isomorphism}
-\input{artin/minimal}
-\input{artin/summary}
+%\input{artin/summary}
+
+\chapter{Experimental results}
 \input{artin/benchmarks}
-\input{artin/rab}
 
 
 % Local Variables:
@@ -24,4 +45,5 @@
 % ispell-local-dictionary:"american"
 % mode:TeX-PDF
 % mode:reftex
+% TeX-master: "../these"
 % End:

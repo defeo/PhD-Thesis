@@ -1,318 +1,301 @@
-\section{Couveignes' algorithm}
+\section{Arbitrary towers}
 \label{sec:couveignes-algorithm}
 
-Until now we have given efficient algorithms to perform arithmetics in
-a special Artin-Schreier tower defined by the sequence
-$(\gamma_0,\ldots,\gamma_{k-1})$ given in Section
-\ref{sec:fast-tower}. The goal of this section is to bring such fast
-algorithms to a generic Artin-Schreier tower $(\K_0,\ldots,\K_k)$
-defined by a sequence $(\alpha_0,\ldots,\alpha_{k-1})$. An usual
-technique is to compute an isomorphism $\sigma$ between the two towers
-and then use it to bring elements of $\K_i$ inside $\U_i$ so that fast
-arithmetics can be performed on them.
+Finally, we bring our previous algorithms to an arbitrary tower, using
+Couveignes' isomorphism algorithm~\cite{Couveignes00}. As in the
+previous section, we adapt this algorithm to our context, by adding
+suitable push-down and lift-up operations.
 
-We are going to suppose that $\K_0=\U_0=\F_p[X_0]/Q_0(X_0)$, so that
-$x_0$ is a generator of $\K_0$ over $\F_p$ and $\sigma(x_0) = x_0$,
-or, to say it otherwise, $\sigma\in\Gal(\K_k/\K_0)$.
+Let $Q_0$ be irreducible of degree $d$ in $\F_p[X_0]$, such that
+$\Tr_{\U_0/\F_p}(x_0)\ne0$, with as before
+$\U_0=\F_p[X_0]/Q_0$. We let $(G_i)_{0 \le i < k}$ and
+$(\U_0,\ldots,\U_k)$ be as in Section~\ref{sec:fast-tower}.
 
-Now, each level of $(\K_0,\ldots,\K_k)$ is defined as
-$\K_{i-1}[X_i']/(X_i^p - X_i - \alpha_{i-1})$. Call $x_i'$ the residue
-class of $X_i'$ in $\K_i$, then elements of $\K_i$ are defined as
-$\F_p$-linear combinations of $x_0,x_1',\ldots,x_k'$. As a
-consequence, it is sufficient to know the values $\sigma(x_i')$ in
-order to uniquely determine $\sigma$.
+We also consider another sequence $(G'_i)_{0 \le i < k}$, that defines
+another tower $(\U'_0,\ldots,\U'_k)$.  Since $(\U'_0,\ldots,\U'_k)$ is
+not necessarily primitive, we fall back to the multivariate basis of
+Subsection~\ref{ssec:rep}: we write elements of $\U'_i$ on the basis
+$\bB'_i=\{{x'_0}^{e_0} \cdots {x'_i}^{e_i}\}$, with $x_0=x'_0$, $0 \le
+e_0 < d$ and $0\le e_j < p$ for $1 \le j \le i$.
+%% We assume that all
+%% polynomials $G'_i$ satisfy $\deg(G'_i,X_0)< d$ and $\deg(G'_i,X_j)< p$
+%% for $j \le i$, so that writing $\gamma'_i$ on the basis $\bB'_i$
+%% requires no operation.
 
-Suppose that the values $\sigma(x_0), \sigma(x_1'), \ldots,
-\sigma(x_{i-1}')$ are known, then it is possible to compute the image
-by $\sigma$ of every element in $\K_{i-1}$. Since
-$\alpha_{i-1}\in\K_{i-1}$, we can compute
-$\sigma(\alpha_{i-1})\in\U_{i-1}$. Then, in order to know
-$\sigma(x_i')$ it suffices to factor the polynomial
-$X^p-X-\sigma(\alpha_{i-1})$ inside $\U_i$ and choose any of its roots
-as $\sigma(x_i')$.\footnote{Of course, any of the $p$ different roots
-  will give rise to a different, but equally valid, $\sigma$.}
+To compute in $\U'_i$, we will use an isomorphism $\U'_i \to \U_i$.
+Such an isomorphism is determined by the images
+$\bs_i=(s_0,\dots,s_i)$ of $(x'_0,\dots,x'_i)$, with $s_i \wrt \U_i$
+(we always take $s_0=x_0$). This isomorphism, denoted by
+$\sigma_{\bs_i}$, takes as input $v$ written on the basis $\bB'_i$ and
+outputs $\sigma_{\bs_i}(v)\wrt \U_i$.
 
-In general one could solve the (slightly more general\footnote{Observe
-  that when $\alpha\in\U_{i-1}$, necessarily $\Tr_{\U_i/\F_p}(\alpha)
-  = 0$.}) equation
-\begin{equation}
-  \label{eq:AS}
-  X^p-X=\alpha \qquad
-  \text{with $\alpha\in\U_i$, $\Tr_{\U_i/\F_p}(\alpha)=0$,}
-\end{equation}
-by using linear algebra. Indeed $X^p-X$ is an $\F_p$-linear
-application and one could compute the $p^id\times p^id$ matrix
-representing it and solve the linear system in
-$\left(p^id\right)^\omega$ $\F_p$-operations.
+To analyze costs, we use the functions $\L$ and $\Ptr$ introduced in
+the previous sections. We also let $2 \le \omega \le 3$ be a feasible
+exponent for linear algebra over $\F_p$~\cite[Ch.~12]{vzGG}.
+\begin{theorem}\label{theo:main}
+  Given $Q_0$ and $(G'_i)_{0 \le i < k}$, one can find
+  $\bs_k=(s_0,\dots,s_k)$ in time $O(d^\omega k + \Ptr(k) +
+  \Mult(p^{k+1} d) \log(p))$. Once they are known, one can apply
+  $\sigma_{\bs_k}$ and $\sigma_{\bs_k}^{-1}$ in time $O(k\, \L(k))$.
+\end{theorem}
+Thus, we can compute products, inverses, etc, in $\U'_k$ for
+the cost of the corresponding operation in $\U_k$, plus $O(k\,
+\L(k))$.
 
-The complexity of this approach is not satisfactory, though it is the
-best approach we know to factor $X^p-X-\alpha$ in $\U_0$. In
-\cite{Cou00}, Couveignes gives a better solution for the case
-$i\ge1$. The key observation is the following. Let $\delta\in\U_i$ be
-a solution of the equation, then
-\[\delta^p - \delta = \alpha\text{.}\]
-Applying the linear application $\PTr_{p^{i-1}d}$ on the left and
-right side of the equation yields
-\begin{equation*}
-  \PTr_{p^{i-1}d}(\delta^p-\delta) = \delta^{p^{p^{i-1}d}} - \delta =
-  \PTr_{p^{i-1}d}(\alpha)
-  \text{,}
-\end{equation*}
-where the first equality can be easily verified by calculation using
-the definition of the pseudotrace.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Consider now the equation
+\subsection{Solving Artin-Schreier equations} 
+
+As a preliminary, given $\alpha\wrt \U_i$, we discuss how to
+solve the Artin-Schreier equation $X^p-X=\alpha$ in $\U_i$. We assume
+that $\Tr_{\U_i/\F_p}(\alpha)=0$, so this equation has solutions in
+$\U_i$.
+
+Because $X^p-X$ is $\F_p$-linear, the equation can be directly solved
+by linear algebra, but this is too costly. In~\cite{Couveignes00},
+Couveignes gives a solution adapted to our setting, that reduces the
+problem to solving Artin-Schreier equations in $\U_0$. Given a solution
+$\delta\in\U_i$ of the equation $X^p - X = \alpha$, he observes that 
+any solution $\mu$ of
 \begin{equation}
   \label{eq:approximateAS}
-  X^{p^{p^{i-1}d}} - X = \PTr_{p^{i-1}d}(\alpha)
-  \text{.}
+  X^{p^{p^{i-1}d}} - X = \eta, \quad\text{with}\quad \eta=\PTr_{p^{i-1}d}(\alpha).
 \end{equation}
-Its solutions are not necessarily solutions to equation \eqref{eq:AS};
-but observe that the left hand side of \eqref{eq:approximateAS} is
-linear and annihilates $\U_{i-1}$, thus all the solutions are of the
-form $\delta - \Delta$ with $\Delta\in\U_{i-1}$.
-
-As a consequence, finding a solution $\delta'$ to
-\eqref{eq:approximateAS} gives us an approximate solution to
-\eqref{eq:AS} up to an (unknown) factor $\Delta\in\U_{i-1}$. Now to
-find out this remaining factor we observe that
-\begin{equation*}
-  (\delta' + \Delta)^p - (\delta'+\Delta) = \alpha
-  \text{,}
-\end{equation*}
-hence
-\begin{equation*}
-  \Delta^p - \Delta = \alpha - \delta'^p + \delta'
-  \text{.}
-\end{equation*}
-The remaining factor $\Delta$ is thus the solution to the
-Artin-Schreier equation
+is of the form $\mu=\delta - \Delta$ with $\Delta\in\U_{i-1}$, hence
+$\Delta$ is a \mbox{root of}
 \begin{equation}
   \label{eq:approximant}
-  X^p-X=\alpha-\delta'^p+\delta'
-  \text{.}
+  X^p-X-\alpha+\mu^p-\mu.
 \end{equation}
 This equation has solutions in $\U_{i-1}$ by hypothesis and hence it
-can be recursively solved by the same procedure.
+can be solved recursively. First, however, we tackle the problem of
+finding a solution of~\eqref{eq:approximateAS}.
 
-The idea of Couveignes' algorithm is then:
-\begin{itemize}
-\item find a solution $\delta'$ to equation \eqref{eq:approximateAS};
-\item recursively find a solution $\Delta$ to \eqref{eq:approximant};
-\item return $\delta+\Delta$.
-\end{itemize}
+For this purpose, observe that the left hand side
+of~\eqref{eq:approximateAS} is $\U_{i-1}$-linear and its matrix on the
+basis $(1,\ldots,x_i^{p-1})$ is
+\begin{equation*}
+  \label{eq:approximate-matrix}
+  \begin{bmatrix}
+    0 & \binom{1}{0}\beta_{i-1,p^{i-1}d} & \hdots & \binom{p-1}{0}\beta_{i-1,p^{i-1}d}^{p-1} \\
+      & \ddots          &        & \vdots               \\
+      &                 & 0      &\binom{p-1}{p-2}\beta_{i-1,p^{i-1}d} \\
+      &                 &        & 0
+  \end{bmatrix}
+\end{equation*}
+Then, algorithm \alg{ApproximateAS} finds the required solution.
 
-We first tackle the problem of finding a solution to equation
-\eqref{eq:approximateAS}. Observe that the left side of the equation
-is $\U_{i-1}$ linear, thus we can see the equation as a $p\times p$
-linear system over $\U_{i-1}$ and solve it by Gauss elimination. The
-algorithm \alg{AppoximateAS} accomplishes this task.
+
+
+%% We use an algorithm called \alg{Summation}; given $E$ in
+%% $\U_{i-1}[X]$ of degree less than $p-1$ and $\beta$ in $\F_p$, it
+%% returns the unique $D$ in $\U_{i-1}[X]$ of degree less than $p$ such
+%% that $D(X+\beta)-D(X)=E(X)$ and $D(0)=0.$ Rescaling by $\beta$, we
+%% can assume that $\beta=1$. Then, the algorithm converts to the falling
+%% factorial basis, sums and converts back~\cite[Ch.~21]{vzGG}, using
+%% $O(p^2)$ operations $(+,\times)$ in $\U_{i-1}$ (better solutions are
+%% known, but do not improve the overall runtime in Theorem~\ref{th:approximateAS}).
+
 
 \begin{algorithm}
-  {ApproximateAS}
-  {$\beta_0,\ldots,\beta_{p-2}\wrt\U_{i-1}$.}
-  {$\delta_1,\ldots,\delta_{p-1}\wrt\U_{i-1}$ s.~t. 
-    $\sum_j\frob^{p^{i-1}d}(\delta_jx_i^j) - \delta_jx_i^j =
-    \sum_j\beta_jx_i^j$.}
-\item \label{alg:approx:trace}Let $T =
-  \Tr_{\U_{i-1}/\F_p}(\gamma_{i-1})$;
-\item \label{alg:approx:for}for $j = p-1$ to $1$,
-  \begin{itemize}
-  \item compute $\delta_j = \frac{1}{jT}
-    \left(\beta_{j-1} - \sum_{h=j+1}^{p-1}\binom{h}{j-1}T^{h-j+1}\delta_h\right)$;
-  \end{itemize}
-\item return $\delta_1,\ldots,\delta_{p-1}$.
+  {ApproximateAS} 
+  {$\eta\wrt\U_i$ such that~\eqref{eq:approximateAS} has a solution.}
+  {$\mu\wrt\U_i$ solution of~\eqref{eq:approximateAS}.}
+\item let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\alg{Push-down}}(\eta)$
+\item \label{alg:AAS:loop}for $j\in[p-1,\ldots,1]$,\\ let $\mu_j =
+   \frac{1}{jT}\left(\eta_{j-1} -
+  \sum_{h=j+1}^{p-1}\binom{h}{j-1}\beta_{i-1,p^{i-1}d}^{h-j+1}\mu_h\right)$
+\item return $\text{\alg{Lift-up}}(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$
 \end{algorithm}
+
+%% \begin{algorithm}
+%%   {ApproximateAS} 
+%%   {$\eta\wrt\U_i$ such that~\eqref{eq:approximateAS} has a solution.}
+%%   {$\mu\wrt\U_i$ solution of~\eqref{eq:approximateAS}.}
+%% \item let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\alg{Push-down}}(\eta)$
+%% \item \label{alg:AAS:loop}for $j\in[p-1,\ldots,1]$,\\ let $\mu_j =
+%%    \frac{1}{jT}\left(\eta_{j-1} -
+%%   \sum_{h=j+1}^{p-1}\binom{h}{j-1}\beta_{i-1,p^{i-1}d}^{h-j+1}\mu_h\right)$
+%% \item return $\text{\alg{Lift-up}}(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$
+%% \end{algorithm}
 
 \begin{theorem}
   \label{th:approximateAS}
-  The algorithm \alg{ApproximateAS} is correct and computes its output
-  in $O(p^{i+1}d)$ $\F_p$-operations.
+  Algorithm \alg{ApproximateAS} is correct and takes time $O(\L(i))$.
 \end{theorem}
-\begin{proof}
-  Correctness comes from the matrix form of the application
-  $X^{p^{p^{i-1}d}}-X$. Consider the $\U_{i-1}$-basis
-  $x_i^0,x_i^1,\ldots,x_i^{p-1}$, then 
-  \begin{equation*}
-    (x_i^j)^{p^{p^{i-1}d}} - x_i^j = \frob^{p^{i-1}d}(x_i)^j - x_i^j =
-    \left(x_i - \Tr_{\U_{i-1}/\F_p}(\gamma_{i-1})\right)^j - x_i^j
-    \text{,}
-  \end{equation*}
-  where the last equality comes from equation \eqref{eq:frobeniuscomp}
-  and the fact that, since $\gamma_{i-1}\in\U_{i-1}$, the pseudotrace
-  is indeed a trace.
 
-  We set $T = \Tr_{\U_{i-1}/\F_p}(\gamma_{i-1})$, then it is easily
-  seen that the matrix corresponding to the application
-  $X^{p^{p^{i-1}d}}-X$ is
-  \begin{equation}
-    \label{eq:approximate-matrix}
-    \begin{pmatrix}
-      0 & T & \binom{2}{0}T^2 & \hdots &\binom{j+1}{0}T^{j+1} & \hdots & \binom{p-1}{0}T^{p-1} \\
-        & 0 & \binom{2}{1}T^{\phantom{2}}   & \hdots & \binom{j+1}{1}T^{j\phantom{+1}} & \hdots & \binom{p-1}{1}T^{p-2} \\
-        &   & \ddots          &        &\vdots&&  \vdots               \\
-        &   &                 &  0     & \binom{j+1}{j}T & \hdots & \binom{p-1}{j}T^{p-1-j}\\
-        &   &                 &        &    \ddots       &        & \vdots\\
-        &   &                 &        &                 &   0    &\binom{p-1}{p-2}T \\
-        &   &                 &        &&& 0
-    \end{pmatrix}
-    \begin{pmatrix}
-      \delta_0\\
-      \delta_1\\
-      \vdots\\
-      \delta_j\\
-      \vdots\\
-      \delta_{p-2}\\
-      \delta_{p-1}
-    \end{pmatrix}
-    =
-    \begin{pmatrix}
-      \beta_0\\
-      \beta_1\\
-      \vdots\\
-      \beta_j\\
-      \vdots\\
-      \beta_{p-2}\\
-      \beta_{p-1}
-    \end{pmatrix}
-  \end{equation}
-  where we also represented the unknown $\delta\in\U_i$ and the
-  constant term $\beta\in\U_i$ over the basis $1,x_i,\ldots,x_i^{p-1}$.
+\begin{proof} Correctness is clear from Gaussian elimination.  For the cost
+analysis, remark that $\beta_{i-1,p^{i-1}d}$ has already been
+precomputed to permit iterated Frobenius and pseudotrace
+computations. Step~\ref{alg:AAS:loop} takes $O(p^2)$ additions and
+scalar operations in $\U_{i-1}$; the overall cost is dominated by that
+of the push-down and lift-up by assumptions on $\L$. \end{proof}
 
-  From \eqref{eq:approximate-matrix} it is clear that, in order for
-  the system to have a solution, $\beta_{p-1}$ must be $0$. It is also
-  clear that $\delta_0$ doesn't play a role in the solution,
-  consistently with the discussion above, thus it is legitimate to
-  assume $\delta_0=0$. In synthesis, it is legitimate to ask only for
-  the values of $\beta_0,\ldots,\beta_{p-2}$ and to only return the
-  values $\delta_1,\ldots,\delta_{p-1}$.
+%% \begin{proof} Write $\mu=\Sigma_{j=0}^{p-1}\mu_j x_i^j$ and
+%% $\eta=\Sigma_{j=0}^{p-1}\eta_j x_i^j$, with $\mu_j$ and $\eta_j \wrt
+%% \U_{i-1}$. Since all $\mu_j$ are invariant by the $p^{i-1}d$-power of
+%% the Frobenius, we get from Equation~\eqref{eq:frobeniussum}
+%% \begin{equation*}
+%%     \begin{array}{c}
+%% {\mu}^{p^{p^{i-1}d}}=\sum_{j=0}^{p-1} \mu_j x_i^{jp^{p^{i-1}d}} = \sum_{j=0}^{p-1}  \mu_j(x_i +\beta_{i-1,p^{i-1}d}))^j,
+%%     \end{array}
+%% \end{equation*}
+%% where $\beta_{i-1,p^{i-1}d}$ is the trace of $\gamma_{i-1}$ over $\F_p$.
+%% Thus, $\mu$ is a solution of~\eqref{eq:approximateAS} if and only if
+%% the polynomials $D=\sum_{j=0}^{p-1} \mu_j X^j$ and $E=\sum_{j=0}^{p-1}
+%% \eta_j X^j$ satisfy $D(X+\beta_{i-1,p^{i-1}d}) - D(X) = E(X).$ Remark that
+%% $\eta_{p-1}$ must be $0$ and that $\mu_0$ plays no role in the
+%% solution, so we take $\mu_0=0$. For the cost analysis, remark that
+%% $\beta_{i-1,p^{i-1}d}$ has already been precomputed to permit iterated
+%% Frobenius and pseudotrace computations (see Section
+%% \ref{sec:pseudotrace-frobenius}). Then, the overall cost is dominated
+%% by that of the push-down and lift-up by assumptions on $\L$. \end{proof}
 
-  Again, from \eqref{eq:approximate-matrix} it is clear that
-  \[\beta_j = \sum_{h=j+1}^{p-1}\binom{h}{j}T^{h-j}\delta_h\text{,}\]
-  which justifies step \ref{alg:approx:for} and thus the whole
-  algorithm.
+\smallskip
 
-  For the complexity, remark that the trace required in step
-  \ref{alg:approx:trace}, as well as its powers up to $p-1$ have
-  already been precomputed to permit iterated frobenius and
-  pseudotrace computations (see
-  Section \ref{sec:pseudotrace-frobenius:precomputation}), thus they
-  cost no operation. Also observe that all these values are in $\F_p$.
-  
-  Now observe that step \ref{alg:approx:for} contains only
-  $\F_p$-scalar multiplications and sums of elements of $\U_{i-1}$,
-  plus some multiplications and inversions of elements of $\F_p$ that
-  can be neglected. The number of scalar multiplications and sums at
-  the $j$-th iteration is $p-1-j$ of each, and $j$ ranges from $1$ to
-  $p-1$ so that the total number of them is $O(p^2)$. The cost in
-  $\F_p$-operations of each sum or scalar multiplication is
-  $p^{i-1}d$, and the thesis follows.
-\end{proof}
+Writing the recursive algorithm is now straightforward. To solve
+Artin-Schreier equations in $\U_0$, we use a naive algorithm based on
+linear algebra, written $\alg{NaiveSolve}$.
 
-Solving equation \eqref{eq:AS} is now straightforward. The algorithm
-\alg{Couveignes2000} does the job.
 
 \begin{algorithm}
-  {Couveignes2000}
-  {$\alpha\wrt\U_i$ such that $\Tr_{\U_i/\F_p}(\alpha)=0$.}
-  {$x\wrt\U_i$ such that $x^p-x=\alpha$.}
-\item \label{alg:cou:base}If $i=0$, solve $X^p-X=\alpha$ by linear
-  algebra.
-\item Else,
-  \begin{enumerate}
-  \item \label{alg:cou:pseudo}compute $\beta = $ Big
-    Pseudotrace($\alpha$, $p^{i-1}d$);
-  \item \label{alg:cou:push-beta}compute $\beta_0,\ldots,\beta_{p-1}=$
-    Push-down($\beta$);
-  \item \label{alg:cou:approx}compute $\delta_1,\ldots,\delta_{p-1}=$
-    ApproximateAS($\beta_0,\ldots,\beta_{p-2}$);
-  \item \label{alg:cou:push-alpha} compute $\alpha_0, \ldots,
-    \alpha_{p-1} =$ Push-down($\alpha$);
-  \item \label{alg:cou:approximant}compute $\alpha' = \alpha_0 -
-    \sum_{j=1}^{p-1} \delta_j^p\gamma_{i-1}^j$;
-  \item \label{alg:cou:rec}compute $\Delta =$ Couveignes2000($\alpha'$);
-  \item \label{alg:cou:lift}compute and return Lift-up($\Delta$,
-    $\delta_1$, $\ldots$, $\delta_{p-1}$);
-  \end{enumerate}
+  {Artin-Schreier}
+  {$\alpha,i$ such that $\alpha\wrt\U_i$ and $\Tr_{\U_i/\F_p}(\alpha)=0$.}
+  {$\delta\wrt\U_i$ such that $\delta^p-\delta=\alpha$.}
+\item \label{alg:cou:base}if $i=0$, return $\alg{NaiveSolve}(X^p-X-\alpha)$
+\item \label{alg:cou:pseudo} let $\eta = \alg{Pseudotrace}(\alpha, i,i-1)$
+\item \label{alg:cou:push-beta} let $\mu= \alg{ApproximateAS}(\eta)$
+\item \label{alg:cou:push-alpha} let $\alpha_0=\text{\alg{Push-down}}(\alpha-\mu^p+\mu)$
+\item \label{alg:cou:rec} let $\Delta =\text{\alg{Artin-Schreier}}(\alpha_0,i-1)$
+\item \label{alg:cou:lift} return $\mu+\text{\alg{Lift-up}}(\Delta)$
 \end{algorithm}
 
-\sloppy
-\begin{theorem}
-  The algorithm \alg{Couveignes2000} is correct. It computes its
-  output in $O\left(d^\omega + \Ptr(i,p^{i-1}d)\right)$ $\F_p$-operations.
+
+\begin{theorem}\label{theo:AS}
+  Algorithm \alg{Artin-Schreier} is correct and takes time $O(d^\omega
+  + \Ptr(i))$.
 \end{theorem}
-\fussy
-\begin{proof}
-  A more detailed proof of correctness can be found in
-  \cite{Cou00}. On the other hand, we don't suggest comparing our
-  complexity estimate to the one in \cite{Cou00} since our techniques
-  are quite different. %%(and proven)
-  
-  Observe that $\Tr_{\U_i/\F_p}(\alpha)=0$ by hypothesis, which is
-  equivalent to $X^p-X=\alpha$ having a solution in $\U_i$. As a
-  consequence, $\beta_{p-1}=0$ in step \ref{alg:cou:push-beta} and it
-  can be discarded. Now, by theorem \ref{th:approximateAS},
-  $\delta=\sum_j\delta_jx_i^j$ is a solution of
-  $X^{p^{p^{i-1}d}}-X=\beta$. Then, as we said at the beginning of
-  this section, we look for a solution in $\U_{i-1}$ of
-  $X^p-X-\alpha'$, where $\alpha'=\alpha-\delta^p+\delta$, and we know
-  that such a solution exists, otherwise we would contradict the
-  hypothesis that $X^p-X-\alpha$ has a solution in $\U_i$.
+\begin{proof} Correctness follows from the previous discussion.  For the
+complexity, note ${\sf AS}(i)$ the cost for $\alpha\wrt\U_i$. The cost
+${\sf AS}(0)$ of the naive algorithm is $O(\Mult(d)\log(p) +
+d^\omega)$, where the first term is the cost of computing $x_0^p$ and
+the second one the cost of linear algebra.
 
-  To compute $\alpha'$ observe that, since $X^p-X-\alpha'$ has a
-  solution in $\U_{i-1}$, $\alpha'$ must be in $\U_{i-1}$. Then we can
-  ignore all the contributions to the coefficients of $x_i^h$ for
-  $h\ge1$ when computing $\alpha'$. Bearing this in mind, we have
-  \begin{equation*}
-    \delta^p = \sum_{j=1}^{p-1}\delta_j^px_i^{jp} =
-    \sum_{j=1}^{p-1}\delta_j^p(x_i + \gamma_{i-1})^j =
-    \sum_{j=1}^{p-1}\delta_j^p\gamma_{i-1}^j +
-    x_i\sum_{j=1}^{p-1}j\delta_j^p\gamma_{i-1}^{j-1} + \cdots
-    \text{,}
-  \end{equation*}
-  hence step \ref{alg:cou:approximant} correctly computes $\alpha'$.
+When $i\ge1$, step \ref{alg:cou:pseudo} has cost $\Ptr(i)$, steps
+\ref{alg:cou:push-beta}, \ref{alg:cou:push-alpha} and
+\ref{alg:cou:lift} all contribute $O(\L(i))$ and step
+\ref{alg:cou:rec} contributes ${\sf AS}(i-1)$. The most important
+contribution is at step \ref{alg:cou:pseudo}, hence ${\sf AS}(i) =
+{\sf AS}(i-1) + O(\Ptr(i))$. The assumptions on~$\L$ imply that the
+sum $\Ptr(1) + \cdots + \Ptr(i)$ is $O(\Ptr(i))$. \end{proof}
 
-  Now step \ref{alg:cou:rec} is correct by induction hypothesis and
-  step \ref{alg:cou:lift} computes $\delta+\Delta$, which we know to
-  be a solution of $X^p-X-\alpha$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  For the complexity, note $C(i)$ the number of operations needed to
-  compute the solution for an $\alpha\wrt\U_i$. Clearly $C(0)$ is the
-  cost of $\F_p$-linear algebra in $\U_0$, that is $d^\omega$.
+\subsection{Applying the isomorphism}
 
-  When $i\ge1$, step \ref{alg:cou:pseudo} contributes
-  $\Ptr(i,p^{i-1}d)$ operations, steps \ref{alg:cou:push-beta},
-  \ref{alg:cou:push-alpha} and \ref{alg:cou:lift} all contribute
-  $O(\Push(i))$, step \ref{alg:cou:approx} contributes $O(p^{i+1}d)$
-  by theorem \ref{th:approximateAS}, step \ref{alg:cou:approximant}
-  contributes $p-1$ powerings by $p$ of elements in $\U_{i-1}$, that
-  is $O(p\Mult(p^{i-1}d)\log p)$ plus $p-1$ multiplications of elements
-  of $\U_{i-1}$ and some sums that we can neglect. Finally step
-  \ref{alg:cou:rec} contributes $C(i-1)$ operations.
+We get back to the isomorphism question. We assume that
+$\bs_i=(s_0,\dots,s_i)$ is known and we give the cost of applying
+$\sigma_{\bs_i}$ and its inverse.  We first discuss the forward
+direction.
 
-  It is easily seen that the most important contribution is given by
-  step \ref{alg:cou:pseudo}, hence
-  \[C(i) = C(i-1) + O(\Ptr(i,p^{i-1}d))\text{.}\]
-  As a consequence
-  \begin{equation*}
-    C(i) = d^\omega + O\left(\sum_{j=1}^i\Ptr(j,p^{j-1}d)\right) =
-    O\left(d^\omega + \Ptr(i,p^{i-1}d)\right)
-    \text{,}
-  \end{equation*}
-  where the last equality comes from the fact that all the terms in
-  $\Ptr(j,p^{j-1}d)$ are of the form $p^jf(p,d,j)$ with $f$ a
-  monotonous function in $p$, $d$ and $j$, hence
-  \begin{equation*}
-    \sum_{j=0}^i p^jf(p,d,j) < f(p,d,i)\sum_{j=0}^ip^j \le f(p,d,i)p^i
-    \text{.}
-  \end{equation*}
-\end{proof}
+As input, $v \in \U'_i$ is written on the multivariate basis $\bB'_i$
+of $\U'_i$; the output is $t=\sigma_{\bs_i}(v) \wrt \U_i$. As before,
+the algorithm is recursive: we write $v=\Sigma_{j <p}
+v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$, whence
+$$\begin{array}{c}\sigma_{\bs_i}(v)\ =\ \sum_{j
+  <p} \sigma_{\bs_i}(v_j) s_i^j\ =\ \sum_{j
+  <p} \sigma_{\bs_{i-1}}(v_j) s_i^j
+\end{array}
+;$$ the sum is computed by Horner's scheme.
+To speed-up the computation, it is better to
+perform the latter step in a bivariate basis, that is, through a
+push-down and a lift-up.
 
 
+
+Given $t \wrt \U_i$, to compute $v=\sigma_{\bs_i}^{-1}(t)$, we run the
+previous algorithm backward. We first push-down $t$, obtaining $t=t_0
++ \cdots + t_{p-1}x_i^{p-1}$, with all $t_j \wrt \U_{i-1}$. Next, we
+rewrite this as $t=t'_0+\cdots + t'_{p-1}s_i^{p-1}$, with all $t'_j
+\wrt \U_{i-1}$, and it suffices to apply $\sigma_{\bs_i}^{-1}$ (or
+equivalently $\sigma_{\bs_{i-1}}^{-1}$) to all $t'_i$. The non-trivial
+part is the computation of the $t'_j$: this is done by applying the
+algorithm \alg{FindParameterization} mentioned in
+Subsection~\ref{ssec:duality}, in the extension $\U_i=
+\U_{i-1}[X_i]/P_i$.
+
+
+
+\begin{algorithm}
+  {ApplyIsomorphism} 
+  {$v,i$ with $v\in \U'_i$ written on the basis $\bB'_i$.}
+  {$\sigma_{\bs_i}(v) \wrt \U_i$.}
+\item if $i=0$ then return $v$
+\item write $v=\Sigma_{j <p} v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$
+\item let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$
+\item for $j \in [0,\dots,p-1]$ let $t_j=\alg{ApplyIsomorphism}(v_j,i-1)$
+\item let $t=0$
+\item  for $j \in [p-1,\dots,0]$ let $t=(s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})t+t_j$
+\item return $\text{\alg{Lift-up}}(t)$
+\end{algorithm}
+\begin{algorithm}
+  {ApplyInverse} 
+  {$t,i$ with $t \wrt \U_i$.}
+  {$\sigma_{\bs_i}^{-1}(t)\in \U'_i$ written on the basis $\bB'_i$.}
+\item if $i=0$ then return $t$
+\item let $t_0 + \cdots + t_{p-1}x_i^{p-1} = \text{\alg{Push-down}}(t)$
+\item let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$
+\item let $t'_0 + \cdots + t'_{p-1}X^{p-1} = \alg{FindParameterization}
+  (t_0 + \cdots + t_{p-1}x_i^{p-1}, s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})$
+\item return $\Sigma_{j < p} \alg{ApplyInverse}(t'_j, i-1) {x'_i}^j$
+\end{algorithm}
+
+
+\begin{proposition}\label{Prop:apply}
+  Algorithms \alg{ApplyIsomorphism} and  \alg{Ap\-plyInverse} are
+correct and both take time $O(i\L(i))$.
+\end{proposition}
+\begin{proof} In both cases, correctness is clear, since the algorithms
+translate the former discussion. As to complexity, in both cases, we
+do $p$ recursive calls, $O(1)$ push-downs and lift-ups, and a few
+extra operations: for \alg{ApplyIsomorphism}, these are $p$
+multiplications / additions in the bivariate basis ${\bf D}_i$ of
+Section~\ref{sec:level-embedding}; for \alg{ApplyInverse}, this is
+calling the algorithm \alg{FindParameterization} of
+Subsection~\ref{ssec:duality}.  The costs are $O(p\Mult(p^id))$ and
+$O(p^2\Mult(p^{i-1}d))$, which are in $O(\L(i))$ by assumption on
+$\L$. We conclude as in Theorem~\ref{th:b-ifrob}.\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Proof of Theorem~\ref{theo:main}}
+
+\noindent Finally, assuming that only $(s_0,\dots,s_{i-1})$ are known,
+we describe how to determine $s_i$. Several choices are possible: the
+only constraint is that $s_i$ should be a root of
+$X_i^p-X_i-\sigma_{\bs_i}(\gamma'_{i-1})=X_i^p-X_i-\sigma_{\bs_{i-1}}(\gamma'_{i-1})$ in $\U_i$. 
+
+Using Proposition~\ref{Prop:apply}, we can compute
+$\alpha=\sigma_{\bs_{i-1}}(\gamma'_{i-1}) \wrt\U_{i-1}$ in time
+$O((i-1)\L(i-1)) \subset O(i\L(i))$.  Applying a lift-up to $\alpha$,
+we are then in the conditions of Theorem~\ref{theo:AS}, so we can find
+$s_i$ for an extra $O(d^\omega + \Ptr(i))$ operations.
+
+We can then summarize the cost of all precomputations: to the cost of
+determining $\bs_i$, we add the costs related to the tower
+$(\U_0,\dots,\U_i)$, given in
+Sections~\ref{sec:fast-tower},~\ref{sec:level-embedding}
+and~\ref{sec:pseudotrace-frobenius}. After a few simplifications, we
+obtain the upper bound $O( d^\omega + \Ptr(i) + \Mult(p^{i+1} d)
+\log(p)).$ Summing over $i$ gives the first claim of the theorem. The
+second is a restatement of Proposition~\ref{Prop:apply}.
+
+%% ----AS-----   -----------------build------------------  ------level--------   -PT-
+%% d^3 + PT(i) + M(p^i+2 d) log(p) + p^i+2 d log_p(p^i d) + M(p^id) \log(p^id) + PT(i)
 
 % Local Variables:
 % mode:flyspell
-% ispell-local-dictionary:"british"
+% ispell-local-dictionary:"american"
 % End:
 %
 % LocalWords:  Schreier Artin pseudotrace frobenius bivariate memoization

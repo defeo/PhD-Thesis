@@ -10,6 +10,7 @@
 \usepackage{mdwlist}
 \usepackage{graphicx}
 \usepackage{mathrsfs}
+\usepackage{hyperref}
 \usepackage{url}
 \usepackage{color}
 \usepackage[all]{xypic}
@@ -142,8 +143,12 @@
 \begin{document}
 %\frontmatter
 \maketitle
+\tableofcontents
+\listoffigures
+\listoftables
 
 %\mainmatter
+\include{pre/pre}
 \include{trans/trans}
 \include{artin/artin}
 \include{isogeny/isogeny}
