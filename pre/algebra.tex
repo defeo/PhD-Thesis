@@ -1,0 +1,100 @@
+Here we recall the basic concepts from abstract algebra that
+constitute the background for all the chapters that follow. To the
+reader interested in reading more about these topics, we recommend
+\cite{lang} for general algebra, \cite{lidl+niederreiter:2} for finite
+fields and \cite{silverman:elliptic,silverman:advanced} for elliptic
+curves.
+
+\section{Groups, Ring, Fields}
+\label{sec:ring-fields}
+
+\subsection{Objects}
+\label{sec:ring-fields:objects}
+
+A \emph{\index{group}group} is a pair $(G,\cdot)$ such that $G$ is a
+set and $\cdot:G\times G\ra G$ is an \emph{internal composition law}
+satisfying:
+\begin{itemize}
+\item \emph{\index{associativity}Associativity}: $(a\cdot b)\cdot c =
+  a \cdot (b\cdot c)$ for any $a,b\in G$;
+\item There is an element $e\in G$, called the \emph{\index{identity
+      element}identity}, such that $a\cdot e = e\cdot a = a$ for any
+  $a\in G$;
+\item For any $a\in G$ there is an \emph{\index{inverse
+      element}inverse element} $b$ such that $a\cdot b = b\cdot a =
+  e$.
+\end{itemize}
+If $\cdot$ also satisfies \emph{\index{commutativity}commutativity}
+$a\cdot b=b\cdot a$, the group is said to be
+\emph{\index{group!abelian}abelian}. The group composed of one single
+element with the obvious law is called the
+\index{group!trivial}\emph{trivial group}.
+
+A \emph{\index{subgroup}subgroup} of a group $(G,\cdot)$ is a group
+$(H,\circ)$ such that $H\subset G$ and $\circ$ is the restriction of
+$\cdot$ to $H$. Any group has two trivial subgroups: the trivial group
+and itself.
+
+A \emph{\index{ring}ring} is a tuple $(R,+,\cdot)$ such that $(R,+)$
+is an abelian group and $\cdot:R\times R\ra R$ is an internal
+composition law satisfying associativity, existence of the identity
+and \emph{\index{distributivity}distributivity over $+$}
+\[a \cdot (b + c) = (a\cdot b) + (a\cdot c) \quad\text{for any
+  $a,b,c\in R$.}\] When $\cdot$ satisfies commutativity, the ring is
+said to be \emph{\index{ring!commutative}commutative}.  The law $+$ is
+called \emph{addition}, $\cdot$ is called \emph{multiplication}, the
+identity for $+$ is denoted by $0$ and the identity for $\cdot$ by
+$1$.  A commutative ring such that $1\ne 0$ and where $\cdot$ also
+satisfies the existence of the inverse, is called a
+\emph{\index{field}field}.
+
+The simplest example of ring is $\Z$, the set of integers; the
+rational numbers $\Q$ are an example of field, it is the ``smallest''
+field containing $\Z$ as a subring. The \emph{\index{ring!trivial}trivial
+  ring} is the ring composed of one unique element $r=0=1$ with the
+evident laws; note that by definition this is not a field.
+
+Subrings, ideals
+
+Modules, free modules, vector spaces
+
+Cosets, quotients
+
+\subsection{Arrows}
+\label{sec:ring-fields:arrows}
+
+Morphisms, kernels, isomorphism theorems, 
+
+\section{Linear algebra}
+\label{sec:linear-algebra}
+
+duality
+matrices, trace, determinant, resultant
+
+\section{Basic Galois theory}
+\label{sec:basic-galois-theory}
+Field extension, splitting field, Galois extensions, algebraic closure
+
+roots of unity, cyclotomic polynomials
+
+trace, norm
+
+Artin-Schreier
+
+finite fields
+
+
+\section{Elliptic curves}
+\label{sec:elliptic-curves}
+
+
+
+%%% Local Variables: 
+%%% mode:flyspell
+%%% ispell-local-dictionary:"american"
+%%% mode: TeX-PDF
+%%% mode: reftex
+%%% TeX-master: "../these"
+%%% End: 
+
+
