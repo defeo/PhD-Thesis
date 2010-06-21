@@ -11,54 +11,173 @@ curves.
 \subsection{Objects}
 \label{sec:ring-fields:objects}
 
-A \emph{\index{group}group} is a pair $(G,\cdot)$ such that $G$ is a
+A \index{group}\textbf{group} is a pair $(G,\cdot)$ such that $G$ is a
 set and $\cdot:G\times G\ra G$ is an \emph{internal composition law}
 satisfying:
 \begin{itemize}
-\item \emph{\index{associativity}Associativity}: $(a\cdot b)\cdot c =
-  a \cdot (b\cdot c)$ for any $a,b\in G$;
-\item There is an element $e\in G$, called the \emph{\index{identity
-      element}identity}, such that $a\cdot e = e\cdot a = a$ for any
-  $a\in G$;
-\item For any $a\in G$ there is an \emph{\index{inverse
-      element}inverse element} $b$ such that $a\cdot b = b\cdot a =
-  e$.
+\item \index{associativity}\textbf{Associativity}: $(a\cdot b)\cdot c
+  = a \cdot (b\cdot c)$ for any $a,b\in G$;
+\item There is an element $e\in G$, called the
+  \index{identity~element}\textbf{identity}, such that $a\cdot e =
+  e\cdot a = a$ for any $a\in G$;
+\item For any $a\in G$ there is an
+  \index{inverse~element}\textbf{inverse element} $a^{-1}$ such that
+  $a\cdot a^{-1} = a^{-1}\cdot a = e$.
 \end{itemize}
-If $\cdot$ also satisfies \emph{\index{commutativity}commutativity}
-$a\cdot b=b\cdot a$, the group is said to be
-\emph{\index{group!abelian}abelian}. The group composed of one single
-element with the obvious law is called the
-\index{group!trivial}\emph{trivial group}.
+If $\cdot$ also satisfies $a\cdot b=b\cdot a$
+(\index{commutativity}\textbf{commutativity}), the group is said to be
+\index{group!abelian}\textbf{abelian}. The group composed of one
+single element with the obvious law is called the
+\index{group!trivial}\textbf{trivial group}.
 
-A \emph{\index{subgroup}subgroup} of a group $(G,\cdot)$ is a group
+A \index{subgroup}\textbf{subgroup} of a group $(G,\cdot)$ is a group
 $(H,\circ)$ such that $H\subset G$ and $\circ$ is the restriction of
 $\cdot$ to $H$. Any group has two trivial subgroups: the trivial group
-and itself.
+and itself. The \index{opposite!group}
+\index{group!opposite~group}opposite group of a group $(G,\cdot)$,
+denoted by $G^\op$ is the group $(G,\circ)$ where $a\circ b=b\cdot a$
+for any $a,b\in G$.
 
-A \emph{\index{ring}ring} is a tuple $(R,+,\cdot)$ such that $(R,+)$
+Let $(G,\cdot)$ be a group, $H$ a subgroup and $g\in G$. The subset
+$gH = \{g\cdot h | h \in H \}$ of $G$ is called a
+\index{coset!left~coset}\textbf{left coset}, or simply
+\index{coset}coset. A \index{coset!right~coset}\textbf{right coset},
+denoted by $Hg$ is a left coset for the opposite group; when $G$ is
+commutative the two notions coincide. A subgroup $H$ is called
+\index{subgroup!normal}normal if $gH=Hg$ for any $g\in G$; note that
+if $G$ is abelian, any subgroup is normal.
+
+%todo
+
+A \index{ring}\textbf{ring} is a tuple $(R,+,\cdot)$ such that $(R,+)$
 is an abelian group and $\cdot:R\times R\ra R$ is an internal
 composition law satisfying associativity, existence of the identity
-and \emph{\index{distributivity}distributivity over $+$}
+and \index{distributivity}\textbf{distributivity} over $+$
 \[a \cdot (b + c) = (a\cdot b) + (a\cdot c) \quad\text{for any
   $a,b,c\in R$.}\] When $\cdot$ satisfies commutativity, the ring is
-said to be \emph{\index{ring!commutative}commutative}.  The law $+$ is
-called \emph{addition}, $\cdot$ is called \emph{multiplication}, the
-identity for $+$ is denoted by $0$ and the identity for $\cdot$ by
+said to be \index{ring!commutative}\textbf{commutative}.  The law $+$
+is called \emph{addition}, $\cdot$ is called \emph{multiplication},
+the identity for $+$ is denoted by $0$ and the identity for $\cdot$ by
 $1$.  A commutative ring such that $1\ne 0$ and where $\cdot$ also
 satisfies the existence of the inverse, is called a
-\emph{\index{field}field}.
+\index{field}\textbf{field}.
+
+A \index{subring}\textbf{subring} of a ring $(R,+,\cdot)$ is a ring
+$(S,\ast,\circ)$ such that $(S,\ast)$ is a subgroup of $(R,+)$ and
+$\circ$ is the restriction of $\cdot$ to $S$.  The
+\index{opposite!ring}\index{ring!opposite~ring}\textbf{opposite ring}
+of a ring $(R,+,\cdot)$, denoted by $R^\op$ is the ring $(R,+,\circ)$
+where $a\circ b=b\cdot a$ for any $a,b\in R$.
+
+The groups $R^+=(R,+)$ and $R^\ast=(R\diffset\{0\},\cdot)$ are called
+respectively the \index{subgroup!additive}\textbf{additive} and
+\index{multiplicative!subgroup}\textbf{multiplicative} group of
+$(R,+,\cdot)$.
 
 The simplest example of ring is $\Z$, the set of integers; the
-rational numbers $\Q$ are an example of field, it is the ``smallest''
-field containing $\Z$ as a subring. The \emph{\index{ring!trivial}trivial
-  ring} is the ring composed of one unique element $r=0=1$ with the
-evident laws; note that by definition this is not a field.
+rational numbers $\Q$ are an example of field, it is the
+\emph{smallest} field containing $\Z$ as a subring. The
+\index{ring!trivial}\textbf{trivial ring} is the ring composed of one
+unique element $r=0=1$ with the evident laws; note that by definition
+this is not a field.
 
-Subrings, ideals
+Given a ring $(R,+,\cdot)$ a \index{module!left~module}\textbf{left
+  module}, or simply \textbf{module}, over $R$ is a tuple $(M, \ast,
+\circ)$ such that $(M,\ast)$ is an abelian group and $\circ:R\times
+M\ra M$ is an \emph{external law} such that for any $r,r'\in R$ and
+$m,m'\in R$
+\begin{itemize}
+\item $(r + r')\circ m = (r \circ m) \ast (r'\circ m)$,
+\item $r\circ(m\ast m') = (r\circ m) + (r'\circ m)$,
+\item $r'\circ(r\circ m ) = (r'\cdot r)\circ m$,
+\item $1\circ m = m$.
+\end{itemize}
+The law $+$ is called \emph{addition}, its identity is denoted by $0$;
+the law $\circ$ is called
+\index{multiplication!scalar}\index{scalar~multiplication}\textbf{scalar}
+or
+\index{mutliplication!external}\index{external~multiplication}\textbf{external}
+multiplication.
 
-Modules, free modules, vector spaces
+A \index{module!right~module}\textbf{right module} is a left module
+for the opposite ring $R^\op$, a
+\index{module!two-sided}\textbf{two-sided module} also called
+\index{bimodule}\textbf{bimodule} is an object that is both a left and
+a right module. When $R$ is commutative, the three notions coincide
+and we simply speak of a \index{module}\textbf{module}.  $R$-module is
+another way of saying ``module over $R$''. When $\K$ is a field, a
+$\K$-module is called a \index{vector~space}\textbf{$\K$-vector
+  space}.
 
-Cosets, quotients
+A \index{module!submodule}\index{submodule!left~submodule}left
+(\index{submoudle!right~submodule}right,
+\index{submodule!two-sided}two-sided) \textbf{submodule} of a left
+(right, two-sided) $R$-module $(M,+,\cdot)$ is a left (right, two-sided)
+$R$-module $(N,\ast,\circ)$ such that $(N,\ast)$ is a subgroup of
+$(M,+)$ and $\circ$ is the restriction of $\cdot$ to $R\times N$.
+
+The module containing one unique element with the evident laws is
+called the \index{module!zero~module}\textbf{zero module}; any
+$R$-module contains a submodule that is isomorphic to the zero
+module. Any group $(G,+)$ can be given a $\Z$-module structure by the
+law
+\[n\cdot g = \underbrace{g + \cdots + g}_{n\text{ times}} \text{.}\]
+Any ring $R$ is trivially a two-sided module over itself; a
+\index{ideal!left~ideal} (\index{ideal!right~ideal}right,
+\index{ideal!two-sided}two-sided) \textbf{ideal} of a ring $R$ is a
+submodule of the left (right, two-sided) $R$-module $R$.  When $R$ is
+commutative one simply speaks of an \index{ideal}ideal.  
+
+Any ring contains at least two submodules: the zero module and itself;
+these are called the \index{ideal!trivial}\textbf{trivial ideals}. The
+only non-trivial ideals of $\Z$ are the $n\Z$ for any $n\ne0,1$. A
+field has no non-trivial ideals.
+
+The \index{direct~sum}\textbf{direct sum} $M\oplus N$ of two
+$R$-modules $(M,+_M,\cdot_M)$ and $(N,+_N,\cdot_N)$ is the module
+$(M\times N,+,\cdot)$ where the laws $+$ and $\cdot$ are defined
+component-wise. This generalizes to sums of an arbitrary number of
+modules: let $(M_i)_{i\in I}$ be a sequence of $R$-modules, the direct
+sum $\bigoplus_{i\in I}M_i$ is the $R$-module whose elements are the
+sequences $(m_1,m_2,\ldots)$ where $m_i\in M_i$ and $m_i=0$ for all
+but a finite number of them; the laws are defined component-wise.
+Although less commonly used, there also exists a notion of
+\index{direct~product}\textbf{direct product}: given $(M_i)_{i\in I}$,
+the direct product $\prod_{i\in I}M_i$ is the $R$-module whose
+elements are the sequences $(m_1,m_2,\ldots)$ where $m_i\in M_i$ with
+the laws defined component-wise. Clearly, the two definition coincide
+when $I$ is a finite set.
+
+When $R$ is seen as an $R$-module over itself, we denote by $R^n$ the
+direct sum $\bigoplus_{0<i\le n}R$ and by $R^\infty$ the direct sum
+$\bigoplus_{i>0}R$. An $R$-module that is isomorphic to the direct sum
+$\bigoplus_{I}R$ for some $I$ is called a
+\index{module!free}\textbf{free module}. A \index{basis}\textbf{basis}
+of a module $M$ is a family $(m_i)_{i\in I}$ of elements of $M$ such
+that any $m\in M$ can be written as 
+\begin{equation}
+  \label{eq:module-basis}
+  m = \sum_{i\in I} r_i\circ m_i
+  \quad\text{with $r_i\in R$}
+\end{equation}
+in an unique way. Clearly, if we note by $e_i$ the element of
+$\bigoplus_IR$ that has $1$ in the $i$-th position and $0$ elsewhere,
+the family $(e_i)_{i\in I}$ forms a basis; hence, any free module has
+a basis and, conversely, any module that has a basis is free. One
+important statement about bases of modules is the following.
+
+\begin{proposition}
+  Any two bases for a free module $M$ over a commutative ring $R$ have
+  the same cardinality.
+\end{proposition}
+
+For this reason, when $M$ is a free module over a commutative ring $R$
+we call \index{dimension} \index{module!free!dimension~of}
+\index{vector~space!dimension~of}\textbf{dimension} the cardinality of
+any of its bases. It is a well known result in linear algebra that any
+vector space has a basis, hence any $\K$-vector space is free as a
+$\K$-module.
+
 
 \subsection{Arrows}
 \label{sec:ring-fields:arrows}
