@@ -145,8 +145,8 @@ $(M,+)$ and $\circ$ is the restriction of $\cdot$ to $R\times N$.
 
 The module containing one unique element with the evident laws is
 called the \index{module!zero~module}\textbf{zero module}; any
-$R$-module contains a submodule that is isomorphic to the zero
-module. Any group $(G,+)$ can be given a $\Z$-module structure by the
+$R$-module contains a submodule that is isomorphic to the zero module.
+Any abelian group $(G,+)$ can be given a $\Z$-module structure by the
 law
 \[n\cdot g = \underbrace{g + \cdots + g}_{n\text{ times}} \text{.}\]
 Any ring $R$ is trivially a two-sided module over itself; a
@@ -213,11 +213,54 @@ also be given a ring structure by the law $(r+I)\cdot(r'+I)=(r\cdot
 r')+I$, it is then called the \index{quotient!of~ring}\textbf{quotient
   ring}.
 
+In what follows we will follow the common practice and abuse the
+notation in several ways:
+\begin{itemize}
+\item When different groups (rings, modules) are involved in a
+  statement, we will often use the same symbols for all the group
+  (ring, module) laws; the context will always make clear which group
+  law is involved.
+\item We will often use sentences like ``Let $G$ be a group (ring,
+  module)'' without explicitly giving the symbols for the laws: the
+  symbols $+$ and $\cdot$ are then implied. A
+  \index{additive~notation}
+  \index{group!noted~additively}\textbf{group noted additively} will
+  be a group whose law is denoted by $+$; a
+  \index{multiplicative~notation}
+  \index{group!noted~multiplicatively}\textbf{group noted
+    multiplicatively} will be a group whose law is denoted by $\cdot$.
+\item Recall that any abelian group is a $\Z$-module. For a $g\in G$,
+  the external multiplication by an element $n\in\Z$ will be written
+  $n\cdot g$ or $ng$ in additive notation, $g^n$ in multiplicative
+  notation.
+\item The operator $\cdot$ will always have higher precedence than
+  $+$, and it will often be omitted. Thus $ab+cd$ is just a compact
+  notation for $(a\cdot b) + (c\cdot b)$.
+\end{itemize}
+
 
 \subsection{Arrows}
 \label{sec:ring-fields:arrows}
 
-Morphisms, kernels, isomorphism theorems, 
+Given two groups $G$ and $G'$, a
+\index{morphism!of~groups}\textbf{morphism} from $G$ to $G'$,
+sometimes also called a
+\index{homomorphism|see{morphism}}\textbf{group homomorphism}, is a
+mapping $f:G\ra G'$ that \emph{commutes} with the group law and
+\emph{preserves} the identity, that is
+\begin{itemize}
+\item $f(a\cdot b) = f(a) \cdot f(b)$,
+\item $f(e) = e$.
+\end{itemize}
+
+A \index{morphism!of~rings}\textbf{morphism of rings} is a group
+morphism that commutes with multiplication and preserves $1$, a
+\index{morphism!of~modules}\textbf{morphism of modules} is a group
+morphism that commutes with the external multiplication.
+
+kernel, image, diagrams, isomorphism theorem, exact sequences.
+
+
 
 \section{Linear algebra}
 \label{sec:linear-algebra}
