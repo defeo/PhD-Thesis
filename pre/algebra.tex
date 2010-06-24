@@ -5,7 +5,7 @@ reader interested in reading more about these topics, we recommend
 fields and \cite{silverman:elliptic,silverman:advanced} for elliptic
 curves.
 
-\section{Groups, Rings, Fields}
+\section{Groups, Rings, Modules}
 \label{sec:ring-fields}
 
 \subsection{Objects}
@@ -258,12 +258,142 @@ morphism that commutes with multiplication and preserves $1$, a
 \index{morphism!of~modules}\textbf{morphism of modules} is a group
 morphism that commutes with the external multiplication.
 
-kernel, image, diagrams, isomorphism theorem, exact sequences.
+The \index{kernel}\textbf{kernel} of a group morphism $f:G\ra G'$,
+denoted by $\ker f$, is the subgroup of $G$ consisting of the elements
+such that $f(g)=e$. The kernel of a ring (module) morphism is the
+kernel of the underlying group morphism.
 
+The \index{image}\textbf{image} of a group morphism $f:G\ra G'$,
+denoted by $\im f$, is the subgroup of $G'$ consisting of the elements
+$g'$ such that $f(g)=g'$ for some $g\in G$. The image of a ring
+(module) morphism is the image of the underlying group morphism.
+
+The set of morphisms from $A$ to $B$ is noted $\hom(A,B)$. If $A$ and
+$B$ are (abelian) groups, then $\hom (A,B)$ is a (abelian) group by
+the law $(f\cdot g)(a) = f(a)\cdot g(a)$. Similarly, if $A$ and $B$
+are (commutative) rings, then $\hom(A,B)$ is a (commutative) ring. On
+the other hand, it is not necessarily the case that if $A$ and $B$ are
+$R$-modules, then $\hom(A,B)$ is an $R$-module; this is only true if
+$R$ is a commutative ring.
+
+A morphism $f:A\ra B$ is said to be
+\index{morphism!injective}\textbf{injective} is its kernel is the zero
+subgroup of $A$, \index{morhpism!surjective}\textbf{surjective} if its
+image is the whole $B$, \index{morphism!bijective}\textbf{bijective}
+if it is both. A bijective morphism is also called an
+\index{isomorphism}\textbf{isomorphism}, two groups (rings, modules)
+such that there is an isomorphism between them are said to be
+\index{isomorphic}\textbf{isomorphic}, if $A$ and $B$ are isomorphic
+we write $A\isom B$. A morphism $f:A\ra A$ is also called an
+\index{endomorphism}\textbf{endomorphism}, a bijective endomorphism is
+called an \index{automorphism}\textbf{automorphism}.
+
+\begin{proposition}
+  The kernel of a group morphism $f:A\ra B$ is a normal subgroup of
+  $A$ and the image is a subgroup of $B$.  If $f$ is a ring morphism,
+  $\ker f$ is an ideal and $\im f$ a subring. If $f$ is a module
+  morphism, $\ker f$ and $\im f$ are both submodules.
+  
+  In each of these cases $\im f$ is isomorphic to $A/\ker f$ as a
+  group/ring/module.
+\end{proposition}
+
+A convenient way of expressing properties of morphisms is to draw
+\index{diagram}\textbf{diagrams} where objects (groups, rings, etc.)
+are connected by arrows representing morphism. A diagram
+\[\xymatrix{A\ar[r]^f\ar[dr]_h & B \ar[d]^g\\&C}\]
+is said to be \index{diagram!commutative}\textbf{commutative} if
+$g\circ f = h$. In general, we call \index{sequence}\textbf{sequence}
+any sequence of consecutive arrows in a diagram. A diagram is
+commutative if, whenever two sequences
+\[\xymatrix{A\ar[r]^{f_1} & \cdots \ar[r]^{f_n} & B}\]
+and
+\[\xymatrix{A\ar[r]^{g_1} & \cdots \ar[r]^{g_n} & B}\]
+connect the same two objects, $f_1\circ\cdots\circ
+f_n=g_1\circ\cdots\circ g_m$.  A sequence
+\[\xymatrix{\cdots \ar[r] & A_{i-1}\ar[r]^{f_{i-1}} & A_i \ar[r]^{f_i}
+  & A_{i+1} \ar[r] & \cdots}\]
+is said to be \index{sequence!exact}
+\index{exact~sequence}\textbf{exact} if $\ker f_i = \im f_{i-1}$ for
+any $i$.
 
 
 \section{Linear algebra}
 \label{sec:linear-algebra}
+
+We apply concepts from classical linear algebra to free modules over
+rings; we assume that the reader is familiar with matrices and the
+related language. In this section $R$ will be a non necessarily
+commutative ring and module will mean $R$-module.
+
+\subsection{Matrices}
+\label{sec:linear-algebra:matrices}
+
+Consider the module $R^n$, if we represent elements of $R^n$ as row
+vectors, any morphism $f:R^n\ra R^m$ can be represented by an $n\times
+m$ matrix with entries in $R$, and the application of $f$ to $x\in
+R^n$ is vector-matrix product\footnote{Many textbooks prefer to
+  represent elements as column vectors and application as
+  matrix-vector product. We take a different convention in order to be
+  consistent with the fact that by ``module'' we mean ``left
+  module''.}. More generally, a morphism $f:M\ra N$ of free modules
+can be represented by a matrix whenever $M$ and $N$ have finite bases;
+however the matrix --and even its dimensions-- depend on the choice of
+the bases. When a morphism can be represented by a matrix, we
+sometimes call it \index{linear!operator}\textbf{linear operator} or
+\index{linear!map}\textbf{linear map}.
+
+As we already pointed out, $\hom(M,N)$ is an abelian group, but not a
+module. Thus sum of morphisms is well defined and coincides with the
+usual sum of matrices, but the scalar (left) product of a matrix by an
+element of $R$ does not coincide to any operation on morphisms.
+
+
+\subsection{Duality}
+\label{sec:linear-algebra:duality}
+
+Let $R$ be a ring and $M$ a module over it. Consider the space
+$\hom(M,R)$ of module homomorphism from $M$ to $R$, it has a natural
+structure of $R^\op$-module by the assignment
+\[(s^{\op}h)(r) = h(r)s \quad\text{for $r,s\in R, h\in\hom(M,R)$.}\]
+Furthermore, if $M=R^n$, any $h\in\hom(R^n,R)$ is totally determined
+by the images of the elements $e_i$ of the canonical basis, in fact
+\[f(m) = f\left(\sum_im_ie_i\right) = \sum_im_if(e_i) \quad\text{for
+  any $m\in R^n$.}\] This implies an $R^\op$-module isomorphism
+$\hom(R^n,R)\simeq (R^{\op})^n$. $\hom(M,R)$ is called the \emph{dual
+  space} of $M$ and is noted $\dual{M}$.
+
+Consider now two $R$-modules $M$, $N$. Any homomorphism $f:M\ra N$
+induces a map $\dual{f}:\dual{N}\ra\dual{M}$ by the assignment
+\[\dual{f}(h) = h\circ f \quad\text{for any $h\in\hom(N,R)$.}\]
+The map $\dual{f}$ is a homomorphism of $R^\op$-modules as it can be
+seen by
+\[\dual{f}(s^{\op}h)(r) = h(f(r))s = (s^{\op}(h\circ f))(r)
+\quad\text{for $r,s\in R,h\in\hom(N,R)$.}\] It is trivial to verify
+that $\dual{f}\circ\dual{g}=\dual{(g\circ f)}$ and this makes
+$\dual{()}$ into a contravariant functor from $R$ to
+$R^{\op}$. The functor $\dual{()}$ need not be full and
+faithful as in the vector space case, but it is if we restrict to free
+modules and the usual relationship $\dual{(\dual{M})}\simeq M$ holds
+(although the isomorphism is not natural).
+
+If, moreover, we restrict to the modules $R^n$ for finite $n$, the
+functor $\dual{()}$ becomes a \emph{duality} of categories. Then we
+can interpret everything in the simpler language of matrices, but care
+must be taken since left module homomorphisms will act as
+multiplication \emph{on the right}. We interpret elements of $R^n$ as
+row vectors and elements of $\dual{(R^n)}$ as column vectors; a
+mapping $f:R^m\ra R^n$ and its dual $\dual{f}$ both correspond to an
+$m\times n$ matrix with entries in $R$: multiplication on the left by
+a row vector corresponds to applying $f$ to an element of $R^m$,
+multiplication on the right corresponds to applying $\dual{f}$ to an
+element of $\dual{(R^n)}$. Multiplication of matrices corresponds to
+composition of homomorphisms. Our correspondence may seem odd as one
+is used to express linear applications as matrices that apply to
+column vectors on the right; if this convention is preferred, taking
+vectors and matrices with coefficients in $R^\op$ is equivalent to the
+usual convention.
+
 
 duality
 matrices, trace, determinant, resultant

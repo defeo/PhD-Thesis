@@ -732,47 +732,6 @@ Since we are in a non-commutative setting, we have to precisely define
 what we mean by ``transposition''. We start by recalling some well
 known facts.
 
-Let $R$ be a ring and $M$ a module over it. Consider the space
-$\hom(M,R)$ of module homomorphism from $M$ to $R$, it has a natural
-structure of $R^\op$-module by the assignment
-\[(s^{\op}h)(r) = h(r)s \quad\text{for $r,s\in R, h\in\hom(M,R)$.}\]
-Furthermore, if $M=R^n$, any $h\in\hom(R^n,R)$ is totally determined
-by the images of the elements $e_i$ of the canonical basis, in fact
-\[f(m) = f\left(\sum_im_ie_i\right) = \sum_im_if(e_i) \quad\text{for
-  any $m\in R^n$.}\] This implies an $R^\op$-module isomorphism
-$\hom(R^n,R)\simeq (R^{\op})^n$. $\hom(M,R)$ is called the \emph{dual
-  space} of $M$ and is noted $\dual{M}$.
-
-Consider now two $R$-modules $M$, $N$. Any homomorphism $f:M\ra N$
-induces a map $\dual{f}:\dual{N}\ra\dual{M}$ by the assignment
-\[\dual{f}(h) = h\circ f \quad\text{for any $h\in\hom(N,R)$.}\]
-The map $\dual{f}$ is a homomorphism of $R^\op$-modules as it can be
-seen by
-\[\dual{f}(s^{\op}h)(r) = h(f(r))s = (s^{\op}(h\circ f))(r)
-\quad\text{for $r,s\in R,h\in\hom(N,R)$.}\] It is trivial to verify
-that $\dual{f}\circ\dual{g}=\dual{(g\circ f)}$ and this makes
-$\dual{()}$ into a contravariant functor from $\RMod{R}$ to
-$\RMod{R^{\op}}$. The functor $\dual{()}$ need not be full and
-faithful as in the vector space case, but it is if we restrict to free
-modules and the usual relationship $\dual{(\dual{M})}\simeq M$ holds
-(although the isomorphism is not natural).
-
-If, moreover, we restrict to the modules $R^n$ for finite $n$, the
-functor $\dual{()}$ becomes a \emph{duality} of categories. Then we
-can interpret everything in the simpler language of matrices, but care
-must be taken since left module homomorphisms will act as
-multiplication \emph{on the right}. We interpret elements of $R^n$ as
-row vectors and elements of $\dual{(R^n)}$ as column vectors; a
-mapping $f:R^m\ra R^n$ and its dual $\dual{f}$ both correspond to an
-$m\times n$ matrix with entries in $R$: multiplication on the left by
-a row vector corresponds to applying $f$ to an element of $R^m$,
-multiplication on the right corresponds to applying $\dual{f}$ to an
-element of $\dual{(R^n)}$. Multiplication of matrices corresponds to
-composition of homomorphisms. Our correspondence may seem odd as one
-is used to express linear applications as matrices that apply to
-column vectors on the right; if this convention is preferred, taking
-vectors and matrices with coefficients in $R^\op$ is equivalent to the
-usual convention.
 
 The transposition theorem says that from a circuit that computes the
 matrix-vector product $x\mapsto \trans{x}M$ for a fixed matrix $M$, one can
