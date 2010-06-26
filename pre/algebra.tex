@@ -92,6 +92,13 @@ $1$.  A commutative ring such that $1\ne 0$ and where $\cdot$ also
 satisfies the existence of the inverse, is called a
 \index{field}\textbf{field}.
 
+The group $(R,+)$ is called the \index{additive~group}\textbf{additive
+  group} of $R$. Let $R^\ast$ be the subset consisting in the elements
+of $R$ that have both a left and a right inverse for $\cdot$, the
+group $(R^\ast,\cdot)$ is called the
+\index{multiplicative~group}\textbf{multiplicative group} or the
+\index{group!of~units}\textbf{group of units} of $R$.
+
 A \index{subring}\textbf{subring} of a ring $(R,+,\cdot)$ is a ring
 $(S,\ast,\circ)$ such that $(S,\ast)$ is a subgroup of $(R,+)$ and
 $\circ$ is the restriction of $\cdot$ to $S$.  The
@@ -124,7 +131,7 @@ $0$; the law $\cdot_M$ is called
 \index{multiplication!scalar}\index{scalar~multiplication}\textbf{scalar}
 or
 \index{mutliplication!external}\index{external~multiplication}\textbf{external}
-multiplication.
+multiplication. 
 
 A \index{module!right~module}\textbf{right module} is a left module
 for the opposite ring $R^\op$, a
@@ -134,7 +141,8 @@ a right module. When $R$ is commutative, the three notions coincide
 and we simply speak of a \index{module}\textbf{module}.  $R$-module is
 another way of saying ``module over $R$''. When $\K$ is a field, a
 $\K$-module is called a \index{vector~space}\textbf{$\K$-vector
-  space}.
+  space}. When $R$ is commutative, a ring $S$ that is also an
+$R$-module is called an \index{algebra}\textbf{$R$-algebra}.
 
 A \index{module!submodule}\index{submodule!left~submodule}left
 (\index{submoudle!right~submodule}right,
@@ -194,6 +202,7 @@ a basis and, conversely, any module that has a basis is free. One
 important statement about bases of modules is the following.
 
 \begin{proposition}
+  \label{th:invariant-basis}
   Any two bases for a free module $M$ over a commutative ring $R$ have
   the same cardinality.
 \end{proposition}
@@ -292,6 +301,7 @@ endomorphism of $M$. Linear maps $f:M\ra R$ are also called
   forms}.
 
 \begin{proposition}
+  \label{th:first-isomorphism}
   The kernel of a group morphism $f:A\ra B$ is a normal subgroup of
   $A$ and the image is a subgroup of $B$.  If $f$ is a ring morphism,
   $\ker f$ is an ideal and $\im f$ a subring. If $f$ is a module
@@ -322,8 +332,9 @@ law $f\cdot g=f\circ g$, where $\circ$ is composition of functions. It
 is called the \index{ring!of~endomorphisms}
 \index{endomorphism~ring}endomorphism ring of $A$ and is denoted by
 $\End(A)$. When $A$ is a module over a commutative ring and we want to
-stress the fact that $\End(A)$ has also a structure of $R$-module, we
-write $\End_R(A)$.
+stress the fact that $\End(A)$ is an $R$-algebra, we write
+$\End_R(A)$. We denote by $\Aut(A)$ the multiplicative subgroup of
+$\End(A)$, it is the group of automorphisms of $A$.
 
 Let $M$ be a left $R$-module, then $\hom_R(M,R)$ is a right $R$-module
 by the law $(a^\op \cdot f)(b) = f(b)\cdot a$; similarly, if $M$ is a
@@ -434,11 +445,28 @@ R^\op$. As a consequence, there is a group isomorphism
 $\hom(R^n,R^m)\isom\Mat_{m\times n}(R^\op)$ and matrix multiplication
 is equivalent to composition as above.
 
+Hence, when $M$ is a free module over a commutative ring $R$, by
+proposition \ref{th:invariant-basis} any basis has the same
+cardinality. Assume $M\isom R^n$, then for a fixed basis $\basis{B}$
+of $M$ we have an isomorphism of $R$-algebras
+$\End_R(M)\isom\Mat_n(R)$; in particular $\Aut(M)\isom\GL_n(R)$ as
+groups.
+
+We denote by $M_{\basis{B}}(f)$ the matrix associated to
+$f\in\End_R(M)$ with respect to the basis $\basis{B}$.  If
+$\basis{B'}$ is another basis, there is an invertible matrix $B$ such
+that $A\mapsto B^{-1}AB$ is the automorphism of $\Mat_n(R)$ that sends
+$M_{\basis{B}}(f)$ over $M_{\basis{B'}}(f)$. Hence, any property of
+matrices that is invariant by similarity, can be defined for linear
+operators. We define the \index{trace}{trace} of a linear operator as
+$\Tr f = \Tr M(f)$, and its \index{determinant}\textbf{determinant} as
+$\det f = \det M(f)$.
+
 
 \subsection{Duality}
 \label{sec:linear-algebra:duality}
 In this section we fix a non-singular bilinear form $f$ on $M\times
-N$. Let $g\in\End_{R^\op}(M)$, then the map
+N$. Let $g\in\End(M)$, then the map
 \[(x,y) \mapsto \braket{g(x)}{y}_f\] is a bilinear
 form. On the other hand, let $h$ be a bilinear form on $M\times N$,
 for any $x\in M$ the map $h_x : \ket{y} \mapsto \braket{x}{y}_h$
@@ -451,66 +479,58 @@ have a group isomorphism between $\End(M)$ and the group of bilinear
 forms. An analogous argument shows that $\End(N)$ is isomorphic to the
 group of bilinear forms and ultimately $\End(M)\isom\End(N)$.
 
-A consequence of this is that for any linear operator $g\in\End_{R^\op}(M)$
-there is an operator $\dual{g}\in\End_R(N)$ such that
+A consequence of this is that for any linear operator $g\in\End(M)$
+there is an operator $\dual{g}\in\End(N)$ such that
 \[\braket{g(x)}{y}_f = \braket{x}{\dual{g}(y)}_f\]
 for any $x\in M$ and $y\in N$. We define similarly $\dual{h}$ when
-$h\in\End_R(N)$, obviously $\dual{(\dual{g})} = g$. The operator
+$h\in\End(N)$, obviously $\dual{(\dual{g})} = g$. The operator
 $\dual{g}$ is called the \index{dual!operator}\textbf{dual} of $g$
 with respect to $f$. In general, whenever it is clear from the context
 that $g$ belongs to $\End(M)$ (or to $\End(N)$), we simply write
 \[\braketop{x}{g}{y} = \braket{g(x)}{y} = \braket{x}{\dual{g}(y)}\text{.}\]
 
-More generally, let 
+More generally, Let $f:M\times M'\ra R$ and $g:N'\times N\ra R$ be two
+non-singular bilinear forms, by the same technique as above we can
+show that there is a group isomorphism between $\hom_R(N,M')$,
+$\hom(M,N')$ and the bilinear forms on $M\times N$. Then For any
+$h:N\ra M'$ there is an unique $\dual{h}:M\ra N'$ such that
+\[\braket{x}{h(y)}_f = \braket{\dual{h}(x)}{y}_g =
+\braketop{x}{h}{y}\text{.}\]
+We also call $\dual{h}$ the \textbf{dual} of $h$.
 
+The canonical example of non-singular bilinear forms is obtained by
+considering the family of forms on $\dual{M}\times M$ defined by
+\[\braket{\ell}{x} = \ell(x) \text{.}\]
+For any $f:M\ra N$, we define the dual map
+$\dual{f}:\dual{N}\ra\dual{M}$ as the map that sends a form
+$\ell\in\dual{N}$ over the form $\ell\circ f$ in $\dual{M}$; it is
+easy to verify that
+\[\braketop{\ell}{f}{x} =  \braket{\ell}{f(x)} = \braket{\dual{f}(\ell)}{x}
+= \ell(f(x))\text{.}\]
 
+In the special case where $M$ and $N$ are free modules, for any fixed
+finite bases of $M$ and $N$, kets are isomorphic to column vectors,
+bras to row vectors, and the bilinear form $\braket{\ell}{x}=\ell(x)$
+is given by the inner product
+\begin{equation*}
+  \left\langle\begin{matrix}
+      \ell_1 &\cdots & \ell_n
+    \end{matrix}\right\rvert
+  \left\lvert\begin{matrix}
+    x_1\\
+    \vdots\\
+    x_n
+  \end{matrix}\right\rangle
+  =
+  \sum_i x_i\ell_i
+\end{equation*}
+(notice how the product is swapped, this is because $\End(R)\isom
+R^\op$).  Now a linear map $f:M\ra N$ is just a matrix with entries in
+$R^\op$, the application $f\ket{x}$ is just matrix-vector
+multiplication, while $\bra{\ell}\dual{f}$ is vector-matrix
+multiplication by the same matrix. This justifies the notation
+$\braketop{\ell}{A}{x}$ where $A$ is the matrix associated to $f$.
 
-
-Let $R$ be a ring and $M$ a module over it. Consider the space
-$\hom(M,R)$ of module homomorphism from $M$ to $R$, it has a natural
-structure of $R^\op$-module by the assignment
-\[(s^{\op}h)(r) = h(r)s \quad\text{for $r,s\in R, h\in\hom(M,R)$.}\]
-Furthermore, if $M=R^n$, any $h\in\hom(R^n,R)$ is totally determined
-by the images of the elements $e_i$ of the canonical basis, in fact
-\[f(m) = f\left(\sum_im_ie_i\right) = \sum_im_if(e_i) \quad\text{for
-  any $m\in R^n$.}\] This implies an $R^\op$-module isomorphism
-$\hom(R^n,R)\simeq (R^{\op})^n$. $\hom(M,R)$ is called the \emph{dual
-  space} of $M$ and is noted $\dual{M}$.
-
-Consider now two $R$-modules $M$, $N$. Any homomorphism $f:M\ra N$
-induces a map $\dual{f}:\dual{N}\ra\dual{M}$ by the assignment
-\[\dual{f}(h) = h\circ f \quad\text{for any $h\in\hom(N,R)$.}\]
-The map $\dual{f}$ is a homomorphism of $R^\op$-modules as it can be
-seen by
-\[\dual{f}(s^{\op}h)(r) = h(f(r))s = (s^{\op}(h\circ f))(r)
-\quad\text{for $r,s\in R,h\in\hom(N,R)$.}\] It is trivial to verify
-that $\dual{f}\circ\dual{g}=\dual{(g\circ f)}$ and this makes
-$\dual{()}$ into a contravariant functor from $R$ to
-$R^{\op}$. The functor $\dual{()}$ need not be full and
-faithful as in the vector space case, but it is if we restrict to free
-modules and the usual relationship $\dual{(\dual{M})}\simeq M$ holds
-(although the isomorphism is not natural).
-
-If, moreover, we restrict to the modules $R^n$ for finite $n$, the
-functor $\dual{()}$ becomes a \emph{duality} of categories. Then we
-can interpret everything in the simpler language of matrices, but care
-must be taken since left module homomorphisms will act as
-multiplication \emph{on the right}. We interpret elements of $R^n$ as
-row vectors and elements of $\dual{(R^n)}$ as column vectors; a
-mapping $f:R^m\ra R^n$ and its dual $\dual{f}$ both correspond to an
-$m\times n$ matrix with entries in $R$: multiplication on the left by
-a row vector corresponds to applying $f$ to an element of $R^m$,
-multiplication on the right corresponds to applying $\dual{f}$ to an
-element of $\dual{(R^n)}$. Multiplication of matrices corresponds to
-composition of homomorphisms. Our correspondence may seem odd as one
-is used to express linear applications as matrices that apply to
-column vectors on the right; if this convention is preferred, taking
-vectors and matrices with coefficients in $R^\op$ is equivalent to the
-usual convention.
-
-
-duality
-matrices, trace, determinant, resultant
 
 \section{Basic Galois theory}
 \label{sec:basic-galois-theory}
