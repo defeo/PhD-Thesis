@@ -34,6 +34,7 @@
 \newcommand{\ndiv}{\nmid}  % ne divise pas
 \newcommand{\wrt}{\dashv}  % appartenance forte, a\wrt A signifie que a est représenté comme un élément de A
 \newcommand{\isom}{\cong}
+\newcommand{\eqdef}{\overset{\mathrm{def}}{\equiv}}
 
 %% Nombres, corps
 \newcommand{\N}{\mathbb{N}}  % les naturels
@@ -60,6 +61,8 @@
 \newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
 \newcommand{\braket}[2]{\left\langle #1 \middle| #2 \right\rangle}
 \newcommand{\braketop}[3]{\left\langle #1 \middle| #2 \middle| #3 \right\rangle}  % notation braket
+\newcommand{\lst}{\mathbf}  % lists of coordinates
+\newcommand{\algeb}{\mathcal}  % la police des algèbres
 
 %% Courbes
 \newcommand{\0}{\mathcal{O}}  % point de base d'une courbe
@@ -91,7 +94,7 @@
 \newcommand{\ModComp}{\mathrm{\sf C}}  % fonction de composition modulaire
 
 %% Polices
-\newcommand{\basis}{\mathcal}  % la police des bases
+\newcommand{\basis}{\mathbf}  % la police des bases
 
 %% Opérateurs
 \DeclareMathOperator{\im}{im}  % image
@@ -124,12 +127,17 @@
 
 
 %%Théorèmes
-\newtheorem{definition}{Definition}[chapter]
+\theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[chapter]
-\newtheorem{lemma}{Lemma}[chapter]
-\newtheorem{corollary}{Corollary}[chapter]
-\newtheorem{proposition}{Proposition}[chapter]
-\newtheorem{remark}{Remark}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{note}{Note}
 
 
 %% Algorithmes
