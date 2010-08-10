@@ -97,19 +97,32 @@ Hence $(\basis{e}_1,\ldots,\basis{e}_d)$ is a basis of
 $\clot{\algeb{A}}$ made of orthogonal idempotents.
 
 \begin{example}
-  Continuing the example, 
+  Continuing the previous example, 
   \[\clot{\algeb{A}}_1 = \clot{\Q}/(x-\sqrt{3},y-3)
   \quad\text{and}\quad
-  \clot{\algeb{A}}_1 = \clot{\Q}/(x+\sqrt{3},y-3)
+  \clot{\algeb{A}}_2 = \clot{\Q}/(x+\sqrt{3},y-3)
   \text{.}\]
   The idempotents are given by
   \[\basis{e}_1 = (3+\sqrt{3}x)/6
-  \quad\text{and}\quad \basis{e}_1 = (3-\sqrt{3}x)/6 \text{.}\] The
+  \quad\text{and}\quad \basis{e}_2 = (3-\sqrt{3}x)/6 \text{.}\] The
   verification of Eq. \eqref{eq:6} is straightforward. In particular
   \[36x + 1 = (1+36\sqrt{3})\basis{e}_1 + (1-36\sqrt{3})\basis{e}_2
   \text{.}\]
 \end{example}
 
+For any $f\in\clot{\K}[\lst{x}]$, we denote by $f(\zeta_i)$ the
+evaluation of $f$ at $\zeta_i\in V(I)$. $f(\zeta_i)$ only depends on
+the class of $f$ in $\algeb{\clot{A}}$, thus for
+$a\in\clot{\algeb{A}}$, we define $a(\zeta_i)$ as the evaluation at
+$\zeta_i$ of an arbitrary representative of the class $a$.
+
+For any $a\in\clot{\algeb{A}}$, its class in $\clot{\algeb{A}}_i$ is $a(\zeta_i)$,
+by Eq. \eqref{eq:4}. Hence
+\begin{equation}
+  \label{eq:2}
+  a = \sum_{i=1}^da(\zeta_i)\basis{e}_i
+  \text{.}
+\end{equation}
 
 The basis $(\basis{e}_1,\ldots,\basis{e}_d)$ is a very practical one
 to represent elements of $\clot{\algeb{A}}$. Unfortunately, in the
@@ -127,10 +140,7 @@ that is the space of $\K$-linear forms on $\algeb{A}$. Similarly, we
 shall denote by $\dual{\clot{\algeb{A}}}$ the dual space of
 $\clot{\algeb{A}}$.
 
-For any $f\in\clot{\K}[\lst{x}]$, the evaluation $f(\zeta_i)$ of $f$
-at $\zeta_i\in V(I)$ only depends on the class of $f$ in
-$\algeb{\clot{A}}$, thus there is no ambiguity in writing $a(\zeta_i)$
-for $a\in\clot{\algeb{A}}$. The map
+The map
 \begin{equation}
   \label{eq:8}
   \begin{aligned}
@@ -150,7 +160,7 @@ is linear; in particular
 Hence $(\basis{1}_{\zeta_1},\ldots,\basis{1}_{\zeta_d})$ is the basis
 of $\dual{\clot{\algeb{A}}}$ dual to $(\basis{e}_1,\ldots,\basis{e}_d)$.
 
-The space $\dual{\algeb{A}}$ has a natural $\algeb{A}$-algebra
+The space $\dual{\algeb{A}}$ has a natural $\algeb{A}$-module
 structure under the law
 $\cdot:\algeb{A}\times\dual{\algeb{A}}\ra\dual{\algeb{A}}$ defined by
 \begin{equation}
@@ -161,30 +171,31 @@ $\cdot:\algeb{A}\times\dual{\algeb{A}}\ra\dual{\algeb{A}}$ defined by
     \text{.}
   \end{aligned}
 \end{equation}
-Similarly $\dual{\clot{\algeb{A}}}$ has an $\clot{\algeb{A}}$-algebra
+Similarly $\dual{\clot{\algeb{A}}}$ has an $\clot{\algeb{A}}$-module
 structure under an analogous law.
 
 \begin{proposition}
+  \label{th:gorenstein}
   $\dual{\clot{\algeb{A}}}$ and $\clot{\algeb{A}}$ are isomorphic as
-  $\clot{\algeb{A}}$-algebras under the mapping
-  $\varepsilon:\basis{e}_i\mapsto\basis{1}_{\zeta_i}$ for $1\le i\le d$.
+  $\clot{\algeb{A}}$-modules under the mapping
+  $\rho:\basis{e}_i\mapsto\basis{1}_{\zeta_i}$ for $1\le i\le d$.
 \end{proposition}
 \begin{proof}
   The mapping is clearly a vector space isomorphism, we only need to
-  prove that it is a morphism of $\clot{\algeb{A}}$-algebras. We want
+  prove that it is a morphism of $\clot{\algeb{A}}$-modules. We want
   to prove that for any $a,b\in\clot{\algeb{A}}$
-  \[\varepsilon(ab) = a\cdot\varepsilon(b)\text{;}\]
-  it suffices to prove this on the elements of the bases
+  \[\rho(ab) = a\cdot\rho(b)\text{.}\]
+  It suffices to prove this on the elements of the bases
   $(\basis{e}_1,\ldots,\basis{e}_d)$ and
   $(\basis{1}_{\zeta_1},\ldots,\basis{1}_{\zeta_d})$.
 
   On one hand
   \begin{equation}
     \label{eq:12}
-    \varepsilon(\basis{e}_i\basis{e}_j)=
+    \rho(\basis{e}_i\basis{e}_j)=
     \begin{cases}
-      \varepsilon(0)=0 &\text{if $i\ne j$,}\\
-      \varepsilon(\basis{e}_i)=\basis{1}_{\zeta_i} &\text{if $i=j$.}
+      \rho(0)=0 &\text{if $i\ne j$,}\\
+      \rho(\basis{e}_i)=\basis{1}_{\zeta_i} &\text{if $i=j$.}
     \end{cases}
   \end{equation}
   On the other hand, $\basis{e_i}\cdot\basis{1_{\zeta_j}}$ is the form
@@ -210,7 +221,7 @@ structure under an analogous law.
 
 \begin{note}
   We have thus identified $\dual{\clot{\algeb{A}}}$ to
-  $\clot{\algeb{A}}$ as $\clot{\algeb{A}}$-algebras, this implies that
+  $\clot{\algeb{A}}$ as $\clot{\algeb{A}}$-modules, this implies that
   $\clot{\algeb{A}}$ is a Gorenstein algebra \cite[Chapter
   8]{mourrain+elkadi}. The theory of Gorenstein algebras is much
   deeper than the exposition we give here, and giving a complete
@@ -219,6 +230,110 @@ structure under an analogous law.
   relationships between the results proven here and the general
   theory.
 \end{note}
+
+Since $1$ generates $\clot{\algeb{A}}$ as an $\clot{\algeb{A}}$-module, the form
+\begin{equation}
+  \label{eq:7}
+  \Tr \eqdef \rho(1) = \sum_i\basis{1}_{\zeta_i}
+\end{equation}
+generates $\dual{\clot{\algeb{A}}}$ as an $\clot{\algeb{A}}$-module.
+$\rho(1)$ will play an important role in the sequel; it is called the
+\emph{trace form}, the reason for this will be clear soon.
+
+The bilinear form on $\dual{\clot{\algeb{A}}}\times\clot{\algeb{A}}$
+defined by
+\begin{equation}
+  \label{eq:11}
+  \braket{\ell}{a} = \ell(a)
+\end{equation}
+is non-singular by definition (see Section
+\ref{sec:linear-algebra:duality}). By means of the isomorphism $\rho$,
+we can transport this to a bilinear form on
+$\clot{\algeb{A}}\times\clot{\algeb{A}}$: we define
+\begin{equation}
+  \label{eq:15}
+  \braket{a}{b}=\rho(a)(b)
+  \text{.}
+\end{equation}
+By Proposition \ref{th:gorenstein}, by Eq. \eqref{eq:10} and by the
+equality
+\begin{equation}
+  \label{eq:16}
+  \rho(a)(b) = \sum_i a(\zeta_i)b(\zeta_i)
+  \text{,}
+\end{equation}
+we deduce that
+\begin{equation}
+  \label{eq:17}
+  \braket{a}{b} = \rho(a)(b) = ab\Tr(1) = a\cdot\Tr(b) = \Tr(ab)
+  \text{.}
+\end{equation}
+is a non-singular form on $\clot{\algeb{A}}\times\clot{\algeb{A}}$
+that identifies $\clot{\algeb{A}}$ to its dual.
+
+\section{Multiplication}
+\label{sec:multiplication}
+
+Let $a\in\clot{\algeb{A}}$ and consider the linear map
+\begin{equation}
+  \label{eq:18}
+  M_a:a \mapsto ab
+  \text{.}
+\end{equation}
+
+\begin{theorem}[Stickelberger's theorem]
+  \label{th:stickelberger}
+  The element $\basis{e_i}$ is an eigenvector of $M_a$ associated to
+  the eigenvalue $a(\zeta_i)$. The characteristic polynomial of $M_a$
+  is
+  \[\prod_{i=1}^d(X-a(\zeta_i))\text{.}\]
+\end{theorem}
+\begin{proof}
+  Using Eq. \eqref{eq:2}, we have
+  \begin{equation}
+    \label{eq:19}
+    M_a(\basis{e}_i) = a\basis{e}_i = \sum_ja(\zeta_j)\basis{e}_i\basis{e}_j
+    \text{.}
+  \end{equation}
+  By Eq.~\eqref{eq:6}, we deduce
+  \begin{equation}
+    \label{eq:20}
+    M_a(\basis{e}_i) = a(\zeta_i)\basis{e}_i
+    \text{.}
+  \end{equation}
+
+  Since the $\basis{e}_i$'s form a basis of $\clot{\algeb{A}}$ as a
+  vector space, $M_a$ is diagonalizable and its eigenvalues are the
+  $a(\zeta_i)$'s, each counted once.
+\end{proof}
+
+\begin{definition}[Trace, norm]
+  \label{def:trace}
+  We define the \emph{trace} of $a$ as
+  \[\Tr(a) = \Tr(M_a)\]
+  and its \emph{norm} as
+  \[\Norm(a) = \det(M_a)\text{.}\]
+\end{definition}
+Then, the following corollary is easily derived.
+
+\begin{corollary}
+  \label{th:stickelberger-trace-det}
+  One has
+  \begin{align}
+    \label{eq:23}
+    \Tr(a) &= \sum_{i=1}^da(\zeta_i)\\
+    \label{eq:24}
+    \Norm(a) &= \prod_{i=1}^da(\zeta_i)
+  \end{align}
+\end{corollary}
+
+By Eqs.~\eqref{eq:23} and~\eqref{eq:7}, it is clear that
+$\Tr(a)=\rho(1)(a)$, which justifies the notation we employed in the
+last section.
+
+When $a\in\algeb{A}$, the characteristic polynomial of $M_a$ has
+coefficients in $\K$. This implies that $\rho(1)\in\dual{\algeb{A}}$.
+
 
 
 % Local Variables:
