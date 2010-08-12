@@ -97,6 +97,7 @@ Hence $(\basis{e}_1,\ldots,\basis{e}_d)$ is a basis of
 $\clot{\algeb{A}}$ made of orthogonal idempotents.
 
 \begin{example}
+  \label{ex:trace}
   Continuing the previous example, 
   \[\clot{\algeb{A}}_1 = \clot{\Q}/(x-\sqrt{3},y-3)
   \quad\text{and}\quad
@@ -133,7 +134,7 @@ find a basis better suited to represent elements of $\algeb{A}$, we
 shall study the dual of the algebra $\clot{\algeb{A}}$.
 
 
-\section{Dual}
+\section{Duality}
 \label{sec:dual}
 We shall denote by $\dual{\algeb{A}}$ the dual space of $\algeb{A}$,
 that is the space of $\K$-linear forms on $\algeb{A}$. Similarly, we
@@ -219,7 +220,7 @@ structure under an analogous law.
   \end{equation}
 \end{proof}
 
-\begin{note}
+\begin{nota}
   We have thus identified $\dual{\clot{\algeb{A}}}$ to
   $\clot{\algeb{A}}$ as $\clot{\algeb{A}}$-modules, this implies that
   $\clot{\algeb{A}}$ is a Gorenstein algebra \cite[Chapter
@@ -229,7 +230,7 @@ structure under an analogous law.
   document. Nevertheless, we will eventually point out the
   relationships between the results proven here and the general
   theory.
-\end{note}
+\end{nota}
 
 Since $1$ generates $\clot{\algeb{A}}$ as an $\clot{\algeb{A}}$-module, the form
 \begin{equation}
@@ -238,7 +239,8 @@ Since $1$ generates $\clot{\algeb{A}}$ as an $\clot{\algeb{A}}$-module, the form
 \end{equation}
 generates $\dual{\clot{\algeb{A}}}$ as an $\clot{\algeb{A}}$-module.
 $\rho(1)$ will play an important role in the sequel; it is called the
-\emph{trace form}, the reason for this will be clear soon.
+\emph{trace form}, the reason for this will be clear in the next
+section.
 
 The bilinear form on $\dual{\clot{\algeb{A}}}\times\clot{\algeb{A}}$
 defined by
@@ -265,13 +267,21 @@ equality
 we deduce that
 \begin{equation}
   \label{eq:17}
-  \braket{a}{b} = \rho(a)(b) = ab\Tr(1) = a\cdot\Tr(b) = \Tr(ab)
+  \braket{a}{b} = \rho(a)(b) = ab\cdot\Tr(1) = a\cdot\Tr(b) = \Tr(ab) = \braket{b}{a}
   \text{.}
 \end{equation}
 is a non-singular form on $\clot{\algeb{A}}\times\clot{\algeb{A}}$
 that identifies $\clot{\algeb{A}}$ to its dual.
 
-\section{Multiplication}
+In particular, from Eqs.~\eqref{eq:17} and~\eqref{eq:2} we deduce the
+\emph{trace formulas} or \emph{interpolation formulas}:
+\begin{equation}
+  \label{eq:21}
+  a = \sum_{i=1}^d\braket{a}{\basis{e}_i}\basis{e}_i=\sum_{i=1}^da(\zeta_i)\basis{e}_i=\sum_{i=1}^da\basis{e_i}
+\end{equation}
+
+
+\section{Sitckelberger's theorem}
 \label{sec:multiplication}
 
 Let $a\in\clot{\algeb{A}}$ and consider the linear map
@@ -281,7 +291,7 @@ Let $a\in\clot{\algeb{A}}$ and consider the linear map
   \text{.}
 \end{equation}
 
-\begin{theorem}[Stickelberger's theorem]
+\begin{theorem}[Stickelberger]
   \label{th:stickelberger}
   The element $\basis{e_i}$ is an eigenvector of $M_a$ associated to
   the eigenvalue $a(\zeta_i)$. The characteristic polynomial of $M_a$
@@ -289,16 +299,10 @@ Let $a\in\clot{\algeb{A}}$ and consider the linear map
   \[\prod_{i=1}^d(X-a(\zeta_i))\text{.}\]
 \end{theorem}
 \begin{proof}
-  Using Eq. \eqref{eq:2}, we have
+  Using Eqs.~\eqref{eq:21} and~\eqref{eq:6}, we have
   \begin{equation}
     \label{eq:19}
-    M_a(\basis{e}_i) = a\basis{e}_i = \sum_ja(\zeta_j)\basis{e}_i\basis{e}_j
-    \text{.}
-  \end{equation}
-  By Eq.~\eqref{eq:6}, we deduce
-  \begin{equation}
-    \label{eq:20}
-    M_a(\basis{e}_i) = a(\zeta_i)\basis{e}_i
+    M_a(\basis{e}_i) = a\basis{e}_i = \braket{a}{\basis{e}_i}\basis{e}_i=a(\zeta_i)\basis{e}_i
     \text{.}
   \end{equation}
 
@@ -329,10 +333,251 @@ Then, the following corollary is easily derived.
 
 By Eqs.~\eqref{eq:23} and~\eqref{eq:7}, it is clear that
 $\Tr(a)=\rho(1)(a)$, which justifies the notation we employed in the
-last section.
+last section. 
 
-When $a\in\algeb{A}$, the characteristic polynomial of $M_a$ has
-coefficients in $\K$. This implies that $\rho(1)\in\dual{\algeb{A}}$.
+\begin{theorem}
+  $\dual{\algeb{A}}$ is isomorphic to $\algeb{A}$ as
+  $\algeb{A}$-module under the restriction of $\rho$ to $\algeb{A}$.
+\end{theorem}
+\begin{proof}
+  When $a,b\in\algeb{A}$, the characteristic polynomial of $M_{ab}$
+  has coefficients in $\K$. Thus $\braket{a}{b}=\Tr(ab)$ is in $\K$,
+  and the restriction of $\rho(a)$ to $\algeb{A}$ is in
+  $\dual{\algeb{A}}$.
+
+  Since $a\ne a'$ implies $\rho(a)\ne\rho(a')$, How ???
+\end{proof}
+
+
+\section{Rational Univariate Representation}
+\label{sec:rati-univ-repr}
+In many circumstances it is useful to switch from a multivariate
+representation of the elements of $\algeb{A}$ to an univariate one. A
+\emph{rational univariate representation} \cite{rouiller99}, sometimes
+also called \emph{geometric resolution} \cite{giusti+lecerf+salvy01},
+of $\K[x_1,\ldots,x_n]/I$ consists in expressing the variety $V(I)$ as
+the solution of the system
+\begin{equation}
+  \label{eq:22}
+  \begin{aligned}
+    f(t) &= 0\text{,}\\
+    x_1 &= \frac{g_1(t)}{g(t)}\text{,}\\
+    &\vdots\\
+    x_n &= \frac{g_n(t)}{g(t)}\text{,}    
+  \end{aligned}
+\end{equation}
+where $t$ is a new variable and $f,g,g_1,\ldots,g_n$ are univariate
+polynomials with coefficients in $\K$.
+
+\begin{definition}[Separating element]
+  An element $t\in\algeb{A}$ is said to be \emph{separating} if for
+  any $\zeta,\zeta'\in V(I)$
+  \[\zeta\ne\zeta'\Rightarrow t(\zeta)\ne t(\zeta')\text{.}\]
+\end{definition}
+
+Separating elements always exist, provided $\algeb{A}$ is large
+enough. We don't give here any proof of this fact because in the
+applications we have in mind a separating element is always at hand.
+
+\begin{proposition}
+  Let $t$ be a separating element, then $1,t,\ldots,t^{d-1}$ are
+  $\clot{\K}$-linearly independent.
+\end{proposition}
+\begin{proof}
+  Let $\sum_{i=0}^{d-1}a_it^i =0$, then the polynomial
+  $\sum_{i=0}^{d-1}a_iT^i$ has $d$ roots in $\clot{\K}$, namely
+  $t(\zeta_i)$ for $1\le i \le d$, hence it is identically null.
+\end{proof}
+
+\begin{lemma}
+  \label{th:multi-newton-sums}
+  Let $t$ be a separating element of $\algeb{A}$ and let $Q$ be its
+  minimal polynomial. Let $T$ be a fresh variable, then
+  \begin{equation}
+    \label{eq:25}
+    \sum_{i\ge0} \frac{\braket{1}{t^{i}}}{T^{i+1}} = \frac{Q'(T)}{Q(T)}
+    \text{.}
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  By the trace formulas~\eqref{eq:21}
+  \begin{equation}
+    \label{eq:26}
+    t^i = \sum_{j=1}^d\braket{t^i}{\basis{e}_j}\basis{e}_j
+    \text{,}
+  \end{equation}
+  hence
+  \begin{equation}
+    \label{eq:27}
+    \sum_{i\ge0}\frac{\braket{1}{t^i}}{T^{i+1}} =
+    \sum_{i\ge0}\sum_{j=1}^d\frac{\braket{1}{\basis{e}_j}\braket{t^i}{\basis{e}_j}}{T^{i+1}} =
+    \sum_{i\ge0}\sum_{j=1}^d\frac{t(\zeta_j)^i}{T^{i+1}}
+    \text{.}
+  \end{equation}
+  Swapping the sums, this equals
+  \begin{equation}
+    \label{eq:28}
+    \sum_{j=1}^d\frac{1}{T-t(\zeta_j)} =
+    \frac{\sum_{j=1}^d\prod_{j'\ne j}(T-t(\zeta_j))}{\prod_{j=1}^d(T-t(\zeta_j))} =
+    \frac{Q'(T)}{Q(T)}
+    \text{,}
+  \end{equation}
+  where the last equality comes from Theorem \ref{th:stickelberger}.
+\end{proof}
+
+\begin{remark}
+  The polynomial $Q$ can be recovered from its logarithmic derivative
+  via the formula
+  \begin{equation}
+    \label{eq:30}
+    Q = \exp\left(\int \frac{Q'}{Q}\right)
+    \text{.}
+  \end{equation}
+  
+
+  When the degree $d$ is known in advance, this suggests an efficient
+  algorithm to compute $Q$, provided the characteristic of $\K$ is
+  larger than $d$. 
+
+  We know that $\Tr(1)=d$, hence 
+  \begin{equation}
+    \label{eq:32}
+    \frac{Q'}{Q} =
+    \frac{d}{T} + \sum_{i\ge 1}\frac{\braket{1}{t^i}}{T^{i+1}} 
+    \text{.}
+  \end{equation}
+  We deduce
+  \begin{equation}
+    \label{eq:33}
+    Q = \exp\left(d\log T + \int\sum_{i\ge1}\frac{\braket{1}{t^i}}{T^{i+1}}\right) =
+    T^d\exp\left(-\sum_{i\ge 1}\frac{\braket{1}{t^i}}{iT^i}\right)
+    \text{,}
+  \end{equation}
+  then the power series on the right hand side can be exponentiated
+  using a Newton iteration.  But $Q$ is a polynomial of degree $d$,
+  hence we can truncate the exponent power series to the order
+  $O(T^{-d-1})$.
+
+  In conclusion, it is sufficient to know
+  \begin{equation}
+    \label{eq:34}
+    \Tr(t),\ldots,\Tr(t^d)
+  \end{equation}
+  in order to compute $Q$.
+\end{remark}
+
+\begin{example}
+  Continuing Example~\ref{ex:trace}, we want to compute the minimal
+  polynomial of $t=36x+1$. We know that
+  \[t=36x + 1 = (1+36\sqrt{3})\basis{e}_1 + (1-36\sqrt{3})\basis{e}_2
+  \text{,}\] hence $t$ is separating. Its traces are easily computed
+  from the previous expression:
+  \begin{align*}
+    \Tr(t) &= (1 + 36\sqrt{3}) + (1-36\sqrt{3}) = 2\text{,}\\
+    \Tr(t^2) &= (1 + 36\sqrt{3})^2 + (1-36\sqrt{3})^2 = 7778\text{.}
+  \end{align*}
+  We compute the exponential:
+  \begin{multline*}
+    \exp\left(-\frac{2}{T}-\frac{3889}{T^2} + O(T^{-3})\right)=\\
+    \left(1-\frac{2}{T}+\frac{4}{2!T^2}+O(T^{-3})\right)\left(1-\frac{3889}{T^2}+O(T^{-3})\right)=\\
+    \left(1 - \frac{2}{T} - \frac{3887}{T^2} + O(T^{-3})\right)
+    \text{,}
+  \end{multline*}
+  hence the minimal polynomial is
+  \[T^2-2T-3887\text{.}\]
+\end{example}
+
+Thanks to Lemma \ref{th:multi-newton-sums}, we have a way to find the
+first line of the representation in Eq.~\eqref{eq:22}, provided that
+we know a separating element $t$. We now have to express
+$x_1,\ldots,x_n$ as functions of the roots of the minimal polynomial of $t$.
+
+\begin{theorem}
+  \label{th:rur}
+  Let $t$ be a separating element of $\algeb{A}$ and let $Q$ be its
+  minimal polynomial. Let $a\in\algeb{A}$ and set
+  \begin{equation}
+    \label{eq:38}
+    A(T) = Q(T)\sum_{i\ge0}\frac{\braket{a}{t^i}}{T^{i+1}}
+    \text{.}
+  \end{equation}
+  Then $A(T)$ is a polynomial of degree less than $d$, and
+  \begin{equation}
+    \label{eq:39}
+    a = \frac{A(t)}{Q'(t)}
+    \text{.}
+  \end{equation}
+\end{theorem}
+\begin{proof}
+  We develop the series as in the proof of Lemma
+  \ref{th:multi-newton-sums}:
+  \begin{equation}
+    \label{eq:40}
+    \sum_{i\ge0}\frac{\braket{a}{t^i}}{T^{i+1}} =
+    \sum_{j=1}^da(\zeta_j)\sum_{i\ge0}\frac{t(\zeta_j)^i}{T^{i+1}}=
+    \frac{\sum_{j=1}^da(\zeta_j)\prod_{j'\ne j}(T-t(\zeta_j))}{Q(T)}
+    \text{.}
+  \end{equation}
+  Hence $A(T)$ is a polynomial of degree less than $d$.
+
+  Now we use the trace formulas to decompose 
+  $A(t)$ and $Q'(t)$:
+  \begin{align}
+    \label{eq:41}
+    \braket{A(t)}{\basis{e}_i} &=
+    \sum_{j=1}^d a(\zeta_j)\prod_{j'\ne j}(\braket{t}{\basis{e}_i}-t(\zeta_j)) =
+    a(\zeta_i)\prod_{j\ne i}(t(\zeta_i)-t(\zeta_j))
+    \text{,}\\
+    \braket{Q'(t)}{\basis{e}_i} &=
+    \prod_{j\ne i}(t(\zeta_i)-t(\zeta_j))
+    \text{.}
+  \end{align}
+  Because $t$ is separating, $\braket{Q(t)}{\basis{e}_i}\ne0$ for any
+  $i$, hence $Q(t)$ is a unit of $\algeb{A}$. We deduce that
+  \begin{equation}
+    \label{eq:42}
+    \braket{\frac{A(t)}{Q'(t)}}{\basis{e}_i} = a(\zeta_i)
+  \end{equation}
+  for any $i$. Hence, by the trace formulas
+  \begin{equation}
+    \label{eq:43}
+    \frac{A(t)}{Q'(t)} = \sum_i\braket{\frac{A(t)}{Q'(t)}}{\basis{e}_i}\basis{e}_i =
+    \sum_i a(\zeta_i)\basis{e}_i = a
+    \text{.}
+  \end{equation}
+\end{proof}
+
+By taking $a=x_i$, the theorem can be used to find a rational
+univariate representation: it suffices to know
+\begin{equation}
+  \label{eq:44}
+  \Tr(x_i),\Tr(x_it),\ldots,\Tr(x_it^{d-1})
+\end{equation}
+in order to deduce $g_i(T)$ as in the representation~\eqref{eq:22}.
+
+\begin{example}
+  We conclude the previous example. We want to find a parameterization
+  of $x$ and $y$ with respect to $t=36x+1$. We already know the
+  minimal polynomial of $t$:
+  \[Q(T) = T^2-2T-3887\text{,}\]
+  thus
+  \[Q'(T) = 2T-2\text{.}\]
+  Now
+  \[x=\sqrt{3}\basis{e}_1 -\sqrt{3}\basis{e}_2 \qquad
+  y = 3\basis{e}_1 + 3\basis{e}_2\text{,}\]
+  hence 
+  \begin{align*}
+    \Tr(x) &= 0\text{,} & \Tr(xt) &= 216\text{,}\\
+    \Tr(y) &= 6\text{,} & \Tr(yt) &= 6\text{.}
+  \end{align*}
+  We deduce that
+  \[x=\frac{216}{2t-2}\text{,}\qquad
+  y=\frac{6t-6}{2t-2}\text{.}\]
+\end{example}
+
+
+\section{The univariate case}
+\label{sec:univariate-case}
 
 
 
