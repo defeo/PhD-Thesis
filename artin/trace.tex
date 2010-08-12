@@ -50,10 +50,31 @@ denote its points by $\zeta_i\in\clot{\K}^n$ for $1\le i\le d$.
 
 
 \begin{example}
-  Consider the ideal $I=(y-3,x^2-y)$ of $Q[x,y]$. This ideal is prime
-  and its variety has no $\Q$-rational points. Since $G=\{y-3,x^2-y\}$
-  is a Gröbner basis for $I$ (for grevlex), elements of
-  $\algeb{A}=Q[x,y]/I$ are uniquely represented by their normal form
+  \begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+      \draw[x=10pt,y=7pt,gray,very thin]
+      (-3.5,0) -- (3.5,0)
+      (0,9) -- (0,-2);
+      \draw[x=10pt,y=7pt]
+      (-3,9) parabola bend (0,0) (3,9) node[anchor=north west]{$x^2=y$}
+      (-3.5,3) -- (3.5,3) node[anchor=west]{$y=3$};
+      \footnotesize
+      \draw[x=10pt,y=7pt,gray,very thin,dashed]
+      (-1.73205080756887729352,3) -- (-1.73205080756887729352,0)
+      node[anchor=north]{$-\sqrt{3}$}
+      (1.73205080756887729353,3) -- (1.73205080756887729353,0)
+      node[anchor=north]{$\sqrt{3}$};
+    \end{tikzpicture}
+    \caption{Plot in the reals of the ideal $I=(y-3,x^2-y)$.}
+    \label{fig:ideal-parabola-line}
+  \end{figure}
+
+  Consider the ideal $I=(y-3,x^2-y)$ of $\Q[x,y]$, a plot is given in
+  Figure~\ref{fig:ideal-parabola-line}. This ideal is prime and its
+  variety has no $\Q$-rational points. Since $G=\{y-3,x^2-y\}$ is a
+  Gröbner basis for $I$ (for grevlex), elements of
+  $\algeb{A}=\Q[x,y]/I$ are uniquely represented by their normal form
   modulo $G$; for example
   \[x^5y + 3xy + 1 \equiv 36x + 1 \mod I\text{.}\] By analyzing the
   leading monomials of $G$, it is straightforward to realize that all
@@ -369,30 +390,11 @@ the solution of the system
 where $t$ is a new variable and $f,g,g_1,\ldots,g_n$ are univariate
 polynomials with coefficients in $\K$.
 
-\begin{definition}[Separating element]
-  An element $t\in\algeb{A}$ is said to be \emph{separating} if for
-  any $\zeta,\zeta'\in V(I)$
-  \[\zeta\ne\zeta'\Rightarrow t(\zeta)\ne t(\zeta')\text{.}\]
-\end{definition}
-
-Separating elements always exist, provided $\algeb{A}$ is large
-enough. We don't give here any proof of this fact because in the
-applications we have in mind a separating element is always at hand.
-
-\begin{proposition}
-  Let $t$ be a separating element, then $1,t,\ldots,t^{d-1}$ are
-  $\clot{\K}$-linearly independent.
-\end{proposition}
-\begin{proof}
-  Let $\sum_{i=0}^{d-1}a_it^i =0$, then the polynomial
-  $\sum_{i=0}^{d-1}a_iT^i$ has $d$ roots in $\clot{\K}$, namely
-  $t(\zeta_i)$ for $1\le i \le d$, hence it is identically null.
-\end{proof}
 
 \begin{lemma}
   \label{th:multi-newton-sums}
-  Let $t$ be a separating element of $\algeb{A}$ and let $Q$ be its
-  minimal polynomial. Let $T$ be a fresh variable, then
+  Let $t\in\algeb{A}$ and let $Q$ be its characteristic
+  polynomial. Let $T$ be a fresh variable, then
   \begin{equation}
     \label{eq:25}
     \sum_{i\ge0} \frac{\braket{1}{t^{i}}}{T^{i+1}} = \frac{Q'(T)}{Q(T)}
@@ -426,6 +428,7 @@ applications we have in mind a separating element is always at hand.
 \end{proof}
 
 \begin{remark}
+  \label{rk:newton-sums}
   The polynomial $Q$ can be recovered from its logarithmic derivative
   via the formula
   \begin{equation}
@@ -467,11 +470,11 @@ applications we have in mind a separating element is always at hand.
 \end{remark}
 
 \begin{example}
-  Continuing Example~\ref{ex:trace}, we want to compute the minimal
+  Continuing Example~\ref{ex:trace}, we want to compute the characteristic
   polynomial of $t=36x+1$. We know that
   \[t=36x + 1 = (1+36\sqrt{3})\basis{e}_1 + (1-36\sqrt{3})\basis{e}_2
-  \text{,}\] hence $t$ is separating. Its traces are easily computed
-  from the previous expression:
+  \text{,}\]
+  hence its traces are easily computed :
   \begin{align*}
     \Tr(t) &= (1 + 36\sqrt{3}) + (1-36\sqrt{3}) = 2\text{,}\\
     \Tr(t^2) &= (1 + 36\sqrt{3})^2 + (1-36\sqrt{3})^2 = 7778\text{.}
@@ -483,14 +486,41 @@ applications we have in mind a separating element is always at hand.
     \left(1 - \frac{2}{T} - \frac{3887}{T^2} + O(T^{-3})\right)
     \text{,}
   \end{multline*}
-  hence the minimal polynomial is
+  hence the characteristic polynomial is
   \[T^2-2T-3887\text{.}\]
 \end{example}
 
-Thanks to Lemma \ref{th:multi-newton-sums}, we have a way to find the
-first line of the representation in Eq.~\eqref{eq:22}, provided that
-we know a separating element $t$. We now have to express
-$x_1,\ldots,x_n$ as functions of the roots of the minimal polynomial of $t$.
+Being able to compute characteristic polynomials is not enough to find
+a rational univariate representation. Indeed, the element $t$ may not
+generate $\algeb{A}$ as a $\K$-algebra, and thus not every element of
+$\algeb{A}$ could be represented as a rational function of $t$. We now
+give a criterion to find elements that generate $\algeb{A}$.
+
+\begin{definition}[Separating element]
+  An element $t\in\algeb{A}$ is said to be \emph{separating} if for
+  any $\zeta,\zeta'\in V(I)$
+  \[\zeta\ne\zeta'\Rightarrow t(\zeta)\ne t(\zeta')\text{.}\]
+\end{definition}
+
+Separating elements always exist, provided $\algeb{A}$ is large
+enough. We don't give here any proof of this fact because in the
+applications we have in mind a separating element is always at hand.
+
+\begin{proposition}
+  Let $t$ be a separating element, then $1,t,\ldots,t^{d-1}$ are
+  $\clot{\K}$-linearly independent.
+\end{proposition}
+\begin{proof}
+  Let $\sum_{i=0}^{d-1}a_it^i =0$, then the polynomial
+  $\sum_{i=0}^{d-1}a_iT^i$ has $d$ roots in $\clot{\K}$, namely
+  $t(\zeta_i)$ for $1\le i \le d$, hence it is identically null.
+\end{proof}
+
+Thanks to this proposition and to Lemma~\ref{th:multi-newton-sums}, we
+have a way to find the first line of the representation in
+Eq.~\eqref{eq:22}, provided that we know a separating element $t$. We
+now have to express $x_1,\ldots,x_n$ as functions of the roots of the
+minimal polynomial of $t$.
 
 \begin{theorem}
   \label{th:rur}
@@ -532,8 +562,8 @@ $x_1,\ldots,x_n$ as functions of the roots of the minimal polynomial of $t$.
     \prod_{j\ne i}(t(\zeta_i)-t(\zeta_j))
     \text{.}
   \end{align}
-  Because $t$ is separating, $\braket{Q(t)}{\basis{e}_i}\ne0$ for any
-  $i$, hence $Q(t)$ is a unit of $\algeb{A}$. We deduce that
+  Because $t$ is separating, $\braket{Q'(t)}{\basis{e}_i}\ne0$ for any
+  $i$, hence $Q'(t)$ is a unit of $\algeb{A}$. We deduce that
   \begin{equation}
     \label{eq:42}
     \braket{\frac{A(t)}{Q'(t)}}{\basis{e}_i} = a(\zeta_i)
@@ -578,6 +608,218 @@ in order to deduce $g_i(T)$ as in the representation~\eqref{eq:22}.
 
 \section{The univariate case}
 \label{sec:univariate-case}
+In this section we shall see that, in the particular case of ideals of
+the univariate polynomial ring $\K[x]$, trace formulas reduce to
+Lagrange interpolation and Lemma~\ref{th:multi-newton-sums} reduces to
+Newton's identities.
+
+Any ideal $I$ of $\K[x]$ is principal. Let $f$ be a monic generator of
+$I$ and let $\zeta_1,\ldots,\zeta_d$ be its roots in $\clot{\K}$, then
+\begin{equation}
+  \label{eq:20}
+  \clot{\K}[x]/(f) = \bigoplus_{i=1}^d \clot{K}[x]/(x-\zeta_i)
+  \text{.}
+\end{equation}
+Hence, the orthogonal idempotents are given by
+\begin{equation}
+  \label{eq:29}
+  \basis{e}_i = \prod_{j\ne i}\frac{x-\zeta_j}{\zeta_i-\zeta_j}
+  \text{.}
+\end{equation}
+By definition
+\begin{equation}
+  \label{eq:31}
+  \braket{a}{\basis{e_i}} = a(\zeta_i)
+  \text{,}
+\end{equation}
+hence the trace formulas rewrite
+\begin{equation}
+  \label{eq:35}
+  a = \sum_{i=1}^d a(\zeta_i)\prod_{j\ne i}\frac{x-\zeta_i}{\zeta_i-\zeta_j}
+  \text{,}
+\end{equation}
+which is exactly the formula of Lagrange interpolation.
+
+Now we want to compute the Newton sums of $f$, i.e. the values
+\begin{equation}
+  \label{eq:37}
+  Z_i = \zeta_1^i + \cdots + \zeta_d^i
+  \text{.}
+\end{equation}
+$x$ is a root of $f$ in $\algeb{A}$ and it clearly separates $V(I)$,
+then by Lemma \ref{th:multi-newton-sums}
+\begin{equation}
+  \label{eq:45}
+  \frac{f'}{f} = \sum_{i\ge0}\frac{\braket{1}{x^i}}{T^{i+1}} =
+  \sum_{i\ge0}\frac{\sum_{j=1}^d\zeta_j^i}{T^{i+1}}
+  \text{.}
+\end{equation}
+Hence the Newton sums can be recovered as coefficients of the power
+series. Inversely, the coefficients of $f$ can be computed from its
+Newton sums using Newton's identities; notice, however, that when the
+characteristic of $\K$ is greater than $d$, it is more efficient to
+use Remark~\ref{rk:newton-sums}.
+
+
+\section{Shoup's algorithm}
+\label{sec:shoups-algorithm}
+
+We have seen that at the heart of the rational univariate
+representation is the computation of the coefficients of the power
+series
+\begin{equation}
+  \label{eq:46}
+  \sum_{i\ge0}\frac{\braket{a}{t^i}}{T^{i+1}}
+\end{equation}
+up to a certain precision. In this section we shall find an efficient
+way to compute such truncated series.
+
+Consider the univariate polynomial ring $\K[T]$ and identify its dual
+space $\dual{\K[T]}$ to $\K[[1/T]]$ via the bilinear form
+\begin{equation}
+  \label{eq:47}
+  \braket{\alpha}{f} = [\alpha f]_0
+  \text{,}
+\end{equation}
+where $\alpha\in\K[[1/T]]$, $f\in\K[T]$ and $[\beta]_i$ is the
+coefficient of $T^i$ in $\beta$. So that
+\begin{equation}
+  \label{eq:48}
+  \braket{\sum_{i\ge0}\frac{\alpha_i}{T^i}}{\sum_{j=0}^nf_jT^j} =
+  \sum_{i\ge0}\alpha_if_i
+  \text{.}
+\end{equation}
+
+For a $t\in\algeb{A}$, consider the  evaluation map at $t$
+\begin{equation}
+  \label{eq:49}
+  \begin{aligned}
+    \ev_t : \K[T] &\ra \algeb{A}\text{,}\\
+    g &\mapsto g(t)
+    \text{.}
+  \end{aligned}
+\end{equation}
+
+\begin{lemma}
+  \label{th:shoup}
+  For any $t\in\algeb{A}$, the dual map $\dual{\ev_t}$ with respect to
+  the bilinear forms defined in Eqs.~\eqref{eq:15} and~\eqref{eq:49}
+  is such that
+  \begin{equation}
+    \label{eq:50}
+    \dual{\ev_t}(a) = \sum_{i\ge0}\frac{\braket{a}{t^i}}{T^{i}}
+    \text{.}
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  $\ev_t$ and $\dual{\ev_t}$ are clearly linear maps, thus it suffices
+  to show the identity on the basis $\{1,T,T^2,\ldots\}$ of $\K[T]$.
+  \begin{equation}
+    \label{eq:51}
+    \braket{a}{\ev_t(T^j)} =
+    \braket{a}{t^j} =
+    \braket{\sum_{k\ge0}\frac{\braket{a}{t^k}}{T^k}}{T^j} =
+    \braket{\dual{\ev_t}(a)}{T^j}
+    \text{.}
+  \end{equation}
+\end{proof}
+
+Thus, applying the techniques of Chapter~\ref{cha:todo}, from any
+algorithm to compute $\ev_t$ for a fixed $t$ we can deduce an
+algorithm to compute $\dual{\ev_t}$ that has the same time and space
+complexity. Furthermore, from a generic algorithm to evaluate
+polynomials in $\K[T]$ at points of $\algeb{A}$, we can deduce an
+algorithm to compute $\dual{\ev_t}$ for any $t$, having the same time
+complexity and eventually a penalty in space complexity.
+
+However, for a given basis of $\algeb{A}$, it may be difficult to find
+the corresponding dual basis with respect to $\braket{}{}$. In order
+to give an explicit algorithm, we work with the form
+\begin{equation}
+  \label{eq:52}
+  \braket{l}{a} = \ell(a)
+\end{equation}
+on $\dual{\algeb{A}}\times\algeb{A}$, instead.
+
+\begin{lemma}
+  Let $a\in\algeb{A}$ and consider the map $M_a:b\mapsto ab$. The dual
+  map $\dual{M_a}$ with respect to the form~\eqref{eq:52} is
+  such that
+  \begin{equation}
+    \label{eq:53}
+    \dual{M_a}(\ell) = a\cdot\ell
+    \text{.}
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  The verification is straightforward:
+  \begin{equation}
+    \label{eq:54}
+    \braket{\ell}{M_a(b)} = \braket{\ell}{ab} = \ell(ab) =
+    \braket{a\cdot\ell}{b}
+    \text{.}
+  \end{equation}
+\end{proof}
+
+Hence, using Theorem~\ref{th:todo}, any multiplication algorithm for a
+given basis $\basis{B}$ of $\algeb{A}$ can be transposed to compute
+$a\cdot\ell$ given $a$ on $\basis{B}$ and $\ell$ on
+$\dual{\basis{B}}$. Transposed multiplication is a classic problem, it
+can be solved without significant losses in space complexity on most
+bases, see
+\cite{shoup94,shoup95,shoup99,bostan+lecerf+schost:tellegen,hanrot+quercia+zimmermann}.
+
+We now consider again the dual map of $\ev_t$, this time with respect
+to \eqref{eq:52}; we denote it by $\proj_t$ to avoid confusion
+with~\eqref{eq:50}.
+
+\begin{lemma}
+  For any $t\in\algeb{A}$, the map $\proj_t$ is such that
+  \begin{equation}
+    \label{eq:55}
+    \proj_t(\ell) = \sum_{i\ge0}\frac{\ell(t^i)}{T^{i}}
+    \text{.}
+  \end{equation}  
+\end{lemma}
+\begin{proof}
+  This is just a consequence of Lemma~\ref{th:shoup}, since there
+  exists an $a\in\algeb{A}$ such that $\ell=\rho^{-1}(a)$.
+\end{proof}
+
+The problem of computing $\proj_t$ is often known as \emph{power
+  projection}. Using again Theorem~\ref{th:todo}, any algorithm to
+evaluate polynomials in $\K[T]$ on $t$ can be transposed to a power
+projection algorithm on $t$. We will see some instances of power
+projection algorithms later on.
+
+Then, the proof of the following theorem is evident.
+
+\begin{theorem}
+  \label{th:power-projection}
+  Let $a,t\in\algeb{A}$, then
+  \begin{equation}
+    \label{eq:56}
+    \sum_{i\ge0}\frac{\braket{a}{t^i}}{T^i} = \proj_t\circ\dual{M_a}(\rho(1))
+    \text{.}
+  \end{equation}
+\end{theorem}
+
+From it, we can derive an algorithm to compute a rational univariate
+representation, provided we know $\rho(1)$.
+
+\begin{algorithm}
+  {Fast Rational Univariate Representation} {A basis $\basis{B}$ of
+    $\algeb{A}$, $a_1,\ldots,a_n,t\in\algeb{A}^{\basis{B}}$, $t$
+    separating, $\rho(1)\in(\dual{\algeb{A}})^{\dual{\basis{B}}}$.} {A
+    rational univariate representation of $a_1,\ldots,a_n,t$.}
+  \item Compute $\frac{Q'}{Q} = \frac{1}{T}\proj_t(\rho(1))$;
+  \item Compute $Q = \exp\left(\int \frac{Q'}{Q}\right)$;
+  \item for each $a_i$
+    \begin{itemize}
+    \item Compute $A_i(T)=Q(T)\cdot(\proj_t\circ\dual{M_{a_i}}(\rho(1))) \bmod T^d$;
+    \end{itemize}
+  \item Output $Q(T)$ and $\frac{A_1(T)}{Q'(T)},\ldots,\frac{A_n(T)}{Q'(T)}$.
+\end{algorithm}
 
 
 
