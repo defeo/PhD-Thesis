@@ -605,6 +605,20 @@ in order to deduce $g_i(T)$ as in the representation~\eqref{eq:22}.
   y=\frac{6t-6}{2t-2}\text{.}\]
 \end{example}
 
+\begin{nota}
+  Theorem~\ref{th:rur} was first used to compute a rational univariate
+  representation by Rouiller~\cite{rouiller99}, in the case of an
+  arbitrary zero-dimensional ideal. This algorithm requires to have a
+  monomial basis for the vector space $\algeb{A}$, thus in practice it
+  computes a rational univariate representation starting from a
+  Gröbner basis.
+
+  A completely different approach based on Noether's normalization
+  theorem, called geometric resolution~\cite{giusti+lecerf+salvy01},
+  gives a Gröbner-basis-free alternative to compute rational
+  univariate representations.
+\end{nota}
+
 
 \section{The univariate case}
 \label{sec:univariate-case}
@@ -774,6 +788,7 @@ to \eqref{eq:52}; we denote it by $\proj_t$ to avoid confusion
 with~\eqref{eq:50}.
 
 \begin{lemma}
+  \label{th:shoup94}
   For any $t\in\algeb{A}$, the map $\proj_t$ is such that
   \begin{equation}
     \label{eq:55}
@@ -808,6 +823,7 @@ From it, we can derive an algorithm to compute a rational univariate
 representation, provided we know $\rho(1)$.
 
 \begin{algorithm}
+  \label{alg:rur}
   \caption{Fast Rational Univariate Representation}
   \begin{algorithmic}[1]
     \REQUIRE A basis $\basis{B}$ of
@@ -834,16 +850,57 @@ advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
   expressed in the basis $(1,x,\ldots,x^{d-1})$ as a polynomial in $x$
   modulo $f$. Then,
   \[\ev_t(g) = g(t) = g\circ t \bmod f\text{,}\]
-  where $g\circ t$ is polynomial composition. For this reason it has
-  been written many times that
-  \begin{quote}
-    Power projection is transposed modular composition.
-  \end{quote}
+  where $g\circ t$ is polynomial composition. The problem of computing
+  $g\circ t\bmod f$ for $g,t,f\in\K[x]$ is known as modular
+  composition, a naive algorithm has complexity quadratic in $d=\deg f$.
   
-
-  However in this document we prefer to say that ``power projection is
-  transposed evaluation'' as this statement 
+  The most efficient algorithms for modular composition are Brent and
+  Kung's \cite{brent+kung}, having complexity $O(\Mult(d)\sqrt{d} +
+  d^{\frac{\omega+1}{2}})$, and Kedlaya and Umans'
+  \cite{umans:08,kedlaya+umans08}, having quasi-linear
+  complexity. Each of these has a dual algorithm solving power
+  projection with the same complexity \cite{shoup94,kedlaya+umans08},
+  thus, at least in the univariate case, power projection can be
+  solved in subquadratic time.  Some extensions to the bivariate and
+  multivariate case also exist \cite{shoup99,kedlaya+umans08}.
 \end{remark}
+
+\begin{nota}
+  Algorithm~\ref{alg:rur} first appeared in
+  \cite{bostan+salvy+schost03}, which combined the ideas of
+  \cite{rouiller99} and \cite{shoup94,shoup99}. Lemma~\ref{th:shoup94}
+  was first used in \cite{shoup94} to compute minimal polynomials of
+  elements of a residue class field $\K[x]/(f)$, based on a transposed
+  modular composition algorithm. The method was extended to the
+  bivariate case in \cite{shoup99}.
+  
+  In \cite{shoup94,shoup99}, a generic linear form $\ell$ is taken, so
+  that by Theorem \ref{th:rur}
+  \[\sum_{i\ge0}\frac{\ell(t^i)}{T^{i+1}}=\frac{A(T)}{Q(T)}\]
+  for some $A(T)$. Since $\ell$ is arbitrary, $A(T)$ is \emph{a
+    priori} unknown, thus one cannot use Remark~\ref{rk:newton-sums}
+  to recover $Q$. Instead, a rational fraction reconstruction
+  algorithm (see Section~\ref{sec:todo}) is used to recover both
+  $A(T)$ and $Q(T)$. However, in comparison to
+  Remark~\ref{rk:newton-sums}, this requires to compute twice as many
+  ``power projections''.
+  
+  The intuition for the method, and for the name ``power projection'',
+  comes from Wiedemann's method to solve sparse linear
+  systems~\cite{wiedemann:sparse}. The idea is that the minimal
+  polynomial of a black-box matrix $A$ is the same as the one of the
+  linear recurrent sequence
+  \[1,A,A^2,\ldots\] 
+  Then, for any linear form $\ell$, the minimal polynomial of the sequence
+  \[\ell(1),\ell(A),\ell(A^2),\ldots\]
+  divides the minimal polynomial of $A$. The algorithm takes a random
+  form $\ell$ and uses it to ``project'' the first $2d$ powers of $A$
+  onto $\K$, then recovers its minimal polynomial using the
+  Berlekamp-Massey algorithm~\cite{massey69}. On the equivalence
+  between the Berlekamp-Massey algorithm and the rational fraction
+  reconstruction, see~\cite{dornstetter87}.
+\end{nota}
+
 
 % Local Variables:
 % mode:flyspell
