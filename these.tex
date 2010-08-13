@@ -6,6 +6,8 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage[chapter]{algorithm}
+\usepackage[noend]{algorithmic}
 \usepackage{mathrsfs}
 \usepackage{mdwlist}
 \usepackage{graphicx}
@@ -143,17 +145,20 @@
 
 
 %% Algorithmes
-\newenvironment{algorithm}[3]{\begin{center}\begin{minipage}{0.95\textwidth}
-      \sf
-      \rule{\textwidth}{0.2pt}\\
-      \makebox[\textwidth][c]{\textbf{#1}}\\
-      \rule[0.5\baselineskip]{\textwidth}{0.2pt}\\
-      \parbox{\textwidth}{\textbf{Input~~~: } #2}
-      \parbox{\textwidth}{\textbf{Output~: } #3}
-      \begin{enumerate}
-}{\end{enumerate}
-      \rule{\textwidth}{0.2pt}
-\end{minipage}\end{center}}
+% \newenvironment{algorithm}[3]{\begin{center}\begin{minipage}{0.95\textwidth}
+%       \sf
+%       \rule{\textwidth}{0.2pt}\\
+%       \makebox[\textwidth][c]{\textbf{#1}}\\
+%       \rule[0.5\baselineskip]{\textwidth}{0.2pt}\\
+%       \parbox{\textwidth}{\textbf{Input~~~: } #2}
+%       \parbox{\textwidth}{\textbf{Output~: } #3}
+%       \begin{enumerate}
+% }{\end{enumerate}
+%       \rule{\textwidth}{0.2pt}
+% \end{minipage}\end{center}}
+
+\renewcommand{\algorithmicrequire}{\textbf{Input~~~:}}
+\renewcommand{\algorithmicensure}{\textbf{Output~:}}
 
 \newcommand{\alg}[1]{{\sf #1}}  % la police des algorithmes
 \newcommand{\algref}[1]{\alg{\ref{#1}}}  % la police des algorithmes
@@ -170,6 +175,7 @@
 \tableofcontents
 \listoffigures
 \listoftables
+\listofalgorithms
 
 %\mainmatter
 \include{pre/pre}

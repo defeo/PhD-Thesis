@@ -98,26 +98,30 @@ Then, algorithm \alg{ApproximateAS} finds the required solution.
 
 
 \begin{algorithm}
-  {ApproximateAS} 
-  {$\eta\wrt\U_i$ such that~\eqref{eq:approximateAS} has a solution.}
-  {$\mu\wrt\U_i$ solution of~\eqref{eq:approximateAS}.}
-\item let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\alg{Push-down}}(\eta)$
-\item \label{alg:AAS:loop}for $j\in[p-1,\ldots,1]$,\\ let $\mu_j =
+  \caption{ApproximateAS} 
+  \begin{algorithmic}[1]
+    \REQUIRE $\eta\wrt\U_i$ such that~\eqref{eq:approximateAS} has a solution.
+    \ENSURE $\mu\wrt\U_i$ solution of~\eqref{eq:approximateAS}.
+    \STATE let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\alg{Push-down}}(\eta)$
+    \FORALL {\label{alg:AAS:loop} $j\in[p-1,\ldots,1]$}
+    \STATE let $\mu_j =
    \frac{1}{jT}\left(\eta_{j-1} -
   \sum_{h=j+1}^{p-1}\binom{h}{j-1}\beta_{i-1,p^{i-1}d}^{h-j+1}\mu_h\right)$
-\item return $\text{\alg{Lift-up}}(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$
+\ENDFOR
+\STATE return $\text{\alg{Lift-up}}(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$
+\end{algorithmic}
 \end{algorithm}
 
-%% \begin{algorithm}
+%% \begin{itemize}
 %%   {ApproximateAS} 
 %%   {$\eta\wrt\U_i$ such that~\eqref{eq:approximateAS} has a solution.}
 %%   {$\mu\wrt\U_i$ solution of~\eqref{eq:approximateAS}.}
-%% \item let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\alg{Push-down}}(\eta)$
-%% \item \label{alg:AAS:loop}for $j\in[p-1,\ldots,1]$,\\ let $\mu_j =
+%% \STATE let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\alg{Push-down}}(\eta)$
+%% \STATE \label{alg:AAS:loop}for $j\in[p-1,\ldots,1]$,\\ let $\mu_j =
 %%    \frac{1}{jT}\left(\eta_{j-1} -
 %%   \sum_{h=j+1}^{p-1}\binom{h}{j-1}\beta_{i-1,p^{i-1}d}^{h-j+1}\mu_h\right)$
-%% \item return $\text{\alg{Lift-up}}(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$
-%% \end{algorithm}
+%% \STATE return $\text{\alg{Lift-up}}(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$
+%% \end{itemize}
 
 \begin{theorem}
   \label{th:approximateAS}
@@ -159,15 +163,17 @@ linear algebra, written $\alg{NaiveSolve}$.
 
 
 \begin{algorithm}
-  {Artin-Schreier}
-  {$\alpha,i$ such that $\alpha\wrt\U_i$ and $\Tr_{\U_i/\F_p}(\alpha)=0$.}
-  {$\delta\wrt\U_i$ such that $\delta^p-\delta=\alpha$.}
-\item \label{alg:cou:base}if $i=0$, return $\alg{NaiveSolve}(X^p-X-\alpha)$
-\item \label{alg:cou:pseudo} let $\eta = \alg{Pseudotrace}(\alpha, i,i-1)$
-\item \label{alg:cou:push-beta} let $\mu= \alg{ApproximateAS}(\eta)$
-\item \label{alg:cou:push-alpha} let $\alpha_0=\text{\alg{Push-down}}(\alpha-\mu^p+\mu)$
-\item \label{alg:cou:rec} let $\Delta =\text{\alg{Artin-Schreier}}(\alpha_0,i-1)$
-\item \label{alg:cou:lift} return $\mu+\text{\alg{Lift-up}}(\Delta)$
+  \caption{Artin-Schreier}
+  \begin{algorithmic}[1]
+    \REQUIRE $\alpha,i$ such that $\alpha\wrt\U_i$ and $\Tr_{\U_i/\F_p}(\alpha)=0$.
+    \ENSURE $\delta\wrt\U_i$ such that $\delta^p-\delta=\alpha$.
+    \STATE \label{alg:cou:base}if $i=0$, return $\alg{NaiveSolve}(X^p-X-\alpha)$
+    \STATE \label{alg:cou:pseudo} let $\eta = \alg{Pseudotrace}(\alpha, i,i-1)$
+    \STATE \label{alg:cou:push-beta} let $\mu= \alg{ApproximateAS}(\eta)$
+    \STATE \label{alg:cou:push-alpha} let $\alpha_0=\text{\alg{Push-down}}(\alpha-\mu^p+\mu)$
+    \STATE \label{alg:cou:rec} let $\Delta =\text{\alg{Artin-Schreier}}(\alpha_0,i-1)$
+    \STATE \label{alg:cou:lift} return $\mu+\text{\alg{Lift-up}}(\Delta)$
+  \end{algorithmic}
 \end{algorithm}
 
 
@@ -227,27 +233,31 @@ Subsection~\ref{ssec:duality}, in the extension $\U_i=
 
 
 \begin{algorithm}
-  {ApplyIsomorphism} 
-  {$v,i$ with $v\in \U'_i$ written on the basis $\bB'_i$.}
-  {$\sigma_{\bs_i}(v) \wrt \U_i$.}
-\item if $i=0$ then return $v$
-\item write $v=\Sigma_{j <p} v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$
-\item let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$
-\item for $j \in [0,\dots,p-1]$ let $t_j=\alg{ApplyIsomorphism}(v_j,i-1)$
-\item let $t=0$
-\item  for $j \in [p-1,\dots,0]$ let $t=(s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})t+t_j$
-\item return $\text{\alg{Lift-up}}(t)$
+  \caption{ApplyIsomorphism} 
+  \begin{algorithmic}[1]
+    \REQUIRE $v,i$ with $v\in \U'_i$ written on the basis $\bB'_i$.
+    \ENSURE $\sigma_{\bs_i}(v) \wrt \U_i$.
+    \STATE if $i=0$ then return $v$
+    \STATE write $v=\Sigma_{j <p} v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$
+    \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$
+    \STATE for $j \in [0,\dots,p-1]$ let $t_j=\alg{ApplyIsomorphism}(v_j,i-1)$
+    \STATE let $t=0$
+    \STATE  for $j \in [p-1,\dots,0]$ let $t=(s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})t+t_j$
+    \STATE return $\text{\alg{Lift-up}}(t)$
+  \end{algorithmic}
 \end{algorithm}
 \begin{algorithm}
-  {ApplyInverse} 
-  {$t,i$ with $t \wrt \U_i$.}
-  {$\sigma_{\bs_i}^{-1}(t)\in \U'_i$ written on the basis $\bB'_i$.}
-\item if $i=0$ then return $t$
-\item let $t_0 + \cdots + t_{p-1}x_i^{p-1} = \text{\alg{Push-down}}(t)$
-\item let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$
-\item let $t'_0 + \cdots + t'_{p-1}X^{p-1} = \alg{FindParameterization}
+  \caption{ApplyInverse} 
+  \begin{algorithmic}[1]
+    \REQUIRE $t,i$ with $t \wrt \U_i$.
+    \ENSURE $\sigma_{\bs_i}^{-1}(t)\in \U'_i$ written on the basis $\bB'_i$.
+    \STATE if $i=0$ then return $t$
+    \STATE let $t_0 + \cdots + t_{p-1}x_i^{p-1} = \text{\alg{Push-down}}(t)$
+    \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$
+    \STATE let $t'_0 + \cdots + t'_{p-1}X^{p-1} = \alg{FindParameterization}
   (t_0 + \cdots + t_{p-1}x_i^{p-1}, s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})$
-\item return $\Sigma_{j < p} \alg{ApplyInverse}(t'_j, i-1) {x'_i}^j$
+  \STATE return $\Sigma_{j < p} \alg{ApplyInverse}(t'_j, i-1) {x'_i}^j$
+\end{algorithmic}
 \end{algorithm}
 
 

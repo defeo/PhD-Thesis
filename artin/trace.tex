@@ -808,20 +808,42 @@ From it, we can derive an algorithm to compute a rational univariate
 representation, provided we know $\rho(1)$.
 
 \begin{algorithm}
-  {Fast Rational Univariate Representation} {A basis $\basis{B}$ of
-    $\algeb{A}$, $a_1,\ldots,a_n,t\in\algeb{A}^{\basis{B}}$, $t$
-    separating, $\rho(1)\in(\dual{\algeb{A}})^{\dual{\basis{B}}}$.} {A
-    rational univariate representation of $a_1,\ldots,a_n,t$.}
-  \item Compute $\frac{Q'}{Q} = \frac{1}{T}\proj_t(\rho(1))$;
-  \item Compute $Q = \exp\left(\int \frac{Q'}{Q}\right)$;
-  \item for each $a_i$
-    \begin{itemize}
-    \item Compute $A_i(T)=Q(T)\cdot(\proj_t\circ\dual{M_{a_i}}(\rho(1))) \bmod T^d$;
-    \end{itemize}
-  \item Output $Q(T)$ and $\frac{A_1(T)}{Q'(T)},\ldots,\frac{A_n(T)}{Q'(T)}$.
+  \caption{Fast Rational Univariate Representation}
+  \begin{algorithmic}[1]
+    \REQUIRE A basis $\basis{B}$ of
+      $\algeb{A}$, $a_1,\ldots,a_n,t\in\algeb{A}^{\basis{B}}$, $t$
+    separating, $\rho(1)\in(\dual{\algeb{A}})^{\dual{\basis{B}}}$.
+    \ENSURE A rational univariate representation of $a_1,\ldots,a_n,t$.
+    \STATE Compute $\frac{Q'}{Q} = \frac{1}{T}\proj_t(\rho(1))$;
+    \STATE Compute $Q = \exp\left(\int \frac{Q'}{Q}\right)$;
+    \FORALL{$a_i$}
+    \STATE Compute $A_i(T)=Q(T)\cdot(\proj_t\circ\dual{M_{a_i}}(\rho(1))) \bmod T^d$;
+    \ENDFOR
+    \STATE Output $Q(T)$ and $\frac{A_1(T)}{Q'(T)},\ldots,\frac{A_n(T)}{Q'(T)}$.
+  \end{algorithmic}
 \end{algorithm}
 
+In order to apply this algorithm, prior knowledge of the expression of
+$\rho(1)$ on the basis $\dual{\basis{B}}$, i.e. $\{\Tr(b) |
+b\in\basis{B}\}$, is needed. When $B$ is a polynomial basis
+$\{1,b,\ldots,b^d\}$, and the minimal polynomial of $b$ is known in
+advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
 
+\begin{remark}
+  In the univariate case $\algeb{A}=\K[x]/(f)$, $t\in\algeb{A}$ is
+  expressed in the basis $(1,x,\ldots,x^{d-1})$ as a polynomial in $x$
+  modulo $f$. Then,
+  \[\ev_t(g) = g(t) = g\circ t \bmod f\text{,}\]
+  where $g\circ t$ is polynomial composition. For this reason it has
+  been written many times that
+  \begin{quote}
+    Power projection is transposed modular composition.
+  \end{quote}
+  
+
+  However in this document we prefer to say that ``power projection is
+  transposed evaluation'' as this statement 
+\end{remark}
 
 % Local Variables:
 % mode:flyspell

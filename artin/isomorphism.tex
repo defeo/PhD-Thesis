@@ -48,17 +48,18 @@ Since we know $\sigma(x_i')\wrt\U_i$, this is an easy task. The
 algorithm \alg{Lift-up$^\sigma$} accomplishes it.
 
 \begin{algorithm}
-  {Lift-up$^\sigma$}
-  {$v_0,\ldots,v_{p-1}\wrt\U_{i-1}$.}
-  {$v\wrt\U_i$ such that $v = \sum v_i\sigma(x_i')^i$.}
-\item Let $y = \sigma(x_i')$;
-\item let $v = 0$;
-\item for $j = p-1$ to $0$,
-  \begin{enumerate}
-  \item \label{alg:lift-sigma:lift}$v_j' = $ Lift-up($v_j$);
-  \item \label{alg:lift-sigma:horner}$v = vy + v_j$;
-  \end{enumerate}
-\item return $v$.
+  \caption{Lift-up$^\sigma$}
+  \begin{algorithmic}[1]
+    \REQUIRE $v_0,\ldots,v_{p-1}\wrt\U_{i-1}$.
+    \ENSURE $v\wrt\U_i$ such that $v = \sum v_i\sigma(x_i')^i$.
+    \STATE Let $y = \sigma(x_i')$;
+    \STATE let $v = 0$;
+    \FOR{$j = p-1$ to $0$}
+    \STATE \label{alg:lift-sigma:lift}$v_j' = $ Lift-up($v_j$);
+    \STATE \label{alg:lift-sigma:horner}$v = vy + v_j$;
+    \ENDFOR
+    \STATE return $v$.
+  \end{algorithmic}
 \end{algorithm}
 
 \begin{theorem}
@@ -163,18 +164,20 @@ and taking the opposite of the coordinate of $x_i^{p-1}$, then the
 algorithm \alg{Push-down$^\sigma$} follows easily.
 
 \begin{algorithm}
-  {Push-down$^\sigma$}
-  {$v\wrt\U_i$.}
-  {$v_0,\ldots,v_{p-1}\wrt\U_{i-1}$ such that $v = \sum v_i\sigma(x_i')^i$.}
-\item Let $y = \sigma(x_i')$;
-\item Let $s_0 = v$;
-\item \label{alg:push-sigma:sigmas}for $j = 1$ to $p-1$, compute $s_j
-  = s_{j-1}y$;
-\item \label{alg:push-sigma:traces}for $j = 0$ to $p-1$, compute $t_j
-  = \Tr_{\U_i/\U_{i-1}}(s_j)$;
-\item compute $v_0 = t_0 - t_{p-1}$;
-\item for $j = 1$ to $p-1$, compute $v_j = -t_{p-1-j}$;
-\item return $v_0, \ldots, v_{p-1}$;
+  \caption{Push-down$^\sigma$}
+  \begin{algorithmic}[1]
+    \REQUIRE $v\wrt\U_i$.
+    \ENSURE $v_0,\ldots,v_{p-1}\wrt\U_{i-1}$ such that $v = \sum v_i\sigma(x_i')^i$.
+    \STATE Let $y = \sigma(x_i')$;
+    \STATE Let $s_0 = v$;
+    \STATE \label{alg:push-sigma:sigmas}for $j = 1$ to $p-1$, compute $s_j
+    = s_{j-1}y$;
+    \STATE \label{alg:push-sigma:traces}for $j = 0$ to $p-1$, compute $t_j
+    = \Tr_{\U_i/\U_{i-1}}(s_j)$;
+    \STATE compute $v_0 = t_0 - t_{p-1}$;
+    \STATE for $j = 1$ to $p-1$, compute $v_j = -t_{p-1-j}$;
+    \STATE return $v_0, \ldots, v_{p-1}$;
+  \end{algorithmic}
 \end{algorithm}
 
 \begin{theorem}

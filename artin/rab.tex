@@ -29,10 +29,10 @@ $\PTr_{2^e}(\gamma_i)^h$ is precomputed for any $i$, $1\le e<\log_2d$
 and $1\le h<p$.
 
 \begin{figure}[!htb]
-  \begin{algorithm}
-    {Iterated Little Frobenius}
-    {$v\wrt\U_i$, $e$ such that $2^e<d$.}
-    {$\frob^{2^e}(v)$.}
+  \begin{itemize}
+%    {Iterated Little Frobenius}
+%    {$v\wrt\U_i$, $e$ such that $2^e<d$.}
+%    {$\frob^{2^e}(v)$.}
   \item \label{alg:l-frob:base-n} If $e = 0$, then return $v^p$.
   \item \label{alg:l-frob:modcomp} Else, if $i=0$,
     \begin{enumerate}
@@ -55,7 +55,7 @@ and $1\le h<p$.
     \item \label{alg:l-frob:lift} compute and return Lift-up($t_0$,
     $\ldots$, $t_{p-1}$).
     \end{enumerate}
-  \end{algorithm}
+  \end{itemize}
 \end{figure}
 
 \sloppy
@@ -129,10 +129,10 @@ Putting things together, we deduce the following
 
 
 \begin{figure}[h]
-  \begin{algorithm}
-    {Little Pseudotrace}
-    {$v\wrt\U_i$, $1\le n\le d$.}
-    {$T_{n}(v)$.}
+  \begin{itemize}
+%    {Little Pseudotrace}
+%    {$v\wrt\U_i$, $1\le n\le d$.}
+%    {$T_{n}(v)$.}
   \item \label{alg:l-pseudo:base}If $n = 1$, then return $v$.
   \item \label{alg:l-pseudo:even}Else, if $n=2^e$, 
     \begin{enumerate}
@@ -150,7 +150,7 @@ Putting things together, we deduce the following
       Frobenius($t_1$, $e$);
     \item compute and return $t_0 + T_1$.
     \end{enumerate}
-  \end{algorithm}
+  \end{itemize}
 \end{figure}
 
 \sloppy

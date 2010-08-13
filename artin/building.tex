@@ -19,13 +19,15 @@ $p$-power. At the leaves of the recursion tree, we use the following naive
 algorithm.
 
 \begin{algorithm}
-  {NaiveCompose}
-  {$P,R\in\F_p[X]$.}
-  {$P(R)$.}
-\item write $P=\sum_{i=0}^{\deg(P)} p_i X^{i}$, with $p_i \in \F_p$
-\item let $S=0$, $\rho=1$
-\item for $i\in [0,\dots,\deg(P)]$, let $S=S+p_i \rho$ and $\rho =\rho R$
-\item return $S$
+  \caption{NaiveCompose}
+  \begin{algorithmic}[1]
+    \REQUIRE $P,R\in\F_p[X]$.
+    \ENSURE $P(R)$.
+    \STATE write $P=\sum_{i=0}^{\deg(P)} p_i X^{i}$, with $p_i \in \F_p$
+    \STATE let $S=0$, $\rho=1$
+    \STATE for $i\in [0,\dots,\deg(P)]$, let $S=S+p_i \rho$ and $\rho =\rho R$
+    \STATE return $S$
+  \end{algorithmic}
 \end{algorithm}
 
 \begin{lemma}
@@ -40,16 +42,18 @@ whence a total cost of $O(\deg(P)^2 k\ell)$.
 
 
 \begin{algorithm}
-  {Compose}
-  {$P,R\in\F_p[X]$.}
-  {$P(R)$.}
-\item\label{c:params} let $n=\lfloor \log_p(\deg(P)) \rfloor$ and $c=\deg(P) {\sf~div~} p^n$
-\item If $n=0$, return $\alg{NaiveCompose}(P,R)$
-\item write $P=\sum_{i=0}^{c} P_i X^{ip^n}$, with $P_i \in \F_p[X], \deg P_i<p^n$
-\item for $i\in [0,\dots,c]$, let $Q_i = \text{\alg{Compose}}(P_i,R)$
-\item let $Q=0$
-\item\label{c:loop} for $i\in [c,\dots,0]$, let $Q = Q R(X^{p^n})  + Q_i$
-\item return $Q$
+  \caption{Compose}
+  \begin{algorithmic}[1]
+    \REQUIRE $P,R\in\F_p[X]$.
+    \ENSURE $P(R)$.
+    \STATE\label{c:params} let $n=\lfloor \log_p(\deg(P)) \rfloor$ and $c=\deg(P) {\sf~div~} p^n$
+    \STATE If $n=0$, return $\alg{NaiveCompose}(P,R)$
+    \STATE write $P=\sum_{i=0}^{c} P_i X^{ip^n}$, with $P_i \in \F_p[X], \deg P_i<p^n$
+    \STATE for $i\in [0,\dots,c]$, let $Q_i = \text{\alg{Compose}}(P_i,R)$
+    \STATE let $Q=0$
+    \STATE\label{c:loop} for $i\in [c,\dots,0]$, let $Q = Q R(X^{p^n})  + Q_i$
+    \STATE return $Q$
+  \end{algorithmic}
 \end{algorithm}
 
 %\smallskip

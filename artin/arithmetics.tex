@@ -177,14 +177,17 @@ $Q'=-1$, so no work is needed to invert it modulo $Q$.
 In the following algorithm, we suppose that $\U'$ is presented as
 $\U'=\U[X]/P$, where $P$ is Artin-Schreier. We let $x$ be the residue
 class of $X$ in $\U'$.
-\begin{algorithm}{FindParameterization}
-  {$w \in \U'$ written as $w_0 + \cdots + w_{p-1} x^{p-1}$,  
-   $b \in \U'$ written as $b_0 + \cdots + b_{p-1} x^{p-1}$}
-  {A polynomial $A$ of degree less than $p$ such that $w=A(b)$}
-\item\label{alg:para:trmul} let $\ell = w \cdot\Tr_{\U'/\U}$
-\item\label{alg:para:trmodcomp} let $M= \sum_{j < p}\ell(b^j)X^j$
-\item\label{alg:para:multrunc} let $N = M \rev_{p}(Q) {\sf ~mod~} X^{p}$
-\item\label{alg:para:mulmod} return $-\rev_{p-1}(N)$
+\begin{algorithm}
+  \caption{FindParameterization}
+  \begin{algorithmic}[1]
+    \REQUIRE $w \in \U'$ written as $w_0 + \cdots + w_{p-1} x^{p-1}$,  
+    $b \in \U'$ written as $b_0 + \cdots + b_{p-1} x^{p-1}$
+    \ENSURE A polynomial $A$ of degree less than $p$ such that $w=A(b)$
+    \STATE\label{alg:para:trmul} let $\ell = w \cdot\Tr_{\U'/\U}$
+    \STATE\label{alg:para:trmodcomp} let $M= \sum_{j < p}\ell(b^j)X^j$
+    \STATE\label{alg:para:multrunc} let $N = M \rev_{p}(Q) {\sf ~mod~} X^{p}$
+    \STATE\label{alg:para:mulmod} return $-\rev_{p-1}(N)$
+  \end{algorithmic}
 \end{algorithm}
 \begin{proposition}
   \label{th:findparameterization}

@@ -51,16 +51,18 @@ nothing left to do. In the case $n<d$, we stop the recursion when
 $i=0$ and apply~\cite[Algorithm 5.2]{vzGS92}. We summarize the two
 variants in one unique algorithm \alg{IterFrobenius}.
 \begin{algorithm}
-  {IterFrobenius} 
-  {$v$, $i$, $n$ with $v\wrt\U_i$ and $n<d$ or $n=p^jd$.}  
-  {$v^{p^n} \wrt \U_i$.}
-\item \label{alg:frob:base} if $n=p^jd$ and $i \le j$, return $v$
-\item \label{alg:frob:base2} if $i=0$, return $v^{p^n}$
-\item \label{alg:frob:push} let $v_0 + v_1 x_i + \dots + v_{p-1} x_i^{p-1}=\text{\alg{Push-down}}(v)$
-\item \label{alg:frob:rec} for $h \in [0,\dots,p-1]$, let $t_h = \alg{IterFrobenius}(v_h, i-1, n)$
-\item let $F=0$
-\item\label{alg:frob:T} for $h \in [p-1,\dots,0]$, let $F = t_h +  (x_i+\beta_{i-1,n})F$
-\item \label{alg:frob:lift} return $\text{\alg{Lift-up}}(F)$
+  \caption{IterFrobenius} 
+  \begin{algorithmic}[1]
+    \REQUIRE $v$, $i$, $n$ with $v\wrt\U_i$ and $n<d$ or $n=p^jd$.
+    \ENSURE $v^{p^n} \wrt \U_i$.
+    \STATE \label{alg:frob:base} if $n=p^jd$ and $i \le j$, return $v$
+    \STATE \label{alg:frob:base2} if $i=0$, return $v^{p^n}$
+    \STATE \label{alg:frob:push} let $v_0 + v_1 x_i + \dots + v_{p-1} x_i^{p-1}=\text{\alg{Push-down}}(v)$
+    \STATE \label{alg:frob:rec} for $h \in [0,\dots,p-1]$, let $t_h = \alg{IterFrobenius}(v_h, i-1, n)$
+    \STATE let $F=0$
+    \STATE\label{alg:frob:T} for $h \in [p-1,\dots,0]$, let $F = t_h +  (x_i+\beta_{i-1,n})F$
+    \STATE \label{alg:frob:lift} return $\text{\alg{Lift-up}}(F)$
+  \end{algorithmic}
 \end{algorithm}
 
 As mentioned above, the algorithm requires the values $\beta_{i',n}$
@@ -120,26 +122,30 @@ for such $n$; when $j=0$, it invokes the first algorithm.
 
 
 \begin{algorithm}
-  {LittlePseudotrace}
-  {$v$, $i$, $n$ with $v\wrt\U_i$ and $0<n\le d$.}  
-  {$T_{n}(v) \wrt \U_i$.}
-\item \label{alg:lpseudo:base} if $n = 1$ return $v$
-\item \label{alg:lpseudo:half} let $m = \lfloor n/2 \rfloor$
-\item \label{alg:lpseudo:rec} let $t=$ {\sf LittlePseudotrace}($v$,
-  $i$, $m$)
-\item \label{alg:lpseudo:frob} let $t=t+$ {\sf IterFrobenius}($t$, $i$, $m$)
-\item \label{alg:lpseudo:odd} if $n$ is odd, let $t=t+$ {\sf
-    IterFrobenius}($v$, $i$, $n$)
-\item return $t$
+  \caption{LittlePseudotrace}
+  \begin{algorithmic}[1]
+    \REQUIRE $v$, $i$, $n$ with $v\wrt\U_i$ and $0<n\le d$.
+    \ENSURE $T_{n}(v) \wrt \U_i$.
+    \STATE \label{alg:lpseudo:base} if $n = 1$ return $v$
+    \STATE \label{alg:lpseudo:half} let $m = \lfloor n/2 \rfloor$
+    \STATE \label{alg:lpseudo:rec} let $t=$ {\sf LittlePseudotrace}($v$,
+    $i$, $m$)
+    \STATE \label{alg:lpseudo:frob} let $t=t+$ {\sf IterFrobenius}($t$, $i$, $m$)
+    \STATE \label{alg:lpseudo:odd} if $n$ is odd, let $t=t+$ {\sf
+      IterFrobenius}($v$, $i$, $n$)
+    \STATE return $t$
+  \end{algorithmic}
 \end{algorithm}
 \begin{algorithm}
-  {Pseudotrace}
-  {$v$, $i$, $j$ with $v\wrt\U_i$.}  
-  {$T_{p^jd}(v) \wrt \U_i$.}
-\item \label{alg:pseudo:base} if $j = 0$ return {\sf LittlePseudotrace}($v$, $d$)
-\item \label{alg:pseudo:rec} $t_0=${\sf Pseudotrace}($v, i, j-1$)
-\item \label{alg:pseudo:frob}for $h\in [1,\dots,p-1]$, let $t_h=\text{\alg{IterFrobenius}}(t_{h-1}, i, j-1)$
-\item \label{alg:pseudo:sum}return $t_0 + t_1 + \cdots + t_{p-1}$
+  \caption{Pseudotrace}
+  \begin{algorithmic}[1]
+    \REQUIRE $v$, $i$, $j$ with $v\wrt\U_i$.
+    \ENSURE $T_{p^jd}(v) \wrt \U_i$.
+    \STATE \label{alg:pseudo:base} if $j = 0$ return {\sf LittlePseudotrace}($v$, $d$)
+    \STATE \label{alg:pseudo:rec} $t_0=${\sf Pseudotrace}($v, i, j-1$)
+    \STATE \label{alg:pseudo:frob}for $h\in [1,\dots,p-1]$, let $t_h=\text{\alg{IterFrobenius}}(t_{h-1}, i, j-1)$
+    \STATE \label{alg:pseudo:sum}return $t_0 + t_1 + \cdots + t_{p-1}$
+  \end{algorithmic}
 \end{algorithm}
 
 \begin{theorem}
