@@ -27,11 +27,11 @@ We let $Q_0$ be in $\F_p[X_0]$ and $\U_0=\F_p[X_0]/Q_0$.
       \end{array}\right .
   \end{equation}
   in $\F_p[X_0,\dots,X_i]$, and if $\U_i$ is a field. 
-\end{definition}
 
-Clearly $\U_i\subset\U_{i+1}$. The residue class of $X_i$
-(resp. $G_i$) in $\U_i$, and thus in $\U_{i+1},\dots$, is written
-$x_i$ (resp. $\gamma_i$), so that we have $x_i^p-x_i=\gamma_{i-1}$.
+  The residue class of $X_i$ (resp. $G_i$) in $\U_i$, and thus in
+  $\U_{i+1},\dots$, is written $x_i$ (resp. $\gamma_i$), so that we
+  have $x_i^p-x_i=\gamma_{i-1}$.
+\end{definition}
 
 Finding a suitable $\F_p$-basis to represent elements of a tower
 $(\U_0,\dots,\U_k)$ is a crucial question. 
@@ -50,7 +50,7 @@ $(\U_0,\dots,\U_k)$ is a crucial question.
 
 However, in this basis, we do not have very efficient arithmetic
 operations, starting from multiplication. Indeed, the natural approach
-to multiplication in $\bB_i$ consists in a polynomial multiplication,
+to multiplication in $\basis{B}_i$ consists in a polynomial multiplication,
 followed by reduction modulo $(Q_0,P_1,\dots,P_i)$; however, the
 initial product gives a polynomial of partial degrees
 $(2d-2,2p-2,\dots,2p-2)$, so the number of monomials appearing is not
@@ -85,24 +85,24 @@ As a workaround, we introduce the notion of a {\em primitive tower}.
 In a primitive tower, unless otherwise stated, we represent the
 elements of $\U_i$ on the univariate basis. In this basis, assuming
 $Q_i$ is known, additions and subtractions are done in time $p^id$,
-multiplications in time $O(\Mult(p^id))$~\cite[Chapter~9]{vzGG} and
-inversions in time $O(\Mult(p^id)\log(p^id))$~\cite[Chapter~11]{vzGG}.
+multiplications in time $O(\Mult(p^id))$ and inversions in time
+$O(\Mult(p^id)\log(p^id))$ (see Section~\ref{sec:fund-algor}).
 
-Remark that having fast arithmetic operations in $\U_i$ enable us to
+Remark that having fast arithmetic operations in $\U_i$ enables us to
 write fast algorithms for polynomial arithmetic in $\U_i[Y]$, where
 $Y$ is a new variable. Extending the previous notation, let us write
 $A \wrt\U_i[Y]$ to indicate that a polynomial $A \in \U_i[Y]$ is
 written on the basis $(x_i^\alpha Y^\beta)_{0 \le \alpha < p^id, 0 \le
   \beta}$ of $\U_i[Y]$.  Then, given $A,B \wrt \U_i[Y]$, both of
 degrees less than $n$, one can compute $AB \wrt \U_i[Y]$ in time
-$O(\Mult(p^id n))$ using Kronecker's
-substitution~\cite[Lemma~2.2]{vzgathen+shoup92}.
+$O(\Mult(p^id n))$ using Kronecker's substitution (see
+Section~\ref{sec:fund-algor}).
 
 One can extend the fast Euclidean division algorithm to this context,
 as Newton iteration reduces Euclidean division to polynomial
-multiplication. The analysis of~\cite[Chapter~9]{vzGG} implies that
-Euclidean division of a degree $n$ polynomial $A \wrt \U_i[Y]$ by a
-monic degree $m$ polynomial $B \wrt \U_i[Y]$, with $m \le n$, can be
+multiplication. The analysis of\todo~\cite[Chapter~9]{vzGG} implies
+that Euclidean division of a degree $n$ polynomial $A \wrt \U_i[Y]$ by
+a monic degree $m$ polynomial $B \wrt \U_i[Y]$, with $m \le n$, can be
 done in time $O(\Mult(p^id n))$.
 
 Finally, fast GCD techniques carry over as well, as they are based on
@@ -121,7 +121,7 @@ We continue with a few useful facts on traces.
 \begin{proposition}
   We have the following well-known properties:
   \begin{align}
-  \tag{$\mathbf{P}_1$} &\begin{array}{c}  
+  \tag{$\mathbf{P}_1$}\label{eq:78} &\begin{array}{c}  
   \Tr_{\F_{q^n}/\F_q}: a \mapsto \sum_{\ell=0}^{n -
     1}a^{q^\ell} \text{,}
   \end{array}\\
@@ -162,6 +162,49 @@ We continue with a few useful facts on traces.
   \end{align}
 \end{proof}
 
+\begin{proposition}
+  \label{th:artin-schreier}
+  The Artin-Schreier polynomial $X^p-X-\alpha$ is irreducible in $\F_q$
+  if and only if
+  \begin{equation}
+    \label{eq:62}
+    \Tr_{\F_q/\F_p}(\alpha) \ne 0
+    \text{.}
+  \end{equation}
+  If it is reducible, then it is split and its roots are 
+  \begin{equation}
+    \label{eq:63}
+    \eta, \eta+1, \ldots, \eta + p -1
+    \text{.}
+  \end{equation}
+\end{proposition}
+\begin{proof}
+  This proof is from \cite[Chapter~2]{lidl+niederreiter:2}.
+
+  Since $p$ is prime, $X^p-X-\alpha$ is either irreducible or
+  split. In the second case, Eq.~\eqref{eq:63} is obvious.
+
+  Suppose it is split and let $\eta$ be one of its roots. Then
+  \begin{equation}
+    \label{eq:76}
+    \Tr_{\F_q/\F_p}(\alpha) = \Tr_{\F_q/\F_p}(\eta^p) - \Tr_{\F_q/\F_p}(\eta) = 0
+    \text{,}
+  \end{equation}
+  where the last equality comes from
+  \ref{th:basic-galois-theory:trace}.
+
+  Suppose now that $\Tr_{\F_q/\F_p}(\alpha)=0$, and let $\eta$ be a
+  root of $X^p-X-\alpha$ in its splitting field. Let $m=[\F_q:\F_p]$,
+  then by \eqref{eq:78}
+  \begin{equation}
+    \label{eq:77}
+    0=\Tr_{\F_q/\F_p}(\alpha) = \sum_{i=0}^{m-1}\alpha^{p^i} =
+    \sum_{i=0}^{m-1}(\eta^p-\eta)^{p^i} =\eta^{q}-\eta
+    \text{,}
+  \end{equation}
+  thus $\eta\in\F_q$.
+\end{proof}
+
 Following~\cite{couveignes00}, we also use a generalization of the
 trace.
 
@@ -169,16 +212,19 @@ trace.
   The $n$-th {\em pseudotrace} of order $m$ is the
   $\F_{p^m}$-linear operator
   \begin{equation*}
-    \begin{array}{c}  \PTr_{(n,m)}: a \mapsto \sum_{\ell=0}^{n-1}a^{p^{m\ell}};\end{array}
+    \PTr_{(n,m)}: a \mapsto \sum_{\ell=0}^{n-1}a^{p^{m\ell}}
+    \text{;}
   \end{equation*}
   for $m=1$, we call it the $n$-th pseudotrace and write $\PTr_n$.
 \end{definition}
 
-In our context, for $n=[\U_i:\U_j]=p^{i-j}$ and $m=[\U_j:\F_p]=p^jd$,
-$\PTr_{(n,m)}(v)$ coincides with $\Tr_{\U_{i}/\U_j}(v)$ for $v$ in
-$\U_i$; however $\PTr_{(n,m)}(v)$ remains defined for $v$ not in
-$\U_i$, whereas $\Tr_{\U_{i}/\U_j}(v)$ is not.
-
+\begin{nota}
+  In our context, for $n=[\U_i:\U_j]=p^{i-j}$ and
+  $m=[\U_j:\F_p]=p^jd$, $\PTr_{(n,m)}(v)$ coincides with
+  $\Tr_{\U_{i}/\U_j}(v)$ for $v$ in $\U_i$; however $\PTr_{(n,m)}(v)$
+  remains defined for $v$ not in $\U_i$, whereas
+  $\Tr_{\U_{i}/\U_j}(v)$ is not.
+\end{nota}
 
 
 % Local Variables:

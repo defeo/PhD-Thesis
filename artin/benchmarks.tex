@@ -1,45 +1,46 @@
 \section{Experimental results}
-\label{sec:benchmarks}
+\label{sec:artin-benchmarks}
 
-We describe here the implementation of our algorithms and an
-application coming from elliptic curve cryptology, isogeny
-computation.
+We discuss here the implementation of the algorithms of this Chapter
+and some experimental results.
 
-\paragraph*{\bf Implementation.} We packaged the algorithms of this
-paper in a \texttt{C++} library called \texttt{FAAST} and made it
-available under the terms of the \texttt{GNU GPL} software license
-from
+\paragraph{Implementation}
+We packaged the algorithms of this paper in a \texttt{C++} library
+called \texttt{FAAST} and made it available under the terms of the
+\texttt{GNU GPL} software license from
 \mbox{\url{http://www.lix.polytechnique.fr/Labo/Luca.De-Feo/FAAST/}}.
 
 \texttt{FAAST} is implemented on top of the \texttt{NTL}
-library~\cite{NTL} which provides the basic univariate polynomial
-arithmetic needed here. Our library handles three NTL classes of
-finite fields: {\tt GF2} for $p=2$, {\tt zz\_p} for word-size $p$ and
-{\tt ZZ\_p} for arbitrary $p$; this choice is made by the user at
-compile-time through the use of \texttt{C++} templates and the
-resulting code is thus quite efficient.  Optionally, \texttt{NTL} can
-be combined with the \texttt{gf2x} package~\cite{gf2x} for better
-performance in the $p=2$ case, as we did in our experiments.
+library~\cite{shoup2003ntl} which provides the basic univariate
+polynomial arithmetic needed here. Our library handles three NTL
+classes of finite fields: {\tt GF2} for $p=2$, {\tt zz\_p} for
+word-size $p$ and {\tt ZZ\_p} for arbitrary $p$; this choice is made
+by the user at compile-time through the use of \texttt{C++} templates
+and the resulting code is thus quite efficient.  Optionally,
+\texttt{NTL} can be combined with the \texttt{gf2x}
+package~\cite{gf2x} for better performance in the $p=2$ case, as we
+did in our experiments.
 
-All the algorithms of Sections
-\ref{sec:fast-tower}--\ref{sec:pseudotrace-frobenius} are faithfully
-implemented in \texttt{FAAST}. The algorithms \alg{ApplyIsomorphism}
-and \alg{ApplyInverse} have slightly different implementations
-\texttt{toUnivariate()} and \texttt{toBivariate()} that allow more
-flexibility. Instead of being recursive algorithms doing the change to
-and from the multivariate basis $\bB'_i=\{{x_0'}^{e_0}\cdots
-{x_i'}^{e_i}\}$, they only implement the change to and from the
-bivariate basis $\bD'_i=\{{x_{i-1}}^{e_{i-1}}{x_i'}^{e_i}\}$ with $0\le
+All the algorithms of
+Sections~\ref{sec:fast-tower}--\ref{sec:pseudotrace-frobenius} are
+faithfully implemented in \texttt{FAAST}. The algorithms
+\alg{ApplyIsomorphism} and \alg{ApplyInverse} have slightly different
+implementations \texttt{toUnivariate()} and \texttt{toBivariate()}
+that allow more flexibility. Instead of being recursive algorithms
+doing the change to and from the multivariate basis
+$\basis{B}'_i=\{{x_0'}^{e_0}\cdots {x_i'}^{e_i}\}$, they only
+implement the change to and from the bivariate basis
+$\basis{D}'_i=\{{x_{i-1}}^{e_{i-1}}{x_i'}^{e_i}\}$ with $0\le
 e_{i-1}<p^{i-1}d$ and $0\le e_i<p$. Equivalently, this amounts to
 switch between the representations
-\begin{equation*}
+\begin{equation}
   \wrt\U_i \quad\text{and}\quad
   \wrt\U_{i-1}[X_i']/(X_i'^p-X_i'-\gamma_{i-1}')
   \text{.}
-\end{equation*}
+\end{equation}
 The same result as one call to \alg{ApplyIsomorphism} or
 \alg{ApplyInverse} can be obtained by $i$ calls to
-\texttt{toUnivaraite()} and \texttt{toBivariate()}
+\texttt{toUnivariate()} and \texttt{toBivariate()}
 respectively. However, in the case where several generic Artin-Schreier
 towers, say $(\U_0',\ldots,\U_k')$ and $(\U_0'',\ldots,\U_k'')$, are
 built using the algorithms of Section \ref{sec:couveignes-algorithm},
@@ -66,44 +67,33 @@ Figure~\ref{fig:lattice}.
 \end{figure}
 
 Besides the algorithms presented in this paper, \texttt{FAAST} also
-implements some algorithms described in~\cite{DeFeo10} for minimal
-polynomials, evaluation and interpolation, as they are required for the 
-isogeny computation algorithm.
+implements some algorithms described in
+Chapter~\ref{cha:algor-small-char} for minimal polynomials, evaluation
+and interpolation, as they are required for the isogeny computation
+algorithm described there.
 
-
-\paragraph*{\bf Experimental results.} We compare our timings with
-those obtained in Magma~\cite{Magma} for similar questions.  All
+\paragraph{Experimental results.} We compare our timings with
+those obtained in Magma~\cite{MAGMA} for similar questions.  All
 results are obtained on an Intel Xeon E5430 (2.6GHz).
-
-\smallskip
 
 The experiments for the \texttt{FAAST} library were only made for the
 classes \texttt{GF2} and \texttt{zz\_p}. The class \texttt{ZZ\_p} was
 left out because all the primes that can be reasonably handled by our
 library fit in one machine-word. In Magma, there exist several ways to
 build field extensions:
-
 \begin{description*}
 \item [$\bullet$ {\tt quo<U|P>}] builds the quotient of the
   univariate polynomial ring $U$ by  $P \in U$
   (written magma(1) hereafter);
-
-\smallskip
-
 \item [$\bullet$ {\tt ext<k|P>}] builds the extension of the field $k$ by $P \in
   k[X]$ (written magma(2));
-
-\smallskip
-
 \item [$\bullet$ {\tt ext<k|p>}] builds an extension of degree $p$ of $k$
-  (written mag\-ma(3)).
+  (written magma(3)).
 \end{description*}
+We made experiments for each of these choices where this makes sense.
 
-\smallskip\noindent We made experiments for each of these choices where this makes sense.
-
-
-\smallskip The parameters to our algorithms are
-$(p,d,k)$. Thus, our experiments describe the following situations:
+The parameters to our algorithms are $(p,d,k)$. Thus, our experiments
+describe the following situations:
 
 \begin{itemize}
 \item {\em Increasing the height $k$.} Here we take $p=2$ and $d=1$ (that is,
@@ -117,25 +107,17 @@ $(p,d,k)$. Thus, our experiments describe the following situations:
   random arbitrary tower as in Section~\ref{sec:couveignes-algorithm}.
   In the latter experiment, only the magma(2) approach was meaningful
   for Magma.
-
-\smallskip
-
 \item {\em Increasing the degree $d$ of $\U_0$.} Here we take $p=5$
   and we construct $2$ levels; the $x$-coordinate gives the degree $d
   = [\U_0:\F_p]$ and the $y$-coordinate gives timings in seconds.
   This is done in Figure~\ref{fig:p-d} (left).
-
-
-  \smallskip
-
 \item {\em Increasing $p$.} Here we take $d=1$ (thus $\U_0=\F_p$) and
   we construct $2$ levels; the $x$-coordinate gives the characteristic
   $p$ and the $y$-coordinate gives timings in seconds.  This is done
   in Figure~\ref{fig:p-d} (right).
-
 \end{itemize}
 
-\smallskip 
+
 
 \begin{figure}
   \centering
@@ -162,8 +144,6 @@ simply creates a residue class ring, regardless of the
 (ir)reducibility of the modulus, so the timing for building two levels
 barely depend on $p$. Yet, we notice that \texttt{FAAST} has
 reasonable performances for characteristics up to about $p=50$.
-
-\smallskip
 
 In Tables~\ref{tab:arith-gf2} and~\ref{tab:arith-zzp} we provide some
 comparative timings for the different arithmetic operations provided
@@ -210,113 +190,14 @@ satisfactory.
 
 Finally, we mention the cost of precomputation. The precomputation of
 the images of $\sigma$ as explained in
-Section~\ref{sec:couveignes-algorithm} is quite expensive;
-most of it is spent computing pseudotraces. Indeed it took one week to
-precompute the data in Figure~\ref{fig:height} (right), while all the
-other data can be computed in a few hours. There is still space for
-some minor improvement in \texttt{FAAST}, mainly tweaking recursion
-thresholds and implementing better algorithms for small and moderate
-input sizes. Still, we think that only a major algorithmic improvement
-could consistently speed up this phase.
-
-
-\paragraph*{\bf Isogeny algorithm.} An isogeny is a regular map
-between two elliptic curves $\mathscr{E}$ and $\mathscr{E}'$ that is
-also a group morphism.  In cryptology, isogenies are used in the
-Schoof-Elkies-Atkin point-counting algorithm~\cite{BlSeSm99}, but also
-in more recent constructions~\cite{RoSt06,Teske06}, and the fast
-computation of isogenies remains a difficult challenge.
-
-Our interest here is Couveignes' isogeny
-algorithm~\cite{Couveignes96}, which computes isogenies of degree
-$\sim p^k$; the algorithm relies on the interpolation of a rational
-function at special points in an Artin-Schreier tower. The original
-algorithm in~\cite{Couveignes96} was first implemented
-in~\cite{Lercier97}; Couveignes' later paper~\cite{Couveignes00}
-described improvements to speed up the computation, but as we already
-mentioned, a key component, fast arithmetic in Artin-Schreier towers,
-was still missing. The recent paper~\cite{DeFeo10} combines this
-paper's algorithms and other improvements to achieve a completely
-explicit version of~\cite{Couveignes00}.
-
-\begin{figure}
-  \centering
-%  \includegraphics[width=0.9\linewidth]{couveignesII}
-
-  \caption{Timings for the isogeny algorithm. Isogenies of degree
-    increasing degree are computed between curves defined over
-    $\F_{2^{101}}$.}
-  \label{fig:couveignes}
-\end{figure}
-
-The algorithm is composed of 5 phases:
-\begin{enumerate}
-\item Depending on the degree $\ell$ of the isogeny to be computed, a
-  parameter $k$ is chosen such that $p^{k-1}(p-1)>4\ell-2$;
-\item\label{alg:cou:pri} a primitive tower of height $\sim k$ is
-  computed (the precise height depends on $\mathscr{E}$ and
-  $\mathscr{E'}$, in the example of figure~\ref{fig:couveignes} it is
-  always equal to $k-2$);
-\item\label{alg:cou:E} an Artin-Schreier tower in which the
-  $p^k$-torsion points of $\mathscr{E}$ are defined is computed and an
-  isomorphism is constructed to the primitive tower;
-\item\label{alg:cou:E'} an Artin-Schreier tower in which the
-  $p^k$-torsion points of $\mathscr{E'}$ are defined is computed and
-  an isomorphism is constructed to the primitive tower;
-\item\label{alg:cou:int} a mapping from $\mathscr{E}[p^k]$ to
-  $\mathscr{E'}[p^k]$ is computed through interpolation;
-\item\label{alg:cou:loop} all the possible mappings from
-  $\mathscr{E}[p^k]$ to $\mathscr{E'}[p^k]$ are computed through
-  modular composition until one is found that yields an isogeny.
-\end{enumerate}
-
-We ran experiments for curves defined over the base field
-$\F_{2^{101}}$ for increasing isogeny degree. Figure
-\ref{fig:couveignes} shows the timings for two implementations
-of~\cite{DeFeo10} based on \texttt{FAAST} and one implementation of
-the same algorithm based on the magma(2) approach; remark that the
-time scale is logarithmic. The running time is probabilistic because
-step~\ref{alg:cou:loop} stops as soon as it has found an isogeny; we
-plot the average running times with bars around them for
-minimum/maximum times; the distribution is uniform. Note that the plot
-in the original ISSAC '09 version of this paper shows timings that are
-one order of magnitude worse. This was due to a bug that has later
-been fixed.
-
-\begin{table}
-  \centering
-  \begin{tabular}{l | r | r | r | r | r | r}
-    degree & step~\ref{alg:cou:pri} & step~\ref{alg:cou:E} & step~\ref{alg:cou:int} & \multicolumn{3}{|c}{step~\ref{alg:cou:loop}} \\
-    &&&&preconditioning & avg \# iterations & iteration\\
-    \hline
-    3 & 0.008 & 0.053 & 0.124 & 0.005 & 8 & 0\\
-    5 & 0.004 & 0.161 & 0.310 & 0.019 & 16 & 0.002\\ 
-    11 & 0.008 & 0.469 & 0.749 & 0.096 & 32 & 0.001\\
-    17 & 0.014 & 1.312 & 1.779 & 0.227 & 64 & 0.003\\
-    37 & 0.039 & 3.544 & 4.168 & 1.130 & 128 & 0.013\\
-    67 & 0.078 & 9.306 & 9.651 & 6.107 & 256 & 0.052\\
-    131 & 0.189 & 23.79 & 22.124 & 34.652 & 512 & 0.207\\
-    257 & 0.383 & 59.82 & 50.532 & 200.980 & 1024 & 0.812\\
-  \end{tabular}
-  \caption{Comparative timings for each phase of the isogeny algorithm using \texttt{GF2}.}
-  \label{tab:couveignes}
-\end{table}
-
-Table~\ref{tab:couveignes} shows comparative timings for each phase of
-the algorithm.  The reason why we left step~\ref{alg:cou:E'} out of
-the table is that it is essentially the same as step~\ref{alg:cou:E}
-and timings are nearly identical. Step~\ref{alg:cou:loop} is
-asymptotically the most expensive one; it uses some preconditioning to
-speed up each iteration of the loop. From the point of view of this
-paper, the most interesting steps
-are~\ref{alg:cou:pri}-\ref{alg:cou:int} since they are the only ones
-that make use of the library \texttt{FAAST}.
-
-For $p=2$, it should be noted that Lercier's isogeny
-algorithm~\cite{Lercier96} has better performance; for generic, small,
-$p$ we mention as well a new algorithm by Lercier and
-Sirvent~\cite{LeSi09}. See~\cite{DeFeo10} for further discussions on
-isogeny computation.
+Section~\ref{sec:couveignes-algorithm} is quite expensive; most of it
+is spent computing pseudotraces. Indeed it took one week to precompute
+the data in Figure~\ref{fig:height} (right), while all the other data
+can be computed in a few hours. There is still space for some minor
+improvement in \texttt{FAAST}, mainly tweaking recursion thresholds
+and implementing better algorithms for small and moderate input
+sizes. Yet we think that only a major algorithmic improvement could
+consistently speed up this phase.
 
 
 

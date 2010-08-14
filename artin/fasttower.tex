@@ -34,8 +34,9 @@ K_i$ generates it over $\F_p$.  We prove it as a consequence of a more
 general statement.
 
 \begin{lemma}
-  Let $\U$ be the finite field with $p^n$ elements and $\U'/\U$ an
-  extension field with $[\U':\U]=p^i$. Let $\alpha\in\U'$ be such that
+  Let $\U$ be the finite field with $p^n$ elements, and let $\U'/\U$
+  be an extension field with $[\U':\U]=p^i$. Let $\alpha\in\U'$ be
+  such that
   \begin{equation}
     \label{eq:ASgen}
     \Tr_{\U'/\U}(\alpha) = \beta \ne 0
@@ -74,7 +75,11 @@ that the $\gamma_i$'s meet the conditions of the corollary.
 \begin{lemma}
   \label{coro:trace}
   If $p\ne2$, for $i \ge 0$, $\U_i$ is a field and, for $i\ge1$,
-  $\Tr_{\U_i/\U_{i-1}}(\gamma_i) = -\gamma_{i-1}$.
+  \begin{equation}
+    \label{eq:79}
+    \Tr_{\U_i/\U_{i-1}}(\gamma_i) = -\gamma_{i-1}
+    \text{.}    
+  \end{equation}
 \end{lemma}
 \begin{proof} Induction on $i$: for $i=0$, this is true by
   hypothesis. For $i \ge 1$, by induction hypothesis
@@ -92,12 +97,8 @@ that the $\gamma_i$'s meet the conditions of the corollary.
     (x_{i'}+\gamma_{i'-1})x_{i'}^{p-1} = x_{i'}^p +\gamma_{i'-1} x_{i'}^{p-1}
     = \gamma_{i'-1} + x_{i'} +\gamma_{i'-1} x_{i'}^{p-1}.
   \end{equation}
-  By~\ref{eq:pd}, we get 
-  \begin{equation}
-    \label{eq:65}
-    \Tr_{\U_{i'}/\U_{i'-1}}(\gamma_{i'}) = -\gamma_{i'-1}
-  \end{equation}
-  and by~\ref{eq:trcomp}, we deduce the equality
+  By~\ref{eq:pd} we get Eq.~\eqref{eq:79}, and by~\ref{eq:trcomp} we
+  deduce the equality
   \begin{equation}
     \label{eq:64}
     \Tr_{\U_{i'}/\F_p}(\gamma_{i'})=-\Tr_{\U_{i'-1}/\F_p}(\gamma_{i'-1})\text{.}    
@@ -108,13 +109,14 @@ that the $\gamma_i$'s meet the conditions of the corollary.
 
 \begin{lemma}
   If $p=2$, for $i \ge 0$, $\U_i$ is a field. For $i\ge2$,
-  $\Tr_{\U_i/\U_{i-1}}(\gamma_i) = 1+\gamma_{i-1}$ and 
-  \begin{equation}
-    \Tr_{\U_1/\U_0}(\gamma_1) = \begin{cases}
+  \begin{align}
+    \Tr_{\U_i/\U_{i-1}}(\gamma_i) &= 1+\gamma_{i-1}
+    \text{,}\\
+    \Tr_{\U_1/\U_0}(\gamma_1) &= \begin{cases}
       1+\gamma_0 &\text{if $d$ even,}\\
       1          &\text{if $d$ odd.}
     \end{cases}
-  \end{equation}
+  \end{align}
 \end{lemma}
 \begin{proof}
   The proof closely follows the previous one. For $i'=0$,
@@ -170,17 +172,19 @@ that the $\gamma_i$'s meet the conditions of the corollary.
   $\Tr_{\U_i/\U_1}(\gamma_i)=1+\gamma_1$ generates $\U_1$ over $\F_p$.
 \end{proof}
 
-Remark that the choice of the tower of Theorem~\ref{th:cantor} is in
-some sense \emph{optimal} between the choices given by
-Corollary~\ref{coro:gen}. In fact, each of the $G_i$'s is the
-``simplest'' polynomial in $\F_p[X_i]$ such that
-$\Tr_{\U_i/\F_p}(\gamma_i)\ne0$, in terms of lowest degree and least
-number of monomials, as shown by Proposition~\ref{th:p3} and
-Eq.~\eqref{eq:62}.
+\begin{remark}
+  The choice of the tower of Theorem~\ref{th:cantor} is in some sense
+  \emph{optimal} between the choices given by
+  Corollary~\ref{coro:gen}. In fact, each of the $G_i$'s is the
+  ``simplest'' polynomial in $\F_p[X_i]$ such that
+  $\Tr_{\U_i/\F_p}(\gamma_i)\ne0$, in terms of lowest degree and least
+  number of monomials, as shown by Proposition~\ref{th:p3} and
+  Eq.~\eqref{eq:62}.
+\end{remark}
 
-We furthermore remark that the construction we made in this section
-gives us a family of normal elements for free. In fact, recall the
-following proposition from~\cite[Section~5]{hachenberger}.
+We also remark that the construction we made in this section gives us
+a family of normal elements for free. In fact, recall the following
+proposition from~\cite[Section~5]{hachenberger}.
 \begin{proposition}
   Let $\U'/\U$ be an extension of finite fields with $[\U':\U]=kp^i$
   where $k$ is prime to $p$ and let $\U''$ be the intermediate field

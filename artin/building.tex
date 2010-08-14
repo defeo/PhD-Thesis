@@ -4,9 +4,10 @@
 \subsection{Building the tower}
 
 This subsection introduces the basic algorithms required to build the
-tower, that is, compute the required minimal polynomials $Q_i$.
+primitive tower of Theorem~\ref{th:cantor}, that is, compute the
+required minimal polynomials $Q_i$.
 
-\paragraph*{\bf Composition.} We give first an algorithm for
+\paragraph{Composition.} We give first an algorithm for sparse
 polynomial composition, to be used in the construction of the tower
 defined before.  Given $P$ and $R$ in $\F_p[X]$, we want to compute
 $P(R)$. For the cost analysis, it will be useful later on to consider
@@ -23,10 +24,10 @@ algorithm.
   \begin{algorithmic}[1]
     \REQUIRE $P,R\in\F_p[X]$.
     \ENSURE $P(R)$.
-    \STATE write $P=\sum_{i=0}^{\deg(P)} p_i X^{i}$, with $p_i \in \F_p$
-    \STATE let $S=0$, $\rho=1$
-    \STATE for $i\in [0,\dots,\deg(P)]$, let $S=S+p_i \rho$ and $\rho =\rho R$
-    \STATE return $S$
+    \STATE write $P=\sum_{i=0}^{\deg(P)} p_i X^{i}$, with $p_i \in \F_p$;
+    \STATE let $S=0$, $\rho=1$;
+    \STATE for $i\in [0,\dots,\deg(P)]$, let $S=S+p_i \rho$ and $\rho =\rho R$;
+    \STATE return $S$.
   \end{algorithmic}
 \end{algorithm}
 
@@ -46,17 +47,16 @@ whence a total cost of $O(\deg(P)^2 k\ell)$.
   \begin{algorithmic}[1]
     \REQUIRE $P,R\in\F_p[X]$.
     \ENSURE $P(R)$.
-    \STATE\label{c:params} let $n=\lfloor \log_p(\deg(P)) \rfloor$ and $c=\deg(P) {\sf~div~} p^n$
-    \STATE If $n=0$, return $\alg{NaiveCompose}(P,R)$
-    \STATE write $P=\sum_{i=0}^{c} P_i X^{ip^n}$, with $P_i \in \F_p[X], \deg P_i<p^n$
-    \STATE for $i\in [0,\dots,c]$, let $Q_i = \text{\alg{Compose}}(P_i,R)$
-    \STATE let $Q=0$
-    \STATE\label{c:loop} for $i\in [c,\dots,0]$, let $Q = Q R(X^{p^n})  + Q_i$
-    \STATE return $Q$
+    \STATE\label{c:params} let $n=\lfloor \log_p(\deg(P)) \rfloor$ and $c=\deg(P) {\sf~div~} p^n$;
+    \STATE If $n=0$, return $\alg{NaiveCompose}(P,R)$;
+    \STATE write $P=\sum_{i=0}^{c} P_i X^{ip^n}$, with $P_i \in \F_p[X], \deg P_i<p^n$;
+    \STATE for $i\in [0,\dots,c]$, let $Q_i = \text{\alg{Compose}}(P_i,R)$;
+    \STATE let $Q=0$;
+    \STATE\label{c:loop} for $i\in [c,\dots,0]$, let $Q = Q R(X^{p^n})  + Q_i$;
+    \STATE return $Q$.
   \end{algorithmic}
 \end{algorithm}
 
-%\smallskip
 
 \begin{theorem}
   \label{theo:comp}
@@ -64,41 +64,71 @@ whence a total cost of $O(\deg(P)^2 k\ell)$.
   $\deg(P)=s$, then \alg{Compose}$(P,R)$ outputs $P(R)$ in time $O(ps
   \log_p(s)k\ell)$.
 \end{theorem}
-\begin{proof} Correctness is clear, since $R^{p^n}=R(X^{p^n})$. To analyze
-the cost, we let $\sC(c,n)$ be the cost of {\alg{Compose}} when
-$\deg(P)\le (c+1)p^n$, with $c<p$. Then $\sC(c,0) \in
-  O(c^2k\ell)$.  For $n > 0$, at each pass in the loop at
-step~\ref{c:loop}, $\deg(Q) < cp^n k$, so that the multiplication
-(using the naive algorithm) and addition take time
-$O(cp^nk\ell)$. Thus the time spent in the loop is $O(c^2p^{n}k\ell)$,
-and the running time satisfies $$\sC(c,n) \le (c+1)\sC(p-1,n-1) +
-O(c^2p^nk\ell).$$ Let then $\sC'(n)=\sC(p-1,n)$, so that we have
-$$\sC'(0) \in O(p^2k\ell), \quad \sC'(n) \le p\sC'(n-1) +
-O(p^{n+2}k\ell).$$ We deduce that $\sC'(n) \in O(p^{n+2}nk\ell)$, and
-finally $\sC(c,n) \in O(cp^{n+1}nk\ell + c^2p^nk\ell)$.  The
-values $c,n$ computed at step~\ref{c:params} of the top-level call to
-\alg{Compose} satisfy $cp^n\le s$ and $n\le\log_p (s)$; this gives our
-conclusion. \end{proof}
+\begin{proof}
+  Correctness is clear, since $R^{p^n}=R(X^{p^n})$. To analyze the
+  cost, we let $\sC(c,n)$ be the cost of {\alg{Compose}} when
+  $\deg(P)\le (c+1)p^n$, with $c<p$. Then $\sC(c,0) \in O(c^2k\ell)$.
+  For $n > 0$, at each pass in the loop at step~\ref{c:loop}, $\deg(Q)
+  < cp^n k$, so that the multiplication (using the naive algorithm)
+  and addition take time $O(cp^nk\ell)$. Thus the time spent in the
+  loop is $O(c^2p^{n}k\ell)$, and the running time
+  satisfies
+  \begin{equation}
+    \label{eq:70}
+    \sC(c,n) \le (c+1)\sC(p-1,n-1) + O(c^2p^nk\ell)
+    \text{.}    
+  \end{equation}
+  Let then $\sC'(n)=\sC(p-1,n)$, so that we have
+  \begin{equation}
+    \label{eq:71}
+    \sC'(0) \in O(p^2k\ell), \quad \sC'(n) \le p\sC'(n-1) +
+    O(p^{n+2}k\ell)
+    \text{.}  
+  \end{equation}
+  We deduce that $\sC'(n) \in O(p^{n+2}nk\ell)$,
+  and finally
+  \begin{equation}
+    \label{eq:72}
+    \sC(c,n) \in O(cp^{n+1}nk\ell + c^2p^nk\ell)
+    \text{.}  
+  \end{equation}
+  The values $c,n$ computed at step~\ref{c:params} of the top-level
+  call to \alg{Compose} satisfy $cp^n\le s$ and $n\le\log_p (s)$; this
+  gives our conclusion.
+\end{proof}
 
-\paragraph* A binary divide-and-conquer
-algorithm~\cite[Ex.~9.20]{vzGG} has cost $O(\Mult(sk)\log(s))$. Our
-algorithm has a slightly better dependency on $s$, but adds a
-polynomial cost in $p$ and $\ell$. However, we have in mind cases
-  with $p$ small and $\ell=2$, where the latter solution is
-advantageous.
+\begin{nota}
+  A binary divide-and-conquer algorithm~\cite[Exercise~9.20]{vzGG} has
+  cost 
+  \[O(\Mult(sk)\log(s))\text{.}\] Our algorithm has a slightly better
+  dependency on $s$, but adds a polynomial cost in $p$ and
+  $\ell$. However, we have in mind cases with $p$ small and $\ell=2$,
+  where the latter solution is advantageous.
+\end{nota}
 
-\paragraph*{\bf Computing the minimal polynomials.} Theorem~\ref{th:cantor} shows that we have defined a primitive tower. To be
-able to work with it, we explain now how to compute the minimal
-polynomial $Q_i$ of $x_i$ over $\F_p$. This is done by extending
-Cantor's construction~\cite{Can89}, which had $\U_0=\F_p$.
+\paragraph{Computing the minimal polynomials.}
+Theorem~\ref{th:cantor} shows that we have defined a primitive
+tower. To be able to work with it, we explain now how to compute the
+minimal polynomial $Q_i$ of $x_i$ over $\F_p$. This is done by
+extending Cantor's construction~\cite{cantor89}, which had $\U_0=\F_p$.
 
 For $i=0$, we are given $Q_0\in\F_p[X_0]$ such that
 $\U_0=\F_p[X_0]/Q_0(X_0)$, so there is nothing to do; we assume that
 $\Tr_{\U_0/\F_p}(x_0)\ne0$ to meet the hypotheses of
-Theorem~\ref{th:cantor}. Remark that if this trace was zero, assuming
-$\gcd(d,p)=1$, we could replace $Q_0$ by $Q_0(X_0-1)$; this is done by
-taking $R=X_0-1$ in algorithm \alg{Compose}, so by
-Theorem~\ref{theo:comp} the cost is $O(pd \log_p(d))$.
+Theorem~\ref{th:cantor}. 
+
+\begin{remark}
+  If $\Tr_{\U_0/\F_p}(x_0)=0$, assuming $\gcd(d,p)=1$, we can replace
+  $Q_0$ by $Q_0(X_0-1)$; this is done by taking $R=X_0-1$ in algorithm
+  \alg{Compose}, so by Theorem~\ref{theo:comp} the cost is $O(pd
+  \log_p(d))$.
+
+  So, the only case we cannot handle is when $p$ divides $d$ and the
+  trace of $x_0$ is zero. By Lemma~\ref{th:multi-newton-sums}, this
+  happens if and only if the $(d-1)$-th coefficient of $Q$ is equal to
+  $0$. Heuristically, if the polynomial $Q$ is chosen at random, this
+  happens with probability $1/q$.
+\end{remark}
 
 For $i=1$, we know that $x_1^p-x_1=x_0$, so $x_1$ is a root of
 $Q_0(X_1^p-X_1)$. Since $Q_0(X_1^p-X_1)$ is monic of degree $pd$, we
@@ -108,65 +138,103 @@ $O(p^2d \log_p(d))$ by Theorem~\ref{theo:comp}. The same arguments
 hold for $i=2$ when $p=2$ and $d$ is odd.
 
 To deal with other indexes $i$, we follow Cantor's construction.  Let
-$\Cyclo\in \F_p[X]$ be the reduction modulo $p$ of the $(2p-1)$th
+$\Cyclo\in \F_p[X]$ be the reduction modulo $p$ of the $(2p-1)$-th
 cyclotomic polynomial. Cantor implicitly works modulo an irreducible
 factor of $\Cyclo$. The following shows that we can avoid
 factorization, by working modulo $\Cyclo$.
 
 \begin{lemma}
   \label{lemma:poly-cyclic}
-  Let $A=\F_p[X]/\Cyclo$ and let $x = X \bmod
-  \Cyclo$. For $Q\in\F_p[Y]$, define $Q^\star =
-  \prod_{i=0}^{2p-2}Q(x^iY).$ Then $Q^\star$ is in $\F_p[Y]$ and there
-  exists $q^\star\in\F_p[Y]$ such that $Q^\star = q^\star(Y^{2p-1})$.
+  Let $\algeb{A}=\F_p[X]/\Cyclo$ and let $x = X \bmod \Cyclo$. For
+  $Q\in\F_p[Y]$, define 
+  \begin{equation}
+    \label{eq:73}
+    Q^\star = \prod_{i=0}^{2p-2}Q(x^iY)
+    \text{.}    
+  \end{equation}
+  Then $Q^\star$ is in $\F_p[Y]$ and there exists $q^\star\in\F_p[Y]$
+  such that $Q^\star = q^\star(Y^{2p-1})$.
 \end{lemma}
-\begin{proof} Let $F_1,\dots,F_e$ be the irreducible factors of $\Cyclo$
-and let $f$ be their common degree. To prove that $Q^\star$ is in
-$\F_p[Y]$, we prove that for $j \le e$, $Q^\star_j = Q^\star \bmod
-F_j$ is in $\F_p[Y]$ and independent from $j$; the claim follows by
-Chinese Remaindering.
+\begin{proof}
+  Let $F_1,\dots,F_e$ be the irreducible factors of $\Cyclo$ and let
+  $f$ be their common degree. To prove that $Q^\star$ is in $\F_p[Y]$,
+  we prove that for $j \le e$, 
+  \begin{equation}
+    \label{eq:74}
+    Q^\star_j = Q^\star \bmod F_j    
+  \end{equation}
+  is in $\F_p[Y]$ and independent from $j$; the claim follows by
+  Chinese Remaindering.
 
-For $j \le e$, let $a_j$ be a root of $F_j$ in the algebraic closure
-of $\F_p$, so that $Q^\star_j = \prod_{i=0}^{2p-2}Q(a_j^iY).$ Since
-$\gcd(p^f,2p-1)=1$, $Q^\star_j$ is invariant under ${\rm
-  Gal}(\F_{p^f}/\F_p)$, and thus in $\F_p[Y]$. Besides, for $j,j'\le
-e$, $a_j = a_{j'}^k$, for some $k$ coprime to $2p-1$, so that
-$Q^\star_j= Q^\star_{j'}$, as needed.  
+  For $j \le e$, let $a_j$ be a root of $F_j$ in the algebraic closure
+  of $\F_p$, so that
+  \begin{equation}
+    \label{eq:75}
+    Q^\star_j = \prod_{i=0}^{2p-2}Q(a_j^iY)
+    \text{.}
+  \end{equation}
+  Since $\gcd(p^f,2p-1)=1$, $Q^\star_j$ is invariant under ${\rm
+    Gal}(\F_{p^f}/\F_p)$, and thus in $\F_p[Y]$. Besides, for $j,j'\le
+  e$, $a_j = a_{j'}^k$, for some $k$ coprime to $2p-1$, so that
+  $Q^\star_j= Q^\star_{j'}$, as needed.
 
-To conclude, note that for $j \le e$, $Q^\star_j(a_jY)=Q^\star_j(Y)$,
-so that all coefficients of degree not a multiple of $2p-1$ are zero.
-Thus, $Q^\star_j$ has the form $q^\star_j(Y^{2p-1})$; by Chinese
-Remaindering, this proves the existence of the polynomial $q^\star$.
+  To conclude, note that for $j \le e$,
+  \begin{equation}
+    \label{eq:76}
+    Q^\star_j(a_jY)=Q^\star_j(Y)
+    \text{,}    
+  \end{equation}
+  so that all coefficients of degree not a multiple of $2p-1$ are
+  zero.  Thus, $Q^\star_j$ has the form $q^\star_j(Y^{2p-1})$; by
+  Chinese Remaindering, this proves the existence of the polynomial
+  $q^\star$.
 %% 12-02 %% I think you're messing up indices. You meant
 %%%%%%%%%%% $i = \euler(2p-1)/e$ and $j<i$, I believe.
 %% 12-31 %% Yup.
 \end{proof}
 
 
-\medskip
+We conclude as in~\cite{cantor89}: supposing that we know the minimal
+polynomial $Q_i$ of $x_i$ over $\F_p$, we compute $Q_{i+1}$ using the
+following algorithm.
 
-We conclude as in~\cite{Can89}: supposing that we
-know the minimal polynomial $Q_i$ of $x_i$ over $\F_p$, we compute
-$Q_{i+1}$ as follows. Since $x_i$ is a root of $Q_i$, it is a root of
-$Q_i^\star$, so $\gamma_i=x_i^{2p-1}$ is a root of $q_i^\star$ and
-$x_{i+1}$ is a root of $q_i^\star(Y^p-Y)$. Since the latter polynomial
-is monic of degree $p^{i+1}d$, it is the minimal polynomial $Q_{i+1}$
-of $x_{i+1}$ over $\F_p$.
+\begin{algorithm}
+  \caption{MinimalPolynomial}
+  \begin{algorithmic}[1]
+    \REQUIRE $Q_i$, $\Phi$.
+    \ENSURE $Q_{i+1}$.
+    \STATE \label{alg:minpol-Qstar}$Q^\star = \prod_{i=0}^{2p-2}Q(x^iY) \bmod \Phi$;
+    \STATE \label{alg:minpol-qstar}$q^\star(Y^{2p-1}) = Q^\star(Y)$;
+    \STATE \label{alg:minpol-Q}$Q_{i+1} = \alg{Compose}(q^\star,Y^p-Y)$.
+  \end{algorithmic}
+\end{algorithm}
+
 
 \begin{theorem}
-  Given $Q_i$, one can compute $Q_{i+1}$ in time
-  $O( p^{i+2}d\log_p(p^id)+\Mult(p^{i+2}d)\log(p))$.
+  Algorithm \alg{MinimalPolynomial} is correct and computes its output
+  in time
+  \begin{equation}
+    \label{eq:77}
+    O( p^{i+2}d\log_p(p^id)+\Mult(p^{i+2}d)\log(p))
+    \text{.}    
+  \end{equation}
 \end{theorem}
-\begin{proof} Let $A=\F_p[X]/\Cyclo$. The algorithm
-of~\cite{Brent93} computes $\Cyclo$ in time $O(p^2)$; then, polynomial
-multiplications in degree $s$ in $A[Y]$ can be done in time
-$O(\Mult(sp))$ by Kronecker substitution. The overall cost of
-computing $Q_i^\star$ is $O(\Mult(p^{i+2}d)\log p)$
-using~\cite[Algo.~10.3]{vzGG}. To get $Q_{i+1}$ we use algorithm
-\alg{Compose} with $R=Y^p-Y$, which costs $O(p^{i+2}d\log_p(p^id))$.
-\end{proof}
+\begin{proof}
+  Since $x_i$ is a root of $Q_i$, it is a root of $Q_i^\star$ too. So
+  $\gamma_i=x_i^{2p-1}$ is a root of $q_i^\star$ and $x_{i+1}$ is a
+  root of $q_i^\star(Y^p-Y)$. Since the latter polynomial is monic of
+  degree $p^{i+1}d$, it is the minimal polynomial $Q_{i+1}$ of
+  $x_{i+1}$ over $\F_p$.
 
-\smallskip
+  As for the complexity, the algorithm of~\cite{brent93} computes
+  $\Cyclo$ in time $O(p^2)$; then, polynomial multiplications of
+  degree $s$ in $\algeb{A}[Y]$ can be done in time $O(\Mult(sp))$ by
+  Kronecker substitution. The overall cost of
+  step~\ref{alg:minpol-Qstar} is $O(\Mult(p^{i+2}d)\log p)$ using a
+  subproduct tree (see
+  Section~\ref{sec:fund-algor}). Step~\ref{alg:minpol-qstar} is free
+  and step~\ref{alg:minpol-Q} costs $O(p^{i+2}d\log_p(p^id))$.
+\end{proof}
 
 The former cost is linear in $p^{i+2}d$, up to logarithmic factors,
 for an input of size $p^id$ and an output of size $p^{i+1}d$.

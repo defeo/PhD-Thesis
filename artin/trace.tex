@@ -374,10 +374,10 @@ last section.
 \label{sec:rati-univ-repr}
 In many circumstances it is useful to switch from a multivariate
 representation of the elements of $\algeb{A}$ to an univariate one. A
-\emph{rational univariate representation} \cite{rouiller99}, sometimes
-also called \emph{geometric resolution} \cite{giusti+lecerf+salvy01},
-of $\K[x_1,\ldots,x_n]/I$ consists in expressing the variety $V(I)$ as
-the solution of the system
+\emph{rational univariate representation} (RUR)~\cite{rouiller99},
+sometimes also called \emph{geometric resolution}
+\cite{giusti+lecerf+salvy01}, of $\K[x_1,\ldots,x_n]/I$ consists in
+expressing the variety $V(I)$ as the solution of the system
 \begin{equation}
   \label{eq:22}
   \begin{aligned}
@@ -824,18 +824,18 @@ representation, provided we know $\rho(1)$.
 
 \begin{algorithm}
   \label{alg:rur}
-  \caption{Fast Rational Univariate Representation}
+  \caption{RUR}
   \begin{algorithmic}[1]
     \REQUIRE A basis $\basis{B}$ of
-      $\algeb{A}$, $a_1,\ldots,a_n,t\in\algeb{A}^{\basis{B}}$, $t$
+      $\algeb{A}$, $a_1,\ldots,a_n\in\algeb{A}^{\basis{B}}$, $t$
     separating, $\rho(1)\in(\dual{\algeb{A}})^{\dual{\basis{B}}}$.
     \ENSURE A rational univariate representation of $a_1,\ldots,a_n,t$.
-    \STATE Compute $\frac{Q'}{Q} = \frac{1}{T}\proj_t(\rho(1))$;
-    \STATE Compute $Q = \exp\left(\int \frac{Q'}{Q}\right)$;
+    \STATE \label{alg:rur:1}Compute $\frac{Q'}{Q} = \frac{1}{T}\proj_t(\rho(1))$;
+    \STATE \label{alg:rur:2}Compute $Q = \exp\left(\int \frac{Q'}{Q}\right)$;
     \FORALL{$a_i$}
-    \STATE Compute $A_i(T)=Q(T)\cdot(\proj_t\circ\dual{M_{a_i}}(\rho(1))) \bmod T^d$;
+    \STATE \label{alg:rur:4}Compute $A_i(T)=Q(T)\cdot(\proj_t\circ\dual{M_{a_i}}(\rho(1))) \bmod T^d$;
     \ENDFOR
-    \STATE Output $Q(T)$ and $\frac{A_1(T)}{Q'(T)},\ldots,\frac{A_n(T)}{Q'(T)}$.
+    \STATE \label{alg:rur:5}Output $Q(T)$ and $\frac{A_1(T)}{Q'(T)},\ldots,\frac{A_n(T)}{Q'(T)}$.
   \end{algorithmic}
 \end{algorithm}
 
@@ -900,6 +900,80 @@ advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
   between the Berlekamp-Massey algorithm and the rational fraction
   reconstruction, see~\cite{dornstetter87}.
 \end{nota}
+
+
+\section{From univariate to bivariate and back again}
+\label{sec:from-univ-bivar}
+
+Algorithm \alg{RUR} can be used as an efficient change of basis
+algorithm. Let $\basis{B}$ be any basis for $\algeb{A}$, let $t$ be a
+separating element, and let the representation of $\rho(1)$ on
+$\dual{\basis{B}}$ be known.
+
+\begin{proposition}
+  \label{th:uni-multi-uni}
+  Let $\Mult_{\basis{B}}$ be the cost of multiplication in the basis
+  $\basis{B}$ and let $\mathsf{E}_\basis{B}$ be the cost of taking an
+  element on the basis
+  \begin{equation}
+    \label{eq:74}
+    \basis{T} = (1,t,\ldots,t^{d-1})
+  \end{equation}
+  and expressing it on $\basis{B}$. Then, the cost of taking an
+  element on $\basis{B}$ and expressing it on $\basis{T}$ is
+  \begin{equation}
+    \label{eq:75}
+    \Mult_{\basis{B}} + \mathsf{E}_{\basis{B}} + O(\Mult(d))
+    \text{,}
+  \end{equation}
+  plus a precomputation cost of
+  \begin{equation}
+    \label{eq:65}
+    \mathsf{E}_{\basis{B}} + O(\Mult(d)\log d)
+    \text{,}
+  \end{equation}
+  where $\Mult(d)$ is the cost of polynomial multiplication, as usual.
+\end{proposition}
+
+The algorithm follows immediately from the observation that the change
+of basis map from $\basis{T}$ to $\basis{B}$ is the same thing as the
+map
+\begin{equation}
+  \label{eq:76}
+  \begin{aligned}
+    \ev_t : \K[T] &\ra \algeb{A}^{\basis{B}}\text{,}\\
+    g &\mapsto g(t)\text{.}
+  \end{aligned}
+\end{equation}
+Then algorithm \alg{RUR} on inputs $a\in\algeb{A}^{\basis{B}}$ and
+$\rho(1)$, outputs the expression of $a$ on the basis $\basis{T}$. We
+now prove the complexity estimates~\eqref{eq:75} and~\eqref{eq:65}.
+
+\begin{proof}[Proof of Proposition~\ref{th:uni-multi-uni}]
+  By Theorem~\ref{th:todo}, the call to $\proj_t$ at
+  step~\ref{alg:rur:1} of \alg{RUR} has the same cost as
+  $\mathsf{E}_{\basis{B}}$. Then the cost of step~\ref{alg:rur:2} is
+  $O(\Mult(d))$ using a Newton iteration. Both these steps can be done
+  just once, thus they contribute to~\eqref{eq:65}.
+
+  Again by Theorem~\ref{th:todo}, step~\ref{alg:rur:4} costs
+  \begin{equation}
+    \label{eq:80}
+    \Mult_{\basis{B}} + \mathsf{E}_{\basis{B}} + \Mult(d)
+    \text{,}
+  \end{equation}
+  where the first term comes from transposed multiplication, the
+  second one from the power projection and the third one from
+  multiplication by $Q$.
+
+  Finally, in step~\ref{alg:rur:5} instead of expressing $a$ as a
+  rational fraction, we need to invert $Q'$ modulo $Q$ and multiply
+  $A$ by the result. The inversion costs $O(\Mult(d)\log d)$ by
+  extended GCD, but can be done just once, thus it contributes
+  to~\eqref{eq:65}; the multiplication costs $O(\Mult(d))$ by
+  polynomial multiplication and Newton inversion.
+\end{proof}
+
 
 
 % Local Variables:

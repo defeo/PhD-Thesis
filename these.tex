@@ -1,4 +1,4 @@
-\documentclass[a4paper]{report}
+\documentclass[draft,a4paper]{report}
 
 \usepackage[french,american]{babel}
 \usepackage[utf8]{inputenc}
@@ -83,17 +83,18 @@
 
 %% Complexité
 \newcommand{\tildO}{\tilde{O}}  % la notation O~ qui oublie les log
-\newcommand{\Mint}{\mathrm{\sf M}_\text{int}}  % fonction de multiplication
-\newcommand{\Mpol}[1][]{\mathrm{\sf M}_\text{pol}^{#1}}  % fonction de multiplication
-\newcommand{\Mult}{\mathrm{\sf M}}  % fonction de multiplication
-\newcommand{\MulM}{\mathrm{\sf Mul}}  % multiplication
-\newcommand{\Inv}{\mathrm{\sf Inv}}  % inversion
-\newcommand{\Push}{\mathrm{\sf P}}  % fonction de push-down
-\newcommand{\Lift}{\mathrm{\sf L}}  % fonction de lift-up
-\newcommand{\Trace}{\mathrm{\sf T}}  % fonction de trace
-\newcommand{\Frob}{\mathrm{\sf F}}  % fonction de frobenius itéré
-\newcommand{\Ptr}{\mathrm{\sf PT}}  % fonction de pseudo-trace
-\newcommand{\ModComp}{\mathrm{\sf C}}  % fonction de composition modulaire
+\newcommand{\Mint}{\mathsf{M}_\text{int}}  % fonction de multiplication
+\newcommand{\Mpol}[1][]{\mathsf{M}_\text{pol}^{#1}}  % fonction de multiplication
+\newcommand{\Mult}{\mathsf{M}}  % fonction de multiplication
+\newcommand{\MulM}{\mathsf{Mul}}  % multiplication
+\newcommand{\Inv}{\mathsf{Inv}}  % inversion
+\newcommand{\Push}{\mathsf{P}}  % fonction de push-down
+\newcommand{\Lift}{\mathsf{L}}  % fonction de lift-up
+\newcommand{\Trace}{\mathsf{T}}  % fonction de trace
+\newcommand{\Frob}{\mathsf{F}}  % fonction de frobenius itéré
+\newcommand{\Ptr}{\mathsf{PT}}  % fonction de pseudo-trace
+\newcommand{\ModComp}{\mathsf{C}}  % fonction de composition modulaire
+\newcommand{\sC}{\mathsf{K}}  % fonction de composition polynomiale
 
 %% Polices
 \newcommand{\basis}{\mathbf}  % la police des bases

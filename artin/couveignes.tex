@@ -2,7 +2,7 @@
 \label{sec:couveignes-algorithm}
 
 Finally, we bring our previous algorithms to an arbitrary tower, using
-Couveignes' isomorphism algorithm~\cite{Couveignes00}. As in the
+Couveignes' isomorphism algorithm~\cite{couveignes00}. As in the
 previous section, we adapt this algorithm to our context, by adding
 suitable push-down and lift-up operations.
 
@@ -15,32 +15,40 @@ We also consider another sequence $(G'_i)_{0 \le i < k}$, that defines
 another tower $(\U'_0,\ldots,\U'_k)$.  Since $(\U'_0,\ldots,\U'_k)$ is
 not necessarily primitive, we fall back to the multivariate basis of
 Subsection~\ref{ssec:rep}: we write elements of $\U'_i$ on the basis
-$\bB'_i=\{{x'_0}^{e_0} \cdots {x'_i}^{e_i}\}$, with $x_0=x'_0$, $0 \le
-e_0 < d$ and $0\le e_j < p$ for $1 \le j \le i$.
+  \begin{equation}
+  \label{eq:58}
+  \basis{B'}_i=
+  \{{x'_0}^{e_0} \cdots {x'_i}^{e_i} \;|\; 0 \le e_0 < d,\; 0\le e_j < p 
+  \text{ for $j>0$}\}
+  \text{,}
+\end{equation}
+where $x_0=x'_0$.
 %% We assume that all
 %% polynomials $G'_i$ satisfy $\deg(G'_i,X_0)< d$ and $\deg(G'_i,X_j)< p$
 %% for $j \le i$, so that writing $\gamma'_i$ on the basis $\bB'_i$
 %% requires no operation.
 
-To compute in $\U'_i$, we will use an isomorphism $\U'_i \to \U_i$.
+To compute in $\U'_i$, we will use an isomorphism $\U'_i \ra \U_i$.
 Such an isomorphism is determined by the images
-$\bs_i=(s_0,\dots,s_i)$ of $(x'_0,\dots,x'_i)$, with $s_i \wrt \U_i$
-(we always take $s_0=x_0$). This isomorphism, denoted by
-$\sigma_{\bs_i}$, takes as input $v$ written on the basis $\bB'_i$ and
-outputs $\sigma_{\bs_i}(v)\wrt \U_i$.
+$\lst{s}_i=(s_0,\dots,s_i)$ of $(x'_0,\dots,x'_i)$, with $s_i \wrt
+\U_i$ (we always take $s_0=x_0$). This isomorphism, denoted by
+$\sigma_{\lst{s}_i}$, takes as input $v$ written on the basis
+$\basis{B}'_i$ and outputs $\sigma_{\lst{s}_i}(v)\wrt \U_i$.
 
-To analyze costs, we use the functions $\L$ and $\Ptr$ introduced in
-the previous sections. We also let $2 \le \omega \le 3$ be a feasible
-exponent for linear algebra over $\F_p$~\cite[Ch.~12]{vzGG}.
+To analyze costs, we use the functions $\Lift$ and $\Ptr$ introduced
+in the previous sections. We also let $2 \le \omega \le 3$ be a
+feasible exponent for linear algebra over $\F_p$ (see
+Section~\ref{sec:todo}).
 \begin{theorem}\label{theo:main}
   Given $Q_0$ and $(G'_i)_{0 \le i < k}$, one can find
-  $\bs_k=(s_0,\dots,s_k)$ in time $O(d^\omega k + \Ptr(k) +
+  $\lst{s}_k=(s_0,\dots,s_k)$ in time $O(d^\omega k + \Ptr(k) +
   \Mult(p^{k+1} d) \log(p))$. Once they are known, one can apply
-  $\sigma_{\bs_k}$ and $\sigma_{\bs_k}^{-1}$ in time $O(k\, \L(k))$.
+  $\sigma_{\lst{s}_k}$ and $\sigma_{\lst{s}_k}^{-1}$ in time $O(k\,
+  \Lift(k))$.
 \end{theorem}
 Thus, we can compute products, inverses, etc, in $\U'_k$ for
 the cost of the corresponding operation in $\U_k$, plus $O(k\,
-\L(k))$.
+\Lift(k))$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -52,7 +60,7 @@ that $\Tr_{\U_i/\F_p}(\alpha)=0$, so this equation has solutions in
 $\U_i$.
 
 Because $X^p-X$ is $\F_p$-linear, the equation can be directly solved
-by linear algebra, but this is too costly. In~\cite{Couveignes00},
+by linear algebra, but this is too costly. In~\cite{couveignes00},
 Couveignes gives a solution adapted to our setting, that reduces the
 problem to solving Artin-Schreier equations in $\U_0$. Given a solution
 $\delta\in\U_i$ of the equation $X^p - X = \alpha$, he observes that 
@@ -62,7 +70,7 @@ any solution $\mu$ of
   X^{p^{p^{i-1}d}} - X = \eta, \quad\text{with}\quad \eta=\PTr_{p^{i-1}d}(\alpha).
 \end{equation}
 is of the form $\mu=\delta - \Delta$ with $\Delta\in\U_{i-1}$, hence
-$\Delta$ is a \mbox{root of}
+$\Delta$ is a root of
 \begin{equation}
   \label{eq:approximant}
   X^p-X-\alpha+\mu^p-\mu.
@@ -84,7 +92,6 @@ basis $(1,\ldots,x_i^{p-1})$ is
   \end{bmatrix}
 \end{equation*}
 Then, algorithm \alg{ApproximateAS} finds the required solution.
-
 
 
 %% We use an algorithm called \alg{Summation}; given $E$ in
@@ -125,15 +132,17 @@ Then, algorithm \alg{ApproximateAS} finds the required solution.
 
 \begin{theorem}
   \label{th:approximateAS}
-  Algorithm \alg{ApproximateAS} is correct and takes time $O(\L(i))$.
+  Algorithm \alg{ApproximateAS} is correct and takes time $O(\Lift(i))$.
 \end{theorem}
 
-\begin{proof} Correctness is clear from Gaussian elimination.  For the cost
-analysis, remark that $\beta_{i-1,p^{i-1}d}$ has already been
-precomputed to permit iterated Frobenius and pseudotrace
-computations. Step~\ref{alg:AAS:loop} takes $O(p^2)$ additions and
-scalar operations in $\U_{i-1}$; the overall cost is dominated by that
-of the push-down and lift-up by assumptions on $\L$. \end{proof}
+\begin{proof}
+  Correctness is clear by Gaussian elimination.  For the cost
+  analysis, remark that $\beta_{i-1,p^{i-1}d}$ has already been
+  precomputed to permit iterated Frobenius and pseudotrace
+  computations. Step~\ref{alg:AAS:loop} takes $O(p^2)$ additions and
+  scalar operations in $\U_{i-1}$; the overall cost is dominated by
+  that of the push-down and lift-up by assumptions on $\Lift$.
+\end{proof}
 
 %% \begin{proof} Write $\mu=\Sigma_{j=0}^{p-1}\mu_j x_i^j$ and
 %% $\eta=\Sigma_{j=0}^{p-1}\eta_j x_i^j$, with $\mu_j$ and $\eta_j \wrt
@@ -153,14 +162,12 @@ of the push-down and lift-up by assumptions on $\L$. \end{proof}
 %% $\beta_{i-1,p^{i-1}d}$ has already been precomputed to permit iterated
 %% Frobenius and pseudotrace computations (see Section
 %% \ref{sec:pseudotrace-frobenius}). Then, the overall cost is dominated
-%% by that of the push-down and lift-up by assumptions on $\L$. \end{proof}
+%% by that of the push-down and lift-up by assumptions on $\Lift$. \end{proof}
 
-\smallskip
 
 Writing the recursive algorithm is now straightforward. To solve
 Artin-Schreier equations in $\U_0$, we use a naive algorithm based on
 linear algebra, written $\alg{NaiveSolve}$.
-
 
 \begin{algorithm}
   \caption{Artin-Schreier}
@@ -176,30 +183,32 @@ linear algebra, written $\alg{NaiveSolve}$.
   \end{algorithmic}
 \end{algorithm}
 
-
 \begin{theorem}\label{theo:AS}
   Algorithm \alg{Artin-Schreier} is correct and takes time $O(d^\omega
   + \Ptr(i))$.
 \end{theorem}
-\begin{proof} Correctness follows from the previous discussion.  For the
-complexity, note ${\sf AS}(i)$ the cost for $\alpha\wrt\U_i$. The cost
-${\sf AS}(0)$ of the naive algorithm is $O(\Mult(d)\log(p) +
-d^\omega)$, where the first term is the cost of computing $x_0^p$ and
-the second one the cost of linear algebra.
+\begin{proof} 
+  Correctness follows from the previous discussion.  For the
+  complexity, note ${\sf AS}(i)$ the cost for $\alpha\wrt\U_i$. The
+  cost ${\sf AS}(0)$ of the naive algorithm is $O(\Mult(d)\log(p) +
+  d^\omega)$, where the first term is the cost of computing $x_0^p$
+  and the second one the cost of linear algebra.
 
-When $i\ge1$, step \ref{alg:cou:pseudo} has cost $\Ptr(i)$, steps
-\ref{alg:cou:push-beta}, \ref{alg:cou:push-alpha} and
-\ref{alg:cou:lift} all contribute $O(\L(i))$ and step
-\ref{alg:cou:rec} contributes ${\sf AS}(i-1)$. The most important
-contribution is at step \ref{alg:cou:pseudo}, hence ${\sf AS}(i) =
-{\sf AS}(i-1) + O(\Ptr(i))$. The assumptions on~$\L$ imply that the
-sum $\Ptr(1) + \cdots + \Ptr(i)$ is $O(\Ptr(i))$. \end{proof}
+  When $i\ge1$, step \ref{alg:cou:pseudo} has cost $\Ptr(i)$, steps
+  \ref{alg:cou:push-beta}, \ref{alg:cou:push-alpha} and
+  \ref{alg:cou:lift} all contribute $O(\Lift(i))$ and step
+  \ref{alg:cou:rec} contributes ${\sf AS}(i-1)$. The most important
+  contribution is at step \ref{alg:cou:pseudo}, hence ${\sf AS}(i) =
+  {\sf AS}(i-1) + O(\Ptr(i))$. The assumptions on $\Lift$ imply that
+  the sum $\Ptr(1) + \cdots + \Ptr(i)$ is $O(\Ptr(i))$.
+\end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Applying the isomorphism}
 
-\subsubsection{Duality}\label{ssec:duality}
+\subsubsection{Duality}
+\label{ssec:duality}
 
 Since this is the case we will need later on, we give
 details for the case where $Q$ is Artin-Schreier (so $n=p$): then,
@@ -247,43 +256,41 @@ sections.
 %%%%%%%%%%%%%%%%%%%55
 
 We get back to the isomorphism question. We assume that
-$\bs_i=(s_0,\dots,s_i)$ is known and we give the cost of applying
-$\sigma_{\bs_i}$ and its inverse.  We first discuss the forward
+$\lst{s}_i=(s_0,\dots,s_i)$ is known and we give the cost of applying
+$\sigma_{\lst{s}_i}$ and its inverse.  We first discuss the forward
 direction.
 
-As input, $v \in \U'_i$ is written on the multivariate basis $\bB'_i$
-of $\U'_i$; the output is $t=\sigma_{\bs_i}(v) \wrt \U_i$. As before,
+As input, $v \in \U'_i$ is written on the multivariate basis $\basis{B}'_i$
+of $\U'_i$; the output is $t=\sigma_{\lst{s}_i}(v) \wrt \U_i$. As before,
 the algorithm is recursive: we write $v=\Sigma_{j <p}
 v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$, whence
-$$\begin{array}{c}\sigma_{\bs_i}(v)\ =\ \sum_{j
-  <p} \sigma_{\bs_i}(v_j) s_i^j\ =\ \sum_{j
-  <p} \sigma_{\bs_{i-1}}(v_j) s_i^j
-\end{array}
-;$$ the sum is computed by Horner's scheme.
-To speed-up the computation, it is better to
-perform the latter step in a bivariate basis, that is, through a
-push-down and a lift-up.
+\begin{equation}
+  \sigma_{\lst{s}_i}(v)\ =\ \sum_{j
+    <p} \sigma_{\lst{s}_i}(v_j) s_i^j\ =\ \sum_{j
+    <p} \sigma_{\lst{s}_{i-1}}(v_j) s_i^j
+  \text{;}
+\end{equation}
+the sum is computed by Horner's scheme.  To speed-up the computation,
+it is better to perform the latter step in a bivariate basis, that is,
+through a push-down and a lift-up.
 
-
-
-Given $t \wrt \U_i$, to compute $v=\sigma_{\bs_i}^{-1}(t)$, we run the
-previous algorithm backward. We first push-down $t$, obtaining $t=t_0
-+ \cdots + t_{p-1}x_i^{p-1}$, with all $t_j \wrt \U_{i-1}$. Next, we
-rewrite this as $t=t'_0+\cdots + t'_{p-1}s_i^{p-1}$, with all $t'_j
-\wrt \U_{i-1}$, and it suffices to apply $\sigma_{\bs_i}^{-1}$ (or
-equivalently $\sigma_{\bs_{i-1}}^{-1}$) to all $t'_i$. The non-trivial
-part is the computation of the $t'_j$: this is done by applying the
-algorithm \alg{FindParameterization} mentioned in
-Subsection~\ref{ssec:duality}, in the extension $\U_i=
+Given $t \wrt \U_i$, to compute $v=\sigma_{\lst{s}_i}^{-1}(t)$, we run
+the previous algorithm backward. We first push-down $t$, obtaining
+$t=t_0 + \cdots + t_{p-1}x_i^{p-1}$, with all $t_j \wrt
+\U_{i-1}$. Next, we rewrite this as $t=t'_0+\cdots +
+t'_{p-1}s_i^{p-1}$, with all $t'_j \wrt \U_{i-1}$, and it suffices to
+apply $\sigma_{\lst{s}_i}^{-1}$ (or equivalently
+$\sigma_{\lst{s}_{i-1}}^{-1}$) to all $t'_i$. The non-trivial part is
+the computation of the $t'_j$: this is done by applying the algorithm
+\alg{FindParameterization} above, in the extension $\U_i=
 \U_{i-1}[X_i]/P_i$.
-
 
 
 \begin{algorithm}
   \caption{ApplyIsomorphism} 
   \begin{algorithmic}[1]
-    \REQUIRE $v,i$ with $v\in \U'_i$ written on the basis $\bB'_i$.
-    \ENSURE $\sigma_{\bs_i}(v) \wrt \U_i$.
+    \REQUIRE $v,i$ with $v\in \U'_i$ written on the basis $\basis{B}'_i$.
+    \ENSURE $\sigma_{\lst{s}_i}(v) \wrt \U_i$.
     \STATE if $i=0$ then return $v$
     \STATE write $v=\Sigma_{j <p} v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$
     \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$
@@ -293,11 +300,12 @@ Subsection~\ref{ssec:duality}, in the extension $\U_i=
     \STATE return $\text{\alg{Lift-up}}(t)$
   \end{algorithmic}
 \end{algorithm}
+
 \begin{algorithm}
   \caption{ApplyInverse} 
   \begin{algorithmic}[1]
     \REQUIRE $t,i$ with $t \wrt \U_i$.
-    \ENSURE $\sigma_{\bs_i}^{-1}(t)\in \U'_i$ written on the basis $\bB'_i$.
+    \ENSURE $\sigma_{\lst{s}_i}^{-1}(t)\in \U'_i$ written on the basis $\basis{B}'_i$.
     \STATE if $i=0$ then return $t$
     \STATE let $t_0 + \cdots + t_{p-1}x_i^{p-1} = \text{\alg{Push-down}}(t)$
     \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$
@@ -309,37 +317,40 @@ Subsection~\ref{ssec:duality}, in the extension $\U_i=
 
 
 \begin{proposition}\label{Prop:apply}
-  Algorithms \alg{ApplyIsomorphism} and  \alg{Ap\-plyInverse} are
-correct and both take time $O(i\L(i))$.
+  Algorithms \alg{ApplyIsomorphism} and \alg{ApplyInverse} are correct
+  and both take time $O(i\Lift(i))$.
 \end{proposition}
-\begin{proof} In both cases, correctness is clear, since the algorithms
-translate the former discussion. As to complexity, in both cases, we
-do $p$ recursive calls, $O(1)$ push-downs and lift-ups, and a few
-extra operations: for \alg{ApplyIsomorphism}, these are $p$
-multiplications / additions in the bivariate basis ${\bf D}_i$ of
-Section~\ref{sec:level-embedding}; for \alg{ApplyInverse}, this is
-calling the algorithm \alg{FindParameterization} of
-Subsection~\ref{ssec:duality}.  The costs are $O(p\Mult(p^id))$ and
-$O(p^2\Mult(p^{i-1}d))$, which are in $O(\L(i))$ by assumption on
-$\L$. We conclude as in Theorem~\ref{th:b-ifrob}.\end{proof}
+\begin{proof}
+  In both cases, correctness is clear, since the algorithms translate
+  the former discussion. As to complexity, in both cases, we do $p$
+  recursive calls, $O(1)$ push-downs and lift-ups, and a few extra
+  operations: for \alg{ApplyIsomorphism}, these are $p$
+  multiplications / additions in the bivariate basis $\basis{D}_i$ of
+  Section~\ref{sec:level-embedding}; for \alg{ApplyInverse}, this is
+  calling the algorithm \alg{FindParameterization} above.  The costs
+  are $O(p\Mult(p^id))$ and $O(p^2\Mult(p^{i-1}d))$, which are in
+  $O(\Lift(i))$ by assumption on $\Lift$. We conclude as in
+  Theorem~\ref{th:b-ifrob}.
+\end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Proof of Theorem~\ref{theo:main}}
 
-\noindent Finally, assuming that only $(s_0,\dots,s_{i-1})$ are known,
-we describe how to determine $s_i$. Several choices are possible: the
+Finally, assuming that only $(s_0,\dots,s_{i-1})$ are known, we
+describe how to determine $s_i$. Several choices are possible: the
 only constraint is that $s_i$ should be a root of
-$X_i^p-X_i-\sigma_{\bs_i}(\gamma'_{i-1})=X_i^p-X_i-\sigma_{\bs_{i-1}}(\gamma'_{i-1})$ in $\U_i$. 
+$X_i^p-X_i-\sigma_{\lst{s}_i}(\gamma'_{i-1})=X_i^p-X_i-\sigma_{\lst{s}_{i-1}}(\gamma'_{i-1})$
+in $\U_i$.
 
 Using Proposition~\ref{Prop:apply}, we can compute
-$\alpha=\sigma_{\bs_{i-1}}(\gamma'_{i-1}) \wrt\U_{i-1}$ in time
-$O((i-1)\L(i-1)) \subset O(i\L(i))$.  Applying a lift-up to $\alpha$,
+$\alpha=\sigma_{\lst{s}_{i-1}}(\gamma'_{i-1}) \wrt\U_{i-1}$ in time
+$O((i-1)\Lift(i-1)) \subset O(i\Lift(i))$.  Applying a lift-up to $\alpha$,
 we are then in the conditions of Theorem~\ref{theo:AS}, so we can find
 $s_i$ for an extra $O(d^\omega + \Ptr(i))$ operations.
 
 We can then summarize the cost of all precomputations: to the cost of
-determining $\bs_i$, we add the costs related to the tower
+determining $\lst{s}_i$, we add the costs related to the tower
 $(\U_0,\dots,\U_i)$, given in
 Sections~\ref{sec:fast-tower},~\ref{sec:level-embedding}
 and~\ref{sec:pseudotrace-frobenius}. After a few simplifications, we
