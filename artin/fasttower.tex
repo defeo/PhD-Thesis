@@ -9,8 +9,9 @@ how to construct this tower.
 
 \subsection{Definition}
 
-The following theorem extends results by Cantor~\cite[Th.~1.2]{Can89},
-who dealt with the case $\U_0=\F_p$.
+The following theorem extends results by
+Cantor~\cite[Theorem~1.2]{cantor89}, who dealt with the case
+$\U_0=\F_p$.
 
 \begin{theorem}
   \label{th:cantor}
@@ -24,6 +25,7 @@ G_i = ~X_i^{2p-1} &\text{in any other case.}
 \end{cases}$$
 Then, $(G_i)_{0 \le i <k}$ defines a primitive tower $(\U_0,\dots,\U_k)$.
 \end{theorem}
+
 As before, for $i \ge 1$, let $P_i = X_i^p - X_i - G_{i-1}$ and for $i
 \ge 0$, let $K_i$ be the ideal $\langle Q_0,P_1,\dots,P_i\rangle$ in
 $\F_p[X_0,\dots,X_i]$.  Then the theorem says that for $i\ge 0$,
@@ -74,67 +76,98 @@ that the $\gamma_i$'s meet the conditions of the corollary.
   If $p\ne2$, for $i \ge 0$, $\U_i$ is a field and, for $i\ge1$,
   $\Tr_{\U_i/\U_{i-1}}(\gamma_i) = -\gamma_{i-1}$.
 \end{lemma}
-\begin{proof} Induction on $i$: for $i=0$, this is true by hypothesis. For
-$i \ge 1$, by induction hypothesis $\U_0,\ldots,\U_{i-1}$ are fields;
-we then set $i'=i-1$ and prove by nested induction that
-$\Tr_{\U_{i'}/\F_p}(\gamma_{i'})\ne 0$ under the hypothesis that
-$\U_0,\ldots,\U_{i'}$ are fields. This, by~\cite[Th.~2.25]{LN},
-implies that $X_i^p-X_i-\gamma_{i-1}$ is irreducible in
-$\U_{i-1}[X_{i+1}]$ and $\U_i$ is a field.
+\begin{proof} Induction on $i$: for $i=0$, this is true by
+  hypothesis. For $i \ge 1$, by induction hypothesis
+  $\U_0,\ldots,\U_{i-1}$ are fields; we then set $i'=i-1$ and prove by
+  nested induction that $\Tr_{\U_{i'}/\F_p}(\gamma_{i'})\ne 0$ under
+  the hypothesis that $\U_0,\ldots,\U_{i'}$ are fields. This,
+  by~\ref{th:artin-schreier}, implies that
+  $X_i^p-X_i-\gamma_{i-1}$ is irreducible in $\U_{i-1}[X_{i+1}]$ and
+  $\U_i$ is a field.
 
-For $i'=0$, $\Tr_{\U_0/\F_p}(\gamma_0)=\Tr_{\U_0/\F_p}(x_0)$ is
-non-zero and we are done.  For $i' \ge 1$, we know that
-$\gamma_{i'}=x_{i'}^{2p-1}=x_{i'}^px_{i'}^{p-1}$, which rewrites
- \begin{equation*}
-(x_{i'}+\gamma_{i'-1})x_{i'}^{p-1} = x_{i'}^p +\gamma_{i'-1} x_{i'}^{p-1}
- = \gamma_{i'-1} + x_{i'} +\gamma_{i'-1} x_{i'}^{p-1}.
-\end{equation*}
-By~\ref{eq:pd}, we get $\Tr_{\U_{i'}/\U_{i'-1}}(\gamma_{i'}) =
--\gamma_{i'-1}$ and by~\ref{eq:trcomp}, we deduce the equality
-$\Tr_{\U_{i'}/\F_p}(\gamma_{i'})=-\Tr_{\U_{i'-1}/\F_p}(\gamma_{i'-1})$. The
-induction assumption implies that this is non-zero, and the claim
-follows. \end{proof}
+  For $i'=0$, $\Tr_{\U_0/\F_p}(\gamma_0)=\Tr_{\U_0/\F_p}(x_0)$ is
+  non-zero and we are done.  For $i' \ge 1$, we know that
+  $\gamma_{i'}=x_{i'}^{2p-1}=x_{i'}^px_{i'}^{p-1}$, which rewrites
+  \begin{equation}
+    (x_{i'}+\gamma_{i'-1})x_{i'}^{p-1} = x_{i'}^p +\gamma_{i'-1} x_{i'}^{p-1}
+    = \gamma_{i'-1} + x_{i'} +\gamma_{i'-1} x_{i'}^{p-1}.
+  \end{equation}
+  By~\ref{eq:pd}, we get 
+  \begin{equation}
+    \label{eq:65}
+    \Tr_{\U_{i'}/\U_{i'-1}}(\gamma_{i'}) = -\gamma_{i'-1}
+  \end{equation}
+  and by~\ref{eq:trcomp}, we deduce the equality
+  \begin{equation}
+    \label{eq:64}
+    \Tr_{\U_{i'}/\F_p}(\gamma_{i'})=-\Tr_{\U_{i'-1}/\F_p}(\gamma_{i'-1})\text{.}    
+  \end{equation}
+  The induction assumption implies that this is non-zero, and the
+  claim follows.
+\end{proof}
 
 \begin{lemma}
-  If $p=2$, for $i \ge 0$, $\U_i$ is a field, for $i\ge2$,
+  If $p=2$, for $i \ge 0$, $\U_i$ is a field. For $i\ge2$,
   $\Tr_{\U_i/\U_{i-1}}(\gamma_i) = 1+\gamma_{i-1}$ and 
-  \begin{equation*}
+  \begin{equation}
     \Tr_{\U_1/\U_0}(\gamma_1) = \begin{cases}
       1+\gamma_0 &\text{if $d$ even,}\\
       1          &\text{if $d$ odd.}
     \end{cases}
-  \end{equation*}
+  \end{equation}
 \end{lemma}
-\begin{proof} The proof closely follows the previous one. For $i'=0$,
-$\Tr_{\U_0/\F_p}(\gamma_0)=\Tr_{\U_0/\F_p}(x_0)$ is non-zero.  For
-$i'=1$ and $d$ odd, $\Tr_{\U_1/\U_0}(\gamma_1)=\Tr_{\U_1/\U_0}(x_1) =
-1$ by~\ref{eq:pd}, and $\Tr_{\U_0/\F_p}(1) = d\bmod 2\ne0$. For all
-the other cases $\gamma_{i'}=x_{i'}^2x_{i'}=\gamma_{i'-1} +
-(1+\gamma_{i'-1})x_{i'}$, thus
-$\Tr_{\U_{i'}/\U_{i'-1}}(\gamma_{i'})=1+\gamma_{i'-1}$ by~\ref{eq:pd}
-and $\Tr_{\U_{i'-1}/\F_p}(1) = 0$. In any case, using the induction
-hypothesis and~\ref{eq:trcomp}, we conclude
-$\Tr_{\U_{i'}/\F_p}(\gamma_{i'}) = 1$ and this concludes the
-proof.\end{proof}
+\begin{proof}
+  The proof closely follows the previous one. For $i'=0$,
+  $\Tr_{\U_0/\F_p}(\gamma_0)=\Tr_{\U_0/\F_p}(x_0)$ is non-zero.  For
+  $i'=1$ and $d$ odd, 
+  \begin{equation}
+    \label{eq:66}
+    \Tr_{\U_1/\U_0}(\gamma_1)=\Tr_{\U_1/\U_0}(x_1)  = 1    
+  \end{equation}
+  by~\ref{eq:pd}, and
+  \begin{equation}
+    \label{eq:67}
+    \Tr_{\U_0/\F_p}(1) = d\bmod 2\ne0
+    \text{.}
+  \end{equation}
+  For all the other cases 
+  \begin{equation}
+    \label{eq:68}
+    \gamma_{i'}=x_{i'}^2x_{i'}=\gamma_{i'-1} +
+    (1+\gamma_{i'-1})x_{i'}\text{,}    
+  \end{equation}
+  thus
+  \begin{equation}
+    \Tr_{\U_{i'}/\U_{i'-1}}(\gamma_{i'})=1+\gamma_{i'-1}    
+  \end{equation}
+  by~\ref{eq:pd} and $\Tr_{\U_{i'-1}/\F_p}(1) = 0$. In any case, using
+  the induction hypothesis and~\ref{eq:trcomp}, we deduce
+  $\Tr_{\U_{i'}/\F_p}(\gamma_{i'}) = 1$ and this concludes the proof.
+\end{proof}
 
 
 \begin{proof}[Proof of Theorem~\ref{th:cantor}]
+  We prove that $\U_i=\F_p[\gamma_i]$, then the theorem follows since
+  clearly $\F_p[\gamma_i]\subset\F_p[x_i]$.
+
   If $p\ne2$, by Lemma~\ref{coro:trace} and~\ref{eq:trcomp},
-  $\Tr_{\U_i/\U_0}(\gamma_i) = (-1)^i\gamma_0$, thus
-  $\U_i=\F_p[\gamma_i]$ by Corollary~\ref{coro:gen} and the fact that
-  $\gamma_0 = x_0$ generates $\U_0$ over $\F_p$.
+  \begin{equation}
+    \label{eq:69}
+    \Tr_{\U_i/\U_0}(\gamma_i) = (-1)^i\gamma_0
+    \text{,}    
+  \end{equation}
+  thus $\U_i=\F_p[\gamma_i]$ by Corollary~\ref{coro:gen} and the fact
+  that $\gamma_0 = x_0$ generates $\U_0$ over $\F_p$.
 
   If $p=2$, we first prove that $\U_1=\F_p[\gamma_1]$.  If $d$ is odd,
   $\gamma_1^p + \gamma_1 = x_0$ implies $\U_0\subset\F_p[\gamma_1]$,
   but $\gamma_1\not\in\U_0$, thus necessarily $\U_1=\F_p[\gamma_1]$.
   If $d$ is even, $\Tr_{\U_1/\U_0}(\gamma_1)=1+\gamma_0$ clearly
   generates $\U_0$ over $\F_p$, thus $\U_1=\F_p[\gamma_1]$ by
-  Corollary~\ref{coro:gen}. Now we proceed like in the $p\ne2$ case
-  by observing that $\Tr_{\U_i/\U_1}(\gamma_i)=1+\gamma_1$ generates
-  $\U_1$ over $\F_p$.
-
-  Now, for any $p$, the theorem follows since clearly
-  $\F_p[\gamma_i]\subset\F_p[x_i]$.
+  Corollary~\ref{coro:gen}.
+  
+  Now we proceed like in the $p\ne2$ case by observing that
+  $\Tr_{\U_i/\U_1}(\gamma_i)=1+\gamma_1$ generates $\U_1$ over $\F_p$.
 \end{proof}
 
 Remark that the choice of the tower of Theorem~\ref{th:cantor} is in
@@ -142,11 +175,12 @@ some sense \emph{optimal} between the choices given by
 Corollary~\ref{coro:gen}. In fact, each of the $G_i$'s is the
 ``simplest'' polynomial in $\F_p[X_i]$ such that
 $\Tr_{\U_i/\F_p}(\gamma_i)\ne0$, in terms of lowest degree and least
-number of monomials.
+number of monomials, as shown by Proposition~\ref{th:p3} and
+Eq.~\eqref{eq:62}.
 
 We furthermore remark that the construction we made in this section
 gives us a family of normal elements for free. In fact, recall the
-following proposition from~\cite[Section 5]{Hach}.
+following proposition from~\cite[Section~5]{hachenberger}.
 \begin{proposition}
   Let $\U'/\U$ be an extension of finite fields with $[\U':\U]=kp^i$
   where $k$ is prime to $p$ and let $\U''$ be the intermediate field
@@ -170,21 +204,23 @@ corollary are met for $p\ne2$.  For $p=2$, this is the case only if
 $[\U_0:\F_p]$ is even (we omit the proofs that if $\gamma_0$ is normal
 then so are $-\gamma_0$ and $1+\gamma_0$).
 
-\paragraph*{\bf Remark.} Observe however that this does not imply the
-normality of the $x_i$'s. In fact, they can {\em never} be normal
-because $\Tr_{\U_i/\U_{i-1}}(x_i) = 0$ by~\ref{eq:pd}.  Granted that
-$\gamma_0$ is normal over $\F_p$, it would be interesting to have an
-efficient algorithm to switch representations from the univariate
-$\F_p$-basis in $x_i$ to the $\F_p$-normal basis generated by
-$\gamma_i$.
-
+\begin{remark}
+  Observe however that this does not imply the normality of the
+  $x_i$'s. In fact, they can {\em never} be normal because
+  $\Tr_{\U_i/\U_{i-1}}(x_i) = 0$ by~\ref{eq:pd}.  Granted that
+  $\gamma_0$ is normal over $\F_p$, it would be interesting to have an
+  efficient algorithm to switch representations from the univariate
+  $\F_p$-basis in $x_i$ to the $\F_p$-normal basis generated by
+  $\gamma_i$.
+\end{remark}
 
 
 % Local Variables:
 % mode:flyspell
 % ispell-local-dictionary:"american"
-% TeX-master: "artin"
 % mode:TeX-PDF
+% mode: reftex
+% TeX-master: "../these"
 % End:
 %
 % LocalWords:  Schreier Artin pseudotrace frobenius bivariate memoization

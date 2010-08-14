@@ -1,10 +1,79 @@
-\section{Introduction}
+In this chapter we give fast algorithms for arithmetic operations in
+Artin-Schreier towers. Prior results for this task are due to
+Cantor~\cite{cantor89} and Couveignes~\cite{couveignes00}. However,
+the algorithms of~\cite{couveignes00} need as a prerequisite a fast
+multiplication algorithm in some towers of a special kind, called
+``Cantor towers'' in~\cite{couveignes00}. Such an algorithm is
+unfortunately not in the literature, making the results
+of~\cite{couveignes00} non practical. This chapter fills this gap.
 
-\paragraph*{\bf Definitions.} If $\U$ is a field of characteristic $p$,
-polynomials of the form $P=X^p - X - \alpha$, with $\alpha \in \U$,
-are called {\em Artin-Schreier polynomials}; a field extension
-$\U'/\U$ is {\em Artin-Schreier} if it is of the form $\U' = \U[X]/P$,
-with $P$ an Artin-Schreier polynomial.
+To our knowledge, no previous work provided the missing ingredients to
+put Couveignes' algorithms to practice. Part of Cantor's results were
+independently discovered by Wang and Zhu~\cite{wang+zhu88} and have
+been extended in another direction (fast polynomial multiplication
+over arbitrary finite fields) by von zur Gathen and
+Gerhard~\cite{vzgatehn+gerhard02} and Mateer~\cite{mateer08}.
+
+Technically, the main algorithmic contribution of this chapter is a
+fast change-of-basis algorithm based on the techniques of
+Chapter~\ref{cha:trace-computations}. Building on this, it is possible
+to obtain fast multiplication routines, and by extension completely
+explicit versions of all algorithms of~\cite{couveignes00}. Along the
+way, we also extend constructions of Cantor to the case of a general
+finite base field $\U_0$, where Cantor had $\U_0=\F_p$.
+
+The algorithms presented in this chapter have been integrated in a
+\texttt{C++} library called \texttt{FAAST}, based on Shoup's
+\texttt{NTL}~\cite{NTL} library. This chapter is joint work with
+Schost~\cite{df+schost09}.
+
+We start by giving the relevant definitions, and preliminaries. In
+Section~\ref{sec:fast-tower}, we define a specific Artin-Schreier
+tower, where arithmetic operations will be fast. Our key
+change-of-basis algorithm for this tower is in
+Section~\ref{sec:level-embedding}. In
+Sections~\ref{sec:pseudotrace-frobenius}
+and~\ref{sec:couveignes-algorithm}, we revisit Couveignes' algorithm
+for isomorphism between Artin-Schreier towers~\cite{couveignes00} in
+our context, which yields fast arithmetics for {\em any}
+Artin-Schreier tower. Finally, Section~\ref{sec:benchmarks} presents
+our implementation of the \texttt{FAAST} library and gives
+experimental results.
+
+
+
+\section{Artin-Schreier extensions}
+\label{sec:artin-schr-extens}
+
+If $\U$ is a field of characteristic $p$, polynomials of the form
+\begin{equation}
+  \label{eq:36}
+  P=X^p - X - \alpha
+  \text{,}  
+\end{equation}
+with $\alpha \in \U$ are called {\em Artin-Schreier polynomials}; a
+field extension $\U'/\U$ is {\em Artin-Schreier} if it is of the form
+$\U' = \U[X]/P$, with $P$ an Artin-Schreier polynomial.
+
+\begin{theorem}
+  \label{th:artin-schreier}
+  The Artin-Schreier polynomial $X^p-X-\alpha$ is irreducible in $\U$
+  if and only if
+  \begin{equation}
+    \label{eq:62}
+    \Tr_{\U/\F_p}(\alpha) \ne 0
+    \text{.}
+  \end{equation}
+  If it is reducible, then it is split and its roots are 
+  \begin{equation}
+    \label{eq:63}
+    \eta, \eta+1, \ldots, \eta + p -1
+    \text{.}
+  \end{equation}
+\end{theorem}
+\begin{proof}
+  See \cite[Theorem~2.25]{lidl+niederreiter:2}.
+\end{proof}
 
 An {\em Artin-Schreier tower} of height $k$ is a sequence of
 Artin-Schreier extensions $\U_i / \U_{i-1}$, for $1\le i \le k$; it is
@@ -19,52 +88,13 @@ frequently, e.g., in number theory (for instance, when computing
 $p^k$-torsion groups of Abelian varieties over $\F_p$). The need for
 fast arithmetics in these towers is motivated in particular by
 applications to isogeny computation and point-counting in cryptology,
-as in~\cite{Couveignes96}.
+as we will see in Chapter~\ref{cha:algor-small-char}.
 
-\paragraph*{\bf Our contribution.} The purpose of this paper is to
-give fast algorithms for arithmetic operations in Artin-Schreier
-towers. Prior results for this task are due to Cantor~\cite{Can89} and
-Couveignes~\cite{Couveignes00}. However, the algorithms
-of~\cite{Couveignes00} need as a prerequisite a fast multiplication
-algorithm in some towers of a special kind, called ``Cantor towers''
-in~\cite{Couveignes00}. Such an algorithm is unfortunately not in the
-literature, making the results of~\cite{Couveignes00} non practical.
-
-This paper fills the gap. Technically, our main algorithmic
-contribution is a fast change-of-basis algorithm; it makes it possible
-to obtain fast multiplication routines, and by extension completely
-explicit versions of all algorithms of~\cite{Couveignes00}. Along the
-way, we also extend constructions of Cantor to the case of a general
-finite base field $\U_0$, where Cantor had $\U_0=\F_p$.  We present
-our implementation, in a library called \texttt{FAAST}, based on
-Shoup's \texttt{NTL}~\cite{NTL}. As an application, we put to practice
-Couveignes' isogeny computation algorithm~\cite{Couveignes96} (or,
-more precisely, its refined version presented in~\cite{DeFeo10}).
-
-\paragraph*{\bf Complexity notation.} We count time complexity
-in number of operations in $\F_p$. Then, notation being as before,
-optimal algorithms in $\U_k$ would have complexity $O(p^kd)$; most of
-our results are (up to logarithmic factors) of the form
-$O(p^{k+\alpha} d^{1+\beta})$, for small constants $\alpha,\beta$ such as
-$0,1,2$ or $3$.
-
-Many algorithms below rely on fast multiplication; thus, we let $\Mult
-: \N \rightarrow \N$ be a {\em multiplication function}, such that
-polynomials in $\F_p[X]$ of degree less than $n$ can be multiplied in
-$\Mult(n)$ operations, under the conditions of~\cite[Ch.~8.3]{vzGG}.
-Typical orders of magnitude for $\Mult(n)$ are $O(n^{\log_2(3)})$ for
-Karatsuba multiplication or $O(n\log (n) \log\log (n))$ for FFT
-multiplication. Using fast multiplication, fast algorithms are
-available for Euclidean division or extended GCD~\cite[Ch.~9 \&
-11]{vzGG}.
-
-The cost of {\em modular composition}, that is, of computing $F(G)
-\bmod H$, for $F,G,H\in\F_p[X]$ of degrees at most $n$, will be
-written $\ModComp(n)$. We refer to~\cite[Ch.~12]{vzGG} for a
-presentation of known results in an algebraic computational model: the
-best known algorithms have subquadratic (but superlinear) cost in
-$n$. Note that in a boolean RAM model, the algorithm of~\cite{KeUm08}
-takes quasi-linear time.
+We count all time complexities in number of operations in
+$\F_p$. Then, notation being as before, optimal algorithms in $\U_k$
+would have complexity $O(p^kd)$; most of our results are (up to
+logarithmic factors) of the form $O(p^{k+\alpha} d^{1+\beta})$, for
+small constants $\alpha,\beta$ such as $0,1,2$ or $3$.
 
 For several operations, different algorithms will be available, and
 their relative efficiencies can depend on the values of $p$, $d$ and
@@ -72,38 +102,6 @@ $k$. In these situations, we always give details for the case where
 $p$ is small, since cases such as $p=2$ or $p=3$ are especially useful
 in practice. Some of our algorithms could be slightly
 improved, but we usually prefer giving the simpler solutions.
-
-\paragraph*{\bf Previous work.} As said above, this paper
-builds on former results of Cantor~\cite{Can89} and
-Couveignes~\cite{Couveignes00,Couveignes96}; to our knowledge, prior
-to this paper, no previous work provided the missing ingredients to
-put Couveignes' algorithms to practice. Part of Cantor's
-  results were independently discovered by Wang and Zhu~\cite{WaZh88}
-and have been extended in another direction (fast polynomial
-multiplication over arbitrary finite fields) by von zur Gathen and
-Gerhard~\cite{GaGe96} and Mateer~\cite{GaMa08}.
-
-This paper is an expanded version of the conference
-paper~\cite{DeSc09}. We provide a more thorough description of the
-properties of Cantor towers (Section~\ref{sec:fast-tower}),
-improvements to some algorithms (e.g. the Frobenius or pseudo-trace
-computations) and a more extensive experimental section.
-
-\paragraph*{\bf Organization of the paper.}
-Section~\ref{sec:arithmetics} consists in preliminaries: trace
-computations, duality, basics on Artin-Schreier extensions. In
-Section~\ref{sec:fast-tower}, we define a specific Artin-Schreier
-tower, where arithmetic operations will be fast. Our key
-change-of-basis algorithm for this tower is in
-Section~\ref{sec:level-embedding}. In
-Sections~\ref{sec:pseudotrace-frobenius}
-and~\ref{sec:couveignes-algorithm}, we revisit Couveignes' algorithm
-for isomorphism between Artin-Schreier towers~\cite{Couveignes00} in
-our context, which yields fast arithmetics for {\em any}
-Artin-Schreier tower. Finally, Section~\ref{sec:benchmarks} presents
-our implementation of the \texttt{FAAST} library and gives
-experimental results obtained by applying our algorithms to
-Couveignes' isogeny algorithm~\cite{Couveignes96} for elliptic curves.
 
 
 

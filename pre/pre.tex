@@ -25,6 +25,24 @@
 \chapter{Algorithms and complexity}
 \label{cha:algor-compl}
 \section{Asymptotic complexity}
+Many algorithms below rely on fast multiplication; thus, we let $\Mult
+: \N \rightarrow \N$ be a {\em multiplication function}, such that
+polynomials in $\F_p[X]$ of degree less than $n$ can be multiplied in
+$\Mult(n)$ operations, under the conditions of~\cite[Ch.~8.3]{vzGG}.
+Typical orders of magnitude for $\Mult(n)$ are $O(n^{\log_2(3)})$ for
+Karatsuba multiplication or $O(n\log (n) \log\log (n))$ for FFT
+multiplication. Using fast multiplication, fast algorithms are
+available for Euclidean division or extended GCD~\cite[Ch.~9 \&
+11]{vzGG}.
+
+The cost of {\em modular composition}, that is, of computing $F(G)
+\bmod H$, for $F,G,H\in\F_p[X]$ of degrees at most $n$, will be
+written $\ModComp(n)$. We refer to~\cite[Ch.~12]{vzGG} for a
+presentation of known results in an algebraic computational model: the
+best known algorithms have subquadratic (but superlinear) cost in
+$n$. Note that in a boolean RAM model, the algorithm of~\cite{KeUm08}
+takes quasi-linear time.
+
 \section{Fundamental algorithms}
 Polynomial multiplication, Newton inversion, matrix multiplication,
 modular composition, rational fraction reconstruction\ldots
