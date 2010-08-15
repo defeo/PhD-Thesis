@@ -24,7 +24,7 @@ Subsection~\ref{ssec:rep}: we write elements of $\U'_i$ on the basis
 \end{equation}
 where $x_0=x'_0$.
 %% We assume that all
-%% polynomials $G'_i$ satisfy $\deg(G'_i,X_0)< d$ and $\deg(G'_i,X_j)< p$
+%% polynomials $G'_i$ satisfy $\deg_{X_0}(G'_i)< d$ and $\deg_{X_j}(G'_i)< p$
 %% for $j \le i$, so that writing $\gamma'_i$ on the basis $\bB'_i$
 %% requires no operation.
 
@@ -38,11 +38,17 @@ $\basis{B}'_i$ and outputs $\sigma_{\lst{s}_i}(v)\wrt \U_i$.
 To analyze costs, we use the functions $\Lift$ and $\Ptr$ introduced
 in the previous sections. We also let $2 \le \omega \le 3$ be a
 feasible exponent for linear algebra over $\F_p$ (see
-Section~\ref{sec:todo}).
+Section~\ref{sec:asympt-compl}).
 \begin{theorem}\label{theo:main}
   Given $Q_0$ and $(G'_i)_{0 \le i < k}$, one can find
-  $\lst{s}_k=(s_0,\dots,s_k)$ in time $O(d^\omega k + \Ptr(k) +
-  \Mult(p^{k+1} d) \log(p))$. Once they are known, one can apply
+  $\lst{s}_k=(s_0,\dots,s_k)$ in time 
+  \begin{equation}
+    \label{eq:105}
+    O(d^\omega k + \Ptr(k) +
+    \Mult(p^{k+1} d) \log(p))
+    \text{.}
+  \end{equation}
+  Once they are known, one can apply
   $\sigma_{\lst{s}_k}$ and $\sigma_{\lst{s}_k}^{-1}$ in time $O(k\,
   \Lift(k))$.
 \end{theorem}
@@ -62,26 +68,52 @@ $\U_i$.
 Because $X^p-X$ is $\F_p$-linear, the equation can be directly solved
 by linear algebra, but this is too costly. In~\cite{couveignes00},
 Couveignes gives a solution adapted to our setting, that reduces the
-problem to solving Artin-Schreier equations in $\U_0$. Given a solution
-$\delta\in\U_i$ of the equation $X^p - X = \alpha$, he observes that 
-any solution $\mu$ of
-\begin{equation}
-  \label{eq:approximateAS}
-  X^{p^{p^{i-1}d}} - X = \eta, \quad\text{with}\quad \eta=\PTr_{p^{i-1}d}(\alpha).
-\end{equation}
-is of the form $\mu=\delta - \Delta$ with $\Delta\in\U_{i-1}$, hence
-$\Delta$ is a root of
+problem to solving Artin-Schreier equations in $\U_0$. He observed
+what follows.
+
+\begin{proposition}
+  Let $\delta\in\U_i$ be a solution of the equation 
+  \begin{equation}
+    \label{eq:106}
+    X^p - X = \alpha
+    \text{.}    
+  \end{equation}
+  Any solution $\mu$ of
+  \begin{equation}
+    \label{eq:approximateAS}
+    X^{p^{p^{i-1}d}} - X = \eta, \quad\text{with}\quad \eta=\PTr_{p^{i-1}d}(\alpha).
+  \end{equation}
+  is of the form $\mu=\delta - \Delta$ with $\Delta\in\U_{i-1}$.
+\end{proposition}
+\begin{proof}
+  Let $\mu$ be a solution of Eq.~\eqref{eq:approximateAS}, and let
+  $\Delta=\delta-\mu$, then
+  \begin{multline}
+    \label{eq:108}
+    \Delta^{p^{p^{i-1}d}} - \Delta = \delta^{p^{p^{i-1}d}} - \delta - \eta =
+    \left(\sum_{\ell=0}^{p^{i-1}d-1}(\delta^{p}-\delta)^{p^\ell}\right) - \eta =\\
+    \PTr_{p^{i-1}d}(\delta^p-\delta) - \eta = 0
+    \text{,}
+  \end{multline}
+  where the last equality comes from the definition of the
+  pseudotrace. This implies $\Delta\in\U_{i-1}$.
+\end{proof}
+
+By its definition, $\Delta=\delta-\mu$ is a root of
 \begin{equation}
   \label{eq:approximant}
   X^p-X-\alpha+\mu^p-\mu.
 \end{equation}
-This equation has solutions in $\U_{i-1}$ by hypothesis and hence it
-can be solved recursively. First, however, we tackle the problem of
-finding a solution of~\eqref{eq:approximateAS}.
+This equation has solutions in $\U_{i-1}$ by the previous proposition,
+hence it can be solved recursively. In a certain sense, $\mu$ is a
+good approximation to $\delta$, and their difference $\Delta$ can be
+computed as the solution of a new, simpler, Artin-Schreier equation.
 
-For this purpose, observe that the left hand side
-of~\eqref{eq:approximateAS} is $\U_{i-1}$-linear and its matrix on the
-basis $(1,\ldots,x_i^{p-1})$ is
+
+First we tackle the problem of finding a solution
+of~\eqref{eq:approximateAS}.  For this purpose, observe that the left
+hand side of~\eqref{eq:approximateAS} is $\U_{i-1}$-linear and its
+matrix on the basis $(1,\ldots,x_i^{p-1})$ is
 \begin{equation*}
   \label{eq:approximate-matrix}
   \begin{bmatrix}
@@ -91,7 +123,8 @@ basis $(1,\ldots,x_i^{p-1})$ is
       &                 &        & 0
   \end{bmatrix}
 \end{equation*}
-Then, algorithm \alg{ApproximateAS} finds the required solution.
+(we recall that $\beta_{i-1,n}=\PTr_{n}(\gamma_{i-1})$).  Then,
+algorithm \alg{ApproximateAS} finds the required solution.
 
 
 %% We use an algorithm called \alg{Summation}; given $E$ in
@@ -109,13 +142,13 @@ Then, algorithm \alg{ApproximateAS} finds the required solution.
   \begin{algorithmic}[1]
     \REQUIRE $\eta\wrt\U_i$ such that~\eqref{eq:approximateAS} has a solution.
     \ENSURE $\mu\wrt\U_i$ solution of~\eqref{eq:approximateAS}.
-    \STATE let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\alg{Push-down}}(\eta)$
+    \STATE let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\alg{Push-down}}(\eta)$;
     \FORALL {\label{alg:AAS:loop} $j\in[p-1,\ldots,1]$}
     \STATE let $\mu_j =
    \frac{1}{jT}\left(\eta_{j-1} -
-  \sum_{h=j+1}^{p-1}\binom{h}{j-1}\beta_{i-1,p^{i-1}d}^{h-j+1}\mu_h\right)$
-\ENDFOR
-\STATE return $\text{\alg{Lift-up}}(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$
+     \sum_{h=j+1}^{p-1}\binom{h}{j-1}\beta_{i-1,p^{i-1}d}^{h-j+1}\mu_h\right)$;
+   \ENDFOR
+   \STATE return $\text{\alg{Lift-up}}(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$;
 \end{algorithmic}
 \end{algorithm}
 
@@ -174,18 +207,22 @@ linear algebra, written $\alg{NaiveSolve}$.
   \begin{algorithmic}[1]
     \REQUIRE $\alpha,i$ such that $\alpha\wrt\U_i$ and $\Tr_{\U_i/\F_p}(\alpha)=0$.
     \ENSURE $\delta\wrt\U_i$ such that $\delta^p-\delta=\alpha$.
-    \STATE \label{alg:cou:base}if $i=0$, return $\alg{NaiveSolve}(X^p-X-\alpha)$
-    \STATE \label{alg:cou:pseudo} let $\eta = \alg{Pseudotrace}(\alpha, i,i-1)$
-    \STATE \label{alg:cou:push-beta} let $\mu= \alg{ApproximateAS}(\eta)$
-    \STATE \label{alg:cou:push-alpha} let $\alpha_0=\text{\alg{Push-down}}(\alpha-\mu^p+\mu)$
-    \STATE \label{alg:cou:rec} let $\Delta =\text{\alg{Artin-Schreier}}(\alpha_0,i-1)$
-    \STATE \label{alg:cou:lift} return $\mu+\text{\alg{Lift-up}}(\Delta)$
+    \STATE \label{alg:cou:base}if $i=0$, return $\alg{NaiveSolve}(X^p-X-\alpha)$;
+    \STATE \label{alg:cou:pseudo} let $\eta = \alg{Pseudotrace}(\alpha, i,i-1)$;
+    \STATE \label{alg:cou:push-beta} let $\mu= \alg{ApproximateAS}(\eta)$;
+    \STATE \label{alg:cou:push-alpha} let $\alpha_0=\text{\alg{Push-down}}(\alpha-\mu^p+\mu)$;
+    \STATE \label{alg:cou:rec} let $\Delta =\text{\alg{Artin-Schreier}}(\alpha_0,i-1)$;
+    \STATE \label{alg:cou:lift} return $\mu+\text{\alg{Lift-up}}(\Delta)$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{theorem}\label{theo:AS}
-  Algorithm \alg{Artin-Schreier} is correct and takes time $O(d^\omega
-  + \Ptr(i))$.
+  Algorithm \alg{Artin-Schreier} is correct and takes time 
+  \begin{equation}
+    \label{eq:109}
+    O(d^\omega + \Ptr(i))
+    \text{.}
+  \end{equation}
 \end{theorem}
 \begin{proof} 
   Correctness follows from the previous discussion.  For the
@@ -207,54 +244,6 @@ linear algebra, written $\alg{NaiveSolve}$.
 
 \subsection{Applying the isomorphism}
 
-\subsubsection{Duality}
-\label{ssec:duality}
-
-Since this is the case we will need later on, we give
-details for the case where $Q$ is Artin-Schreier (so $n=p$): then,
-$Q'=-1$, so no work is needed to invert it modulo $Q$.
-
-In the following algorithm, we suppose that $\U'$ is presented as
-$\U'=\U[X]/P$, where $P$ is Artin-Schreier. We let $x$ be the residue
-class of $X$ in $\U'$.
-\begin{algorithm}
-  \caption{FindParameterization}
-  \begin{algorithmic}[1]
-    \REQUIRE $w \in \U'$ written as $w_0 + \cdots + w_{p-1} x^{p-1}$,  
-    $b \in \U'$ written as $b_0 + \cdots + b_{p-1} x^{p-1}$
-    \ENSURE A polynomial $A$ of degree less than $p$ such that $w=A(b)$
-    \STATE\label{alg:para:trmul} let $\ell = w \cdot\Tr_{\U'/\U}$
-    \STATE\label{alg:para:trmodcomp} let $M= \sum_{j < p}\ell(b^j)X^j$
-    \STATE\label{alg:para:multrunc} let $N = M \rev_{p}(Q) {\sf ~mod~} X^{p}$
-    \STATE\label{alg:para:mulmod} return $-\rev_{p-1}(N)$
-  \end{algorithmic}
-\end{algorithm}
-
-\begin{proposition}
-  \label{th:findparameterization}
-  If $Q$ is Artin-Schreier, the cost of $\alg{FindParameterization}$ is
-  $O(p^2)$ operations $(+,\times)$ in $\U$.
-\end{proposition}
-\begin{proof} By~\ref{eq:pd}, the representation of $\Tr_{\U'/\U}$ in
-$\U'^\ast$ is simply $(0,\ldots,0,-1)$. Then by the discussion above,
-if $T$ is the cost of multiplying two elements of $\U'$ in the basis
-$(1,\ldots,x^{p-1})$, step~\ref{alg:para:trmul} costs $T + O(p)$; this
-stays in $O(p^2)$ by taking a naive
-multiplication. Step~\ref{alg:para:trmodcomp} fits into the same
-bound, by the proof of~\cite[Th.~4]{Sho94}. Taking the $\rev$'s in
-steps~\ref{alg:para:multrunc} and~\ref{alg:para:mulmod} is just
-reading the polynomials from right to left, thus this costs no
-arithmetic operation. Finally, step~\ref{alg:para:multrunc} features a
-polynomial multiplication truncated to the order $p$, this costs
-$O(p^2)$ operations by a naive algorithm.\end{proof}
-
-Note that this cost can be improved with respect to $p$, by using fast
-modular composition as in~\cite{Sho94}; we do not give details, as this
-would not improve the overall complexity of the algorithms of the next
-sections.
-
-%%%%%%%%%%%%%%%%%%%55
-
 We get back to the isomorphism question. We assume that
 $\lst{s}_i=(s_0,\dots,s_i)$ is known and we give the cost of applying
 $\sigma_{\lst{s}_i}$ and its inverse.  We first discuss the forward
@@ -274,47 +263,54 @@ the sum is computed by Horner's scheme.  To speed-up the computation,
 it is better to perform the latter step in a bivariate basis, that is,
 through a push-down and a lift-up.
 
-Given $t \wrt \U_i$, to compute $v=\sigma_{\lst{s}_i}^{-1}(t)$, we run
-the previous algorithm backward. We first push-down $t$, obtaining
-$t=t_0 + \cdots + t_{p-1}x_i^{p-1}$, with all $t_j \wrt
-\U_{i-1}$. Next, we rewrite this as $t=t'_0+\cdots +
-t'_{p-1}s_i^{p-1}$, with all $t'_j \wrt \U_{i-1}$, and it suffices to
-apply $\sigma_{\lst{s}_i}^{-1}$ (or equivalently
-$\sigma_{\lst{s}_{i-1}}^{-1}$) to all $t'_i$. The non-trivial part is
-the computation of the $t'_j$: this is done by applying the algorithm
-\alg{FindParameterization} above, in the extension $\U_i=
-\U_{i-1}[X_i]/P_i$.
-
 
 \begin{algorithm}
   \caption{ApplyIsomorphism} 
   \begin{algorithmic}[1]
     \REQUIRE $v,i$ with $v\in \U'_i$ written on the basis $\basis{B}'_i$.
     \ENSURE $\sigma_{\lst{s}_i}(v) \wrt \U_i$.
-    \STATE if $i=0$ then return $v$
-    \STATE write $v=\Sigma_{j <p} v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$
-    \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$
-    \STATE for $j \in [0,\dots,p-1]$ let $t_j=\alg{ApplyIsomorphism}(v_j,i-1)$
-    \STATE let $t=0$
-    \STATE  for $j \in [p-1,\dots,0]$ let $t=(s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})t+t_j$
-    \STATE return $\text{\alg{Lift-up}}(t)$
+    \STATE if $i=0$ then return $v$;
+    \STATE write $v=\Sigma_{j <p} v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$;
+    \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$;
+    \STATE for $j \in [0,\dots,p-1]$ let $t_j=\alg{ApplyIsomorphism}(v_j,i-1)$;
+    \STATE let $t=0$;
+    \STATE  for $j \in [p-1,\dots,0]$ let $t=(s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})t+t_j$;
+    \STATE return $\text{\alg{Lift-up}}(t)$.
   \end{algorithmic}
 \end{algorithm}
+
+Given $t \wrt \U_i$, to compute $v=\sigma_{\lst{s}_i}^{-1}(t)$, we run
+the previous algorithm backward. We first push-down $t$, obtaining
+$t=t_0 + \cdots + t_{p-1}x_i^{p-1}$, with all $t_j \wrt
+\U_{i-1}$. Next, we rewrite this as $t=t'_0+\cdots +
+t'_{p-1}s_i^{p-1}$, with all $t'_j \wrt \U_{i-1}$, and it suffices to
+apply $\sigma_{\lst{s}_i}^{-1}$ (or equivalently
+$\sigma_{\lst{s}_{i-1}}^{-1}$) to each $t'_i$. The non-trivial part is
+the computation of the $t'_j$'s: this is done by another application
+of \alg{RUR} in the extension $\U_i= \U_{i-1}[X_i]/(P_i)$, that we
+shall call $\alg{RUR}_{\lst{s}_i}$. We shall discuss
+$\alg{RUR}_{\lst{s}_i}$ later, for the moment we just state a result
+about its complexity.
+
+\begin{lemma}
+  \label{th:rur-s}
+  Algorithm $\alg{RUR}_{\lst{s}_i}$ computes its output in time
+  $O(p\Mult(p^id))$.
+\end{lemma}
 
 \begin{algorithm}
   \caption{ApplyInverse} 
   \begin{algorithmic}[1]
     \REQUIRE $t,i$ with $t \wrt \U_i$.
     \ENSURE $\sigma_{\lst{s}_i}^{-1}(t)\in \U'_i$ written on the basis $\basis{B}'_i$.
-    \STATE if $i=0$ then return $t$
-    \STATE let $t_0 + \cdots + t_{p-1}x_i^{p-1} = \text{\alg{Push-down}}(t)$
-    \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$
-    \STATE let $t'_0 + \cdots + t'_{p-1}X^{p-1} = \alg{FindParameterization}
-  (t_0 + \cdots + t_{p-1}x_i^{p-1}, s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})$
-  \STATE return $\Sigma_{j < p} \alg{ApplyInverse}(t'_j, i-1) {x'_i}^j$
+    \STATE if $i=0$ then return $t$;
+    \STATE let $t_0 + \cdots + t_{p-1}x_i^{p-1} = \text{\alg{Push-down}}(t)$;
+    \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\alg{Push-down}}(s_i)$;
+    \STATE let $t'_0 + \cdots + t'_{p-1}X^{p-1} = \alg{RUR}_{\lst{s}_i}
+  (t_0 + \cdots + t_{p-1}x_i^{p-1}, s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})$;
+  \STATE return $\Sigma_{j < p} \alg{ApplyInverse}(t'_j, i-1) {x'_i}^j$;
 \end{algorithmic}
 \end{algorithm}
-
 
 \begin{proposition}\label{Prop:apply}
   Algorithms \alg{ApplyIsomorphism} and \alg{ApplyInverse} are correct
@@ -327,11 +323,72 @@ the computation of the $t'_j$: this is done by applying the algorithm
   operations: for \alg{ApplyIsomorphism}, these are $p$
   multiplications / additions in the bivariate basis $\basis{D}_i$ of
   Section~\ref{sec:level-embedding}; for \alg{ApplyInverse}, this is
-  calling the algorithm \alg{FindParameterization} above.  The costs
-  are $O(p\Mult(p^id))$ and $O(p^2\Mult(p^{i-1}d))$, which are in
-  $O(\Lift(i))$ by assumption on $\Lift$. We conclude as in
-  Theorem~\ref{th:b-ifrob}.
+  calling the algorithm $\alg{RUR}_{\lst{s}_i}$.  The costs is
+  $O(p\Mult(p^id))$ in both cases, which is in $O(\Lift(i))$ by
+  assumptions on $\Lift$. We conclude as in Theorem~\ref{th:b-ifrob}.
 \end{proof}
+
+
+\paragraph{Rational univariate representation}
+We describe now the algorithm to change from the basis $\basis{D}_i$
+to the basis $\basis{D}_i'$, based on the rational univariate
+representation. Unlike \alg{Lift-up}, this algorithm will not make use
+of transposed subroutines.
+
+We consider the algebra $\U_i[X_i]/(P_i)$. We have an element $s_i$,
+its minimal polynomial $P'_i$, and we know that $s_i$ separates
+$V(P_i)$. We want to express an element $t\in\U_i$ written on the
+basis $\basis{D}_i$ as a rational fraction in $s_i$.
+
+We first observe that the values of $\Tr_{\U_i/\U_{i-1}}$ over the
+basis $1,x_i,\ldots,x_i^{p-1}$ are 
+\begin{equation}
+  \label{eq:110}
+  \rho(1) = (0,\ldots,0,-1)
+\end{equation}
+by~\eqref{eq:pd}. Now, as in step~\ref{alg:rur:4} of \alg{RUR}, we
+need to compute $t\cdot\rho(1)$. By writing down the multiplication
+matrix of $t$, we verify that
+\begin{equation}
+  \label{eq:111}
+  t\cdot\rho(1) = (-t_{p-1}, -t_{p-2}, \ldots, -t_1, -t_0-t_{p-1})
+  \text{.}
+\end{equation}
+
+Also observe that we need the inverse of the derivative of $P'_i$, as
+in step~\ref{alg:rur:5} of \alg{RUR}. Since $P'_i$ is Artin-Schreier,
+this value is just $-1$. Finally, the algorithm
+$\alg{RUR}_{\lst{s}_i}$ is as follows.
+
+\begin{algorithm}
+  \caption{RUR$_{\lst{s}_i}$}
+  \begin{algorithmic}[1]
+    \REQUIRE $t_0,\ldots,t_{p-1}\wrt\U_{i-1}$.
+    \ENSURE $t_0',\ldots,t_{p-1}'\wrt\U_{i-1}$ such that $t_0+\cdots+t_{p-1}x_i^{p-1}=t_0'+\cdots+t_{p-1}'s_i^{p-1}$.
+    \STATE \label{alg:rur-s:1}let $\ell = t\cdot\rho(1) =  -\frac{t_{p-1}}{X_i^{p-1}} - \sum_{j=0}^{p-1} \frac{t_{p-1-j}}{X_i^j}$;
+    \STATE \label{alg:rur-s:2}let $M = \frac{1}{T}\sum_{j=0}^{p-1}\frac{\ell(s_i^j)}{T^j}$;
+    \STATE \label{alg:rur-s:3}let $V = P'_iM \bmod T^p$;
+    \STATE return $-V$.
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{proof}[Proof of Lemma~\ref{th:rur-s}]
+  Step~\ref{alg:rur-s:2} is the most expensive one. We use $p-1$
+  multiplications in the bivariate basis $\basis{D}_i$ to compute
+  $s_i,\ldots,s_i^{p-1}$, then we apply $\ell$ to each of them. These
+  operations cost respectively $O(p\Mult(p^id))$ and
+  $O(p^2\Mult(p^{i-1}d))$.
+
+  Then, step~\ref{alg:rur-s:1} just costs one addition in $\U_{i-1}$
+  and step~\ref{alg:rur-s:3} costs $O(d)$ additions in $\U_{i-1}$
+  because $P_i'(T)=T^p-T'-\alpha$.
+\end{proof}
+
+\begin{Nota}
+  We could have done better in step~\ref{alg:rur-s:2} by using
+  transposed modular composition, but this would not influence the
+  overall complexity of \alg{ApplyInverse}.
+\end{Nota}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

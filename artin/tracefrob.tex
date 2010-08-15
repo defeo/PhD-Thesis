@@ -37,15 +37,15 @@ algorithm follows: starting from $v\wrt\U_i$, we first write
 $v=v_0+\cdots+v_{p-1}x_i^{p-1}$, with $v_h\wrt\U_{i-1}$; by
 \eqref{eq:frobeniussum} and the linearity of the Frobenius, we deduce
 that
-\begin{equation*}
+\begin{equation}
   \label{eq:frobeniuscomp}
 \begin{array}{c}
 v^{p^n}
   =\sum_{h=0}^{p-1} v_h^{p^n} \left(x_i + \beta_{i-1,n}\right)^{h}.
 \end{array}
-\end{equation*}
+\end{equation}
 Then, we compute all $v_h^{p^n}$ recursively; the final sum is
-computed using Horner's scheme. Remark that this variant is not
+computed using Horner's scheme. Remark that this equations are not
 limited to the case where $n<d$ or of the form $p^jd$: an arbitrary
 $n$ would do as well. However, we impose this limitation since these
 are the only values we need to compute $\PTr_{p^jd}$.
@@ -53,21 +53,21 @@ are the only values we need to compute $\PTr_{p^jd}$.
 In the case $n=p^jd$, any $v \in \U_j$ is left invariant by this
 Frobenius map, thus we stop the recursion when $i=j$, as there is
 nothing left to do. In the case $n<d$, we stop the recursion when
-$i=0$ and apply~\cite[Algorithm~5.2]{vzGS92}\todo. We summarize the
-two variants in one unique algorithm \alg{IterFrobenius}.
+$i=0$ and apply~\todo (see Section~\ref{sec:fund-algor}). We summarize
+the two variants in one unique algorithm \alg{IterFrobenius}.
 
 \begin{algorithm}
   \caption{IterFrobenius} 
   \begin{algorithmic}[1]
     \REQUIRE $v$, $i$, $n$ with $v\wrt\U_i$ and $n<d$ or $n=p^jd$.
     \ENSURE $v^{p^n} \wrt \U_i$.
-    \STATE \label{alg:frob:base} if $n=p^jd$ and $i \le j$, return $v$
-    \STATE \label{alg:frob:base2} if $i=0$, return $v^{p^n}$
-    \STATE \label{alg:frob:push} let $v_0 + v_1 x_i + \dots + v_{p-1} x_i^{p-1}=\text{\alg{Push-down}}(v)$
-    \STATE \label{alg:frob:rec} for $h \in [0,\dots,p-1]$, let $t_h = \alg{IterFrobenius}(v_h, i-1, n)$
-    \STATE let $F=0$
-    \STATE\label{alg:frob:T} for $h \in [p-1,\dots,0]$, let $F = t_h +  (x_i+\beta_{i-1,n})F$
-    \STATE \label{alg:frob:lift} return $\text{\alg{Lift-up}}(F)$
+    \STATE \label{alg:frob:base} if $n=p^jd$ and $i \le j$, return $v$;
+    \STATE \label{alg:frob:base2} if $i=0$, return $v^{p^n}$;
+    \STATE \label{alg:frob:push} let $v_0 + v_1 x_i + \dots + v_{p-1} x_i^{p-1}=\text{\alg{Push-down}}(v)$;
+    \STATE \label{alg:frob:rec} for $h \in [0,\dots,p-1]$, let $t_h = \alg{IterFrobenius}(v_h, i-1, n)$;
+    \STATE let $F=0$;
+    \STATE\label{alg:frob:T} for $h \in [p-1,\dots,0]$, let $F = t_h +  (x_i+\beta_{i-1,n})F$;
+    \STATE \label{alg:frob:lift} return $\text{\alg{Lift-up}}(F)$.
   \end{algorithmic}
 \end{algorithm}
 
@@ -78,7 +78,12 @@ function $\Lift$ of Section~\ref{sec:level-embedding}.
 \begin{theorem}
   \label{th:b-ifrob}
   On input $v\wrt\U_i$ and $n=p^jd$, algorithm \alg{IterFrobenius}
-  correctly computes $v^{p^n}$ and takes time $O((i-j)\Lift(i))$.
+  correctly computes $v^{p^n}$ and takes time
+  \begin{equation}
+    \label{eq:95}
+    O((i-j)\Lift(i))
+    \text{.}
+  \end{equation}
 \end{theorem}
 \begin{proof}
   Correctness is clear. We note $\Frob(i,j)$ for the complexity on
@@ -102,8 +107,12 @@ function $\Lift$ of Section~\ref{sec:level-embedding}.
 \begin{theorem}
   \label{th:l-ifrob}
   On input $v\wrt\U_i$ and $n<d$, algorithm \alg{IterFrobenius}
-  correctly computes $v^{p^n}$ and takes time $O(p^i\ModComp(d)\log
-  (n) + i\Lift(i))$.
+  correctly computes $v^{p^n}$ and takes time 
+  \begin{equation}
+    \label{eq:94}
+    O(p^i\ModComp(d)\log (n) + i\Lift(i))
+    \text{.}    
+  \end{equation}
 \end{theorem}
 \begin{proof}
   The analysis is identical to the previous one, except that
@@ -138,14 +147,14 @@ for such $n$; when $j=0$, it invokes the first algorithm.
   \begin{algorithmic}[1]
     \REQUIRE $v$, $i$, $n$ with $v\wrt\U_i$ and $0<n\le d$.
     \ENSURE $T_{n}(v) \wrt \U_i$.
-    \STATE \label{alg:lpseudo:base} if $n = 1$ return $v$
-    \STATE \label{alg:lpseudo:half} let $m = \lfloor n/2 \rfloor$
+    \STATE \label{alg:lpseudo:base} if $n = 1$ return $v$;
+    \STATE \label{alg:lpseudo:half} let $m = \lfloor n/2 \rfloor$;
     \STATE \label{alg:lpseudo:rec} let $t=$ {\sf LittlePseudotrace}($v$,
-    $i$, $m$)
-    \STATE \label{alg:lpseudo:frob} let $t=t+$ {\sf IterFrobenius}($t$, $i$, $m$)
+    $i$, $m$);
+    \STATE \label{alg:lpseudo:frob} let $t=t+$ {\sf IterFrobenius}($t$, $i$, $m$);
     \STATE \label{alg:lpseudo:odd} if $n$ is odd, let $t=t+$ {\sf
-      IterFrobenius}($v$, $i$, $n$)
-    \STATE return $t$
+      IterFrobenius}($v$, $i$, $n$);
+    \STATE return $t$.
   \end{algorithmic}
 \end{algorithm}
 
@@ -154,45 +163,81 @@ for such $n$; when $j=0$, it invokes the first algorithm.
   \begin{algorithmic}[1]
     \REQUIRE $v$, $i$, $j$ with $v\wrt\U_i$.
     \ENSURE $T_{p^jd}(v) \wrt \U_i$.
-    \STATE \label{alg:pseudo:base} if $j = 0$ return {\sf LittlePseudotrace}($v$, $d$)
-    \STATE \label{alg:pseudo:rec} $t_0=${\sf Pseudotrace}($v, i, j-1$)
-    \STATE \label{alg:pseudo:frob}for $h\in [1,\dots,p-1]$, let $t_h=\text{\alg{IterFrobenius}}(t_{h-1}, i, j-1)$
-    \STATE \label{alg:pseudo:sum}return $t_0 + t_1 + \cdots + t_{p-1}$
+    \STATE \label{alg:pseudo:base} if $j = 0$ return {\sf LittlePseudotrace}($v$, $d$);
+    \STATE \label{alg:pseudo:rec} $t_0=${\sf Pseudotrace}($v, i, j-1$);
+    \STATE \label{alg:pseudo:frob}for $h\in [1,\dots,p-1]$, let $t_h=\text{\alg{IterFrobenius}}(t_{h-1}, i, j-1)$;
+    \STATE \label{alg:pseudo:sum}return $t_0 + t_1 + \cdots + t_{p-1}$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{theorem}
   \label{th:l-pseudo}
   Algorithm \alg{LittlePseudotrace} is correct and takes time
-  $O(p^i\ModComp(d)\log^2 (n) + i \Lift(i)\log (n))$.
+  \begin{equation}
+    \label{eq:96}
+    O(p^i\ModComp(d)\log^2 (n) + i \Lift(i)\log (n))
+    \text{.}
+  \end{equation}
 \end{theorem}
 \begin{proof}
   Correctness is clear. For the cost analysis, we write $\Ptr(i,n)$
   for the cost on input $i$ and $n$, so $\Ptr(i,1)=O(1)$.  For $n>1$,
   step \ref{alg:lpseudo:rec} costs $\Ptr(i,\lfloor n/2 \rfloor)$,
   steps~\ref{alg:lpseudo:frob} and~\ref{alg:lpseudo:odd} cost both
-  $O(p^i\ModComp(d)\log^2 (n) + i \Lift(i))$ by
-  Theorem~\ref{th:l-ifrob}. This gives $\Ptr(i,n) = \Ptr(i,\lfloor
-  n/2\rfloor) +O(p^i\ModComp(d)\log^2 (n) + i \Lift(i))$, and thus
-  $\Ptr(i,n) \in O(p^i\ModComp(d)\log^2 (n) + i \Lift(i)\log n)$.
+  \begin{equation}
+    \label{eq:100}
+    O(p^i\ModComp(d)\log^2 (n) + i \Lift(i))
+  \end{equation}
+  by Theorem~\ref{th:l-ifrob}. This gives
+  \begin{equation}
+    \label{eq:98}
+    \Ptr(i,n) = \Ptr(i,\lfloor
+    n/2\rfloor) +O(p^i\ModComp(d)\log^2 (n) + i \Lift(i))
+    \text{,}
+  \end{equation}
+  and thus
+  \begin{equation}
+    \label{eq:99}
+    \Ptr(i,n) \in O(p^i\ModComp(d)\log^2 (n) + i \Lift(i)\log n)
+    \text{.}
+  \end{equation}
 \end{proof}
 
 
 \begin{theorem}
   \label{th:b-pseudo}
   Algorithm \alg{Pseudotrace} is correct and takes time
-  $\Ptr(i)=O((pi+\log (d))i\Lift(i)+p^i\ModComp(d)\log^2 (d))$ for $j \le
+  \begin{equation}
+    \label{eq:97}
+    \Ptr(i)=O((pi+\log (d))i\Lift(i)+p^i\ModComp(d)\log^2 (d))    
+  \end{equation}
+  for $j \le
   i$.
 \end{theorem}
 \begin{proof}
   Correctness is clear. For the cost analysis, we write $\Ptr(i,j)$
   for the cost on input $i$ and $j$, so theorem~\ref{th:l-pseudo}
-  gives $\Ptr(i,0)=O(p^i\ModComp(d)\log^2 (d) + i \Lift(i)\log
-  (d))$. For $j>0$, step \ref{alg:pseudo:rec} costs $\Ptr(i,j-1)$,
+  gives 
+  \begin{equation}
+    \label{eq:101}
+    \Ptr(i,0)=O(p^i\ModComp(d)\log^2 (d) + i \Lift(i)\log(d))
+    \text{.} 
+  \end{equation}
+  For $j>0$, step \ref{alg:pseudo:rec} costs $\Ptr(i,j-1)$,
   step~\ref{alg:pseudo:frob} costs $O(p i \Lift(i))$ by
   Theorem~\ref{th:b-ifrob} and step~\ref{alg:pseudo:sum} costs
-  $O(p^{i+1}d)$. This gives $\Ptr(i,j) = \Ptr(i,j-1) +O(p i
-  \Lift(i))$, and thus $\Ptr(i,j) \in O(pij{\sf L}(i) + \Ptr(i,0))$.
+  $O(p^{i+1}d)$. This gives 
+  \begin{equation}
+    \label{eq:102}
+    \Ptr(i,j) = \Ptr(i,j-1) +O(p i \Lift(i))
+    \text{,}
+  \end{equation}
+  and thus 
+  \begin{equation}
+    \label{eq:103}
+    \Ptr(i,j) \in O(pij{\sf L}(i) + \Ptr(i,0))
+    \text{.}
+  \end{equation}
 \end{proof}
 
 The cost is thus $O(p^{i+2}d+p^i\ModComp(d))$, up to logarithmic
@@ -208,8 +253,14 @@ $\U_{i+1}$, we compute (only) all $\beta_{i,n}=\PTr_{n}(\gamma_i)
 algorithm. The inner calls to \alg{IterFrobenius} only use
 pseudotraces that are already known. Besides, a single call to
 \alg{LittlePseudotrace}$(\gamma_i,i,d)$ actually computes {\em all}
-$\PTr_{n}(\gamma_i)$ in time $O(p^i\ModComp(d)\log^2 d + i
-\Lift(i)\log d)$. Same goes for the precomputation of all
+$\PTr_{n}(\gamma_i)$ in time 
+\begin{equation}
+  \label{eq:104}
+  O(p^i\ModComp(d)\log^2 d + i
+  \Lift(i)\log d)
+  \text{.}
+\end{equation}
+Same goes for the precomputation of all
 $\beta_{i,p^jd}=\PTr_{p^jd}(\gamma_i) \wrt\U_i$, for $j\le i$, using
 the \alg{Pseudotrace} algorithm: this costs $\Ptr(i)$. Observe that in
 total we only store $O(k^2 + k\log d)$ elements of the tower, thus the

@@ -833,7 +833,7 @@ representation, provided we know $\rho(1)$.
     \STATE \label{alg:rur:1}Compute $\frac{Q'}{Q} = \frac{1}{T}\proj_t(\rho(1))$;
     \STATE \label{alg:rur:2}Compute $Q = \exp\left(\int \frac{Q'}{Q}\right)$;
     \FORALL{$a_i$}
-    \STATE \label{alg:rur:4}Compute $A_i(T)=Q(T)\cdot(\proj_t\circ\dual{M_{a_i}}(\rho(1))) \bmod T^d$;
+    \STATE \label{alg:rur:4}Compute $A_i(T)=\frac{Q(T)}{T}\cdot(\proj_t\circ\dual{M_{a_i}}(\rho(1))) \bmod T^d$;
     \ENDFOR
     \STATE \label{alg:rur:5}Output $Q(T)$ and $\frac{A_1(T)}{Q'(T)},\ldots,\frac{A_n(T)}{Q'(T)}$.
   \end{algorithmic}
