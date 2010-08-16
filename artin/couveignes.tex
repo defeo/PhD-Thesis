@@ -381,14 +381,14 @@ $\alg{RUR}_{\lst{s}_i}$ is as follows.
 
   Then, step~\ref{alg:rur-s:1} just costs one addition in $\U_{i-1}$
   and step~\ref{alg:rur-s:3} costs $O(d)$ additions in $\U_{i-1}$
-  because $P_i'(T)=T^p-T'-\alpha$.
+  because $P_i'(T)=T^p-T'-\gamma_{i-1}'$.
 \end{proof}
 
-\begin{Nota}
+\begin{nota}
   We could have done better in step~\ref{alg:rur-s:2} by using
   transposed modular composition, but this would not influence the
   overall complexity of \alg{ApplyInverse}.
-\end{Nota}
+\end{nota}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

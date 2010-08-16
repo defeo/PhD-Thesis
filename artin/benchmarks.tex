@@ -8,7 +8,7 @@ and some experimental results.
 We packaged the algorithms of this paper in a \texttt{C++} library
 called \texttt{FAAST} and made it available under the terms of the
 \texttt{GNU GPL} software license from
-\mbox{\url{http://www.lix.polytechnique.fr/Labo/Luca.De-Feo/FAAST/}}.
+\url{http://www.lix.polytechnique.fr/Labo/Luca.De-Feo/FAAST/}.
 
 \texttt{FAAST} is implemented on top of the \texttt{NTL}
 library~\cite{shoup2003ntl} which provides the basic univariate
@@ -73,8 +73,9 @@ and interpolation, as they are required for the isogeny computation
 algorithm described there.
 
 \paragraph{Experimental results.} We compare our timings with
-those obtained in Magma~\cite{MAGMA} for similar questions.  All
+those obtained in Mag\-ma~\cite{MAGMA} for similar questions.  All
 results are obtained on an Intel Xeon E5430 (2.6GHz).
+
 
 The experiments for the \texttt{FAAST} library were only made for the
 classes \texttt{GF2} and \texttt{zz\_p}. The class \texttt{ZZ\_p} was
@@ -160,7 +161,7 @@ satisfactory.
 \begin{table}
   \centering
   \begin{tabular}{l | r | r | r | r | r | r | r}
-    level & Primitive & Push-d. & Lift-up & Product & Inverse & apply $\sigma^{-1}$ & apply $\sigma$ \\
+    \small level & \small Primitive & \small Push-d. & \small Lift-up & \small Product & \small Inverse & \small apply $\sigma^{-1}$ & \small apply $\sigma$ \\
     \hline
      19 &  1.061 & 0.269 &  1.165 & 0.038 &  0.599 &  0.572 &  1.152\\
      20 &  2.381 & 0.538 &  2.554 & 0.076 &  1.430 &  1.146 &  2.333\\
@@ -175,7 +176,7 @@ satisfactory.
 \begin{table}
   \centering
   \begin{tabular}{l | r | r | r | r | r | r | r}
-    level & Primitive & Push-d. & Lift-up & Product & Inverse & apply $\sigma^{-1}$ & apply $\sigma$ \\
+    \small level & \small Primitive & \small Push-d. & \small Lift-up & \small Product & \small Inverse & \small $\sigma^{-1}$ & \small  $\sigma$ \\
     \hline
     18 &   9.159 &  0.514 &   8.278 &  0.321 &   6.432 &  2.379 &   6.624\\
     19 &  21.695 &  1.130 &  20.388 &  1.083 &  14.929 &  6.289 &  18.202\\
