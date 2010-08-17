@@ -11,7 +11,6 @@
 \usepackage{mathrsfs}
 \usepackage{mdwlist}
 \usepackage{graphicx}
-\usepackage{mathrsfs}
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{color}
@@ -22,6 +21,7 @@
 \usepackage{listings}
 \usepackage{textcomp}
 \usepackage{makeidx}
+\usepackage[refpage,intoc]{nomencl}
 
 %%%%%%%%%%%%%% Aliases
 
@@ -115,18 +115,13 @@
 \DeclareMathOperator{\id}{id}  % identity
 \DeclareMathOperator{\proc}{proc}  % proc keywors in transAL
 \DeclareMathOperator{\diff}{d}  % differential operator
-%
-\DeclareMathOperator{\car}{car}  % caractéristique d'un corps
+\DeclareMathOperator{\car}{char}  % caractéristique d'un corps
 \DeclareMathOperator{\Frac}{Frac}  % corps des fractions
 \DeclareMathOperator{\Gal}{Gal}  % groupe de Galois
 \DeclareMathOperator{\Tr}{Tr}  % trace
 \DeclareMathOperator{\PTr}{T}  % pseudotrace
 \DeclareMathOperator{\Norm}{N} % norme
-\DeclareMathOperator{\coeff}{coeff}  % coefficient
 \DeclareMathOperator{\ord}{ord}  % l'ordre d'un élément
-\DeclareMathOperator{\rev}{rev}  % le reverse d'un polynôme
-\DeclareMathOperator{\Fix}{Fix}  % les points fixe
-\DeclareMathOperator{\AST}{AS}  % extension d'Artin-Schreier
 \DeclareMathOperator{\ev}{ev}  % evaluation
 \DeclareMathOperator{\proj}{proj}  % evaluation
 
@@ -169,6 +164,7 @@
 \title{Duality at the Heart of Fast Algorithms}
 \author{Luca De Feo}
 \makeindex
+\makenomenclature
 
 \begin{document}
 %\frontmatter
@@ -185,6 +181,8 @@
 \include{isogeny/isogeny}
 
 %\backmatter
+\renewcommand{\nomname}{List of Symbols}
+\printnomenclature
 \printindex
 \bibliographystyle{plain}
 \bibliography{defeo}
