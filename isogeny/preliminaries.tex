@@ -1,5 +1,5 @@
 Elliptic curves and bla and bla and bla. See
-\cite{silverman:elliptic,silverman:advanced,blake+seroussi+smart}.
+\cite{silverman:elliptic,silverman:advanced,blake+seroussi+smart,milne1996elliptic,connell:elliptic}.
 
 \section{Definitions}
 \label{sec:definitions}
@@ -182,6 +182,11 @@ $y(P)$ its ordinate.
   relation $P\simeq-P$.
 \end{definition}
 
+For $m\in\Z$, we denote by $[m]P$ the point%
+\nomenclature[mP]{$[m]P$}{Scalar multiple of a point of an elliptic
+  curve} $\overbrace{P+P+\cdots+P}^{m\text{ times}}$ if $m>0$, or the
+point $[-m](-P)$ if $m<0$, or $\0$ if $m=0$. 
+
 \begin{remark}
   The Kummer surface can be represented by taking the abscissas of the
   points of $E$. It is not anymore a group, but we can still compute
@@ -218,65 +223,64 @@ $y(P)$ its ordinate.
       [2i+2]P &= [2][i+1]P\text{,}
     \end{aligned}
   \end{equation}
-  until we reach $[n]P$.
+  until we reach $[n]P$. This algorithm appeared
+  in~\cite{montgomery87} and is sometimes referred to as
+  \index{Montgomery's formulas}\emph{Montgomery's formulas}.
 \end{remark}
 
-For $n\in\Z$, we denote by $[n]P$ the point%
-\nomenclature[nP]{$[n]P$}{Scalar multiple of a point of an elliptic
-  curve} $\overbrace{P+P+\cdots+P}^{n\text{ times}}$ if $n>0$, or the
-point $[-n](-P)$ if $n<0$, or $\0$ if $n=0$. The map
+The map
 \begin{equation}
   \label{eq:122}
   \begin{aligned}[]
-    [n]_E : E(\K) &\ra E(\K)\text{,}\\
-    P &\mapsto [n]P
+    [m]_E : E(\K) &\ra E(\K)\text{,}\\
+    P &\mapsto [m]P
   \end{aligned}
 \end{equation}
 is a group endomorphisms of $E(\K)$. 
 
 \begin{definition}
-  The $n$-th \emph{torsion subgroup} of $E$ is
+  The $m$-th \emph{torsion subgroup} of $E$ is
   \begin{equation}
     \label{eq:123}
-    E[n] = \{P\in E(\K) \,|\, [n]P=\0\}
+    E[m] = \{P\in E(\K) \,|\, [n]P=\0\}
     \text{,}
   \end{equation}
   its points are called%
-  \nomenclature[E]{$E[n]$}{$n$-torsion subgroup of an elliptic curve
+  \nomenclature[E]{$E[m]$}{$m$-torsion subgroup of an elliptic curve
     $E$}
-  \index{elliptic~curve!torsion~subgroup}\index{torsion~point}\emph{$n$-torsion
+  \index{elliptic~curve!torsion~subgroup}\index{torsion~point}\emph{$m$-torsion
     points}.
 \end{definition}
 
 Since addition is an algebraic map, multiplication by $n$ is algebraic
 too. It can be shown that there exist polynomials
-$\psi_n,\theta_n,\omega_n\in\K(E)$ such that
+$\psi_m,\theta_m,\omega_m\in\K(E)$ such that
 \begin{equation}
   \label{eq:124}
-  [n](x,y) = \left(\frac{\theta_n(x,y)}{\psi_n(x,y)^2},
-    \frac{\omega_n(x,y)}{\psi_n(x,y)^3}\right)
+  [m](x,y) = \left(\frac{\theta_m(x,y)}{\psi_m(x,y)^2},
+    \frac{\omega_m(x,y)}{\psi_m(x,y)^3}\right)
   \text{.}
 \end{equation}
 
 \begin{definition}[Division polynomials]
-  The polynomial $\psi_n$ is called the
-  \index{division~polynomial}\emph{$n$-th division polynomial}.
+  The polynomial $\psi_m$ is called the
+  \index{division~polynomial}\emph{$m$-th division polynomial}.
 \end{definition}
 
 \begin{remark}
   The division polynomials can be computed from the addition formulas
   via a double-and-add approach. Their importance comes from the fact
-  that $\psi_n$ vanishes on $E[n]$.
+  that $\psi_m$ vanishes on $E[m]$.
 \end{remark}
 
 From the formulas for the division polynomials one can deduce the
-structure of the $n$-torsion.
+structure of the $m$-torsion.
 
 \begin{theorem}
-  Let $p$ be the characteristic of $\K$. If $p$ does not divide $n$
+  Let $p$ be the characteristic of $\K$. If $p$ does not divide $m$
   \begin{equation}
     \label{eq:126}
-    E[n] \isom \Z/n\Z\times\Z/n\Z
+    E[m] \isom \Z/m\Z\times\Z/m\Z
     \text{;}
   \end{equation}
   if $p\ne0$, then for every $i>0$ either
@@ -331,103 +335,357 @@ structure of the $n$-torsion.
 \subsection{Isomorphisms}
 \label{sec:isomorphisms}
 
-Concerning the uniqueness of the representation by a Weierstrass
-equation, we have that the only changes of variables that preserve the
-point at infinity  are
+Let $E$ and $E'$ be two elliptic curves in Weierstrass form over a
+field $\K$, they are said to be isomorphic if there is a linear change
+of variables that transforms one equation in the other and preserves
+the point at infinity.  Then, clearly $E(\clot{\K})$ and
+$E'(\clot{\K})$ are isomorphic as groups. If the change of variables
+has coefficients in $\K$, the curves are said to be
+\index{isomorphism!of~elliptic~curves}\index{elliptic~curve!isomorphic}isomorphic
+over $\K$, then $E(\K)$ and $E(\K)$ are isomorphic as groups.
+
+It can be shown that the only such changes of variables are
 \begin{equation}
   \label{eq:116}
   \begin{aligned}
     x &= u^2x' + r\text{,}\\
-    y &= u^3 + u^2sx' + t\text{,}
+    y &= u^3y' + u^2sx' + t\text{,}
   \end{aligned}
 \end{equation}
 with $r,s,t,u\in\clot{\K}$.
 
-\paragraph{Simplified forms} If $p>3$ it is well known that the curve
-$E$ is isomorphic to a curve in the form
-\begin{equation}
-  \label{eq:weierstrass>3}
-  y^2 = x^3 + ax + b
-\end{equation}
-and its $j$-invariant is $j(E) = \frac{1728(4a)^3}{16(4a^3 + 27b^2)}$.
+\begin{proposition}
+  Two elliptic curves $E$ and $E'$ in Weierstrass form are isomorphic
+  over $\clot{\K}$ if and only if $j_E=j_{E'}$.
+\end{proposition}
 
-When $p=3$, since $E$ is ordinary, it is isomorphic to a curve
-\begin{equation}
-  \label{eq:weierstrass=3}
-  y^2 = x^3 + ax^2 + b
-\end{equation}
-and its $j$-invariant is $j(E) = -\frac{a^3}{b}$.
+\index{Weierstrass~form!simplified~form}Weierstrass equations can be
+brought via isomorphism to a form that is easier to handle, called
+\emph{simplified Weierstrass form}. The following classification is
+from~\cite{connell:elliptic}.
 
-Finally, when $p=2$, since $E$ is ordinary, it is isomorphic to a curve
-\begin{equation}
-  \label{eq:weierstrass=2}
-  y^2 + xy = x^3 + ax^2 + b
-\end{equation}
-and its $j$-invariant is $j(E) = \frac{1}{b}$.
+\begin{proposition}[Simplified Weierstrass form]
+  Any elliptic curve is isomorphic to one of the following Weierstrass
+  forms:
+  \begin{itemize}
+  \item If $\car(\K)=0$ or $\car(\K)>3$
+    \begin{equation}
+      \label{eq:weierstrass>3}
+      E\;:\;y^2 = x^3 + ax + b 
+      \qquad\text{and}\qquad
+      j_E = \frac{1728(4a)^3}{16(4a^3 + 27b^2)}
+      \text{;}
+    \end{equation}
+  \item if $\car(\K)=3$ and $E$ is ordinary
+    \begin{equation}
+      \label{eq:weierstrass=3}
+      E\;:\;y^2 = x^3 + ax^2 + b
+      \qquad\text{and}\qquad
+      j_E = -\frac{a^3}{b}
+      \text{;}
+    \end{equation}
+  \item if $\car(\K)=3$ and $E$ is supersingular
+    \begin{equation}
+      \label{eq:136}
+      E\;:\;y^2=x^3 + ax+b
+      \qquad\text{and}\qquad
+      j_E=0
+      \text{;}
+    \end{equation}
+  \item if $\car(\K)=2$ and $E$ is ordinary
+    \begin{equation}
+      \label{eq:weierstrass=2}
+      y^2 + xy = x^3 + ax^2 + b
+      \qquad\text{and}\qquad
+      j_E = \frac{1}{b}
+      \text{;}
+    \end{equation}
+  \item if $\car(\K)=2$ and $E$ is supersingular
+    \begin{equation}
+      \label{eq:137}
+      E\;:\; y^2 + a_3y = x^3 + a_4x + a_6
+      \qquad\text{and}\qquad
+      j_E = 0
+      \text{.}
+    \end{equation}
+  \end{itemize}
+\end{proposition}
 
-These isomorphism are easy to compute and we will always assume that
-the elliptic curves given to our algorithms are in such simplified
-forms.
+\begin{definition}[Twist]
+  Two non-isomorphic elliptic curves $E$ and $E'$ over $\K$ such that
+  $j_E=j_{E'}$ are called \index{twist}\emph{twists}.
+\end{definition}
+
+A twist is isomorphic over the algebraic closure $\clot{\K}$. The
+\index{twist!degree~of~a}degree of the twist is the degree of the
+smallest extension $\K'/\K$ such that the twist is isomorphic over
+$\K$.
+
+\begin{proposition}
+  Any curve has a quadratic twist. Any twist of ordinary elliptic
+  curves is quadratic.
+\end{proposition}
+
 
 \subsection{Isogenies}
 \label{sec:isogenies}
 
-Elliptic curves are endowed with the classic group structure through
-the chord-tangent law. A group morphism having finite kernel is called
-an \emph{isogeny}. Isogenies are regular maps, as such they can be
-represented by rational functions. An isogeny is said to be
-$\K$-rational if it is $\K$-rational as regular map; its degree is the
-degree of the regular map.
+\begin{definition}[Isogeny]
+  Let $E$ and $E'$ be elliptic curves, an
+  \index{isogeny}\emph{isogeny} $E\ra E$ is a morphism of varieties
+  that preserves the point at infinity.
+\end{definition}
+
+It turns out that isogenies preserve the group structure.
+
+\begin{theorem}
+  Let $\I:E\ra E'$ be an isogeny, then it is a group morphism
+  $E(\clot{\K})\ra E'(\clot{\K})$. It is surjective and its kernel is
+  finite. Furthermore, if $\I$ is defined over $\K$, then its
+  restriction to $E(\K)$ is a group morphism $E(\K)\ra E'(\K)$.
+\end{theorem}
+
+\begin{definition}[Degree]
+  Let $\I$ be an isogeny and
+  \index{degree!of~an~isogeny}\index{isogeny!degree}define
+  \begin{equation}
+    \label{eq:138}
+    \begin{aligned}
+      \dual{\I}:\clot{K}(E')&\ra\clot{K}(E)\\
+      f &\ra f\circ\I
+      \text{.}
+    \end{aligned}
+  \end{equation}
+  The \emph{separable (resp. inseparable) degree} of $\I$, denoted by
+  $\deg_s\I$ (resp. $\deg_i\I$), is the separable (resp. inseparable)
+  degree of the field extension $\clot{\K}(E)/\I(\clot{\K}(E'))$. The
+  \emph{degree} of $\I$ is $\deg\I=\deg_s\I\deg_i\I$.
+
+  An isogeny is called \index{isogeny!separable}\emph{separable} if
+  $\deg_i\I=1$, \index{isogeny!inseparable}\emph{inseparable}
+  otherwise. It is called
+  \index{isogeny!purely~inseparable}\emph{purely inseparable} if
+  $\deg_s=1$.
+\end{definition}
+
+\begin{theorem}
+  Let $\I$ be an isogeny, its kernel contains $\deg_s\I$ elements.
+\end{theorem}
+
+One example of isogeny is the map $[m]$, it is a separable isogeny of
+degree $m^2$. If $\K$ has characteristic $p$, then the map
+\begin{equation}
+  \label{eq:139}
+  \frobisog : (x,y) \mapsto (x^p,y^p)
+\end{equation}
+is a purely inseparable isogeny of degree $p$, called the
+\index{Frobenius~isogeny}\emph{Frobenius
+  isogeny}\nomenclature[f]{$\frobisog$}{Frobenius isogeny:
+  $(x,y)\mapsto(x^p,y^p)$}. If $\K$ is a perfect field, any purely
+inseparable isogeny is a power of $\frobisog$.
+
+\begin{theorem}
+  Any isogeny can be factored in a product of a separable and a purely
+  inseparable isogeny.
+\end{theorem}
 
 One important property about isogenies is that they factor the
-multiplication-by-$m$ map.
+multiplication by $m$ map.
 
 \begin{definition}[Dual isogeny]
   Let $\I : E \rightarrow E'$ be a degree $m$ isogeny. There exists an
-  unique isogeny $\hat{\I} : E' \rightarrow E$, called the \emph{dual
-    isogeny} such that
+  unique isogeny $\hat{\I} : E' \rightarrow E$, called the
+  \index{dual~isogeny}\index{isogeny!dual}\emph{dual isogeny} such
+  that
   \[\I\circ\hat{\I} = [m]_E \qquad\text{and}\qquad \hat{\I}\circ\I =
   [m]_{E'}\]
 \end{definition}
 
-As regular maps, isogenies can be separable, inseparable or purely
-inseparable. In the case of finite fields, purely inseparable
-isogenies are easily understood as powers of the frobenius map. Let
-\[E^{(p)} : y^2 + a_1^pxy + a_3^py = x^3 + a_2^px^2 + a_4^px + a_6^p\]
-then the map
-\begin{align*}
-  \frobisog : E &\rightarrow E^{(p)}\\
-          (x,y) &\mapsto (x^p,y^p)
-\end{align*}
-is a degree $p$ purely inseparable isogeny. Any purely inseparable
-isogeny is a composition of such frobenius isogenies.
+By endomorphism we mean an isogeny $E\ra E$. The multiplication maps
+are endomorphisms, thus $\End(E)$ contains a copy of $\Z$.  The main
+theorem about the endomorphism ring $\End(E)$ is the following.
 
-Let $E$ and $E'$ be two elliptic curves defined over $\F_q$, by
-finding an \emph{explicit isogeny} we mean to find an
-($\F_q$-rational) rational function from $E(\clot{\F}_q)$ to
-$E'(\clot{\F}_q)$ such that the map it defines is an isogeny.
+\begin{theorem}
+  The endomorphism ring is either isomorphic to $\Z$, or to an order
+  in a quadratic imaginary field, or to an order in a quaternion
+  algebra.
+\end{theorem}
 
-\begin{figure}
-  \centering
-  \[\xymatrix{
-    E \ar[r]^{[m]}\ar@/_1pc/[rrr]_{\I'} & E \ar[r]^\I & E' \ar[r]^{\frobisog^n} & E'^{(p^n)}\\
-  }\]
-  \label{fig:fact}
-  \caption{Factorization of an isogeny. $\I'$ has kernel $E[m]\oplus\ker\I$.}
-\end{figure}
+If $\car(\K)\ne0$, we can exclude the case $\Z$, because $\End(E)$
+contains the Frobenius isogeny. Furthermore, in the two cases
+\begin{itemize}
+\item $\car(\K)=0$,
+\item $\K$ perfect and $E$ ordinary
+\end{itemize}
+$\End(E)$ cannot be an order in a quaternion algebra, thus it is
+commutative.
 
-Since an isogeny can be uniquely factored in the product of a
-separable and a purely inseparable isogeny, we focus ourselves on the
-problem of computing explicit separable isogenies. Furthermore one can
-factor out multiplication-by-$m$ maps, thus reducing the problem to
-compute explicit separable isogenies with cyclic kernel (see figure
-\ref{fig:fact}).
 
-In the rest of this paper, unless otherwise stated, by $\ell$-isogeny
-we mean a separable isogeny with kernel isomorphic to $\Z/\ell\Z$.
+\section{Curves over $\C$}
+\label{sec:curves-over-c}
+Elliptic curves defined over $\C$ have a very simple structure.
 
-\paragraph{Vélu formulae}
-For any finite subgroup $G \subset E(\clot{\K})$, Vélu formulae
+\begin{definition}[Lattice]
+  A \index{lattice}\emph{lattice} $\Lambda\subset\C$ is a discrete
+  additive subgroup of $\C$ that contains a basis of the $\R$-vector
+  space $\C$. Two lattices $\Lambda_1,\Lambda_2$ are said to be
+  \emph{homothetic} if $\Lambda_1=\alpha\Lambda_2$ for some
+  $\alpha\in\C^{\ast}$.
+\end{definition}
+
+\begin{definition}[Elliptic function]
+  Let $\Lambda$ be a lattice. An
+  \index{elliptic~function}\emph{elliptic function} on $\Lambda$ is a
+  meromorphic function $f$ on $\C$ such that
+  \begin{equation}
+    \label{eq:141}
+    f(z+\omega) = f(z)
+  \end{equation}
+  for any $\omega\in\Lambda$.  The set of elliptic functions on
+  $\Lambda$ is denoted by $\C(\Lambda)$.
+\end{definition}
+
+An example of elliptic function is the
+\index{Weierstrass~function@Weierstrass~$\wp$-function}\emph{Weierstrass
+  $\wp$-function}\nomenclature[p]{$\wp$}{Weierstrass $\wp$-function}
+\begin{equation}
+  \label{eq:142}
+  \wp(z;\Lambda) = \frac{1}{z^2} + \sum_{\omega\in\Lambda\backslash\{0\}}\frac{1}{(z-\omega)^2}-\frac{1}{\omega^2}
+  \text{,}
+\end{equation}
+\begin{theorem}
+  Let $\Lambda$ be a lattice, then $\C(\Lambda) = \C(\wp(z),\wp'(z))$.
+\end{theorem}
+
+For $k>1$, we define the \index{Eisenstein~series}\emph{Eisenstein
+  series} $G_{2k}$\nomenclature[G2k]{$G_{2k}$}{Eisenstein series} as
+\begin{equation}
+  \label{eq:143}
+  G_{2k}(\Lambda) = \sum_{\omega\in\Lambda\backslash\{0\}}\frac{1}{\omega^2}
+  \text{.}
+\end{equation}
+
+\begin{theorem}
+  The Laurent series expansion of $\wp(z)$ at $0$ is
+  \begin{equation}
+    \label{eq:144}
+    \wp(z) = \frac{1}{z^2} + \sum_{k=1}^\infty (2k+1)G_{2k+2}z^{2k}
+    \text{.}
+  \end{equation}
+  At any $z\not\in\Lambda$, the function $\wp(z)$ satisfies the
+  differential equation
+  \begin{equation}
+    \label{eq:145}
+    {\wp'}^2 = 4\wp - 60G_4\wp - 140G_6
+    \text{.}
+  \end{equation}
+\end{theorem}
+
+We set $g_2(\Lambda)=60G_4(\Lambda)$ and $g_3(\Lambda)=140G_6(\Lambda)$.
+
+\begin{theorem}
+  Let $E$ be the curve 
+  \begin{equation}
+    \label{eq:146}
+    E\;:\: y^2=4x^3-g_2(\Lambda)x-g_3(\Lambda)
+    \text{.}
+  \end{equation}
+  The map
+  \begin{equation}
+    \label{eq:147}
+    \begin{aligned}
+      \phi: \C/\Lambda &\ra E(\C)\\
+      z &\mapsto
+      \begin{cases}
+        \0 &\text{if $z=0$,}\\
+        (\wp(z), \wp'(z)) &\text{otherwise,}
+      \end{cases}
+    \end{aligned}
+  \end{equation}
+  is an isomorphism of Riemann surfaces and a group homomorphism. 
+\end{theorem}
+
+If $\Lambda$ is a lattice, we denote by $E_\Lambda$ the elliptic curve
+corresponding to it as in Eq.~\eqref{eq:146}.
+
+\begin{theorem}
+  Let $\Lambda_1,\Lambda_2$ be lattices and let $a\in\C^\ast$ such that
+  $a\Lambda_1\subset\Lambda_2$. The map
+  \begin{equation}
+    \label{eq:148}
+    \begin{aligned}
+      \phi_a:\C/\Lambda_1&\ra\C/\Lambda_2\\
+      z&\mapsto az
+    \end{aligned}
+  \end{equation}
+  is holomorphic. The map $E_{\Lambda_1}\ra E_{\Lambda_2}$ induced by
+  $\phi_a$ is an isogeny.
+\end{theorem}
+
+The correspondences we just defined are actually equivalences.
+
+\begin{theorem}
+  The category of elliptic curves with isogenies as maps is equivalent
+  to the category of lattices up to homothety with maps $z\mapsto az$
+  such that $a\Lambda_1\subset\Lambda_2$.
+\end{theorem}
+
+Thus to any elliptic curve there is an unique lattice $\Lambda$
+associated up to homothety; the addition law on $\C/\Lambda$ is just
+addition in $\C$, and an isogeny can be obtained by an $a\in\C$ such
+that $a\Lambda_1\subset\Lambda_2$.
+
+
+
+\section{Curves over finite fields}
+\label{sec:curves-over-finite}
+We saw previously that an elliptic curve defined over a field of
+characteristic $p\ne0$ has an isogeny
+\begin{equation}
+  \label{eq:150}
+  \frobisog:(x,y)\mapsto(x^p,y^p)
+\end{equation}
+called Frobenius isogeny. If the curve $E$ is defined over the field
+$\F_q$ with $q=p^d$, then $d$ iterations of the Frobenius map give the
+isogeny
+\begin{equation}
+  \label{eq:151}
+  \frobisog_q\eqdef\frobisog^d:(x,y)\mapsto(x^q,y^q)
+  \text{.}
+\end{equation}
+
+The map $\frobisog_q$ is an endomorphism of $E$ and fixes the points
+of $E(\F_q)$; it is called the \index{Frobenius
+  endomorphism}\emph{Frobenius endomorphism} of $E$. It plays an
+important role in determining the cardinality of $E(\F_q)$.
+
+\begin{theorem}[Hasse]
+  \index{Hasse~bound}
+  The minimal polynomial of $\frobisog_q$ in $\End(E)$ is of the form
+  \begin{equation}
+    \label{eq:152}
+    \frobisog_q^2 - c\frobisog_q + q = 0
+  \end{equation}
+  with $\lvert c\rvert\le2\sqrt{q}$.
+\end{theorem}
+
+Since $\frob_q$ acts as the identity on $E(\F_q)$, this implies
+\begin{equation}
+  \label{eq:153}
+  \card{E(\F_q)} = q+1-c
+  \qquad\text{with } \lvert c\rvert\le2\sqrt{q}
+  \text{.}
+\end{equation}
+
+\begin{theorem}
+  Two elliptic curves $E,E'$ defined over $\F_q$ are isogenous if and
+  only if $\card{E(\F_q)}=\card{E(\F_q)}$.
+\end{theorem}
+
+
+\section{Vélu formulas}
+\label{sec:velu-formulas}
+For any finite subgroup $G \subset E(\clot{\K})$, Vélu formulas
 \cite{Vel71} give in a canonical way an elliptic curve $\bar{E}$ and
 an explicit isogeny $\I:E\rightarrow \bar{E}$ such that
 $\ker\I=G$. The isogeny is $\K$-rational if and only if the polynomial
@@ -435,13 +693,13 @@ vanishing on the abscissae of $G$ belongs to $\K[X]$.
 
 In practice, if $E$ is defined over $\F_q$ and if
 \[h(X) = \prod_{\substack{P\in G\\P\ne\0}}(X - x(P)) \in \F_q[X]\]
-is known, Vélu formulae compute a rational function
+is known, Vélu formulas compute a rational function
 \begin{equation}
   \label{eq:isog}
   \bar{\I}(x,y) = \left(\frac{g(x)}{h(x)}, \frac{k(x,y)}{l(x)}\right)  
 \end{equation}
 and a curve $\bar{E}$ such that $\bar{\I} : E\rightarrow\bar{E}$ is an
-$\F_q$-rational isogeny of kernel $G$. A consequence of Vélu formulae
+$\F_q$-rational isogeny of kernel $G$. A consequence of Vélu formulas
 is
 \begin{equation}
   \label{eq:velu-deg}
@@ -449,11 +707,11 @@ is
   \text{.}
 \end{equation}
 
-Given two curves $E$ and $E'$, Vélu formulae reduce the problem of
+Given two curves $E$ and $E'$, Vélu formulas reduce the problem of
 finding an explicit isogeny between $E$ and $E'$ to that of finding
 the kernel of an isogeny between them. Once the polynomial $h(X)$
 vanishing on $\ker\I$ is found, the explicit isogeny is computed
-composing Vélu formulae with the isomorphism between $\bar{E}$ and
+composing Vélu formulas with the isomorphism between $\bar{E}$ and
 $E'$ as in figure \ref{fig:velu}.
 
 \begin{figure}
@@ -462,15 +720,12 @@ $E'$ as in figure \ref{fig:velu}.
     E \ar[r]^{\bar{\I}} \ar[rd]^\I & \bar{E} \ar[d]^{\simeq}\\
     & E'
   }\]
-  \caption{Using Vélu formulae to compute an explicit isogeny.}
+  \caption{Using Vélu formulas to compute an explicit isogeny.}
   \label{fig:velu}
 \end{figure}
 
 
 
-over C: periods, weierstrass series
-
-over finite field: number of points? frobenius
 
 
 % Local Variables:

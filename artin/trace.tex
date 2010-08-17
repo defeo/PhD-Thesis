@@ -69,10 +69,10 @@ change-of-basis algorithm.
 
 We let $I$ be a zero-dimensional ideal of $\K[\lst{x}]$ and
 $\algeb{A}=\K[\lst{x}]/I$.  To simplify the exposition, from now on we
-assume that $I$ is radical, this is equivalent to all the points of
-$V(I)=\{a\in\clot{\K}^n|f(a)=0, \forall f\in I\}$ being simple. We
-address the reader interested in the case of arbitrary multiplicity to
-\cite{mourrain+elkadi}.
+assume that $\K$ is a perfect field and $I$ is radical, this is
+equivalent to all the points of $V(I)=\{a\in\clot{\K}^n|f(a)=0,
+\forall f\in I\}$ being simple. We address the reader interested in
+the case of arbitrary multiplicity to \cite{mourrain+elkadi}.
 
 To better understand the structure of $\algeb{A}$ it will be important
 to study the variety $V(I)$. We denote by $\clot{I}$ the ideal of
@@ -93,8 +93,8 @@ quotient ring $\clot{\K}[\lst{x}]/\clot{I}$.
     \text{.}
   \end{equation}
   Then the coefficients of $g_1,\ldots,g_k$ are the solutions of a
-  linear system with coefficients in $\K$, thus
-  $g_1,\ldots,g_k\in\K[\lst{x}]$.
+  linear system with coefficients in $\K$, thus they can be taken in
+  $\K[\lst{x}]$.
 
   Hence $f\equiv f'\bmod I$ if and only if $f\equiv f'\bmod\clot{I}$.
 \end{proof}
@@ -128,7 +128,7 @@ $\algeb{A}$ to their image in $\clot{\algeb{A}}$.
   \end{equation}
   As in the proof of the previous lemma, $\lambda_0,\ldots,\lambda_d$
   and the coefficients of $g_1,\ldots,g_k$ are the solutions of a
-  linear system with coefficient in $\K$, thus they are all in
+  linear system with coefficient in $\K$, thus they can be taken in
   $\K$. Hence $a_0,\ldots,a_d$ are $\K$-linearly dependent.
 \end{proof}
 
@@ -420,7 +420,7 @@ In particular, from Eqs.~\eqref{eq:17} and~\eqref{eq:2} we deduce the
 \begin{nota}
   In the Gorenstein setting, the forms $\basis{1}_{\zeta_i}$ are
   called the \emph{local residues} at $\zeta_i$ and the form
-  $\sum\basis{1}_{\zeta_i}$ is called the \emph{global residue}. The
+  $\sum\basis{1}_{\zeta_i}$ is called \emph{global residue}. The
   non-degeneracy of the global residue implies the
   $\clot{\algeb{A}}$-isomorphism between $\clot{\algeb{A}}$ and
   $\dual{\clot{\algeb{A}}}$.  The name ``residue'' comes from complex
@@ -751,12 +751,13 @@ in order to deduce $g_i(T)$ as in the representation~\eqref{eq:22}.
 \end{example}
 
 \begin{nota}
-  Theorem~\ref{th:rur} was first used to compute a rational univariate
-  representation by Rouiller~\cite{rouiller99}, in the case of an
-  arbitrary zero-dimensional ideal. This algorithm requires to have a
-  monomial basis for the vector space $\algeb{A}$, thus in practice it
-  computes a rational univariate representation starting from a
-  Gröbner basis.
+  Theorem~\ref{th:rur} was introduced
+  in\cite{alonso+becker+roy+wormann}. It was used by
+  Rouiller~\cite{rouiller99} to give an explicit algorithm to compute
+  a rational univariate representation of an arbitrary
+  zero-dimensional ideal. This algorithm requires to have a monomial
+  basis for the vector space $\algeb{A}$, thus in practice it computes
+  a rational univariate representation starting from a Gröbner basis.
 
   A completely different approach based on Noether's normalization
   theorem, called geometric resolution~\cite{giusti+lecerf+salvy01},
@@ -889,7 +890,7 @@ algorithm to compute $\dual{\ev_t}$ that has the same time and space
 complexity. Furthermore, from a generic algorithm to evaluate
 polynomials in $\K[T]$ at points of $\algeb{A}$, we can deduce an
 algorithm to compute $\dual{\ev_t}$ for any $t$, having the same time
-complexity and eventually a penalty in space complexity.
+complexity and possibly a penalty in space complexity.
 
 However, for a given basis of $\algeb{A}$, it may be difficult to find
 the corresponding dual basis with respect to $\braket{}{}$. In order
@@ -956,16 +957,18 @@ Then, the proof of the following theorem is evident.
 
 \begin{theorem}
   \label{th:power-projection}
-  Let $a,t\in\algeb{A}$, then
+  Let $a,t\in\algeb{A}$, let $\Tr\in\dual{\algeb{A}}$ be the trace
+  form, then
   \begin{equation}
     \label{eq:56}
-    \sum_{i\ge0}\frac{\braket{a}{t^i}}{T^i} = \proj_t\circ\dual{M_a}(\rho(1))
+    \sum_{i\ge0}\frac{\braket{a}{t^i}}{T^i} = \proj_t\circ\dual{M_a}(\Tr)
     \text{.}
   \end{equation}
 \end{theorem}
 
 From it, we can derive an algorithm to compute a rational univariate
-representation, provided we know $\rho(1)$.
+representation, provided we know the coordinates of the linear form
+$\Tr$.
 
 \begin{algorithm}
   \label{alg:rur}
@@ -973,19 +976,19 @@ representation, provided we know $\rho(1)$.
   \begin{algorithmic}[1]
     \REQUIRE A basis $\basis{B}$ of
       $\algeb{A}$, $a_1,\ldots,a_n\in\algeb{A}^{\basis{B}}$, $t$
-    separating, $\rho(1)\in(\dual{\algeb{A}})^{\dual{\basis{B}}}$.
+    separating, $\Tr\in(\dual{\algeb{A}})^{\dual{\basis{B}}}$.
     \ENSURE A rational univariate representation of $a_1,\ldots,a_n,t$.
-    \STATE \label{alg:rur:1}Compute $\frac{Q'}{Q} = \frac{1}{T}\proj_t(\rho(1))$;
+    \STATE \label{alg:rur:1}Compute $\frac{Q'}{Q} = \frac{1}{T}\proj_t(\Tr)$;
     \STATE \label{alg:rur:2}Compute $Q = \exp\left(\int \frac{Q'}{Q}\right)$;
     \FORALL{$a_i$}
-    \STATE \label{alg:rur:4}Compute $A_i(T)=\frac{Q(T)}{T}\cdot(\proj_t\circ\dual{M_{a_i}}(\rho(1))) \bmod T^d$;
+    \STATE \label{alg:rur:4}Compute $A_i(T)=\frac{Q(T)}{T}\cdot(\proj_t\circ\dual{M_{a_i}}(\Tr)) \bmod T^d$;
     \ENDFOR
     \STATE \label{alg:rur:5}Output $Q(T)$ and $\frac{A_1(T)}{Q'(T)},\ldots,\frac{A_n(T)}{Q'(T)}$.
   \end{algorithmic}
 \end{algorithm}
 
 In order to apply this algorithm, prior knowledge of the expression of
-$\rho(1)$ on the basis $\dual{\basis{B}}$, i.e. $\{\Tr(b) |
+$\Tr$ on the basis $\dual{\basis{B}}$, i.e. $\{\Tr(b) |
 b\in\basis{B}\}$, is needed. When $B$ is a polynomial basis
 $\{1,b,\ldots,b^d\}$, and the minimal polynomial of $b$ is known in
 advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
@@ -1052,7 +1055,7 @@ advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
 
 Algorithm \alg{RUR} can be used as an efficient change of basis
 algorithm. Let $\basis{B}$ be any basis for $\algeb{A}$, let $t$ be a
-separating element, and let the representation of $\rho(1)$ on
+separating element, and let the coordinates of $\Tr$ on
 $\dual{\basis{B}}$ be known.
 
 \begin{proposition}
@@ -1090,8 +1093,8 @@ map
   \end{aligned}
 \end{equation}
 Then algorithm \alg{RUR} on inputs $a\in\algeb{A}^{\basis{B}}$ and
-$\rho(1)$, outputs the expression of $a$ on the basis $\basis{T}$. We
-now prove the complexity estimates~\eqref{eq:75} and~\eqref{eq:65}.
+$\Tr$, outputs the expression of $a$ on the basis $\basis{T}$. We now
+prove the complexity estimates~\eqref{eq:75} and~\eqref{eq:65}.
 
 \begin{proof}[Proof of Proposition~\ref{th:uni-multi-uni}]
   By Theorem~\ref{th:todo}, the call to $\proj_t$ at
