@@ -1,116 +1,142 @@
-\section{Introduction}
+Let $E$ and $E'$ be two elliptic curves defined over $\K$, by finding
+an \emph{explicit isogeny} we mean to find an ($\F_q$-rational)
+rational function from $E(\clot{\K})$ to $E'(\clot{\K})$ such that the
+map it defines is an isogeny. 
+
+In this chapter we are interested in finding explicit isogeny of
+ordinary elliptic curves over finite fields. In what follows $\F_q$
+will be a finite field of characteristic $p$, and $d$ the positive
+integer such that $q=p^d$.
+
+Part of this chapter and of the following have been published
+in~\cite{df10}.
+
+
+\section{Overview}
+\label{sec:history}
 
 The problem of computing an explicit degree $\ell$ isogeny between two
 given elliptic curves over $\F_q$ was originally motivated by point
-counting methods based on Schoof's algorithm \cite{Atk91},
-\cite{Elk91}, \cite{Sch95}. A review of the most efficient algorithms
-to solve this problem is given in \cite{BoMoSaSc08} together with a
-new quasi-optimal algorithm; however, all the algorithms presented in
-\cite{BoMoSaSc08} are limited to the case $\ell\ll p$ where $p$ is the
-characteristic of $\F_q$. This is satisfactory for cryptographic
-applications where one takes $p=q$ or $p=2$; indeed in the former case
-Schoof's algorithm needs $\ell\in O(\log p)$, while in the latter case
-there's no need to compute explicit isogenies since $p$-adic methods
-based on \cite{Sat00} are preferred to Schoof's algorithm.
+counting methods based on Schoof's algorithm
+\cite{atkin88,elkies92,schoof95}. A review of the most efficient
+algorithms to solve this problem is given in
+\cite{bostan+morain+salvy+schost08}, together with a new quasi-optimal
+algorithm that we will review in Section~\ref{sec:bmss}. 
 
-Nevertheless, the problem of computing explicit isogenies in the case
-where $p$ is small compared to $\ell$ remains of theoretical interest
-and can find practical applications in newer cryptosystems such as
-\cite{Tes06}, \cite{RoSt06}. The first algorithm to solve this problem
-was given by Couveignes and made use of formal groups \cite{Cou94}; it
-takes $\tildO(\ell^3\log q)$ operations in $\F_p$ assuming $p$ is
-constant, however it has an exponential complexity in $\log
-p$. Another algorithm by Lercier specific to $p=2$ uses some linear
-properties of the problem to build a linear system from whose solution
-the isogeny can be deduced \cite{Ler96}; its complexity is conjectured
-to be $\tildO(\ell^3\log q)$ operations in $\F_p$, but it has a much
-better constant factor than \cite{Cou94}. At the moment we write, the
-latter algorithm is by many orders of magnitude the fastest algorithm
-to solve practical instances of the problem when $p=2$, thus being the
-\emph{de facto} standard for cryptographic use.
+All the algorithms of \cite{bostan+morain+salvy+schost08} only work
+when $\ell\ll p$. The case where $p$ is small compared to $\ell$ was
+first treated by Couveignes in \cite{couveignes94}, making use of
+formal groups. The complexity of his method is $\tildO(\ell^3\log q)$ operations in
+$\F_p$ assuming $p$ is constant, however it has an exponential
+complexity in $\log p$.
 
-$p$-adic methods were used by Joux and Lercier \cite{JL06} and Lercier
-and Sirvent \cite{LeSi09} to solve the isogeny problem. The former
-method has complexity $\tildO(\ell^2(1 + \ell/p)\log q)$ operations in
-$\F_p$, which makes it well adapted to the case where $p\sim\log
-q$. The latter has complexity $\tildO(\ell^3 + \ell\log q^2)$
-operations in $\F_p$, making it the best algorithm to our knowledge
-for the case where $p$ is not constant.
+Later, Lercier \cite{lercier96} gave an algorithm specific the
+characteristic $2$, that uses some linear properties of the problem to
+build a linear system from whose solution the isogeny can be
+deduced. Its complexity is conjectured to be $\tildO(\ell^3\log q)$
+operations in $\F_p$, but it has a much better constant factor than
+\cite{couveignes94}. At the moment we write, this is by many orders of
+magnitude the fastest algorithm to solve practical instances of the
+problem when $p=2$, thus being the \emph{de facto} standard for
+cryptographic use.
 
-\paragraph{The algorithm C2 and its variants}
-Finally, the algorithm having the best asymptotic complexity in $\ell$
-was proposed again by Couveignes in \cite{Cou96}; we will refer to
-this original version as ``C2''\footnote{As opposed to the algorithm
-  presented in \cite{Cou94}, an algorithm ``C2'' shares many
-  similarities with.}. Its complexity --supposing $p$ is fixed-- was
-estimated in \cite{Cou96} as being $\tildO(\ell^2\log q)$ operations
-in $\F_p$, but with a precomputation step requiring $\tildO(\ell^3\log
-q)$ operations and large memory requirements. However, some more work
-is needed to effectively reach these bounds, while a straightforward
-implementation of C2 has an overall asymptotic complexity of
-$\tildO(\ell^3\log q)$ operations, as we will argue in Section
-\ref{sec:C2}.
+Couveignes, again, proposed an algorithm in \cite{couveignes96}
+working for any $p$, based on the structure of the $p^k$ torsion of
+ordinary elliptic curves. Using improvements
+from~\cite{couveignes00,df+schost09,df10}, this algorithm has a
+quadratic complexity in $\ell$, thus being the best algorithm, with
+respect to this parameter, working for any $p$. We review the original
+algorithm as well as its improved variants in Sections~\ref{sec:C2}
+to~\ref{sec:bounded}.
 
-Subsequent work by Couveignes \cite{Cou00}, and more recently
-\cite{DFS09}, use Artin-Schreier theory to avoid the precomputation
-step of C2 and drop the memory requirements to $\tildO(\ell\log q +
-\log^2 q)$ elements of $\F_p$. However, this is still not enough to
-reduce the overall complexity of the algorithm, as we will argue in
-Section \ref{sec:C2-AS}. We refer to this variant as ``C2-AS''.
+After the discovery of $p$-adic alternatives to Schoof's
+algorithm\cite{satoh00}, interest in computing isogenies in small
+characteristic was lost. Nevertheless, two $p$-adic algorithms were
+recently proposed by Joux and Lercier \cite{joux+lercier06} and
+Lercier and Sirvent \cite{lercier+sirvent08} to solve the isogeny
+problem. The former method has complexity $\tildO(\ell^2(1 +
+\ell/p)\log q)$ operations in $\F_p$, which makes it well adapted to
+the case where $p\sim\log q$. The latter has complexity $\tildO(\ell^3
++ \ell\log q^2)$ operations in $\F_p$, making it the best algorithm to
+our knowledge for the case where $p$ is not constant. We review the
+second algorithm in Section~\ref{sec:lercier-sirvent}.
 
-In the present paper we give a complete review of Couveignes'
-algorithm, we present new variants that reach the foreseen quadratic
-bound in $\ell^2$ and prove an accurate complexity estimate which
-doesn't suppose $p$ to be fixed. We also run experiments to compare
-the performances of C2 with other algorithms.
 
-\paragraph{Notation and plan}
-In the rest of the paper $p$ is a prime, $d$ a positive integer,
-$q=p^d$ and $\F_q$ is the field with $q$ elements. For an elliptic
-curve $E$ and a field $\K$ embedded in an algebraic closure
-$\clot{\K}$, we note by $E(\K)$ the set of $\K$-rational points and by
-$E[m]$ the $m$-torsion subgroup of $E(\clot{\K})$. The group law on
-the elliptic curve is noted additively, its zero is the point at
-infinity, noted $\0$. For an affine point $P$ we note by $x(P)$ its
-abscissa and by $y(P)$ its ordinate. We will restrict ourselves to the
-case of ordinary elliptic curves, thus $E[p^k]\cong\Z/p^k\Z$.
+\section{Vélu formulas}
+\label{sec:velu-formulas}
 
-Unless otherwise stated, all time complexities will be measured in
-number of operations in $\F_p$ and all space complexities in number of
-elements of $\F_p$; we do not assume $p$ to be constant. We use the
-$O$, $\Theta$ and $\Omega$ notations to state respectively upper
-bounds, tight bounds and lower bounds for asymptotic complexities. We
-also use the notation $\tildO_x$ that forgets polylogarithmic factors
-in the variable $x$, thus $O(xy\log x \log y)\subset\tildO_x(xy\log
-y)\subset\tildO_{x,y}(xy)$. We simply note $\tildO$ when the variables
-are clear from the context.
 
-We let $2<\omega\le3$ be the exponent of linear algebra, that is an
-integer such that $n\times n$ matrices can be multiplied in $n^\omega$
-operations. We let $\Mult:\N\rightarrow\N$ be a \emph{multiplication
-  function}, such that polynomials of degree at most $n$ with
-coefficients in $\F_p$ can be multiplied in $\Mult(n)$ operations,
-under the conditions of \cite[Ch. 8.3]{vzGG}. Typical orders of
-magnitude are $O(n^{\log_23})$ for Karatsuba multiplication or
-$O(n\log n\log\log n)$ for FFT multiplication. Similarly, we let
-$\ModComp:\N\rightarrow\N$ be the complexity of \emph{modular
-  composition}, that is a function such that $\ModComp(n)$ is the
-number of field operations needed to compute $f\circ g\bmod h$ for
-$f,g,h\in\K[X]$ of degree at most $n$ with coefficients in an
-arbitrary field $\K$. The best known algorithm is~\cite{BrKu78}, this
-implies $\ModComp(n)\in O\left(n^{\frac{\omega+1}{2}}\right)$. Note
-that in a boolean RAM model, the algorithm of~\cite{KeUm08} takes
-quasi-linear time.
+\begin{figure}
+  \centering
+  \[\xymatrix{
+    E \ar[r]^{[m]}\ar@/_1pc/[rrr]_{\I'} & E \ar[r]^\I & E' \ar[r]^{\frobisog^n} & E'^{(p^n)}\\
+  }\]
+  \label{fig:fact}
+  \caption{Factorization of an isogeny. $\I'$ has kernel $E[m]\oplus\ker\I$.}
+\end{figure}
 
-\paragraph{Organisation of the paper}
-In Section~\ref{sec:preliminaries} we give preliminaries on elliptic
-curves and isogenies. In Sections~\ref{sec:C2}
-through~\ref{sec:C2-AS-FI-MC} we develop the algorithm C2 and we
-incrementally improve it by giving a new faster variant in each
-Section. Section~\ref{sec:implementation} gives technical details on
-our implementations of the algorithms of this paper and
-of~\cite{LeSi09}. Finally in Section~\ref{sec:benchmarks} we comment
-the results of the experiments we ran on our implementations.
+Since an isogeny can be uniquely factored in the product of a
+separable and a purely inseparable isogeny, we focus on the problem of
+computing explicit separable isogenies. Furthermore one can factor out
+multiplication-by-$m$ maps, thus reducing the problem to compute
+explicit separable isogenies with cyclic kernel (see figure
+\ref{fig:fact}).
+
+In the rest of this chapter, unless otherwise stated, by
+$\ell$-isogeny we mean a separable isogeny with kernel isomorphic to
+$\Z/\ell\Z$.
+
+
+For any finite subgroup $G \subset E(\clot{\K})$, Vélu formulas
+\cite{Vel71} give in a canonical way an elliptic curve $\bar{E}$ and
+an explicit separable isogeny $\I:E\rightarrow \bar{E}$ such that
+$\ker\I=G$. The isogeny is $\K$-rational if and only if the polynomial
+vanishing on the abscissae of $G$ belongs to $\K[X]$.
+
+The isogeny computed by Vélu formulas is the map
+\begin{equation}
+  \label{eq:155}
+  (x,y)\mapsto\left(x + \sum_{P\in G\backslash\{\0\}}x - x(P),\;
+    y + \sum_{P\in G\backslash\{\0\}}y - y(P)\right)
+  \text{.}
+\end{equation}
+Using the addition formulas it is straightforward to obtain the
+coefficients of the curve $\bar{E}$ and the explicit isogeny in time
+$O(\Mult(\ell))$ (see \cite[4.1]{lercier-algorithmique} for explicit
+formulas).
+
+In practice, if $E$ is defined over $\K$ and if
+\[h(X) = \prod_{\substack{P\in G\\P\ne\0}}(X - x(P)) \in \K[X]\]
+is known, Vélu formulas compute a rational function
+\begin{equation}
+  \label{eq:isog}
+  \bar{\I}(x,y) = \left(\frac{g(x)}{h(x)}, \frac{k(x,y)}{l(x)}\right)  
+\end{equation}
+and a curve $\bar{E}$ such that $\bar{\I} : E\rightarrow\bar{E}$ is an
+$\K$-rational isogeny of kernel $G$. A consequence of Vélu formulas
+is
+\begin{equation}
+  \label{eq:velu-deg}
+  \deg g = \deg h + 1 = \card{G}
+  \text{.}
+\end{equation}
+Given two curves $E$ and $E'$, Vélu formulas reduce the problem of
+finding an explicit isogeny between $E$ and $E'$ to that of finding
+the kernel of an isogeny between them. Once the polynomial $h(X)$
+vanishing on $\ker\I$ is found, the explicit isogeny is computed
+composing Vélu formulas with the isomorphism between $\bar{E}$ and
+$E'$ as in figure \ref{fig:velu}.
+
+\begin{figure}
+  \centering
+  \[\xymatrix{
+    E \ar[r]^{\bar{\I}} \ar[rd]^\I & \bar{E} \ar[d]^{\simeq}\\
+    & E'
+  }\]
+  \caption{Using Vélu formulas to compute an explicit isogeny.}
+  \label{fig:velu}
+\end{figure}
+
 
 
 

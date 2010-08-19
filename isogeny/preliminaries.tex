@@ -147,9 +147,9 @@ calculations in $E(\K)$ without having to lift the coefficients in an
 algebraic closure, it is convenient to give explicit formulas for the
 chord-tangent law. 
 
-We shall give the formulas for affine coordinates. From now on, if $P$
-is an affine point of $E$, we denote by $x(P)$ its abscissa and by
-$y(P)$ its ordinate.
+We shall give the formulas for affine coordinates. $x,y$ are functions
+in $\K(E)$, thus from now on, if $P$ is a point of $E$, we denote by
+$x(P)$ its abscissa and by $y(P)$ its ordinate (in affine coordinates).
 
 \begin{proposition}
   Let $E$ be the elliptic curve defined by Eq.~\eqref{eq:112}. Let
@@ -175,17 +175,18 @@ $y(P)$ its ordinate.
   \end{equation}
 \end{proposition}
 
+For $m\in\Z$, we denote by $[m]P$ the point%
+\nomenclature[mP]{$[m]P$}{Scalar multiple of a point of an elliptic
+  curve} $\overbrace{P+P+\cdots+P}^{m\text{ times}}$ if $m>0$, or the
+point $[-m](-P)$ if $m<0$, or $\0$ if $m=0$. 
+
+
 \begin{definition}[Kummer surface]
   The \index{Kummer~surface}\emph{Kummer surface} of an elliptic curve
   $E$, denoted by $K_E$\nomenclature[KE]{$K_E$}{Kummer surface of an
     elliptic curve}, is the quotient of $E$ by the equivalence
   relation $P\simeq-P$.
 \end{definition}
-
-For $m\in\Z$, we denote by $[m]P$ the point%
-\nomenclature[mP]{$[m]P$}{Scalar multiple of a point of an elliptic
-  curve} $\overbrace{P+P+\cdots+P}^{m\text{ times}}$ if $m>0$, or the
-point $[-m](-P)$ if $m<0$, or $\0$ if $m=0$. 
 
 \begin{remark}
   The Kummer surface can be represented by taking the abscissas of the
@@ -352,7 +353,7 @@ It can be shown that the only such changes of variables are
     y &= u^3y' + u^2sx' + t\text{,}
   \end{aligned}
 \end{equation}
-with $r,s,t,u\in\clot{\K}$.
+with $r,s,t,u\in\clot{\K}$ and $u\ne0$.
 
 \begin{proposition}
   Two elliptic curves $E$ and $E'$ in Weierstrass form are isomorphic
@@ -472,6 +473,9 @@ It turns out that isogenies preserve the group structure.
   Let $\I$ be an isogeny, its kernel contains $\deg_s\I$ elements.
 \end{theorem}
 
+Two curves are said to be isogenous if there is an isogeny between
+them; $\ell$-isogenous if it has degree $\ell$.
+
 One example of isogeny is the map $[m]$, it is a separable isogeny of
 degree $m^2$. If $\K$ has characteristic $p$, then the map
 \begin{equation}
@@ -532,6 +536,14 @@ Elliptic curves defined over $\C$ have a very simple structure.
   \emph{homothetic} if $\Lambda_1=\alpha\Lambda_2$ for some
   $\alpha\in\C^{\ast}$.
 \end{definition}
+
+As a group, a lattice is isomorphic to $\Z\times\Z$. Two elements
+$\omega_1,\omega_2\in\Lambda$ such that
+\begin{equation}
+  \label{eq:135}
+  \Lambda = \omega_1\Z + \omega_2\Z
+\end{equation}
+are called a \emph{basis} of $\Lambda$.
 
 \begin{definition}[Elliptic function]
   Let $\Lambda$ be a lattice. An
@@ -683,46 +695,35 @@ Since $\frob_q$ acts as the identity on $E(\F_q)$, this implies
 \end{theorem}
 
 
-\section{Vélu formulas}
-\label{sec:velu-formulas}
-For any finite subgroup $G \subset E(\clot{\K})$, Vélu formulas
-\cite{Vel71} give in a canonical way an elliptic curve $\bar{E}$ and
-an explicit isogeny $\I:E\rightarrow \bar{E}$ such that
-$\ker\I=G$. The isogeny is $\K$-rational if and only if the polynomial
-vanishing on the abscissae of $G$ belongs to $\K[X]$.
+\section{Modular polynomials}
+\label{sec:modular-polynomials}
+Recall that in $\C$ any elliptic curve is isomorphic to a complex
+torus $\C/\Lambda$. Since we take lattices up to homothety, we can
+scale $\Lambda$ so that $(1,\tau)$ is a basis for it. Then
+$\C/\Lambda$ is $\ell$-isogenous to $\C/(\Z+\ell\tau\Z)$ via the map
+$z\mapsto\ell z$.
 
-In practice, if $E$ is defined over $\F_q$ and if
-\[h(X) = \prod_{\substack{P\in G\\P\ne\0}}(X - x(P)) \in \F_q[X]\]
-is known, Vélu formulas compute a rational function
-\begin{equation}
-  \label{eq:isog}
-  \bar{\I}(x,y) = \left(\frac{g(x)}{h(x)}, \frac{k(x,y)}{l(x)}\right)  
-\end{equation}
-and a curve $\bar{E}$ such that $\bar{\I} : E\rightarrow\bar{E}$ is an
-$\F_q$-rational isogeny of kernel $G$. A consequence of Vélu formulas
-is
-\begin{equation}
-  \label{eq:velu-deg}
-  \deg g = \deg h + 1 = \card{G}
-  \text{.}
-\end{equation}
+The minimal polynomial of the modular function $j(\ell\tau)$ is called
+the \index{th modular polynomial}\emph{$\ell$-th modular polynomial},
+it is denoted by
+$\Modpol_\ell(X,Y)$\nomenclature[f]{$\Modpol_\ell$}{$\ell$-th modular
+  polynomial}. It is a bivariate polynomial with coefficients in $\Z$,
+symmetric in $X$ and $Y$, of degree $\ell+1$ in $X$ and $Y$.
 
-Given two curves $E$ and $E'$, Vélu formulas reduce the problem of
-finding an explicit isogeny between $E$ and $E'$ to that of finding
-the kernel of an isogeny between them. Once the polynomial $h(X)$
-vanishing on $\ker\I$ is found, the explicit isogeny is computed
-composing Vélu formulas with the isomorphism between $\bar{E}$ and
-$E'$ as in figure \ref{fig:velu}.
+Its importance comes from the fact that the roots of the univariate
+polynomial $\Modpol_\ell(X,j_E)$ are the $j$-invariants of the
+elliptic curves $\ell$-isogenous to $E$.
 
-\begin{figure}
-  \centering
-  \[\xymatrix{
-    E \ar[r]^{\bar{\I}} \ar[rd]^\I & \bar{E} \ar[d]^{\simeq}\\
-    & E'
-  }\]
-  \caption{Using Vélu formulas to compute an explicit isogeny.}
-  \label{fig:velu}
-\end{figure}
+The modular polynomial has $O(\ell^2)$ coefficients, and the
+coefficients themselves have logarithmic height $O(\ell\log\ell)$. For
+this reason minimal polynomials associated to other modular functions
+are often preferred to $\Modpol_\ell$, as for example Atkins'
+\emph{canonical polynomial} $\Modpol_\ell^\ast$~\cite{atkin88}.
+
+Algorithms to compute the modular polynomial and its variants are
+described in~\cite{morain95,sutherland10:modpol}.
+
+
 
 
 

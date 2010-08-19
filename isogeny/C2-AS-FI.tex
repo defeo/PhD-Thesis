@@ -4,170 +4,297 @@
 The most expensive step of C2-AS is the polynomial interpolation step
 which is part of the Cauchy interpolation. If we use a standard
 interpolation algorithm, its input consists in a list of $\Theta(p^k)$
-pairs $\bigl(P, \I(P)\bigr)$ with $P\in\U_k$, thus a lower bound for
-any such algorithm is $\Omega(p^{2k}d)$. Notice however that the
-output is a polynomial of degree $\Theta(p^k)$ in $\F_q[X]$, hence, if
-supplied with a shorter input, an \emph{ad hoc} algorithm could reach
-the bound $\Omega(p^kd)$.
+pairs $\bigl(P, \I(P)\bigr)$, with $P$ having coordinates in $\U_k$,
+thus a lower bound for any such algorithm is $\Omega(p^{2k}d)$. Notice
+however that the output is a polynomial of degree $\Theta(p^k)$ in
+$\F_q[X]$, hence, if supplied with a shorter input, an \emph{ad hoc}
+algorithm could reach the bound $\Omega(p^kd)$.
 
 In this section we give an algorithm that reaches this bound up to
 some logarithmic factors. It realizes the polynomial interpolation on
 the primitive points of $E[p^k]$, thus its output is a degree
 $\euler(p^k)/2-1$ polynomial in $\F_q[X]$. Using the Chinese remainder
-theorem, it is straightforward to generalise this to an algorithm
-having the same asymptotic complexity realizing the polynomial
+theorem it is straightforward to generalise this to an algorithm,
+having the same asymptotic complexity, that realizes the polynomial
 interpolation on all the points of $E[p^k]$. We call C2-AS-FI the
 variant of C2-AS resulting from applying this new algorithm.
 
-\subsection{The algorithm}
-We set some notation. Let $i_0$ be the largest index such that
-$\U_{i_0} = \U_1$ and let $\frac{p-1}{2r} = [\F_q[c^2]:\F_q]$. For
-notational convenience, we set $\U_0=\F_q$.
 
-We note $T(X)$ the polynomial vanishing on the primitive points of
-$E[p^k]$ and
+\subsection{The algorithm}
+Let $P\in E[p^k]$ and $P'\in E'[p^k]$ be primitive $p^k$ torsion
+points. We want to compute the smallest degree polynomial
+$A\in\F_q[X]$ such that
+\begin{equation}
+  A\bigl(x\bigl([n]P\bigr)\bigr) = x\bigl([n]P'\bigr)
+  \quad\text{for any $n\in\left(\Z/p^k\Z\right)^\ast$.}
+\end{equation}
+To be more precise, we want to compute the canonical representative of
+$A$ in $\F_q[X]/T(X)$, where
+\begin{equation}
+  T(X) = \prod_{n\in\left(\Z/p^k\Z\right)^\ast} \bigl(X - x([n]P)\bigr)
+  \text{.}
+\end{equation}
+ 
+There are two equivalent ways to look at this problem. The first one
+is as the interpolation problem we just stated. The second one is as
+an isomorphism of finite fields problem. Both viewpoints will be
+important.
+
+For notational convenience, we set $\U_0=\F_q$.  Let
 
 \begin{equation}
   \label{eq:T}
-  T = \prod T_j^{(i)}
+  T = \prod T^{(j)}
 \end{equation}
-its factorisation over $\U_i$; we remark that all the $T_j^{(0)}$'s
-have degree $\frac{\euler(p^{k-i_0+1})}{2r}$. We also note $A(X)$ the goal
-polynomial and
+be the factorisation of $T$ over $\U_0$, and set
 \begin{equation}
   \label{eq:A}
-  A_j^{(i)} = A \bmod T_j^{(i)}
+  A^{(j)} = A \bmod T^{(j)}
   \;\text{.}
 \end{equation}
 
-It was already pointed out in \cite[$\S$2.3]{Cou96} that if all the
-$A_j^{(0)}$'s are known one can recover $A$ using the Chinese remainder
-theorem. If we chose any point $P$ such that
-$T_j^{(0)}\bigl(x(P)\bigr)=0$ and fix the embedding
+It was already pointed out in \cite[$\S$2.3]{Cou96} that, knowing the
+factorisation of $T$ over $\U_0$ and all the $A^{(j)}$'s, we can
+recover $A$ using the Chinese remainder theorem. Thus we will focus on
+computing, say, $A^{(0)}$.
+
+$T^{(0)}$ is irreducible over $\F_q$. Chose any root of $T^{(0)}$,
+without loss of generality we can take $x(P)$ to be such a root.  Fix
+the $\F_q$-linear embedding of finite fields
 \begin{equation}
   \label{eq:embed}
   \xymatrix{
-    ^{\F_q[X]}/_{T_j^{(0)}(X)} \ar@{^{(}->}[r]^-\iota & \U_k
+    ^{\F_q[X]}/_{T^{(0)}(X)} \ar@{^{(}->}[r]^-\iota & \U_k
   }
 \end{equation}
-given by $\iota(X) = x(P)$, then it is evident that
-$\iota\bigl(A_j^{(0)}(X)\bigr) = x\bigl(\I(P)\bigr)$, thus in order to
-compute $A_j^{(0)}$ one just needs to compute
-$\iota^{-1}\bigl(x(\I(P))\bigr)$.
+given by $\iota(X) = x(P)$. It is evident that
+\begin{equation}
+  \iota\bigl(A^{(0)}(X)\bigr) = A^{(0)}\left(\iota(X)\right)=x\bigl(P'\bigr)
+  \text{,}
+\end{equation}
+thus in order to compute $A^{(0)}$ one just needs to compute
+$\iota^{-1}\bigl(x(P')\bigr)$.
 
-Unfortunately, the information needed to compute $\iota$ was lost in
-the $p$-descent, for we don't even know the $T_j^{(i)}$'s. None of the
-algorithms of \cite{DFS09} helps us to compute such information and
-straightforward computation of it would be too expensive. The solution
-is to decompose $\iota$ as a chain of morphisms and invert them
-one-by-one going down in the tower $(\U_0,\U_1,\ldots,\U_k)$, this is
+This is a classic problem in computer algebra: given an algebraic
+extension $\LK/\K$ and elements $x\in\LK$ and $y\in\K[x]$, find the
+minimal polynomial $Q$ of $x$ over $\K$, identify $\K[X]/Q(X)$ to
+$\K[x]$ and find the canonical image of $y$ in $\K[X]/Q(X)$. The
+fastest techniques available are \cite{shoup99,PS06}, which are largely
+used in \cite{DFS09}. However, they both require to solve a
+\emph{power projection} problem, that is, given a $\K$-linear form
+$\ell$, compute
+\begin{equation}
+  \ell(1), \ell(x), \ell(x^2), \dots, \ell(x^n)
+\end{equation}
+up to some bound $n$. As explained in \cite{shoup99}, by the
+\emph{transposition principle}, solving the power projection has the
+same complexity as computing $g(x)$ given $g\in\K[X]$.
+
+But, in our specific case, the extension we work with is $\U_k/\F_q$.
+Without previous knowledge of the minimal polynomial of $x\in\U_k$, we
+have no method to evaluate a polynomial $g\in\F_q[X]$ on $x$, faster
+than lift $g$ in $\U_k[X]$ and evaluate by Horner rule. Unfortunately,
+this is too expensive, thus we will study an alternative approach that
+amounts to decompose $\iota$ as a chain of morphisms and invert them
+one-by-one going down in the tower $(\U_0,\U_1,\ldots,\U_k)$. This is
 similar to the way \cite{Cou00} solves an Artin-Schreier equation by
 moving it down from $\U_k$ to $\U_1$.
 
-\paragraph{The moduli}
-We first need to compute $T_0^{(i)}\in\U_i[X]$ for any $i$. For this
-we fix a primitive point $P\in E[p^k]$ and we reorder the indices in
-\eqref{eq:T} so that $T_0^{(i)}$ is the minimal polynomial of $x(P)$
-over $\U_i$.
 
-The first minimal polynomial is simply
+\paragraph{Interpolation in towers of extensions}
+We switch back to the interpolation viewpoint. The algorithm we give
+here can be applied in any tower of cyclic extensions, provided the
+action of the Galois groups can be computed. However we will present
+it only for our specific tower $(\U_0,\dots,\U_k)$, to avoid adding
+unnecessary notation.
+
+Consider the following problem: given elements $x,y\in\U_k$ such that
+$x$ generates $\U_k$ over $\F_q$, find a polynomial $A\in\F_q[X]$ such
+that
 \begin{equation}
-  \label{eq:T_0^k}
-  T_0^{(k)}(X) = X - x(P)
-  \;\text{.}
+  \label{eq:affine-minimal}
+  A(x) = y
+  \text{.}
 \end{equation}
-Now suppose we know $T_0^{(i+1)}$, then a generator $\sigma$ of
-$\Gal(\U_{i+1}/\U_i)$ acts on the roots of $T_0^{(i+1)}$ sending them
-on the roots of some $T_j^{(i+1)}$. Then the
-minimal polynomial of $x(P)$ over $\U_i$ is
+Let $A$ be such a polynomial and let $T$ be the minimal polynomial of
+$x$ over $\F_q$, then it is evident that $A+T$ satisfies
+\eqref{eq:affine-minimal}. Hence, we can look for a representative of
+minimal degree of the class of $A$ in $\F_q[X]/T(X)$. If one such
+class exists, then it is unique, because otherwise $x$ would be root
+of a polynomial in $\F_q[X]$ of degree smaller than $T$. 
+
+Let $A$ be a polynomial satisfying \eqref{eq:affine-minimal} it is
+clear that $A(\sigma(x)) = \sigma(y)$ for any
+$\sigma\in\Gal(\U_k/\F_q)$. Conversely, the polynomial interpolating
+$\sigma(x)$ over $\sigma(y)$ for any $\sigma$ is invariant under
+$\Gal(\U_k/\F_q)$, thus it has coefficients in $\F_q$. Hence we can
+construct $A$ by interpolation.
+
+A fast interpolation algorithm as in \cite[10.1-2]{vzGG} would compute
+$T$ via a binary subproduct tree, and then interpolate $A$ recursively
+applying the Chinese remainder theorem along the branches of the
+tree. However this is too expensive. We can do better by using a
+non-binary subproduct tree on which the tower of Galois groups
+associated to $(\U_0,\ldots,\U_k)$ acts.
+
+First we need to compute $T$. Let $T_i$ be the minimal polynomial of
+$x$ over $\U_i$, it is computed recursively as
+\begin{align}
+  T_k &= (X - x)\text{,}\\
+  \label{eq:minprod}
+  T_i &= \prod_{\sigma\in\Gal(\U_{i+1}/\U_i)}T_{i+1}^\sigma\text{.}
+\end{align}
+Then $T=T_0$. Observe that, rather than computing a whole subproduct
+tree of $T$, we have only computed one branching as shown in figure
+\ref{fig:tree}.
+
+\begin{figure}[tb]
+  \centering
+  
+  \begin{tikzpicture}
+    \begin{scope}
+      [level distance=1cm]
+      \node{$\U_0$}[grow'=up]
+      child {node {$\U_1$}
+        child {node {$\U_2$}
+          child {node {$\U_3$}}
+        }
+      };
+    \end{scope}    
+  \end{tikzpicture}
+  % 
+  \hfill
+  %
+  \begin{tikzpicture}
+    \begin{scope}
+      [level distance=1cm,
+      level/.style={sibling distance=6cm/#1},
+      nc/.style={gray}]
+      \node{$T$}[grow'=up]
+      child {node {$T_1$}
+        child {node {$T_2$}
+          child {node {$T_3$}}
+          child {node {$T_3^{\sigma^4}$}}
+        }
+        child {node {$T_2^{\sigma^2}$}
+          child[nc] foreach \l in {2,6} {node {$T_3^{\sigma^{\l}}$} edge from parent[dashed]}
+        }
+      }
+      child {node {$T_1^\sigma$}
+        child[nc] {node {$T_2^\sigma$} edge from parent[dashed]
+          child[nc] foreach \l in {,5} {node {$T_3^{\sigma^{\l}}$} edge from parent[dashed]}
+        }
+        child[nc] {node {$T_2^{\sigma^3}$} edge from parent[dashed]
+          child[nc] foreach \l in {3,7} {node {$T_3^{\sigma^{\l}}$} edge from parent[dashed]}
+        }
+      };
+    \end{scope}
+  \end{tikzpicture}
+  
+  \caption{The subproduct tree of $T$, in the case of a tower of
+    quadratic extensions. Any generator of $\Gal(\U_3/\U_0)$ can be
+    taken as $\sigma$. We gray out the nodes that the algorithm does
+    not compute.}
+  \label{fig:tree}
+\end{figure}
+
+
+
+Now we compute recursively the polynomials in $A_i\in\U_i[X]$ such
+that $A_i(x)=y$. We start from $A_k=y$. Suppose $A_{i+1}$ is known,
+then we apply the Chinese remainder algorithm of \cite[$\S$10.3]{vzGG}
+to compute the polynomial $P\in\U_{i+1}[X]/T_i(X)$ such that
 \begin{equation}
-  \label{eq:T_0^i}
-  T_0^{(i)} = \prod_{\sigma\in\Gal(\U_{i+1}/\U_i)} \sigma\left(T_0^{(i+1)}\right)
-  \;\text{.}
+  \label{eq:crt}
+  P \equiv A_{i+1}^\sigma \bmod T_{i+1}^\sigma
+  \qquad\text{for any $\sigma\in\Gal(\U_{i+1}/\U_i)$.}
 \end{equation}
-Some care has to be taken when computing $T_0^{(0)}$: in fact the
-abscissae of the points may be counted twice if
-$c\not\in\F_q[c^2]$. In this case only a subgroup of index $2$ of
-$\Gal(\U_1/\U_0)$ must be used instead of the whole group.
+It is clear that $P$ is invariant under $\Gal(\U_{i+1}/\U_i)$, hence
+$P\in\U_i[X]/T_i(X)$ and by \eqref{eq:crt} it is evident that
+$P(x)=A_{i+1}(x)=y$, thus $P=A_i$.
+
+We have thus succeeded in interpolating $A=A_0$, without having to
+build the whole subproduct tree. A similar algorithm was already given
+in \cite{EnMo03}.
 
 
-\paragraph{The interpolation}
-The computation of $A_0^{(i)}$ is done in the same recursive way. Fix
-the same point $P$ used to compute the $T_0^{(i)}$'s and fix the chain
-of embeddings
+\paragraph{Back to our problem}
+It is easy to realise that, on inputs $x(P)$ and $x(P')$, the
+algorithm we just gave computes $A^{(0)}$. In fact, $T^{(0)}$ is
+the minimal polynomial of $x(P)$ over $\F_q$ and $A^{(0)}$ is the
+unique polynomial in $\F_q[X]/T^{(0)}(X)$ that satisfies
+\eqref{eq:affine-minimal}.
+
+This can be viewed as decomposing $\iota$ as the chain of
+$\F_q$-linear isomorphisms
 \begin{equation}
   \xymatrix{
-    ^{\U_0[X_0]}/_{T_0^{(0)}(X_0)} \ar@{^{(}->}[r]^-{\iota_0} &
+    ^{\U_0[X_0]}/_{T_0(X_0)} \ar@{^{(}->}[r]^-{\iota_0} &
     \;\cdots\; \ar@{^{(}->}[r]^-{\iota_{k-1}} &
-    ^{\U_k[X_k]}/_{T_0^{(k)}(X_k)} \ar@{^{(}->}[r]^-{\iota_k} &
+    ^{\U_k[X_k]}/_{T_k(X_k)} \ar@{^{(}->}[r]^-{\iota_k} &
     \U_k
   }
 \end{equation}
-given by $\iota_k\circ\cdots\circ\iota_i(X_i) = x(P)$ for any $i$.
+defined by $\iota_k\circ\cdots\circ\iota_i(X_i) = x(P)$ for any $i$,
+and then finding the preimage of $x(P')$ by inverting them one by
+one.
 
-We compute $A_0^{(i)}$ by inverting the chain: inverting $\iota_k$
-simply gives
-\begin{equation}
-  \label{eq:A_0^k}
-  A_0^{(k)} = x\bigl(\I(P)\bigr)
-  \;\text{.}
-\end{equation}
-Then suppose we know $A_0^{(i+1)}$, and decompose the embedding
-$\iota_i$ as
+Then, the Chinese remainder step we applied in \eqref{eq:crt} amounts
+to invert $\iota_i$ by descending the lower path in the diagram below
 \begin{equation}
   \xymatrix{
-    ^{\U_i[X_i]}/_{T_0^{(i)}(X_i)} \ar@{^{(}->}[r]^-{\iota_i} \ar@{^{(}->}[d]^{\varepsilon} &
-    ^{\U_{i+1}[X_{i+1}]}/_{T_0^{(i+1)}(X_{i+1})} \\
-    ^{\U_{i+1}[Y]}/_{T_0^{(i)}(Y)} \ar@{^{(}->>}[r]^-{\gamma} &
-    \bigoplus_j {}^{\U_{i+1}[Y_{j}]}/_{T_j^{(i+1)}(Y_{j})} \ar@{->>}[u]_{\pi}
+    ^{\U_i[X_i]}/_{T_i(X_i)} \ar@{^{(}->}[r]^-{\iota_i} \ar@{^{(}->}[d]^{\varepsilon} &
+    ^{\U_{i+1}[X_{i+1}]}/_{T_{i+1}(X_{i+1})} \\
+    ^{\U_{i+1}[Y]}/_{T_i(Y)} \ar@{^{(}->>}[r]^-{\gamma} &
+    \bigoplus_\sigma {}^{\U_{i+1}[Y_{j}]}/_{\left(T_{i+1}\right)^\sigma(Y_{j})} \ar@{->>}[u]_{\pi}
   }
 \end{equation}
 where $\varepsilon$ is the canonical injection extending
 $\U_i\subset\U_{i+1}$, $\gamma$ is the Chinese remainder isomorphism
 and $\pi$ is projection onto the first coordinate.
 
-To invert $\pi$ observe that any $\sigma\in\Gal(\U_{i+1}/\U_i)$ leaves
-$A_0^{(i)}$ invariant while it permutes the moduli $T_j^{(i+1)}$, thus
-\begin{equation}
-  A_0^{(i)} \equiv \sigma\left(A_0^{(i+1)}\right)
-  \bmod \sigma\left(T_0^{(i+1)}\right)
-  \;\text{;}
-\end{equation}
-Hence we can obtain all the $A_j^{(i+1)}$ through the action of
-$\Gal(\U_{i+1}/\U_i)$ on $A_0^{(i+1)}$.
+Some care must be taken when $x(P)$ does not generate $\U_k$, but only
+a subfield of index $2$. This happens when $c\not\in\F_q[c^2]$, and in
+this case $\iota_0$ is not a field isomorphism. It is not to
+difficult, however, to handle this case, as one only needs to take a
+subgroup of index $2$ of $\Gal(\U_1/\U_0)$, instead of the whole
+group, in the interpolation algorithm given above.
 
-Then we can invert $\gamma$ through a Chinese remainder algorithm
-\cite[$\S$10.3]{vzGG} and $\varepsilon$ by converting coefficients from
-$\U_{i+1}$ to $\U_i$.
-
-As for the moduli, a special treatment is needed for $\iota_0$ if
-$c\not\in\F_q[c^2]$.
+Observe that we could have used a different approach: after $T^{(0)}$
+has been computed by \eqref{eq:minprod}, a polynomial $g\in\F_q[X]$
+can efficiently be evaluated at $x(P)$ by successively lifting in
+$\U_i$ and reducing modulo $T_i$ for $i=1,\ldots,k$. Thus, as noted
+before, by the transposition principle we also have an efficient
+algorithm to compute the power projection on $x(P)$; hence we can
+apply \cite{PS06} to efficiently find $A^{(0)}$. However, this
+approach cannot improve the overall complexity as it will be clear
+in the next section.
 
 
 \subsection{Complexity analysis}
 \label{sec:C2-AS-FI:complexity}
 
-The two algorithms for computing the $T_{0}^{(i)}$'s and the
-$A_{0}^{(i)}$'s are very similar and run in parallel. We can merge
-them in one unique algorithm, at each level $i\ge i_0$ it does the
-following
+The two algorithms for computing $T^{(0)}$ and $A^{(0)}$ are very
+similar and run in parallel. We can merge them in one unique
+algorithm.
+
+We set some notation. Let $i_0$ be the largest index such that
+$\U_{i_0} = \U_1$ and let $\frac{p-1}{2r} = [\F_q[c^2]:\F_q]$.  Remark
+that all the $T^{(j)}$'s have degree $\frac{\euler(p^{k-i_0+1})}{2r}$.
+At each level $i\ge i_0$, it does the following
 
 \begin{enumerate}
-\item for $\sigma \in \Gal(\U_{i+1}/\U_i)$, call $\bar\sigma$ the
-  permutation it induces on the indices of the $T_j^{(i+1)}$'s,
-  compute
+\item for $\sigma \in \Gal(\U_{i+1}/\U_i)$, compute
   \begin{enumerate}
-  \item\label{alg:T:gal} $T_{\bar\sigma(0)}^{(i+1)} :=
-    \sigma\left(T_0^{(i+1)}\right)$ and
-  \item\label{alg:A:gal} $A_{\bar\sigma(0)}^{(i+1)} :=
-    \sigma\left(A_0^{(i+1)}\right)$ using
+  \item\label{alg:T:gal} $\left(T_{i+1}\right)^\sigma$ and
+  \item\label{alg:A:gal} $\left(A_{i+1}\right)^\sigma$ using
     \cite[\alg{IterFrobenius}]{DFS09},
   \end{enumerate}
-\item\label{alg:T:prod} compute $T_0^{(i)}$ through a subproduct tree
-  as in \cite[Algo. 10.3]{vzGG},
-\item\label{alg:A:CRA} compute $A_0^{(i)}$ through Chinese Reminder
-  Algorithm \cite[Algo. 10.16]{vzGG},
-\item\label{alg:T:push} convert $T_0^{(i)}$ and $A_0^{(i)}$ into
+\item\label{alg:T:prod} compute $T_i$ by \eqref{eq:minprod}
+  through a subproduct tree as in \cite[Algo. 10.3]{vzGG},
+\item\label{alg:A:CRA} compute $A_i$ by \eqref{eq:crt} through
+  Chinese Reminder Algorithm \cite[Algo. 10.16]{vzGG},
+\item\label{alg:T:push} convert $T_i$ and $A_i$ into
   elements of $\U_i[X]$ using \cite[\alg{Push-down}]{DFS09}.
 \end{enumerate}
 
@@ -185,7 +312,7 @@ Step \ref{alg:T:push} takes $O\bigl(p^{k-i+1}{\sf L}(i-i_0)\bigr)
 
 When $i=0$ and $\U_1\ne\F_q$ the algorithm is identical but steps
 \ref{alg:T:gal} and \ref{alg:A:gal} must be computed through a generic
-frobenius algorithm (using~\cite[Algorithm 5.2]{vzGS92}, for example)
+Frobenius algorithm (using~\cite[Algorithm 5.2]{vzGS92}, for example)
 and step \ref{alg:T:push} must use the implementation of $F_q[c]$ to
 make the conversion (for example, linear algebra). In this case steps
 \ref{alg:T:gal} and \ref{alg:A:gal} cost
@@ -201,13 +328,9 @@ The total cost of the algorithm is then
   \;\text{.}
 \end{equation*}
 
-After all, the whole algorithm looks a lot like fast interpolation
-\cite[$\S$10]{vzGG} and it is indeed a modified version of it. A
-similar algorithm was already given in \cite{EnMo03}.
-
 
 \paragraph{The complete interpolation}
-We compute all the $A_j^{(0)}$'s using this algorithm; there's
+We compute all the $A^{(j)}$'s using this algorithm; there's
 $p^{i_0-1}r$ of them. We then recombine them through a Chinese
 remainder algorithm at a cost of $O\bigl(\Mult(p^kd)\log
 p^{i_0-1}r\bigr)$. The total cost of the whole interpolation phase is
@@ -229,26 +352,26 @@ that is
   \;\text{.}
 \end{equation}
 
-Alternatively, once $A_0^{(0)}$ is known, one could compute the other
-$A_j^{(0)}$'s using modular composition with the multiplication maps
+Alternatively, once $A^{(0)}$ is known, one could compute the other
+$A^{(j)}$'s using modular composition with the multiplication maps
 of $E$ and $E'$ as suggested in \cite{Cou96}. However this approach
 doesn't give a better asymptotic complexity because in the worst case
-$A_0^{(0)}=A$. From a practical point of view, though, Brent's and
+$A^{(0)}=A$. From a practical point of view, though, Brent's and
 Kung's algorithm for modular composition \cite{BrKu78}, despite having
 a worse asymptotic complexity, could perform faster for some set of
 parameters. We will discuss this matter in Section
 \ref{sec:C2-AS-FI-MC}.
 
 If more than $\euler(p^k)/2$ points are needed, but less than
-$\frac{p-1}{2}$, one can use the previous algorithm to compute all the
-polynomials $A_i$ interpolating respectively over the $p^i$-torsion
-points of $E$ and $E'$. They can then be recombined through a Chinese
+$\frac{p-1}{2}$, one can use the previous algorithm to interpolate
+over the primitive $p^i$-torsion points for each $i=1,\ldots,k$. The
+interpolating polynomials can then be recombined through a Chinese
 remainder algorithm at a cost of $O\bigl(\Mult(p^kd)\log p^k\bigr)$,
 which doesn't change the overall complexity of C2-AS-FI.
 
 
 Putting together the complexity estimates of C2-AS and C2-AS-FI, we
-have the following.
+have the following theorem.
 
 \begin{theorem}
   \label{th:complexity}
@@ -276,7 +399,7 @@ have the following.
 % TeX-master: "ec-isogeny"
 % End:
 %
-% LocalWords:  Schreier Artin pseudotrace frobenius bivariate Joux Sirvent FFT
+% LocalWords:  Schreier Artin pseudotrace Frobenius bivariate Joux Sirvent FFT
 % LocalWords:  Couveignes isogenies Schoof isogeny cryptosystems Lercier moduli
 % LocalWords:  precomputation arithmetics polylogarithmic Karatsuba embeddings
 % LocalWords:  irreducibility

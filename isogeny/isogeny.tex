@@ -1,44 +1,19 @@
 \part{Applications to isogeny computation and cryptology}
 
 \chapter{Elliptic curves and isogenies}
-\input{isogeny/introduction}
 \input{isogeny/preliminaries}
 
-\chapter{Algorithms in large characteristic}
-\section{Atkin}
-\section{Elkies}
-\section{BMSS}
-
-\chapter{Algorithms in small characteristic}
+\chapter{Computing isogenies over finite fields}
 \label{cha:algor-small-char}
 
-Let $E$ and $E'$ be two elliptic curves defined over $\F_q$, by
-finding an \emph{explicit isogeny} we mean to find an
-($\F_q$-rational) rational function from $E(\clot{\F}_q)$ to
-$E'(\clot{\F}_q)$ such that the map it defines is an isogeny.
+\input{isogeny/introduction}
 
-\begin{figure}
-  \centering
-  \[\xymatrix{
-    E \ar[r]^{[m]}\ar@/_1pc/[rrr]_{\I'} & E \ar[r]^\I & E' \ar[r]^{\frobisog^n} & E'^{(p^n)}\\
-  }\]
-  \label{fig:fact}
-  \caption{Factorization of an isogeny. $\I'$ has kernel $E[m]\oplus\ker\I$.}
-\end{figure}
-
-Since an isogeny can be uniquely factored in the product of a
-separable and a purely inseparable isogeny, we focus ourselves on the
-problem of computing explicit separable isogenies. Furthermore one can
-factor out multiplication-by-$m$ maps, thus reducing the problem to
-compute explicit separable isogenies with cyclic kernel (see figure
-\ref{fig:fact}).
-
-In the rest of this paper, unless otherwise stated, by $\ell$-isogeny
-we mean a separable isogeny with kernel isomorphic to $\Z/\ell\Z$.
-
-\section{Couveignes first algorithm}
-\section{Lercier}
+\section{BMSS}
+\label{sec:bmss}
+%\section{Couveignes first algorithm}
+%\section{Lercier}
 \section{Lercier-Sirvent}
+\label{sec:lercier-sirvent}
 \input{isogeny/C2}
 \input{isogeny/C2-AS}
 \input{isogeny/C2-AS-FI}
