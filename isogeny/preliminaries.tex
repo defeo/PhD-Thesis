@@ -366,6 +366,7 @@ brought via isomorphism to a form that is easier to handle, called
 from~\cite{connell:elliptic}.
 
 \begin{proposition}[Simplified Weierstrass form]
+  \label{th:simplified-weierstrass}
   Any elliptic curve is isomorphic to one of the following Weierstrass
   forms:
   \begin{itemize}
@@ -543,7 +544,8 @@ $\omega_1,\omega_2\in\Lambda$ such that
   \label{eq:135}
   \Lambda = \omega_1\Z + \omega_2\Z
 \end{equation}
-are called a \emph{basis} of $\Lambda$.
+are called a \emph{basis} of $\Lambda$. The quotient $\C/\Lambda$ is
+called a \index{complex torus}\emph{complex torus}.
 
 \begin{definition}[Elliptic function]
   Let $\Lambda$ be a lattice. An
@@ -703,16 +705,18 @@ scale $\Lambda$ so that $(1,\tau)$ is a basis for it. Then
 $\C/\Lambda$ is $\ell$-isogenous to $\C/(\Z+\ell\tau\Z)$ via the map
 $z\mapsto\ell z$.
 
-The minimal polynomial of the modular function $j(\ell\tau)$ is called
-the \index{th modular polynomial}\emph{$\ell$-th modular polynomial},
-it is denoted by
+For any prime $\ell$, the minimal polynomial of the modular function
+$j(\ell\tau)$ is called the \index{th modular
+  polynomial}\emph{$\ell$-th modular polynomial}, it is denoted by
 $\Modpol_\ell(X,Y)$\nomenclature[f]{$\Modpol_\ell$}{$\ell$-th modular
   polynomial}. It is a bivariate polynomial with coefficients in $\Z$,
 symmetric in $X$ and $Y$, of degree $\ell+1$ in $X$ and $Y$.
 
 Its importance comes from the fact that the roots of the univariate
 polynomial $\Modpol_\ell(X,j_E)$ are the $j$-invariants of the
-elliptic curves $\ell$-isogenous to $E$.
+elliptic curves $\ell$-isogenous to $E$. From the knowledge of a pair
+of $\ell$-isogenous $j$ invariants, one can compute an isogeny using
+the algorithms of the next chapter.
 
 The modular polynomial has $O(\ell^2)$ coefficients, and the
 coefficients themselves have logarithmic height $O(\ell\log\ell)$. For
