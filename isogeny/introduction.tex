@@ -96,21 +96,22 @@ vanishing on the abscissae of $G$ belongs to $\K[X]$.
 The isogeny computed by Vélu formulas is the map
 \begin{multline}
   \label{eq:155}
-  P\mapsto\left(x(P) + \sum_{Q\in G\backslash\{\0\}}x(P+Q) - x(Q),\right.\\
+  \I(P) = \left(x(P) + \sum_{Q\in G\backslash\{\0\}}x(P+Q) - x(Q),\right.\\
     \left.y(P) + \sum_{Q\in G\backslash\{\0\}}y(P+Q) - y(Q)\right)
   \text{.}
 \end{multline}
 Using the addition formulas it is straightforward to obtain the
-coefficients of the curve $\bar{E}$ and the explicit isogeny.
-
-For simplicity, we suppose $p\ge3$ and $E$ in
-\hyperref[th:simplified-weierstrass]{simplified Weierstrass form}
+coefficients of the curve $\bar{E}$ and the explicit isogeny.  For
+simplicity, we do so only for the case $p\ge3$ and $E$ in the form
 \begin{equation}
   \label{eq:160}
   E \;:\; y^2 =  x^3 + a_2x^2 + a_4x + a_6
-  \text{.}
 \end{equation}
-We denote by $f,f'$ the two functions in $\K(E)$
+(note that this is always possible by
+Proposition~\ref{th:simplified-weierstrass}). 
+
+We set $G^\ast=G\backslash\{\0\}$. We denote by $f,f'$ the two
+functions in $\K(E)$
 \begin{equation}
   \label{eq:162}
   \begin{aligned}
@@ -120,70 +121,73 @@ We denote by $f,f'$ the two functions in $\K(E)$
     \text{.}
   \end{aligned}
 \end{equation}
-
-Then, after some calculations, Eq.~\eqref{eq:155} is equivalent to
+From the \hyperref[eq:121]{addition formulas}, after some calculations
+(see Appendix~\ref{cha:proof-velus-formulas} for an automatic proof of
+this calculation), Eq.~\eqref{eq:155} is equivalent to
 \begin{multline}
   \label{eq:161}
-  (x,y) \mapsto
-  \left(x + \sum_{Q\in G\backslash\{\0\}} \frac{f'(Q)}{x-x(Q)} + \frac{2f(Q)}{(x-x(Q))^2},\right.\\
-  \left.y + \sum_{Q\in G\backslash\{\0\}} \frac{yf'(Q)}{(x-x(Q))} + \frac{4yf(Q)}{(x-x(Q))^3}\right)
-  \text{;}
+  \I(x,y) = \left(x + \sum_{Q\in G^\ast} \frac{f'(Q)}{x-x(Q)} + \frac{2f(Q)}{(x-x(Q))^2}\text{,}\right.\\
+  \left.y + \sum_{Q\in G^\ast} -\frac{yf'(Q)}{(x-x(Q))^2} - \frac{4yf(Q)}{(x-x(Q))^3}\right)
+  \text{.}
 \end{multline}
+
+Observe that if $Q\in G^\ast$ is a $2$-torsion point, then $f(Q)=0$;
+while if $Q$ is not a $2$-torsion point, $x(Q)$ is counted twice in
+the sum of the previous equation. Then, the denominator of $\I_x$ is
+  \begin{equation}
+    \label{eq:158}
+    h(x) = \prod_{Q\in G^\ast}(x - x(Q))
+    \text{.}
+  \end{equation}
+We set
+\begin{equation}
+  \label{eq:164}
+  \begin{gathered}
+    t = \sum_{Q\in G^\ast} f'(Q)\text{,}
+    \qquad
+    u = \sum_{Q\in G^\ast} 2f(Q)\text{,}
+    \qquad
+    w = u + \sum_{Q\in G^\ast} x(Q)f'(Q)\text{,}\\
+    \frac{g(x)}{h(x)} = x + t\frac{h'(x)}{h(x)} - u\left(\frac{h'(x)}{h(x)}\right)'
+    \text{,}
+  \end{gathered}
+\end{equation}
+then Eq.~\eqref{eq:161} becomes
+\begin{equation}
+  \label{eq:159}
+  \I(x,y) = \left(\frac{g(x)}{h(x)}, y\left(\frac{g(x)}{h(x)}\right)'\right)
+  \text{,}
+\end{equation}
 and the isogenous curve has equation
 \begin{equation}
   \label{eq:163}
   \bar{E}\;:\;y^2 = x^3 + a_2x^2 + (a_4-5t)x + a_6 - 4a_2t - 7w
-  \text{,}
-\end{equation}
-where
-\begin{equation}
-  \label{eq:164}
-  t = \sum_{Q\in G\backslash\{\0\}} f'(Q)\text{,}
-  \qquad
-  w = \sum_{Q\in G\backslash\{\0\}} 2f(Q) + x(Q)f'(Q)\text{.}
-\end{equation}
-
-
-In practice, supposing we know the polynomial
-\begin{equation}
-  \label{eq:158}
-  h(x) = \prod_{Q\in G\backslash\{\0\}}}(x - x(Q))
-\end{equation}
-vanishing over the abscissae of $G$, we compute its three first Newton
-sums $p1,p_2,p_3$, and the polynomials
-\begin{equation}
-  \label{eq:166}
-  \begin{aligned}
-    \Sigma_1(x) &= \sum_{Q\in G\backslash\{\0\}}\frac{1}{x-x(Q)} = \frac{h'}{h}\text{,}\\
-    \Sigma_2(x) &= \sum_{Q\in G\backslash\{\0\}}\frac{1}{(x-x(Q))^2} = -\left(\frac{h'}{h}\right)'\text{.}\\
-  \end{aligned}
-\end{equation}
-Then we compute
-\begin{equation}
-  \label{eq:167}
-  \begin{aligned}
-    t = 3p_2 + 2a_2p_1 + a_4\text{,} \qquad
-    w = 5p_3 + 4a_2p_2 + 3a_4p_1 + 2a_6\text{,}
-  \end{aligned}
-\end{equation}
-
-
-
-
-
- Vélu formulas compute a rational function
-\begin{equation}
-  \label{eq:isog}
-  \bar{\I}(x,y) = \left(\frac{g(x)}{h(x)}, \frac{k(x,y)}{l(x)}\right)  
-\end{equation}
-and a curve $\bar{E}$ such that $\bar{\I} : E\rightarrow\bar{E}$ is an
-$\K$-rational isogeny of kernel $G$. A consequence of Vélu formulas
-is
-\begin{equation}
-  \label{eq:velu-deg}
-  \deg g = \deg h + 1 = \card{G}
   \text{.}
 \end{equation}
+Thus, from the knowledge of $h(x)$ one can deduce an the isogeny and
+the isogenous curve in $O(\Mult(\deg\I))$ operations in $\K$.
+
+\begin{remark}
+  Traditionally, Eqs.~\eqref{eq:164} and~\eqref{eq:159} are used to
+  deduce the isogeny and the curve from $h(x)$ and its three first
+  power sums.
+
+  When the isogenous curve is of no interest, it is sometimes more
+  convenient to use the reformulation given by Elkies~\cite{elkies98}
+  \begin{equation}
+    \label{eq:157}
+    \frac{g(x)}{h(x)} = x + \sum_{Q\in G^\ast}x - x(Q) - \frac{f'(x)}{x-x(Q)} + \frac{2f(x)}{(x-x(Q))^2}
+  \end{equation}
+  (this equality is shown in Appendix, too). This implies
+  \begin{equation}
+    \label{eq:165}
+    \frac{g(x)}{h(x)} = \ell x - p_1 - f'(x)\frac{h'(x)}{h(x)} -
+    2f(x)\left(\frac{h'(x)}{h(x)}\right)'
+    \text{,}
+  \end{equation}
+  where $p_1$ is the first power sum of $h$.
+\end{remark}
+
 Given two curves $E$ and $E'$, Vélu formulas reduce the problem of
 finding an explicit isogeny between $E$ and $E'$ to that of finding
 the kernel of an isogeny between them. Once the polynomial $h(X)$

@@ -1,0 +1,45 @@
+//\begin{lstlisting}[language=C,basicstyle=\ttfamily\small]
+
+// Set the a-invariants and the Weierstrass equation
+aInv<a2,a4,a6> := FunctionField(Rationals(),3);
+_<X> := PolynomialRing(aInv);
+f := X^3 + a2*X^2 + a4*X + a6;
+fprim := Derivative(f);
+
+// Set the affine coordinate ring 
+// (variables repeated twice)
+P<Xp,Xq,Yp,Yq> := PolynomialRing(aInv, 4);
+p<xp,xq,yp,yq> := quo<P|Yp^2-Evaluate(f,Xp),
+                        Yq^2-Evaluate(f,Xq)>;
+
+// The numerators of x(P+Q) - x(Q) and y(P+Q) - y(Q)
+// using additions formulas
+numlambda := yp - yq;
+denlambda := xp - xq;
+
+xPplusQ := numlambda^2 + (-a2 -xp -xq)*denlambda^2;
+xPplusQminusxQ := xPplusQ - xq*denlambda^2;
+
+yPplusQ := -numlambda*xPplusQ + numlambda*xp*denlambda^2
+    - yp*denlambda^3;
+yPplusQminusyQ := yPplusQ - yq*denlambda^3;
+
+// Velu summands
+veluX := Evaluate(fprim,xq)*denlambda + 2*Evaluate(f,xq);
+veluY := -yp*Evaluate(fprim,xq)*denlambda
+    - 4*yp*Evaluate(f,xq);
+
+// Here's the proof!
+// Observe how these quantities only have odd powers of yq
+veluX - xPplusQminusxQ;
+veluY - yPplusQminusyQ;
+
+// Elkies summmands (only abscissa)
+elkiesX := (xp - xq)*denlambda^2
+    - Evaluate(fprim,xp)*denlambda
+    + 2*Evaluate(f,xp);
+
+// The proof, again (thus time we directly get 0)
+elkiesX - veluX;
+// Done!\end{lstlisting}\endinput
+

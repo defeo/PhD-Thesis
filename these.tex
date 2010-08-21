@@ -19,10 +19,23 @@
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,automata}
 \usepackage{eurosym}
-\usepackage{listings}
+\usepackage[final]{listings}
 \usepackage{textcomp}
 \usepackage{makeidx}
 \usepackage[refpage,intoc]{nomencl}
+\usepackage{xcomment}
+
+%%%%%%%%%%%%%% Code listings
+\lstset{
+  upquote=true,
+  basicstyle=\ttfamily,          % print whole listing in typewriter
+  keywordstyle=\color{blue}\bfseries, % bold blue keywords
+  %identifierstyle=,           % nothing happens
+  commentstyle=\color{green}, % green comments
+  stringstyle=\color{red},      % typewriter type for strings
+  showstringspaces=false     % no special string spaces
+}
+
 
 %%%%%%%%%%%%%% Aliases
 
@@ -185,6 +198,9 @@
 \include{isogeny/isogeny}
 
 %\backmatter
+\appendix
+\include{isogeny/veluproof}
+
 \renewcommand{\nomname}{List of Symbols}
 \printnomenclature
 \printindex
