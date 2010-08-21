@@ -2,40 +2,29 @@
 \label{sec:C2-AS}
 
 One of the most expensive steps of C2 is the resolution of an
-Artin-Schreier equation in an extension field $\U_i$. In \cite{Cou00}
-Couveignes gives an approach alternative to linear algebra to solve
-this problem. First it builds the whole tower $(\U_1=\F_q[c], \ldots,
-\U_k)$ of intermediate extensions, then it solves an Artin-Schreier
-equation in $\U_i$ recursively by reducing it to another
-Artin-Schreier equation in $\U_i$. Details are in \cite{Cou00} and
-\cite{DFS09}.
-
-To solve the final Artin-Schreier equation in $\U_1=\F_q[c]$ one
-resorts to linear algebra, thus precomputing the inverse matrix of the
-$\F_p$-linear application $(x^p-x):\U_1\rightarrow\U_1$.
-
+Artin-Schreier equation in an extension field $\U_i$. We call C2-AS
+the variant of Couveignes' algorithm that uses the fast Artin-Schreier
+towers of Chapter~\ref{cha:artin-schr-towers}; in this section we
+analyze the complexity of C2-AS
 
 \subsection{Complexity analysis}
 \label{sec:C2-AS:complexity}
-How effective this method is depends on the way algebra is performed
-in the tower $(\U_1,\ldots,\U_k)$. The present author and Schost
-\cite{DFS09} recently presented a new construction based on
-Artin-Schreier theory that allows to do most arithmetic operations in
-the tower in quasi-linear time. Assuming this construction is used, we
-can now give precise bounds for each step of C2-AS.
+We borrow the complexity notations $\Lift(i)$ (Theorem~\ref{theo:L})
+and $\Ptr(i)$ (Theorem~\ref{th:b-pseudo}) from
+Chapter~\ref{cha:artin-schr-towers}.
 
 \paragraph{$p$-torsion}
 The construction of $\F_q[c]$ may be done in many ways. The only
-requirements of \cite{DFS09} are
+requirements of Theorem~\ref{th:cantor}
 \begin{enumerate}
 \item that its elements have a representation as elements of
   $F_p[X]/Q_1(X)$ for some irreducible polynomial $Q_1$,
 \item that either $(d,p)=1$ or $\deg Q_1' + 2 = \deg Q_1$.
 \end{enumerate}
 Selecting a random polynomial $Q_1$ and testing for irreducibility is
-usually enough to meet these conditions. This costs
-$O\bigl(pd\Mult(pd)\log (pd)\log(p^2d)\bigr)$ according to
-\cite[Th. 14.42]{vzGG}.
+usually enough to meet these conditions, as we saw in
+Remark~\ref{rk:comp-minim-polyn}. This costs $O\bigl(pd\Mult(pd)\log
+(pd)\log(p^2d)\bigr)$ according to \cite[Th. 14.42]{vzGG}.
 
 Now we need to compute the embedding $\F_q\subset\F_q[c]$. Supposing
 $\F_q$ is represented as $\F_p[X]/Q_0(X)$, we factor $Q_0$ in
@@ -51,10 +40,9 @@ compared to the rest of the algorithm.
 Now we can compute $c$ and $c'$ by factoring the polynomials
 $Y^{p-1}-H_E$ and $Y^{p-1}-H_{E'}$ in $\F_p[X]/Q_1(X)$. This costs
 \[O\bigl((p\ModComp(pd) + \ModComp(p)\Mult(pd) + \Mult(p)\Mult(pd)\log
-p)(\log^2 p+\log d)\bigr)\]
-using \cite[Section 3]{KS97}.
+p)(\log^2 p+\log d)\bigr)\] using \cite[Section 3]{kaltofen+shoup97}.
 
-Finally, computing the determinants needed by Gunji's formulae takes
+Finally, computing the determinants needed by Gunji's formulas takes
 $\Theta(p^2)$ multiplications in $\F_q[c]$, that is
 $\Theta\bigl(p^2\Mult(pd)\bigr)$.
 
@@ -66,7 +54,7 @@ Letting out logarithmic factors, the overall cost of this phase is
 
 
 \paragraph{$p^k$-torsion}
-Application of Voloch formulae requires at each of the levels
+Application of Voloch formulas requires at each of the levels
 $\U_2,\ldots,\U_k$
 \begin{enumerate}
 \item to solve equation \eqref{th:voloch:cover} by factoring an
@@ -74,21 +62,14 @@ $\U_2,\ldots,\U_k$
 \item to solve the system \eqref{th:voloch:isom}.
 \end{enumerate}
 If we assume the worst case $[\U_2:\U_1] = p$, according to
-\cite[Th. 21]{DFS09}, at each level $i$ the first step costs
-\begin{gather*}
-  O\bigl((pd)^\omega i + {\sf PT}(i-1) + \Mult(p^{i+1}d)\log p\bigr)\\[0.3cm]
-  \begin{aligned}
-    \text{where}&&
-    {\sf PT}(i) &= O\bigl((pi + \log(d))i{\sf L}(i) + p^i\ModComp(pd)\log^2(pd)\bigr)\\
-    \text{and}&&
-    {\sf L}(i) &= O\bigl(p^{i+2}d\log_p^2{p^{i+1}d} + p\Mult(p^{i+1}d)\bigr)
-    \text{ ;}
-  \end{aligned}
-\end{gather*}
+Theorem~\ref{theo:main}, at each level $i$ the first step costs
+\begin{equation*}
+  O\bigl((pd)^\omega i + {\sf PT}(i-1) + \Mult(p^{i+1}d)\log p\bigr)
+\end{equation*}
 while the second takes the GCD of two degree $p$ polynomials in
 $\U_i[X]$ for each $i$ (see Section \ref{sec:implementation}), at a
-cost of $O\bigl(\Mult(p^{i+1}d)\log p\bigr)$ operations using a fast
-algorithm \cite[$\S$11.1]{vzGG}.
+cost of $O\bigl(\Mult(p^{i+1}d)\log p\bigr)$ operations using a
+\hyperref[todo]{fast Euclidean algorithm}.
 
 Summing up over $i$, the total cost of this phase up to logarithmic
 factors is
@@ -106,16 +87,15 @@ requirements are not anymore quadratic in $\ell$.
 \paragraph{Interpolation}
 The interpolation phase is not essentially changed: one needs first to
 interpolate a degree $p^k-1$ polynomial with coefficients in $\U_k$,
-then use \cite[\alg{Push-down}]{DFS09} to obtain the corresponding
-polynomial in $\F_q[X]$ and finally do a rational fraction
-reconstruction.
+then use \alg{Push-down} to obtain the corresponding polynomial in
+$\F_q[X]$ and finally do a rational fraction reconstruction.
 
-The first step costs $O\bigl(\Mult(p^{2k}d)\log p^k\bigr)$ using fast techniques
-as \cite[$\S$10.2]{vzGG}, then converting to $\F_q[c][X]$ takes
-$O\bigl(p^k{\sf L}(k-1)\bigr)$ by \cite{DFS09} and further converting to
-$\F_q[X]$ takes $\Theta\bigl((pd)^2\bigr)$ by linear algebra. The rational function
-reconstruction then takes $O\bigl(\Mult(p^kd)\log p^k\bigr)$ using
-fast GCD techniques \cite[$\S$11.1]{vzGG}.
+The first step costs $O\bigl(\Mult(p^{2k}d)\log p^k\bigr)$ using fast
+techniques as in Section~\ref{todo}, then converting to $\F_q[c][X]$
+takes $O\bigl(p^k{\sf L}(k-1)\bigr)$ and further converting to
+$\F_q[X]$ takes $\Theta\bigl((pd)^2\bigr)$ by linear algebra. The
+\hyperref[todo]{rational function reconstruction} then takes
+$O\bigl(\Mult(p^kd)\log p^k\bigr)$.
 
 The overall complexity of one interpolation is then
 \begin{equation}
@@ -130,9 +110,10 @@ $\euler(p^k)/4$ times, thus the dependency of C2-AS in $\ell$ is still cubic.
 
 % Local Variables:
 % mode:flyspell
-% ispell-local-dictionary:"british"
+% ispell-local-dictionary:"american"
 % mode:TeX-PDF
-% TeX-master: "ec-isogeny"
+% TeX-master: "../these"
+% mode:reftex
 % End:
 %
 % LocalWords:  Schreier Artin pseudotrace Frobenius bivariate Joux Sirvent FFT

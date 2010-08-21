@@ -1,4 +1,4 @@
-\section{The algortihm C2-AS-FI}
+\section{The algorithm C2-AS-FI}
 \label{sec:C2-AS-FI}
 
 The most expensive step of C2-AS is the polynomial interpolation step
@@ -14,7 +14,7 @@ In this section we give an algorithm that reaches this bound up to
 some logarithmic factors. It realizes the polynomial interpolation on
 the primitive points of $E[p^k]$, thus its output is a degree
 $\euler(p^k)/2-1$ polynomial in $\F_q[X]$. Using the Chinese remainder
-theorem it is straightforward to generalise this to an algorithm,
+theorem it is straightforward to generalize this to an algorithm,
 having the same asymptotic complexity, that realizes the polynomial
 interpolation on all the points of $E[p^k]$. We call C2-AS-FI the
 variant of C2-AS resulting from applying this new algorithm.
@@ -46,17 +46,17 @@ For notational convenience, we set $\U_0=\F_q$.  Let
   \label{eq:T}
   T = \prod T^{(j)}
 \end{equation}
-be the factorisation of $T$ over $\U_0$, and set
+be the factorization of $T$ over $\U_0$, and set
 \begin{equation}
   \label{eq:A}
   A^{(j)} = A \bmod T^{(j)}
   \;\text{.}
 \end{equation}
 
-It was already pointed out in \cite[$\S$2.3]{Cou96} that, knowing the
-factorisation of $T$ over $\U_0$ and all the $A^{(j)}$'s, we can
-recover $A$ using the Chinese remainder theorem. Thus we will focus on
-computing, say, $A^{(0)}$.
+It was already pointed out in \cite[$\S$2.3]{couveignes96} that,
+knowing the factorisation of $T$ over $\U_0$ and all the $A^{(j)}$'s,
+we can recover $A$ using the Chinese remainder theorem. Thus we will
+focus on computing, say, $A^{(0)}$.
 
 $T^{(0)}$ is irreducible over $\F_q$. Chose any root of $T^{(0)}$,
 without loss of generality we can take $x(P)$ to be such a root.  Fix
@@ -74,6 +74,8 @@ given by $\iota(X) = x(P)$. It is evident that
 \end{equation}
 thus in order to compute $A^{(0)}$ one just needs to compute
 $\iota^{-1}\bigl(x(P')\bigr)$.
+
+% todo change this !
 
 This is a classic problem in computer algebra: given an algebraic
 extension $\LK/\K$ and elements $x\in\LK$ and $y\in\K[x]$, find the
@@ -97,8 +99,8 @@ than lift $g$ in $\U_k[X]$ and evaluate by Horner rule. Unfortunately,
 this is too expensive, thus we will study an alternative approach that
 amounts to decompose $\iota$ as a chain of morphisms and invert them
 one-by-one going down in the tower $(\U_0,\U_1,\ldots,\U_k)$. This is
-similar to the way \cite{Cou00} solves an Artin-Schreier equation by
-moving it down from $\U_k$ to $\U_1$.
+similar to the way \cite{couveignes00} solves an Artin-Schreier
+equation by moving it down from $\U_k$ to $\U_1$.
 
 
 \paragraph{Interpolation in towers of extensions}
@@ -130,12 +132,12 @@ $\sigma(x)$ over $\sigma(y)$ for any $\sigma$ is invariant under
 $\Gal(\U_k/\F_q)$, thus it has coefficients in $\F_q$. Hence we can
 construct $A$ by interpolation.
 
-A fast interpolation algorithm as in \cite[10.1-2]{vzGG} would compute
-$T$ via a binary subproduct tree, and then interpolate $A$ recursively
-applying the Chinese remainder theorem along the branches of the
-tree. However this is too expensive. We can do better by using a
-non-binary subproduct tree on which the tower of Galois groups
-associated to $(\U_0,\ldots,\U_k)$ acts.
+A fast interpolation algorithm would compute $T$ via a binary
+subproduct tree, and then interpolate $A$ recursively applying the
+Chinese remainder theorem along the branches of the tree. However this
+is too expensive. We can do better by using a non-binary subproduct
+tree on which the tower of Galois groups associated to
+$(\U_0,\ldots,\U_k)$ acts.
 
 First we need to compute $T$. Let $T_i$ be the minimal polynomial of
 $x$ over $\U_i$, it is computed recursively as
@@ -168,7 +170,7 @@ tree of $T$, we have only computed one branching as shown in figure
   \begin{tikzpicture}
     \begin{scope}
       [level distance=1cm,
-      level/.style={sibling distance=6cm/#1},
+      level/.style={sibling distance=5cm/#1},
       nc/.style={gray}]
       \node{$T$}[grow'=up]
       child {node {$T_1$}
@@ -202,7 +204,7 @@ tree of $T$, we have only computed one branching as shown in figure
 
 Now we compute recursively the polynomials in $A_i\in\U_i[X]$ such
 that $A_i(x)=y$. We start from $A_k=y$. Suppose $A_{i+1}$ is known,
-then we apply the Chinese remainder algorithm of \cite[$\S$10.3]{vzGG}
+then we apply the Chinese remainder algorithm of Section~\ref{todo}
 to compute the polynomial $P\in\U_{i+1}[X]/T_i(X)$ such that
 \begin{equation}
   \label{eq:crt}
@@ -215,11 +217,11 @@ $P(x)=A_{i+1}(x)=y$, thus $P=A_i$.
 
 We have thus succeeded in interpolating $A=A_0$, without having to
 build the whole subproduct tree. A similar algorithm was already given
-in \cite{EnMo03}.
+in \cite{enge+morain03}.
 
 
 \paragraph{Back to our problem}
-It is easy to realise that, on inputs $x(P)$ and $x(P')$, the
+It is easy to realize that, on inputs $x(P)$ and $x(P')$, the
 algorithm we just gave computes $A^{(0)}$. In fact, $T^{(0)}$ is
 the minimal polynomial of $x(P)$ over $\F_q$ and $A^{(0)}$ is the
 unique polynomial in $\F_q[X]/T^{(0)}(X)$ that satisfies
@@ -260,6 +262,8 @@ difficult, however, to handle this case, as one only needs to take a
 subgroup of index $2$ of $\Gal(\U_1/\U_0)$, instead of the whole
 group, in the interpolation algorithm given above.
 
+% todo : change this
+
 Observe that we could have used a different approach: after $T^{(0)}$
 has been computed by \eqref{eq:minprod}, a polynomial $g\in\F_q[X]$
 can efficiently be evaluated at $x(P)$ by successively lifting in
@@ -283,41 +287,44 @@ $\U_{i_0} = \U_1$ and let $\frac{p-1}{2r} = [\F_q[c^2]:\F_q]$.  Remark
 that all the $T^{(j)}$'s have degree $\frac{\euler(p^{k-i_0+1})}{2r}$.
 At each level $i\ge i_0$, it does the following
 
-\begin{enumerate}
-\item for $\sigma \in \Gal(\U_{i+1}/\U_i)$, compute
-  \begin{enumerate}
-  \item\label{alg:T:gal} $\left(T_{i+1}\right)^\sigma$ and
-  \item\label{alg:A:gal} $\left(A_{i+1}\right)^\sigma$ using
-    \cite[\alg{IterFrobenius}]{DFS09},
-  \end{enumerate}
-\item\label{alg:T:prod} compute $T_i$ by \eqref{eq:minprod}
-  through a subproduct tree as in \cite[Algo. 10.3]{vzGG},
-\item\label{alg:A:CRA} compute $A_i$ by \eqref{eq:crt} through
-  Chinese Reminder Algorithm \cite[Algo. 10.16]{vzGG},
-\item\label{alg:T:push} convert $T_i$ and $A_i$ into
-  elements of $\U_i[X]$ using \cite[\alg{Push-down}]{DFS09}.
-\end{enumerate}
+\begin{algorithm}
+  \caption{Fast Interpolation}
+  \begin{algorithmic}[1]
+    \REQUIRE $T_{i+1},A_{i+1}\wrt\U_{i+1}[X]$.
+    \ENSURE $T_i,A_i\wrt\U_i[X]$.
+    \FORALL {$\sigma \in \Gal(\U_{i+1}/\U_i)$}
+    \STATE\label{alg:T:gal} compute $\left(T_{i+1}\right)^\sigma$ and
+    \STATE\label{alg:A:gal} $\left(A_{i+1}\right)^\sigma$ using \alg{IterFrobenius};
+    \ENDFOR
+    \STATE\label{alg:T:prod} compute $T_i$ by Eq.\eqref{eq:minprod}
+    through a \hyperref[todo]{subproduct tree};
+    \STATE\label{alg:A:CRA} compute $A_i$ by Eq.\eqref{eq:crt} through
+    \hyperref[todo]{Chinese Reminder Algorithm};
+    \STATE\label{alg:T:push} convert $T_i$ and $A_i$ into
+    elements of $\U_i[X]$ using \alg{Push-down}.
+  \end{algorithmic}
+\end{algorithm}
 
 Steps \ref{alg:T:gal} and \ref{alg:A:gal} are identical. Both are
 repeated $p$ times, each iteration taking $O\bigl(p^{k-i}{\sf
   L}(i-i_0)\bigr) \subset O\bigl({\sf L}(k-i_0)\bigr)$ by
-\cite[Th. 17]{DFS09}.
+Theorem~\ref{th:b-ifrob}.
 
 Step \ref{alg:T:prod} takes $O\bigl(\Mult(p^{k-i_0+1}d/r)\log p\bigr)$
-by \cite[Lemma 10.4]{vzGG} and step \ref{alg:A:CRA} has the same
-complexity by \cite[Coro. 10.17]{vzGG}.
+by \ref{todo} and step \ref{alg:A:CRA} has the same
+complexity by \ref{todo}.
 
 Step \ref{alg:T:push} takes $O\bigl(p^{k-i+1}{\sf L}(i-i_0)\bigr)
 \subset O\bigl(p{\sf L}(k-i_0)\bigr)$.
 
 When $i=0$ and $\U_1\ne\F_q$ the algorithm is identical but steps
 \ref{alg:T:gal} and \ref{alg:A:gal} must be computed through a generic
-Frobenius algorithm (using~\cite[Algorithm 5.2]{vzGS92}, for example)
-and step \ref{alg:T:push} must use the implementation of $F_q[c]$ to
-make the conversion (for example, linear algebra). In this case steps
+Frobenius algorithm (using~\ref{todo}, for example) and step
+\ref{alg:T:push} must use the implementation of $F_q[c]$ to make the
+conversion (for example, linear algebra). In this case steps
 \ref{alg:T:gal} and \ref{alg:A:gal} cost
 $\Theta\bigl(\frac{p^{k-i_0}}{r}\ModComp(pd)\log d \bigr)$
-by~\cite[Lemma 5.3]{vzGS92} and step \ref{alg:T:push} costs
+by~\ref{todo} and step \ref{alg:T:push} costs
 $\Theta\bigl(p^{k-i_0}(pd)^2\bigr)$.
 
 The total cost of the algorithm is then
@@ -331,10 +338,10 @@ The total cost of the algorithm is then
 
 \paragraph{The complete interpolation}
 We compute all the $A^{(j)}$'s using this algorithm; there's
-$p^{i_0-1}r$ of them. We then recombine them through a Chinese
-remainder algorithm at a cost of $O\bigl(\Mult(p^kd)\log
-p^{i_0-1}r\bigr)$. The total cost of the whole interpolation phase is
-then
+$p^{i_0-1}r$ of them. We then recombine them through a
+\hyperref[todo]{Chinese remainder algorithm} at a cost of
+$O\bigl(\Mult(p^kd)\log p^{i_0-1}r\bigr)$. The total cost of the whole
+interpolation phase is then
 \begin{equation*}
   O\left(\bigl(k-i_0\bigr) \bigl(p{\sf L}(k) + \Mult(p^kd)\log p\bigr) +
     p^{k-1}\ModComp(pd)\log d + p^{k-1}r(pd)^2 + i_0\Mult(p^kd)\log p
@@ -353,21 +360,22 @@ that is
 \end{equation}
 
 Alternatively, once $A^{(0)}$ is known, one could compute the other
-$A^{(j)}$'s using modular composition with the multiplication maps
-of $E$ and $E'$ as suggested in \cite{Cou96}. However this approach
-doesn't give a better asymptotic complexity because in the worst case
-$A^{(0)}=A$. From a practical point of view, though, Brent's and
-Kung's algorithm for modular composition \cite{BrKu78}, despite having
-a worse asymptotic complexity, could perform faster for some set of
-parameters. We will discuss this matter in Section
-\ref{sec:C2-AS-FI-MC}.
+$A^{(j)}$'s using modular composition with the multiplication maps of
+$E$ and $E'$ as suggested in \cite{couveignes96}. However this
+approach doesn't give a better asymptotic complexity because in the
+worst case $A^{(0)}=A$. From a practical point of view, though,
+Brent's and Kung's algorithm for modular
+composition~\cite{brent+kung}, despite having a worse asymptotic
+complexity, could perform faster for some set of parameters. We will
+discuss this matter in Section~\ref{sec:C2-AS-FI-MC}.
 
 If more than $\euler(p^k)/2$ points are needed, but less than
 $\frac{p-1}{2}$, one can use the previous algorithm to interpolate
 over the primitive $p^i$-torsion points for each $i=1,\ldots,k$. The
-interpolating polynomials can then be recombined through a Chinese
-remainder algorithm at a cost of $O\bigl(\Mult(p^kd)\log p^k\bigr)$,
-which doesn't change the overall complexity of C2-AS-FI.
+interpolating polynomials can then be recombined through a
+\hyperref[todo]{Chinese remainder algorithm} at a cost of
+$O\bigl(\Mult(p^kd)\log p^k\bigr)$, which doesn't change the overall
+complexity of C2-AS-FI.
 
 
 Putting together the complexity estimates of C2-AS and C2-AS-FI, we
@@ -394,9 +402,10 @@ have the following theorem.
 
 % Local Variables:
 % mode:flyspell
-% ispell-local-dictionary:"british"
+% ispell-local-dictionary:"american"
 % mode:TeX-PDF
-% TeX-master: "ec-isogeny"
+% TeX-master: "../these"
+% mode:reftex
 % End:
 %
 % LocalWords:  Schreier Artin pseudotrace Frobenius bivariate Joux Sirvent FFT

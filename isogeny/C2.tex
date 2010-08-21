@@ -1,20 +1,20 @@
 
-A consequence of Vélu formulas is
-\begin{equation}
-  \label{eq:velu-deg}
-  \deg g = \deg h + 1 = \card{G}
-  \text{.}
-\end{equation}
-
-
-\section{The algorithm C2}
+\section{Couveignes' algorithm}
 \label{sec:C2}
 
-The algorithm we refer to as C2 was originally proposed in
-\cite{Cou96}. It takes as input two elliptic curves $E, E'$ and an
-integer $\ell$ prime to $p$, and it returns, if it exists, an
-$\F_q$-rational isogeny of degree $\ell$ between $E$ and $E'$. It only
-works in odd characteristic.
+In this section we describe Couveignes' algorithm to compute isogenies
+between ordinary elliptic curves in arbitrary characteristic, as it
+was originally presented in~\cite{couveignes96}. In the next sections
+we will discuss more efficient variants of this algorithm; to
+distinguish between the variants, we call C2 this original version (it
+is to be understood that C1 would be the code-name of the other
+algorithm by Couveignes, appeared in\cite{couveignes94}, that we will
+not present in this document).
+
+C2 takes as input two elliptic curves $E, E'$ and an integer $\ell$
+prime to $p$, and it returns, if it exists, an $\F_q$-rational isogeny
+of degree $\ell$ between $E$ and $E'$. It only works in odd
+characteristic.
 
 \subsection{The original algorithm}
 Suppose there exists an $\F_q$-rational isogeny
@@ -24,20 +24,26 @@ one has $\I(E[p^k]) = E'[p^k]$ for any $k$.
 Recall that $E[p^k]$ and $E'[p^k]$ are cyclic groups. C2 iteratively
 computes generators $P_k,P_k'$ of $E[p^k]$ and $E'[p^k]$
 respectively. Now C2 makes the guess $\I(P_k) = P_k'$; then, if $\I$
-is given by rational fractions as in \eqref{eq:isog},
+is given by rational fractions as in~\eqref{eq:159},
 \begin{equation}
   \label{eq:C2:I}
   \frac{g\bigl(x([i]P_k)\bigr)}{h\bigl(x([i]P_k)\bigr)} = x([i]P_k')
-  \quad\text{for $i\in\Z/p^k\Z$} 
+  \quad\text{for $i\in\Z/p^k\Z$,} 
 \end{equation}
-and by \eqref{eq:velu-deg} $\deg g = \deg h + 1 = \ell$.
+and \hyperref[sec:velu-formulas]{Vélu formulas} imply that
+\begin{equation}
+  \label{eq:velu-deg}
+  \deg g = \deg h + 1 = \ell
+  \text{.}
+\end{equation}
+
 
 Using \eqref{eq:C2:I} one can compute the rational fraction
 $\frac{g(X)}{h(X)}$ through Cauchy interpolation over the points of
 $E[p^k]$ for $k$ large enough. C2 takes $p^k > 4\ell - 2$,
 interpolates the rational fraction and then checks that it corresponds
 to the restriction of an isogeny to the $x$-axis. If this is the case,
-the whole isogeny is computed through Vélu formulae and the algorithm
+the whole isogeny is computed through Vélu formulas and the algorithm
 terminates. Otherwise the guess $\I(P_k) = P_k'$ was wrong, then C2
 computes a new generator for $E'[p^k]$ and starts over again.
 
@@ -45,7 +51,7 @@ We now go through the details of the algorithm.
 
 \paragraph{The $p$-torsion}
 The computation of the $p$-torsion points follows from the work of
-Gunji \cite{Gun76}. Here we suppose $p\ne2$.
+Gunji \cite{gunji76}. Here we suppose $p\ne2$.
 
 \begin{definition}
   \label{def:hasse}
@@ -54,28 +60,31 @@ Gunji \cite{Gun76}. Here we suppose $p\ne2$.
   $f(X)^{\frac{p-1}{2}}$.
 \end{definition}
 
-Gunji shows the following proposition and gives formulae to compute
+Gunji shows the following proposition and gives formulas to compute
 the $p$-torsion points.
 
 \begin{proposition}
   \label{th:gunji}
   Let $c=\sqrt[p-1]{H_E}$; then, the $p$-torsion points of $E$ are
-  defined in $\F_q[c]$ and their abscissae are defined in $\F_q[c^2]$.
+  defined in $\F_q[c]$ and their abscissas are defined in $\F_q[c^2]$.
 \end{proposition}
 
+% todo ? Gunji's formulas ?
 
 \paragraph{The $p^k$-torsion}
 $p^k$-torsion points are iteratively computed via $p$-descent. The
 basic idea is to split the multiplication map as $[p] = \frobisog\circ
 V$ and invert each of the components. The purely inseparable isogeny
 $\frobisog$ is just a Frobenius map and the separable isogeny $V$ can
-be computed by Vélu formulae once the $p$-torsion points are
-known. Although this is reasonably efficient, pulling $V$ back may
-involve factoring polynomials of degree $p$ in some extension field.
+be computed by \ref[sec:velu-formulas]{Vélu formulas} once the
+$p$-torsion points are known. Although this is reasonably efficient,
+pulling $V$ back may involve factoring polynomials of degree $p$ in
+some extension field.
 
 A finer way to do the $p$-descent, as suggested in the original paper
-\cite{Cou96}, is to use the work of Voloch \cite{Vol90}. Suppose
-$p\ne2$, let $E$ and $\widetilde{E}$ have equations respectively
+\cite{couveignes96}, is to use the work of Voloch
+\cite{voloch90}. Suppose $p\ne2$, let $E$ and $\widetilde{E}$ have
+equations respectively
 \begin{align*}
   y^2&=f(x)=x^3+a_2x^2+a_4x+a_6 \;\text{,}\\
   \tilde{y}^2&=\tilde{f}(\tilde{x}) = \tilde{x}^3 +
@@ -139,29 +148,30 @@ in figure \ref{fig:voloch}.
 
 The reason why this is more efficient than a standard descent is the
 shape of equation \eqref{th:voloch:cover}: it is an Artin-Schreier
-equation and it can be solved by many techniques, the simplest being
-linear algebra (as was suggested in \cite{Cou96}). Once a solution
-$\tilde{z}$ to \eqref{th:voloch:cover} is known, solving in $x$ and $y$ the
-bivariate polynomial system \eqref{th:voloch:isom} takes just a GCD
-computation (explicit formulae were given by Lercier in
-\cite[$\S$6.2]{Ler97}, we give some slightly improved ones in Section
-\ref{sec:implementation}). Compare this with a generic factoring
-algorithm needed by standard descent.
+equation and it can be solved by the techniques of
+Chapter~\ref{cha:artin-schr-towers} (or by linear algebra, as was
+suggested in \cite{couveignes96}). Once a solution $\tilde{z}$ to
+\eqref{th:voloch:cover} is known, solving in $x$ and $y$ the bivariate
+polynomial system \eqref{th:voloch:isom} takes just a GCD computation
+(explicit formulas were given by Lercier in
+\cite[$\S$6.2]{lercier-algorithmique}, we give some slightly improved
+ones in Section \ref{sec:implementation}). Compare this with a generic
+factoring algorithm needed by standard descent.
 
-Solving Artin-Schreier equations is the most delicate task of the
-descent and we will further discuss it.
+In this section we assume that the Artin-Schreier equations are solved
+using linear algebra. The impact of
+Chapter~\ref{cha:artin-schr-towers} over Couveignes' algorithm is
+discussed in the next section.
 
 
 \paragraph{Cauchy interpolation}
 Interpolation reconstructs a polynomial from the values it takes on
-some points; Cauchy interpolation reconstructs a rational
-fraction. The Cauchy interpolation algorithm is divided in two phases:
-first find the polynomial $P$ interpolating the evaluation points,
-then use rational fraction reconstruction to find a rational fraction
-congruent to $P$ modulo the polynomial vanishing on the points. The
-first phase is carried out through any classical interpolation
-algorithm, while the second is similar to an XGCD computation. See
-\cite[$\S$5.8]{vzGG} for details.
+some points; Cauchy interpolation reconstructs a rational fraction. As
+we saw in Section~\ref{todo}, the Cauchy interpolation algorithm is
+divided in two phases: first find the polynomial $P$ interpolating the
+evaluation points, then use rational fraction reconstruction to find a
+rational fraction congruent to $P$ modulo the polynomial vanishing on
+the points.
 
 Cauchy interpolation needs $n+2$ points to reconstruct a degree
 $(k,n-k)$ rational fraction. This, together with \eqref{eq:velu-deg},
@@ -192,12 +202,12 @@ to $0$.
 The algorithm, as we presented it, only works when $p\ne2$, it is
 however an easy matter to generalise it. The only phase that doesn't
 work is the computation of the $p^k$-torsion points. For curves in the
-form \eqref{eq:weierstrass=2} the only $2$-torsion point is
-$(0,\sqrt{b})$.
+simplified Weierstrass form \eqref{eq:weierstrass=2} the only
+$2$-torsion point is $(0,\sqrt{b})$.
 
-Voloch formulae are hard to adapt, nevertheless a $2$-descent on the
-Kummer surface of $E$ can easily be performed since the doubling
-formula reads
+Voloch formulas are hard to adapt, nevertheless a $2$-descent on the
+\hyperref[def:kummer]{Kummer surface} of $E$ can easily be performed
+since the doubling formula reads
 \begin{equation}
   x([2]P) = \frac{b}{x(P)^2} + x(P)^2 =
   \frobisog\left(\frac{\sqrt{b} + x(P)^2}{x(P)} \right) = \frobisog\circ V
@@ -220,14 +230,14 @@ expensive. Fortunately, the $y$ coordinates are not needed by the
 subsequent steps of the algorithm, thus one may simply ignore
 them. Observe in fact that even if $K_E$ does not have a group law,
 the restriction of scalar multiplication is well defined and can be
-computed through Montgomery formulae \cite{Mon87}. This is enough to
-compute all the abscissae of the points in $E[p^k]$ once a generator
-is known.
+computed through Montgomery formulas as described in
+Remark~\ref{rk:montgomery}. This is enough to compute all the
+abscissas of the points in $E[p^k]$ once a generator is known.
 
 
 \subsection{Complexity analysis}
 \label{sec:C2:complexity}
-Analysing the complexity of C2 is a delicate matter since the
+Analyzing the complexity of C2 is a delicate matter since the
 algorithm relies on some black-box computer algebra algorithms in
 order to deal with finite extensions of $\F_q$. The choice of the
 actual algorithms may strongly influence the overall complexity of C2.
@@ -236,28 +246,30 @@ of C2, since a much more accurate complexity analysis will be carried
 out in Section \ref{sec:C2-AS}.
 
 \paragraph{$p$-torsion}
-Applying Gunji formulae first requires to find $c$ and $c'$, $p-1$-th
+Applying Gunji formulas first requires to find $c$ and $c'$, $p-1$-th
 roots of $H_E$ and $H_{E'}$, and build the field extension $\F_q[c] =
 \F_q[c']$. Independently of the actual algorithm used, observe that in
 the worst case $\F_q[c]$ is a degree $p-1$ extension of $\F_q$, thus
 simply representing one of its elements requires $\Theta(pd)$ elements
 of $\F_p$.
 
-Subsequently, the main cost in Gunji's formulae is the computation of
+Subsequently, the main cost in Gunji's formulas is the computation of
 the determinant of a $\frac{p-1}{2}\times\frac{p-1}{2}$
-quadri-diagonal matrix (see \cite{Gun76}). This takes $\Theta(p^2)$
+quadri-diagonal matrix (see \cite{gunji76}). This takes $\Theta(p^2)$
 operations in $\F_q[c]$ by Gauss elimination, that is no less than
 $\Omega(p^3d)$ operations in $\F_p$.
 
 \paragraph{$p^k$-torsion}
 During the $p$-descent, factoring of equations \eqref{th:voloch:cover}
 or \eqref{eq:2-descent} may introduce some field extensions over
-$\F_q[c]$. Observe that an Artin-Schreier polynomial is either
-irreducible or totally split, so at each step of the $p$-descent we
-either stay in the same field or we take a degree $p$ extension. This
-shows that in the worst case we have to take an extension of degree
-$p^{k-1}$ over $F_q[c]$. The following proposition, which is a
-generalisation of \cite[Prop. 26]{Ler97}, states precisely how likely
+$\F_q[c]$. Recall that an Artin-Schreier polynomial is either
+irreducible or totally split (see
+Proposition~\ref{th:artin-schreier}), so at each step of the
+$p$-descent we either stay in the same field or we take a degree $p$
+extension. This shows that in the worst case we have to take an
+extension of degree $p^{k-1}$ over $F_q[c]$. The following
+proposition, which is a generalization of
+\cite[Prop. 26]{lercier-algorithmique}, states precisely how likely
 this case is.
 
 \begin{proposition}
@@ -284,11 +296,14 @@ this case is.
   subgroup of $(\Z/p^k\Z)^\ast$ generated by $\tau_k = \tau \bmod
   p^k$. Hence $[\U_k:\F_q] = \ord(\tau_k)$.
 
-  Then, for any $k>1$, \cite[Corollary 4]{Ler97} applied to
-  $\tau_{k+1}=\tau\bmod p^{k+1}$ shows that
+  Then, for any $k>1$, \cite[Corollary 4]{lercier-algorithmique}
+  applied to $\tau_{k+1}=\tau\bmod p^{k+1}$ shows that
   $\ord(\tau_{k+1})=\ord(\tau_k)$ implies
   $\ord(\tau_k)=\ord(\tau_{k-1})$ and this concludes the proof.
 \end{proof}
+
+% todo : lercier's lemmas ?
+
 
 Thus for any elliptic curve there is an $i_0$ such that $[\U_i:\U_1] =
 p^{i-i_0}$ for any $i \ge i_0$. This shows that the worst and the
@@ -309,7 +324,7 @@ other isogeny with domain $E$.
 
 After the precomputation has been done, C2 successively applies the
 two inverse matrices; details can be found in
-\cite[$\S$2.4]{Cou96}. This costs at least $\Omega(\ell^2d)$.
+\cite[$\S$2.4]{couveignes96}. This costs at least $\Omega(\ell^2d)$.
 
 
 \paragraph{Interpolation}
@@ -319,7 +334,7 @@ degree $p^k-1$ in $\U_k[X]$ takes $\Theta(p^{2k}d)$ elements of
 $\F_p$, thus at least $\Omega(\ell^2d)$ operations are needed to
 interpolate unless special care is taken\footnote{This contribution
   due to arithmetics in $\U_k$ had been underestimated in the
-  complexity analysis of \cite{Cou96}, where an estimate of
+  complexity analysis of \cite{couveignes96}, where an estimate of
   $\Omega(\ell d\log\ell)$ operations was given.}. We will give more
 details on interpolation in Section \ref{sec:C2-AS-FI}.
 
@@ -349,38 +364,39 @@ one and a space requirement of $\Theta(\ell^2d)$ elements. In the next
 sections we will see how to make all these costs drop.
 
 
-% \subsection{The case $(p,\ell)\ne1$}
-% \label{sec:C2:non-prime}
-% If we are interested in finding a separable isogeny whose degree is
-% not prime to $p$, the best way is to compute the curve $\widetilde{E}$
-% such that $E = \widetilde{E}^{(p)}$, then compute an isogeny of degree
-% $\ell/p$ between $\widetilde{E}$ and $E'$ and finally compose it with
-% the separable $p$-isogeny $V$ from $E$ to $\widetilde{E}$.
+\subsection{The case $(p,\ell)\ne1$}
+\label{sec:C2:non-prime}
+If we are interested in finding a separable isogeny whose degree is
+not prime to $p$, the best way is to compute the curve $\widetilde{E}$
+such that $E = \widetilde{E}^{(p)}$, then compute an isogeny of degree
+$\ell/p$ between $\widetilde{E}$ and $E'$ and finally compose it with
+the separable $p$-isogeny $V$ from $E$ to $\widetilde{E}$.
 
-% Observe however that C2 can be easily adapted to directly compute such
-% an isogeny. In fact let $v=v_p(\ell)$, then $\I(E[p^k]) =
-% E'[p^{k-v}]$. All one needs to do in this case is to modify the Cauchy
-% interpolation so that it interpolates the rational function that sends
-% a generator of $E[p^k]$ over a generator of $E'[p^{k-v}]$ and the
-% other points accordingly. The maximum number of trials to do before
-% finding the isogeny is $\euler(p^{k-v})$, thus the overall complexity
-% is
-% \begin{equation}
-%   \label{eq:C2:complexity-non-prime}
-%   \Omega\left(\frac{\ell^3}{p^v}d + p^3d\right)
-%   \;\text{.}
-% \end{equation}
+Observe however that C2 can be easily adapted to directly compute such
+an isogeny. In fact let $v=v_p(\ell)$, then $\I(E[p^k]) =
+E'[p^{k-v}]$. All one needs to do in this case is to modify the Cauchy
+interpolation so that it interpolates the rational function that sends
+a generator of $E[p^k]$ over a generator of $E'[p^{k-v}]$ and the
+other points accordingly. The maximum number of trials to do before
+finding the isogeny is $\euler(p^{k-v})$, thus the overall complexity
+is
+\begin{equation}
+  \label{eq:C2:complexity-non-prime}
+  \Omega\left(\frac{\ell^3}{p^v}d + p^3d\right)
+  \;\text{.}
+\end{equation}
 
-% Although this method is less efficient than the first one, it will
-% come handy in Section \ref{sec:bounded}.
+Although this method is less efficient than the first one, it will
+come handy in Section \ref{sec:bounded}.
 
 
 
 % Local Variables:
 % mode:flyspell
-% ispell-local-dictionary:"british"
+% ispell-local-dictionary:"american"
 % mode:TeX-PDF
-% TeX-master: "ec-isogeny"
+% mode:reftex
+% TeX-master: "../these"
 % End:
 %
 % LocalWords:  Schreier Artin pseudotrace Frobenius bivariate Joux Sirvent FFT
