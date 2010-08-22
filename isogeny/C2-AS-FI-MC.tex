@@ -9,24 +9,29 @@ interpolations in the final loop.
 
 \subsection{The algorithm}
 Suppose we have computed, by the algorithm of the previous Section,
-the polynomial $T$ vanishing on the abscissae of $E[p^k]$ and an
+the polynomial $T$ vanishing on the abscissas of $E[p^k]$ and an
 interpolating polynomial $A_0\in\F_q[X]$ such that
 \begin{equation*}
   A_0\bigl(x\bigl([n]P\bigr)\bigr) = x\bigl([n]P'\bigr)
   \quad\text{for any $n$.}
 \end{equation*}
-The group $\Gal(\U_k/\F_q) = \langle\frob\rangle$ acts on $E'[p^k]$
-permuting its points and preserving the group structure. Thus, the
-map (where polynomials act by evaluation) 
+We view $A_0$ as a morphism of varieties (not necessarily an isogeny!)
+from $E[p^k]$ to $E'[p^k]$.
+
+The \hyperref[sec:curves-over-finite]{Frobenius automorphism}
+$\frobisog_E$ acts on $E[p^k]$ permuting its points. We define
+\begin{equation}
+  \label{eq:183}
+  A_1\eqdef A_0\circ\frobisog_E = \frobisog_{E'}\circ A_0
+  \text{,}
+\end{equation}
+where the equality comes from the fact that $A_0$ is
+$\F_q$-rational. Hence
 \begin{equation*}
-  A_1 = A_0\circ\frob = \frob\circ A_0
+  A_1\circ[n](P) = [n]\circ\frobisog_{E'}(P')
+  \quad\text{for any $n$.}
 \end{equation*}
-is such that
-\begin{equation*}
-  A_1\bigl(x\bigl([n]P\bigr)\bigr) = x\bigl([n]\frobisog_{E'}(P')\bigr)
-  \quad\text{for any $n$,}
-\end{equation*}
-where $\frobisog_{E'}$ is the Frobenius endomorphism of $E'$.  Since
+$A_1$ has no poles at $E[p^k]$, thus it is a polynomial map; and since
 $\frobisog_{E'}(P')$ is a generator of $E'[p^k]$, $A_1$ is one of the
 polynomials that the algorithm C2 tries to identify to an isogeny. By
 iterating this construction we obtain $[\U_k:\F_q]/2$ different
@@ -52,22 +57,22 @@ each of them in order to deduce all the polynomials needed by C2.
 \subsection{Complexity analysis}
 We compute \eqref{eq:frob} via square-and-multiply, this costs
 $\Theta(d\Mult(p^kd)\log p)$ operations. Each application of
-\eqref{eq:modcomp} is done via a \emph{modular composition}, the cost
-is thus $O(\ModComp(p^k))$ operations in $\F_q$, that is
+\eqref{eq:modcomp} is done via a \hyperref[todo]{modular composition},
+the cost is thus $O(\ModComp(p^k))$ operations in $\F_q$, that is
 $O(\ModComp(p^k)\Mult(d))$ operations in $\F_p$. Using the algorithm
-of~\cite{KeUm08} for modular composition, the complexity of
+of~\cite{kedlaya+umans08} for modular composition, the complexity of
 C2-AS-FI-MC wouldn't be essentially different from the one of
-C2-AS-FI; however, in practice the fastest algorithm for modular
-composition is~\cite{BrKu78}, and in particular the variant
-in~\cite[Lemma 3]{KS98}, which has a worse asymptotic complexity, but
-performs better on the instances we treat in
+C2-AS-FI. However, in practice the fastest algorithm for modular
+composition is~\cite{brent+kung}, and in particular the variant
+in~\cite[Lemma~3]{kaltofen+shoup98}: these have worse asymptotic
+complexity, but perform better on the instances we treat in
 Section~\ref{sec:benchmarks}.
 
 Notice that a similar approach could be used inside the polynomial
 interpolation step (see Section \ref{sec:C2-AS-FI}) to deduce
 $A_k^{(0)}$ from $A_0^{(0)}$ using modular composition with the
 multiplication maps of $E$ and $E'$ as described in
-\cite[$\S$2.3]{Cou96}. This variant, though, has an even worse
+\cite[$\S$2.3]{couveignes96}. This variant, though, has an even worse
 complexity because of the cost of computing multiplication maps.
 
 
@@ -75,9 +80,10 @@ complexity because of the cost of computing multiplication maps.
 
 % Local Variables:
 % mode:flyspell
-% ispell-local-dictionary:"british"
+% ispell-local-dictionary:"american"
 % mode:TeX-PDF
-% TeX-master: "ec-isogeny"
+% mode:reftex
+% TeX-master: "../these"
 % End:
 %
 % LocalWords:  Schreier Artin pseudotrace Frobenius bivariate Joux Sirvent FFT

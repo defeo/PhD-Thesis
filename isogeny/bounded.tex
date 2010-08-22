@@ -1,38 +1,39 @@
-\section{Smallest degree isogeny}
+\section{Isogenies of unknown degree}
 \label{sec:bounded}
 
 We now present an extension to Couveignes algorithm that could be
-useful in cryptographic application. It is well known that two curves
-having the same number of points over a finite field are isogenous,
-however this doesn't say anything on the degree of the isogeny
-connecting them. Given two elliptic curves $E$ and $E'$ defined over
-$\F_q$ and having the same number of points, we want to find the
-smallest degree isogeny between them.
+useful in cryptographic application. Recall that two curves having the
+same number of points over a finite field are isogenous; however this
+doesn't say anything on the degree of the isogeny connecting
+them. Given two elliptic curves $E$ and $E'$ defined over $\F_q$ and
+having the same number of points, we want to find an $\F_q$-rational
+isogeny between them.
 
-The simplest solution is to take any algorithm computing a fixed
-degree isogeny and try all the degrees until an isogeny is found. If
+The simplest solution is to take any algorithm computing an isogeny of
+given degree, and try all the degrees until an isogeny is found. If
 $\ell$ is the degree of the smallest isogeny, this of course adds a
 factor $\ell$ to the complexity of any polynomial time algorithm.
 
 Couveignes' algorithm can be easily adapted to solve this problem at
-no additional cost. We call this algorithm C2SD and we will only
-discuss its most efficient variant C2SD-AS-FI.
+no additional cost. We call this algorithm C2-UD, all the variants of
+C2 presented until now also apply to C2-UD.
 
 Observe that, apart for the choice of $k$, the computation of $E[p^k]$
 and the polynomial interpolation step do not depend at all on
 $\ell$. The degree of the isogeny only comes into play in the last
-part of the Cauchy interpolation, that is the rational function
+part of the Cauchy interpolation, that is in the rational function
 reconstruction. We study more in detail this last step.
 
 
 \paragraph{Rational Function Reconstruction}
-Rational function reconstruction takes as input a degree $n$
-polynomial $T$, a polynomial $A$ of degree less than $n$ and a target
-degree $m\le n$ and outputs the unique rational function such that
+Recall from Section~\ref{todo} that rational function reconstruction
+takes as input a degree $n$ polynomial $T$, a polynomial $A$ of degree
+less than $n$ and a target degree $m\le n$ and outputs the unique
+rational function such that
 \begin{equation*}
   A \equiv \frac{R}{V} \bmod T
 \end{equation*}
-and $\deg R < m$, $\deg V \le n-m$. This is done by computing a Bezout
+and $\deg R < m$, $\deg V \le n-m$. This is done by computing a Bézout
 relation $AV + TU = R$ with the expected degrees via an XGCD
 algorithm. If a classical XGCD algorithm is used, one simply computes
 all the lines
@@ -45,8 +46,8 @@ all the lines
   \end{aligned}
 \end{equation}
 and stops as soon as a remainder $R_{i+1}$ with $\deg R_{i+1}<m$ is
-found. If a fast XGCD algorithm as \cite[Algo. 11.4]{vzGG} is used,
-one directly aims at the two lines
+found. If a fast XGCD algorithm is used, one directly aims at the two
+lines
 \begin{equation}
   \label{eq:FastGCD}
   \begin{aligned}
@@ -57,14 +58,14 @@ one directly aims at the two lines
 such that $\deg R_{h+1} < m \le \deg R_h$ without computing the
 intermediate lines.
 
-When looking for an $\ell$-isogeny, one simply sets
-$m=\ell+1$. Observe that if the algorithm doesn't return a rational
-fraction $\frac{R}{V}$ with $\deg R = \ell$ and $\deg V = \ell -1 $,
-then no such fraction congruent to $A$ modulo $T$ exists.
+In Couveignes' algorithm, when looking for an $\ell$-isogeny, one
+simply sets $m=\ell+1$. Observe that if the algorithm doesn't return a
+rational fraction $\frac{R}{V}$ with $\deg R = \ell$ and $\deg V =
+\ell -1 $, then no such fraction congruent to $A$ modulo $T$ exists.
 
 If $\ell$ is not \emph{a priori} known, we can still use the fact that
 a separable isogeny with cyclic kernel must have $\deg R = \deg V +
-1$. In fact if we suppose $R = R_i$ and $V = V_i$, then
+1$. In fact, if we suppose $R = R_i$ and $V = V_i$, then
 \begin{align*}
   \deg T &= \deg V_{i+1} + \deg R_i,\\
   \deg R_i - \deg V_i &= \deg R_{i-1} - \deg V_{i+1}
@@ -85,11 +86,11 @@ Hence, if $A$ is congruent to an $\ell$-isogeny with $\ell =
 \end{equation}
 Thus we can recover any isogeny having degree less than
 $\left\lfloor\frac{\deg T}{2}\right\rfloor$ using either a classical
-or a fast XGCD algorithm setting $m = \left\lceil\frac{\deg
+or a fast XGCD algorithm, setting $m = \left\lceil\frac{\deg
     T}{2}\right\rceil + 1$.
 
 
-\paragraph{Recognising an isogeny}
+\paragraph{Recognizing an isogeny}
 Once we have a rational fraction with the required degree, we have to
 test if it really is an isogeny. In order to understand how often we
 have to make this test, we introduce some more terminology. Let $n_i =
@@ -145,30 +146,39 @@ $A$ and $T$; a degree sequence is said \emph{normal} if $n_i = n_{i+1}
 Degree sequences associated to isogenies are in general not normal, in
 fact if $\ell\le\left\lfloor\frac{\deg T}{2}\right\rfloor-t$, equation
 \eqref{eq:degseq} shows that there must be at least a gap of degree
-$2c$ in the degree sequence. Heuristically, we can expect that if the
+$2t$ in the degree sequence. Heuristically, we can expect that if the
 polynomial $A$ doesn't correspond to an isogeny, then $A$ and $T$ act
 like random polynomials, thus, by the proposition above, the
 probability that $A$ looks like an isogeny of degree
 $\ell\le\left\lfloor\frac{\deg T}{2}\right\rfloor-t$ is less than $\frac{1}{q^{2t}}$.
 
-Therefore, by choosing an appropriate $t\in O(\log_q p^k)$, C2SD can
+Therefore, by choosing an appropriate $t\in O(\log_q p^k)$, C2-UD can
 find any isogeny of degree less than $\frac{p^k-1}{4}-t$ at the same
-cost of one run of C2. Also notice that C2SD is not restricted to
+cost of one run of C2. Also notice that C2-UD is not restricted to
 isogenies of degree prime to $p$ as it was already mentioned in
 Section \ref{sec:C2:non-prime}.
 
-No other method for computing isogenies is known to have a similar
-generalisation, this makes C2SD-AS-FI interesting for practical
-applications.
+This variant makes Couveignes' algorithm quite unique for various
+reasons. First of all, it is the first algorithm, other than trivial
+ones, to compute isogenies of unknown degree. Besides, no other
+algorithm to compute isogenies of fixed degree seems to have a similar
+variant (for example, BMSS requires $\ell$-normalized models, and
+Lercier-Sirvent uses $\Phi_\ell$). It is also interesting to notice
+that, while for computing isogenies of degree $\ell$ there is still a
+complexity gap between the large and small characteristic cases, C2-UD
+closes this gap in the unknown degree case. Finally, this variant
+explains somehow why Couveignes' algorithm is not optimal: because it
+solves another problem.
 
 
 
 
 % Local Variables:
 % mode:flyspell
-% ispell-local-dictionary:"british"
+% ispell-local-dictionary:"american"
 % mode:TeX-PDF
-% TeX-master: "ec-isogeny"
+% TeX-master: "../these"
+% mode:reftex
 % End:
 %
 % LocalWords:  Schreier Artin pseudotrace frobenius bivariate Joux Sirvent FFT

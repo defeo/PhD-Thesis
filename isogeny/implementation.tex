@@ -1,21 +1,23 @@
-\section{Implementation}
+In this chapter we describe the implementations we made of the
+algorithms of the previous chapter and some experimental results.
+
+\section{Implementation of Couveignes' algorithm}
 \label{sec:implementation}
 
 We implemented C2-AS-FI-MC as \texttt{C++} programs using the
-libraries \texttt{NTL}~\cite{NTL} for finite field arithmetics,
-\texttt{gf2x}~\cite{gf2x} for fast arithmetics in characteristic $2$
-and \texttt{FAAST}~\cite{DFS09} for fast arithmetics in Artin-Schreier
-towers.
-
-This section mainly deals with some tricks we implemented in order to
-speed up the computation. At the end of the section we briefly discuss
-the implementation we made in Magma~\cite{MAGMA} of the algorithm
-in~\cite{LeSi09}.
+libraries \texttt{NTL}~\cite{shoup2003ntl} for finite field
+arithmetics, \texttt{gf2x}~\cite{gf2x} for fast arithmetics in
+characteristic $2$ and \texttt{FAAST} (see
+Section~\ref{sec:artin-benchmarks}) for fast arithmetics in
+Artin-Schreier towers.  We also have a Magma~\cite{MAGMA} prototype of
+the same algorithm, not making use of the fast algorithms of
+Chapter~\ref{cha:artin-schr-towers}.  This section mainly deals with
+some tricks we implemented in order to speed up the computation.
 
 \subsection{Building $E[p^k]$ and $E'[p^k]$}
 \label{sec:impl:torsion}
 
-\paragraph{$p$-torsion}
+\paragraph{$p$-Torsion}
 For $p\ne2$, C2 and its variants require to build the extension
 $\F_q[c]$ where $c$ is a $p-1$-th root of $H_E$. In order to deal with
 the lowest possible extension degree, it is a good idea to modify the
@@ -35,56 +37,57 @@ In order to compute the $p^k$-torsion points of $E$ we build
 $\F_q[c^2]$, we compute $\bar{P}$ a $p^k$-torsion points of $\bar{E}$
 using $p$-descent, then we invert the isomorphism to compute the
 abscissa of $P\in E[p^k]$. Since the Cauchy interpolation only needs
-the abscissae of $E[p^k]$, this is enough to complete the
+the abscissas of $E[p^k]$, this is enough to complete the
 algorithm. Scalar multiples of $P$ can be computed without knowledge
-of $y(P)$ using Montgomery formulae \cite{Mon87}.
+of $y(P)$ using \hyperref[rk:montgomery]{Montgomery formulas}.
 
 Remark that for $p=2$ we use the same construction in an implicit way
 since we do a $p$-descent on the Kummer surface.
 
 
-\paragraph{$p^k$-torsion points}
+\paragraph{$p^k$-Torsion points}
 For $p\ne2$ we use Voloch's $p$-descent to compute the $p^k$-torsion
 points iteratively as described in Section \ref{sec:C2}. To factor the
 Artin-Schreier polynomial \eqref{th:voloch:cover}, we use the
-algorithms from \cite{Cou00} and \cite{DFS09} that were analysed in
-Section \ref{sec:C2-AS}. All these algorithms were provided by the
-library \texttt{FAAST}.
+algorithms from Section~\ref{sec:couveignes-algorithm} implemented in
+\texttt{FAAST}.
 
 To solve system \eqref{th:voloch:isom} we first compute
 \begin{equation*}
   V(x,y) = \left(\frac{g(x)}{h^2(x)}, 
     sy\left(\frac{g(x)}{h^2(x)}\right)'\right)
 \end{equation*}
-through Vélu formulae.\footnote{Vélu formulae compute this isogeny up
-  to an indeterminacy on the sign of the ordinate, the actual value of
-  $s$ must be determined by composing $V$ with $\frobisog$ and
-  verifying that it corresponds to $[p]$ by trying some random
-  points.} Recall that we work on a curve having Hasse invariant $1$,
-system \eqref{th:voloch:isom} can then be rewritten
+through \hyperref[sec:velu-formulas]{Vélu formulas}.\footnote{Vélu
+  formulas compute this isogeny up to an indeterminacy on the sign of
+  the ordinate, the actual value of $s$ must be determined by
+  composing $V$ with $\frobisog$ and verifying that it corresponds to
+  $[p]$ by trying some random points.} Recall that we work on a curve
+having Hasse invariant $1$, system \eqref{th:voloch:isom} can then be
+rewritten
 \begin{equation*}
   \left\{
     \begin{aligned}
-      X &= \frac{g(x)}{h^2(x)}\\
-      Y &= sy\left(\frac{g(x)}{h^2(x)}\right)'\\
-      Z &= -2y\frac{h'(x)}{h(x)}
+      \tilde{x}(P) &= \frac{g(x)}{h^2(x)}\\
+      \tilde{y}(P) &= sy\left(\frac{g(x)}{h^2(x)}\right)'\\
+      \tilde{z}(P) &= -2y\frac{h'(x)}{h(x)}
     \end{aligned}
   \right.
 \end{equation*}
-where $(X,Y,Z)$ is the point on the cover $C$ that we want to pull
-back. After some substitutions this is equivalent to
+where $P$ is the point on the cover $C$ that we want to pull back
+($\tilde{x}(P)$, $\tilde{y}(P)$ and $\tilde{z}(P)$ are just its
+coordinates). After some substitutions this is equivalent to
 \begin{equation*}
   \left\{
     \begin{aligned}
-      Xh^2(x) - g(x) &= 0\\
-      \left(Xh^2(x) - g(x) - \frac{Y}{sZ}h^2(x)\right)' &= 0
+      \tilde{x}(P)h^2(x) - g(x) &= 0\\
+      \left(\tilde{x}(P)h^2(x) - g(x) - \frac{\tilde{y}(P)}{s\tilde{x}(P)}h^2(x)\right)' &= 0
     \end{aligned}
   \right.
 \end{equation*}
-Then a solution to this system is given by the GCD of the two
+Then a solution in $x$ to this system is given by the GCD of the two
 equations. Remark that proposition \ref{th:voloch} ensures there is
-one unique solution. This formulae are slightly more efficient than
-the ones in \cite[$\S$6.2]{Ler97}.
+one unique solution. This formulas are slightly more efficient than
+the ones in \cite[$\S$6.2]{lercier-algorithmique}.
 
 For $p=2$ we use the library \texttt{FAAST} (for solving
 Artin-Schreier equations) on top of \texttt{gf2x} (for better
@@ -123,18 +126,17 @@ this phase is very easy to parallelise with very few overhead.
 Let $n$ be the number of processors we wish to parallelise on, suppose
 that $[\U_k:\F_q]$ is maximal, then we make only one interpolation
 followed by $\euler(p^k)/2$ modular compositions.\footnote{If
-  $[\U_k:\F_q]$ is not maximal, the parallelisation is straightforward
-  as we simply send one interpolation to each processor in turn.} We
-set $m=\left\lfloor\frac{\euler(p^k)}{2n}\right\rfloor$ and we compute
-the action of $\frob^{m}$ on $E[p^k]$ as in
+  $[\U_k:\F_q]$ is not maximal, the parallelisation is
+  straightforward: we simply send one interpolation to each processor
+  in turn.} We set $m=\left\lfloor\frac{\euler(p^k)}{2n}\right\rfloor$
+and we compute the action of $\frobisog^{m}$ on $E[p^k]$ as in
 Section~\ref{sec:C2-AS-FI-MC}:
 \begin{equation*}
   F^{(m)}(X) = F(X) \circ \cdots \circ F(X) \bmod T(X)
   \;\text{,}
 \end{equation*}
 this can be done with $\Theta(\log m)$ modular compositions via a
-binary square-and-multiply approach as in~\cite[Algorithm
-5.2]{vzGS92}.
+binary square-and-multiply approach as in Section~\ref{todo}.
 
 Then we compute the $n$ polynomials
 \begin{equation*}
@@ -145,44 +147,82 @@ separate slice of the $A_i$'s. The only overhead is $\Theta(\log
 (\ell/n))$ modular compositions with coefficients in $\F_q$, this is
 acceptable in most cases.
 
+\section{Implementation of C2-UD}
+\label{sec:implementation-c2-ud}
+We modified our \texttt{C++} implementation of C2-AS-FI-MC to obtain
+two variants of C2-UD.
 
-\subsection{Implementation of~\cite{LeSi09}}
-In order to compare our implementation with the state-of-the-art
-algorithms, we implemented a Magma prototype of~\cite{LeSi09}; in what
-follows, we will refer to this algorithm as LS. The algorithm
-generalises~\cite{BoMoSaSc08} by lifting the curves in the $p$-adics
-to avoid divisions by zero. Given two curves $E$ and $E'$ and an
-integer $\ell$, it performs the following steps
-\begin{enumerate}
-\item Lift $E$ to $\bar{E}$ in $\Q_q$,
-\item Lift the modular polynomial $\Phi_\ell$ to $\bar{\Phi}_\ell$ in
-  $\Q_q$,
-\item Find a root in $\Q_q$ of $\bar{\Phi}(X,j_{\bar{E}})$ that
-  reduces to $j_{E'}$ in $\F_q$,
-\item Apply~\cite{BoMoSaSc08} in $\Q_q$ to find an isogeny between
-  $\bar{E}$ and $\bar{E}'$,
-\item Reduce the isogeny to $\F_q$.
-\end{enumerate}
+The first one takes an integer $k$ and looks for all isogenies of
+degree $p^c\ell$ with $\ell$ prime to $p$, $\ell<\euler(p^k)/4$
+and $c$ arbitrary. This is done by slightly modifying the modular
+composition step of Section~\ref{sec:C2-AS-FI-MC}. Suppose we know an
+interpolating polynomial $A_0$, that we view as a morphisms $E[p^k]\ra
+E'[p^k]$ such that
+\begin{equation}
+  \label{eq:184}
+  A_0\circ[n](P) = [n](P')
+  \quad\text{for any $n$.}
+\end{equation}
+Then we compose with the Frobenius isogeny $\frobisog$
+\begin{equation}
+  \label{eq:185}
+  A_1 \eqdef \frobisog\circ A_0:E[p^k]\ra {E'}^{(p)}[p^k]
+  \text{,}
+\end{equation}
+where ${E'}^{(p)}$ is the curve
+\begin{equation}
+  \label{eq:186}
+  E^{(p)}\;:\; y^2 = x^3+{a'}^px + {b}'^p
+  \text{.}
+\end{equation}
+So $A_1$ is one of the polynomials that Couveignes algorithm computes
+when looking for an isogeny between $E$ and ${E'}^{(p)}$. If $q=p^d$,
+iterating $d$ times this construction, we fall back on $E'$, as we
+would have if we had directly applied the
+\hyperref[sec:curves-over-finite]{Frobenius automorphism} as in
+Section~\ref{sec:C2-AS-FI-MC}. Thus, paying an additional factor of
+$\log_p q$, we can compute any isogeny of degree $p^c\ell$ with
+arbitrary $c$ and $\ell$ bounded as before.
 
-We implemented this algorithm using Magma support for the
-$p$-adics. Instead of the classical modular polynomials $\Phi_\ell$ we
-used Atkin's canonical polynomials $\Phi^\ast_\ell$ since they have
-smaller coefficients and degree; this does not change the other steps
-of the algorithm. The modular polynomials were taken from the tables
-precomputed in Magma.
+When $\log_pq$ is large, the previous variant becomes unpractical. We
+implemented a second variant using the algorithm described in
+Section~\ref{sec:C2:non-prime}, this allows to compute any isogeny of
+degree $\ell\le\euler(p^k)/4$, even if $p$ divides $\ell$. The
+asymptotic cost of this variant is the same as one run of C2-AS-FI-MC,
+because the search for $\ell$ prime to $p$ dominates.
 
-The bottleneck of the algorithm is the use of the modular polynomial
-as its bit size is $O(\ell^3)$, thus LS is asymptotically worse in
-$\ell$ than C2. However the next section will show that LS is more
-practical than C2 in many circumstances.
 
+
+\section{Implementation of Lercier-Sirvent}
+We implemented a Magma prototype of BMSS and Lercier-Sirvent. In both
+cases we did not take Remark~\ref{rk:bmss} into account, and only
+implemented the variant using rational fraction reconstruction. We
+used Magma native support for $p$-adics to construct the field $\Q_q$.
+
+Both implementations differ from the description we gave in
+Sections~\ref{sec:bmss} and~\ref{sec:lercier-sirvent} in that they
+only take the degree $\ell$ and the equation of $E$ as input, and
+compute an $\F_q$-isogenous curve, if it exists, by factoring the
+modular polynomial in $\F_q[X]$.
+
+Instead of the classical modular polynomials $\Phi_\ell$ we used
+Atkin's canonical polynomials $\Phi^\ast_\ell$ since they have smaller
+coefficients and degree; this does not change the other steps of the
+algorithm. 
+
+The modular polynomials were not computed on the fly as suggested in
+Section~\ref{sec:lercier-sirvent}, instead they were taken from the
+tables precomputed in Magma. This implies that the implementation has
+an asymptotic complexity cubic in $\ell$, however we will see that
+even this implementation behaves well in practice.
 
 
 % Local Variables:
 % mode:flyspell
-% ispell-local-dictionary:"british"
+% ispell-local-dictionary:"american"
 % mode:TeX-PDF
-% TeX-master: "ec-isogeny"
+% TeX-master: "../these"
+% mode:reftex
 % End:
 %
 % LocalWords:  Schreier Artin pseudotrace Frobenius bivariate Joux Sirvent FFT
