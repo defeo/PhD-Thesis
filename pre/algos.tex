@@ -1,0 +1,75 @@
+\section{Asymptotic complexity}
+\label{sec:asympt-compl}
+Many algorithms below rely on fast multiplication; thus, we let $\Mult
+: \N \rightarrow \N$ be a {\em multiplication function}, such that
+polynomials in $\F_p[X]$ of degree less than $n$ can be multiplied in
+$\Mult(n)$ operations, under the conditions of~\cite[Ch.~8.3]{vzGG}.
+Typical orders of magnitude for $\Mult(n)$ are $O(n^{\log_2(3)})$ for
+Karatsuba multiplication or $O(n\log (n) \log\log (n))$ for FFT
+multiplication. Using fast multiplication, fast algorithms are
+available for Euclidean division or extended GCD~\cite[Chapter~9 \&
+11]{vzGG}.
+
+The cost of {\em modular composition}, that is, of computing $F(G)
+\bmod H$, for $F,G,H\in\F_p[X]$ of degrees at most $n$, will be
+written $\ModComp(n)$. We refer to~\cite[Chapter~12]{vzGG} for a
+presentation of known results in an algebraic computational model: the
+best known algorithms have subquadratic (but superlinear) cost in
+$n$. Note that in a boolean RAM model, the algorithm of~\cite{KeUm08}
+takes quasi-linear time.
+
+\section{Fundamental algorithms}
+\label{sec:fund-algor}
+In this section we review some fundamental algorithms that we will
+repeatedly use in the rest of the document. Most of the algorithms we
+present are taken from~\cite{vzGG}; another source of inspiration
+is~\cite{todo}.
+
+\paragraph{Polynomial multiplication}
+Multiplication of polynomials with coefficients in a ring is a
+fundamental brick to which most of the algorithms in computer algebra
+reduce. See \cite[Chapter~9]{vzGG} for a complete account.
+
+In the previous section we introduced the notation $\Mult(n)$ to
+denote the number of operations in $R$ required to multiply two
+polynomials of degree at most $n$ in $R[X]$.  Using the school-book
+algorithm, we have $\Mult(n) = O(n^2)$. The first major step forward
+in the complexity of multiplication was done by Karatsuba.  While a
+naive algorithm would make $4$ recursive calls, Karatsuba's makes only
+$3$. It follows that its complexity is $O(n^{\log_23})$.
+
+\begin{algorithm}
+  \caption{Karatsuba multiplication}
+  \begin{algorithmic}
+    \STATE Let $f = f_1X^{n/2} + f_2$, $g = g_1X^{n/2} + g_2$;
+    \STATE compute $p_1 = (f_1 + f_2)(g_1 + g_2)$;
+    \STATE compute $p_2 = f_1g_1$;
+    \STATE compute $p_3 = f_2g_2$;
+    \STATE return $p_3X^n + (p_1-p_2-p_3)X^{n/2} + p_2$.
+  \end{algorithmic}
+\end{algorithm}
+
+When the base ring $R$ is a field containing \emph{enough} roots of
+unit, algorithms based on the Fast Discrete Fourier Transform achieve
+a complexity of $O(n\log n)$.
+
+
+Newton inversion (vzGG chap
+11), matrix multiplication, modular composition, GCD
+\cite[$\S$11.1]{vzGG}, rational fraction reconstruction
+\cite[$\S$5.8]{vzGG} ,chinese remainder, subproduct tree
+(~\cite[Algorithm~10.3]{vzGG}), interpolation
+\cite[$\S$10.2]{vzGG},transposed mod,frobenius composition(vzGS92
+Algorithm~5.2),Kronecker substitution (vzGS92)\ldots
+
+Transposed mod (or maybe later)
+Bivariate operations (some Pascal-Schost and some Li-Moreno-Schost) ?
+
+
+%%% Local Variables: 
+%%% mode:flyspell
+%%% ispell-local-dictionary:"american"
+%%% mode: TeX-PDF
+%%% mode: reftex
+%%% TeX-master: "../these"
+%%% End: 
