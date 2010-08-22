@@ -1,0 +1,422 @@
+\section{BMSS}
+\label{sec:bmss}
+In this section we present the BMSS
+algorithm~\cite{bostan+morain+salvy+schost08} to compute isogenies of
+degree $\ell\ne p$ in characteristic $0$ or $p\gg\ell$. It takes as
+input the integer $\ell$ and two elliptic curves $E$ and $E'$ over a
+finite field $\F_q$ defined by \emph{normalized models}. It outputs
+the explicit isogeny using $O(\Mult(\ell)\log\ell)$ operations in
+$\F_q$, or $O(\Mult(\ell))$ in case the sum of the abscissae of the
+kernel of the isogeny is known.
+
+Because of the assumption on the characteristic, we can assume curves
+to be in \hyperref[th:simplified-weierstrass]{simplified Weierstrass
+  form}
+\begin{equation}
+  \label{eq:140}
+  \begin{aligned}
+    E \;&:\: y^2 = x^3 + ax + b\text{,}\\
+    E'\;&:\; y^2 = x^3 + a'x + b'\text{.}
+  \end{aligned}
+\end{equation}
+Then, any isogeny $\I:E\ra E'$ of odd degree is of the form
+\begin{equation}
+  \label{eq:149}
+  \I(x,y) = \left(\frac{g(x)}{h(x)},cy\left(\frac{g(x)}{h(x)}\right)'\right)
+  \text{,}
+\end{equation}
+with $c\in\clot{\K}$, and $g,h$ monic polynomials in $\clot{\K}[X]$
+(this is a consequence of \hyperref[eq:159]{Vélu formulas}).
+
+\begin{definition}[Normalized isogeny]
+  \label{def:canon-isog}
+  An explicit isogeny given by Eq.~\eqref{eq:149} is said to be
+  \index{normalized~isogeny}\index{isogeny!normalized}\emph{normalized}
+  if $c=1$. 
+
+  Given two $\ell$-isogenous curves $E$ and $E'$, Weierstrass
+  equations for them such that the explicit $\ell$-isogeny
+  $\I:E\ra E'$ is normalized, are called
+  \index{normalized~model}\emph{$\ell$-normalized models} for those
+  elliptic curves.
+\end{definition}
+
+Normalized models naturally arise in point counting. In fact in the
+Schoof-Elkies-Atkin
+algorithm~\cite{atkin88,elkies92,elkies98,schoof95} one factors the
+modular polynomial $\Modpol_\ell$ to obtain $j$-invariants of curves
+$\ell$-isogenous to $E$. Using the partial derivatives of
+$\Modpol_\ell$ it is possible to obtain normalized models for such
+curves, details can be found in
+\cite{schoof95,morain95,elkies98,lercier-algorithmique}. It is also
+noteworthy that Vélu formulas output normalized models and a
+normalized isogeny.
+
+As we have seen in Section~\ref{sec:curves-over-c}, $E$ is isomorphic
+to a complex torus $\C/\Lambda$ via the map
+\begin{equation}
+  \label{eq:154}
+  z \mapsto \left(\wp(z), \frac{\wp'(z)}{2}\right)
+  \text{,}
+\end{equation}
+where $\wp$ is the Weierstrass function of $\Lambda$, satisfying the
+differential equation
+\begin{equation}
+  \label{eq:156}
+  {\wp'}^2 = 4(\wp^3 + a\wp + b)
+  \text{.}
+\end{equation}
+The key idea is to deduce a differential equation satisfied by the
+isogeny and then use the techniques of Section~\ref{sec:fund-algor} to
+find its Laurent series expansion.
+
+Our goal is to compute the rational fraction $\frac{g(x)}{h(x)}$. From
+the fact that $\I$ is normalized and from Eq.~\eqref{eq:156} we deduce
+\begin{equation}
+  \label{eq:166}
+  (x^3 + ax + b){\left(\frac{g(x)}{h(x)}\right)'}^2 =
+  \left(\frac{g(x)}{h(x)}\right)^3 + a'\frac{g(x)}{h(x)} + b'
+  \text{.}
+\end{equation}
+However, we do not know the initial conditions at $0$, and we cannot
+look for an expansion at infinity either because the degree of $g$ is
+greater than the degree of $h$.
+
+Instead we set
+\begin{equation}
+  \label{eq:167}
+  S(x) = \sqrt{\frac{h(1/x^2)}{g(1/x^2)}}
+  \quad\Leftrightarrow\quad
+  \frac{g(x)}{h(x)} = \frac{1}{S(1/\sqrt{x})^2}
+  \text{,}
+\end{equation}
+so that $S(x) = x + O(x^3)$ from the monicity of $g$ and $h$. Now
+$S(x)$ satisfies the differential equation
+\begin{equation}
+  \label{eq:168}
+  (bx^6 + ax^4 + 1){S'}^2 = 1 + a'S^4 + b'S^6
+  \text{,}
+\end{equation}
+hence we can use a Newton iteration to find a power series
+solution. In~\cite[2.4]{bostan+morain+salvy+schost08}, a generic
+iteration to solve Eq.~\eqref{eq:168} is used; here we present a more
+efficient iteration due to Lercier and
+Sirvent~\cite{lercier+sirvent08}.
+
+Let 
+\begin{equation}
+  \label{eq:169}
+  G = \frac{1}{1 + ax^4 + bx^6}
+  \text{,}\qquad
+  H = 1 + a't^4 + b't^6
+  \text{,}
+\end{equation}
+Lercier and Sirvent give an algorithm to find a solution in $\K[[x]]$
+\begin{equation}
+  \label{eq:170}
+  {S'}^2 = (H\circ S)G
+\end{equation}
+for any $G\in\K[[x]]$ and $H\in\K[t]$.
+
+
+\begin{algorithm}
+  \label{alg:le-si-diff}
+  \caption{Diffeq}
+  \begin{algorithmic}[1]
+    \REQUIRE $\mu>1$, $\alpha\in\K$, $\beta\in\K^\ast$, $H\in\K[t]$, $G\in\K[[x]]$.
+    \ENSURE $S\in\K[[x]]$, solution to ${S'}^2=(H\circ S)G$ modulo $x^{2^\mu}$.
+    \STATE let $U \la 1/\beta +O(x^2)$, $J \la 1 + O(x^2)$, $V \la 1 + O(x^2)$;
+    \STATE let $S \la \alpha + \beta x +  \frac{G'(0)H(\alpha) + G(0)G('\alpha)\beta}{4\beta}x^2+O(x^3)$;
+    \FORALL {$d\in[2^2, \ldots, 2^\mu]$}
+    \STATE \label{alg:le-si-diff:int}$S \la S + V\int\left((H\circ S)G - {S'}^2\right)UJ/2 + O(x^{d+1})$;
+    \STATE $U \la U(2 - S' U) + O(x^{d+1})$;
+    \STATE $V \la (V +  (H\circ S) J (2 - VJ))/2 + O(x^{d+1})$;
+    \STATE $J \la J(2-VJ)) + O(x^{d+1})$;
+    \ENDFOR
+    \STATE output $S$.
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}
+  Let $\K$ be a field of characteristic $0$ or $p>2^\mu$. Let
+  $\alpha,\beta,H,G$ be the inputs to algorithm~\ref{alg:le-si-diff}
+  such that $G(0)H(\alpha)=\beta^2$. Then the algorithm computes a
+  solution to
+  \begin{equation}
+    \label{eq:171}
+    {S'}^2 = (H\circ S)G
+    \text{,}\quad
+    S(0) = \alpha
+    \text{,}\quad
+    S'(0) = \beta
+  \end{equation}
+  modulo $x^{2^\mu}$ in time $O(\Mult(2^{\mu}))$.
+\end{theorem}
+\begin{proof}
+  The complete proof is quite long and can be found
+  in~\cite{lercier+sirvent08}; here we just give a sketch of it.
+
+  Let $t$ be a solution to Eq.~\eqref{eq:171} modulo $x^{d+1}$ and let
+  $h$ be such that 
+  \begin{equation}
+    \label{eq:175}
+    S = t + h \mod x^{2d+1}
+    \text{,}
+  \end{equation}
+  so that $x^{d+1}$ divides $h$.  Then $x^{2d}$ divides ${h'}^2$ and,
+  by Eq.~\eqref{eq:171}
+  \begin{equation}
+    \label{eq:176}
+    2t'h' + {t'}^2 = G(x)H(t+h) \mod x^{2d}
+    \text{.}
+  \end{equation}
+  Using the Taylor expansion of $H$ at $t$, we get the linearized
+  differential equation
+  \begin{equation}
+    \label{eq:177}
+    2y'h' + {y'}^2 = G(x)H(t) + G(x)H'(t)h
+    \mod x^{2d}
+  \end{equation}
+  with initial condition $t(0)=0$. By \ref{todo}, this equation has
+  solution
+  \begin{equation}
+    \label{eq:178}
+    h = \frac{1}{J} \int \frac{(G(x)H(t) - {t'}^2)J}{2t'}\diff x
+    \text{,}
+  \end{equation}
+  where $J$ is 
+  \begin{equation}
+    \label{eq:179}
+    J=\exp\left(-\int\frac{G(x)H'(t)}{2t'}\diff x\right)
+    \text{.}
+  \end{equation}
+
+  The key observation is that, in order to compute the above solution
+  to precision $x^{2d+1}$, $J$ must only be known to precision
+  $x^d$. But $t$ is a solution of~\eqref{eq:171} modulo $x^{d+1}$, thus 
+  \begin{equation}
+    \label{eq:172}
+    \frac{G(x)H'(t)}{2t'} = \frac{H'(t)t'}{2H(t)} \mod x^d
+    \text{,}
+  \end{equation}
+  hence
+  \begin{equation}
+    \label{eq:173}
+    J = \exp\left(-\frac{1}{2}\log H(t)\right) = \frac{1}{\sqrt{H(t)}}
+    \text{.}
+  \end{equation}
+
+  Then, at each iteration, the algorithm computes the quantities
+  \begin{equation}
+    \label{eq:174}
+    S,\quad U = 1/S',\quad V = \sqrt{H\circ S},\quad J = 1/V
+  \end{equation}
+  doubling the precision at each iteration. Since the only operations
+  are integrals and multiplications of power series, the $i$-th
+  iteration costs $O(\Mult(2^i))$ operations in $\K$, thus the last
+  iteration dominates the complexity.
+\end{proof}
+
+
+Then, the algorithm to compute the isogeny goes as follows.  The power
+series expansion of $S$ is computed to precision $4\ell$, then we set
+\begin{equation}
+  \label{eq:180}
+  S(x) = xT(x^2)
+  \text{,}\quad
+  R(x) = \frac{1}{T(x)^2}
+  \text{,}\quad\text{so that}\quad
+  \frac{g(x)}{h(x)} = xU(1/x)
+  \text{.}
+\end{equation}
+Finally, the rational fraction is recovered by rational fraction
+reconstruction; the overall complexity is dominated by this last step.
+
+\begin{algorithm}
+  \caption{BMSS}
+  \begin{algorithmic}[1]
+    \REQUIRE $\ell>1$, $\ell$-normalized models of $E$ and $E'$ .
+    \ENSURE An isogeny $\I:E\ra E'$ of degree $\ell$.
+    \STATE Compute $G(x) = 1/(1 + ax^4 + bx^6) \mod x^{4\ell-1}$;
+    \STATE find $S(x)\bmod x^{4\ell-1}$ using Algorithm~\ref{alg:le-si-diff};
+    \STATE let $T(x) = \sum_{i=0}^{2\ell-1}s_{2i+1}x^i$;
+    \STATE compute $U(x) = 1/T(x)^2 \mod x^{2\ell-1}$;
+    \STATE compute $\frac{g(x)}{h(x)}$ by rational fraction reconstruction.
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{remark}
+  \label{rk:bmss}
+  Alternatively, if the sum of the abscissae of the kernel
+  \begin{equation}
+    \label{eq:182}
+    p_1 = \sum_{Q\in G^\ast}x(Q)
+  \end{equation}
+  is known, we can avoid the rational fraction reconstruction.
+
+  The idea is to recover the Newton sums $p_0,\ldots,p_{\ell-1}$ of
+  $h$ from $\frac{g(x)}{h(x)}$. From Eq.~\eqref{eq:165} we deduce
+  \begin{equation}
+    \label{eq:181}
+    \begin{gathered}
+      \frac{g(x)}{h(x)} = x + \sum_{i\ge1}\frac{h_i}{x^i}\text{,}\\
+      h_i = (2i+1)p_{i+1} + a(2i-1)p_{i-1} + 2b(i-1)p_{i-2}
+      \quad\text{for $i\ge1$;}
+    \end{gathered}
+  \end{equation}
+  thus, knowing $p_0=\ell-1$ and $p_1$ is enough to compute all the
+  Newton sums up to $p_{\ell-1}$ in time $O(\ell)$.
+
+  From the power sums, we can recover $h(x)$ using
+  Remark~\ref{rk:newton-sums} in $O(\Mult(\ell))$ operations. Then,
+  $g(x)$ is obtained simply multiplying $\frac{g(x)}{h(x)}$ by $h(x)$,
+  again in $\Mult(\ell)$ operations.
+
+  Using this approach, we gain a logarithmic factor compared to the
+  rational fraction reconstruction; and the number of coefficients of
+  $S(x)$ to compute goes down to $2\ell$. This is similar to the
+  trade-off we had in Remark~\ref{rk:shoups-algorithm-1}.
+
+  The knowledge of $p_1$ (i.e., the coefficient of $x^{\ell-2}$ in
+  $h$) may seem a rather bizarre requirement; however, in the
+  Schoof-Elkies-Atkin algorithm this information comes for free from
+  the derivatives modular polynomial (see~\cite{elkies98,morain95}),
+  and this is why this algorithm has been developed.
+\end{remark}
+
+
+
+\section{Lercier-Sirvent}
+\label{sec:lercier-sirvent}
+The integral at step~\ref{alg:le-si-diff:int} requires divisions by
+all the integers in the interval $[1,\ldots,2^\mu]$, thus, when
+$2^{\lceil\log_2(4\ell-1)\rceil}>p$,  BMSS encounters a division by
+$0$. A natural idea is to work in characteristic $0$ by lifting the
+curves in the $p$-adics. However, lifting the Weierstrass models of
+$E$ and $E'$, there is no guarantee of obtaining a pair of
+$\ell$-normalized models, thus BMSS cannot apply.
+
+To circumvent this problem, Lercier and
+Sirvent~\cite{lercier+sirvent08} use Elkies formulas to obtain
+normalized models in the $p$-adic, and then apply BMSS. The algorithm
+is summarized below; it requires $p\ge5$ and it makes computations in
+an unramified extension of degree $d$ of $\Q_p$, denoted by $\Q_q$.
+
+\begin{algorithm}
+  \label{alg:le-si}
+  \caption{Lercier-Sirvent}
+  \begin{algorithmic}[1]
+    \REQUIRE $\ell>1$, $E,E'$ $\ell$-isogenous defined over $\F_q$.
+    \ENSURE An isogeny $\I:E\ra E'$ of degree $\ell$.
+
+    \STATE \label{alg:le-si:lift1}Take any lift
+    $\bar{E}\;:\;y^2=x^3+\bar{a}x+\bar{b}$ of $E$ in $\Q_q$;
+    
+    \STATE \label{alg:le-si:modpol}Compute a root $\bar{j}'$ of
+    $\Modpol_\ell(X,j_{\bar{E}})$ in $\Q_q$ by lifting the solution
+    $j_{E'}$;
+    
+    \STATE \label{alg:le-si:elkies} Compute an $\ell$-normalized model
+    $\bar{E}'':y^2=x^3+\bar{a}'x+\bar{b}$ for $\bar{j}'$;
+    
+    \STATE \label{alg:le-si:bmss}Apply BMSS to $\bar{E}$ and
+    $\bar{E}''$ to obtain $\bar{\I}:\bar{E}\ra\bar{E''}$;
+    
+    \STATE \label{alg:le-si:reduce}Reduce $\bar{E}''$ and $\bar{\I}$
+    to $E''$ and $\I$ modulo $p$;
+    
+    \STATE \label{alg:le-si:isom}Apply an isomorphism $E'\isom E''$ to
+    recover $\I:E\ra E'$.
+  \end{algorithmic}
+\end{algorithm}
+
+Step~\ref{alg:le-si:elkies} uses Elkies formulas~\cite{elkies98} to
+find the $\ell$-normalized model of $\bar{j}'$; these formulas allow
+to compute a normalized model from the knowledge of
+$\partial\Modpol_\ell/\partial X$ and $\partial\Modpol_\ell/\partial
+Y$, and the sum of the abscissas of the kernel from the knowledge of
+$\partial^2\Modpol_\ell/\partial X^2$,
+$\partial^2\Modpol_\ell/\partial x\partial Y$ and
+$\partial^2\Modpol_\ell/\partial Y^2$, using $O(\ell^2)$
+operations in the base field ($\Q_q$, in this case). Analogous
+formulas exist for other types of modular polynomials, we address the
+interested reader
+to~\cite{schoof95,morain95,elkies98,lercier-algorithmique}. Notice
+that this step fails when $(j_E,j_{E'})$ is a singular point of the
+curve $X_0(\ell)$; this condition is very rare for ordinary curves of
+large discriminant, as pointed out in~\cite[$\S7$]{schoof95}.
+
+\begin{nota}
+  In~\cite{lercier+sirvent08}, Lercier and Sirvent say:
+  \begin{quote}
+    ``For $p = 2$ (or $p = 3$), Weierstrass models of the form $y^2 + xy
+    = x^3 + a_2 x^2 + a_6$ (or $y^2 = x^3 + a_2 x^2 + a_6$) must be
+    considered. This yields completely different equations\dots [The
+    algorithm] can be easily extended to these fields but for the
+    sake of simplicity we prefer to omit the details here.''
+  \end{quote}
+  
+  However, in the cases $p=2,3$, Elkies formulas yield a curve over
+  $\Q_q$ that reduces badly in $\F_q$. For this reason we were not
+  able to derive the aforementioned generalization.
+\end{nota}
+
+Computations in $\Q_q$ must be approximated to a certain
+precision. Lercier and Sirvent show the following fundamental
+property.
+
+\begin{proposition}
+  If $p\ge5$, on inputs $\ell$, $E$, $E'$, the previous algorithm
+  computes the correct answer using at most $O(\log^2\ell/\log p)$
+  $p$-adic digits.
+\end{proposition}
+
+Building on this, we now analyze the complexity of the algorithm.
+
+\begin{proposition}
+  \label{th:lercier-sirvent}
+  Algorithm~\ref{alg:le-si} computes an $\ell$-degree isogeny in
+  $\tildO_{\ell,\log q}(\ell^2\log q)$ operations in $\F_p$.
+\end{proposition}
+\begin{proof}
+  We do not take into account the complexity of building the field
+  $\Q_q$. Lifting $E$ in $\Q_q$ can be done for free by taking a
+  trivial lift. The coefficients of the modular polynomial $\Phi_\ell$
+  need only be computed modulo $p^{\log^2\ell/\log p}$, this has a
+  binary complexity of $O(\ell^2\log^2\ell)$ using the techniques
+  of~\cite{sutherland10:modpol}.
+
+  Step~\ref{alg:le-si:modpol} can be done in $\tildO(\ell\log q)$
+  using Hensel lifting. Step~\ref{alg:le-si:elkies} takes $O(\ell^2)$
+  operations in $\Q_q$, that is $\tildO(\ell^2\log q)$. BMSS takes
+  $O(\Mult(\ell)\log\ell)$ operations in $\Q_q$ at worse (better if
+  the sum of the abscissas of the kernel of the isogeny is computed by
+  Elkies formulas), that is $\tildO(\ell^2\log q)$. The rest of the
+  computation is negligible. Thus, the dominating step
+  is~\ref{alg:le-si:elkies}.
+\end{proof}
+
+\begin{remark}
+  The complexity bound we just proved is lower than the original one
+  given in~\cite{lercier+sirvent08} and used in our
+  article~\cite{df10}. This is due to two factors:
+  \begin{itemize}
+  \item We rely on the new algorithms to compute the modular
+    polynomial $\Modpol_\ell$ in the ring $\Z/m\Z[X,Y]$ appeared
+    in~\cite{sutherland10:modpol};
+  \item We do not take into account the cost of factoring
+    $\Phi_\ell(X,j_E)$ in $\F_q$, this is because we assume that the
+    curve $E'$ is given as input to the algorithm.
+  \end{itemize}
+\end{remark}
+
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"american"
+% mode:TeX-PDF
+% mode:reftex
+% TeX-master: "../these"
+% End:
+%

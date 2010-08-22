@@ -1,0 +1,34 @@
+\chapter{Proof of Vélu's formulas}
+\label{cha:proof-velus-formulas}
+
+I always had admiration for my colleagues who can develop by hand two
+pages full of computations without making mistakes. Concerning me, I
+usually make a sign mistake at the third term. Tired of having to
+check for sign errors in other people's papers any time I had to use
+Vélu formulas, I decided to make an automatic proof of it.
+
+The following Magma code proves the passage from Eq.~\eqref{eq:155} to
+Eq.~\eqref{eq:161} and from there to~\eqref{eq:157}.
+
+\begin{xcomment}{lstlisting}
+\input{isogeny/veluproof.mgm}
+\end{xcomment}
+
+The first and second line of output are the differences between each
+term of the sums in Eqs.~\eqref{eq:155} and~\eqref{eq:161}. In both
+lines, to conclude one must observe that all the terms in the
+difference contain an odd power of $y(Q)$, thus they sum up to $0$
+over $G^\ast$.
+
+The third line is the difference between each term of the sums in
+Eqs.~\eqref{eq:161} and~\eqref{eq:157}. The result is
+self-explanatory.
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"american"
+% mode:TeX-PDF
+% mode:reftex
+% TeX-master: "../these"
+% End:
