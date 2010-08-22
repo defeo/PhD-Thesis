@@ -22,26 +22,21 @@ variant of C2-AS resulting from applying this new algorithm.
 
 \subsection{The algorithm}
 Let $P\in E[p^k]$ and $P'\in E'[p^k]$ be primitive $p^k$ torsion
-points. We want to compute the smallest degree polynomial
-$A\in\F_q[X]$ such that
+points. We want to compute the polynomial $A\in\F_q[X]$ such that
 \begin{equation}
   A\bigl(x\bigl([n]P\bigr)\bigr) = x\bigl([n]P'\bigr)
   \quad\text{for any $n\in\left(\Z/p^k\Z\right)^\ast$.}
 \end{equation}
-To be more precise, we want to compute the canonical representative of
-$A$ in $\F_q[X]/T(X)$, where
+As we saw in Section~\ref{todo}, such a polynomial is only defined
+modulo the polynomial vanishing on the interpolation points
 \begin{equation}
   T(X) = \prod_{n\in\left(\Z/p^k\Z\right)^\ast} \bigl(X - x([n]P)\bigr)
   \text{.}
 \end{equation}
- 
-There are two equivalent ways to look at this problem. The first one
-is as the interpolation problem we just stated. The second one is as
-an isomorphism of finite fields problem. Both viewpoints will be
-important.
+Thus we look for the canonical representative of $A$ in $\F_q[X]/T(X)$.
 
-For notational convenience, we set $\U_0=\F_q$.  Let
-
+We start by applying the Chinese remainder theorem to $\F_q[X]/T(X)$:
+let
 \begin{equation}
   \label{eq:T}
   T = \prod T^{(j)}
@@ -49,66 +44,77 @@ For notational convenience, we set $\U_0=\F_q$.  Let
 be the factorization of $T$ over $\U_0$, and set
 \begin{equation}
   \label{eq:A}
-  A^{(j)} = A \bmod T^{(j)}
+  A^{(j)} \eqdef A \bmod T^{(j)}
   \;\text{.}
 \end{equation}
+Define
+\begin{equation}
+  \label{eq:187}
+  \K_j\eqdef\F_q[X]/T^{(j)}(X)  
+  \text{,}
+\end{equation}
+then $\K_j$ is a field and $A^{(j)}$ is the projection of $A$ in
+$\K_j$.
 
 It was already pointed out in \cite[$\S$2.3]{couveignes96} that,
-knowing the factorisation of $T$ over $\U_0$ and all the $A^{(j)}$'s,
-we can recover $A$ using the Chinese remainder theorem. Thus we will
+knowing the factorization of $T$ over $\U_0$ and all the $A^{(j)}$'s,
+we can recover $A$ using the Chinese remainder algorithm. Thus we will
 focus on computing, say, $A^{(0)}$.
 
-$T^{(0)}$ is irreducible over $\F_q$. Chose any root of $T^{(0)}$,
-without loss of generality we can take $x(P)$ to be such a root.  Fix
-the $\F_q$-linear embedding of finite fields
+Chose any root $\zeta$ of $T^{(0)}$, without loss of generality we
+can take $\zeta=x(P)$, then
+\begin{equation}
+  \label{eq:188}
+  \basis{B}=\{1,\zeta,\ldots,\zeta^{d-1}\}  
+\end{equation}
+is an $\F_q$-basis of $\K_0$.  Fix the $\F_q$-linear embedding of
+finite fields
 \begin{equation}
   \label{eq:embed}
   \xymatrix{
-    ^{\F_q[X]}/_{T^{(0)}(X)} \ar@{^{(}->}[r]^-\iota & \U_k
+    \K_0 \ar@{^{(}->}[r]^-\iota & \U_k
   }
 \end{equation}
-given by $\iota(X) = x(P)$. It is evident that
+given by $\iota(\zeta) = x(P)$, by linearity it is evident that
 \begin{equation}
-  \iota\bigl(A^{(0)}(X)\bigr) = A^{(0)}\left(\iota(X)\right)=x\bigl(P'\bigr)
-  \text{,}
+  \iota\bigl(A^{(0)}(\zeta)\bigr) = A^{(0)}\left(\iota(\zeta)\right)=x\bigl(P'\bigr)
+  \text{.}
 \end{equation}
-thus in order to compute $A^{(0)}$ one just needs to compute
-$\iota^{-1}\bigl(x(P')\bigr)$.
+Thus $\iota^{-1}\bigl(x(P')\bigr)$ is in $\K_0$ and the coefficients
+of $A_0$ are its coordinates on the basis $\basis{B}$. In conclusion,
+computing $A_0$ is equivalent to find a \hyperref[eq:22]{rational
+  univariate representation} of $x(P')$ with respect to $x(P)$.
 
-% todo change this !
-
-This is a classic problem in computer algebra: given an algebraic
-extension $\LK/\K$ and elements $x\in\LK$ and $y\in\K[x]$, find the
-minimal polynomial $Q$ of $x$ over $\K$, identify $\K[X]/Q(X)$ to
-$\K[x]$ and find the canonical image of $y$ in $\K[X]/Q(X)$. The
-fastest techniques available are \cite{shoup99,PS06}, which are largely
-used in \cite{DFS09}. However, they both require to solve a
-\emph{power projection} problem, that is, given a $\K$-linear form
-$\ell$, compute
+Unfortunately, applying algorithm RUR is not optimal: the bottleneck
+is the power projection $\proj_\zeta$ appearing in
+step~\ref{alg:rur:1}. We have seen in
+Section~\ref{sec:shoups-algorithm} that the dual problem to power
+projection is polynomial evaluation, thus in particular
 \begin{equation}
-  \ell(1), \ell(x), \ell(x^2), \dots, \ell(x^n)
+  \label{eq:189}
+  \begin{aligned}
+    \dual{\proj_\zeta} = \ev_\zeta : \F_q[X] &\ra \K_j\text{,}\\
+    g &\mapsto g(\zeta)\text{;}
+  \end{aligned}
 \end{equation}
-up to some bound $n$. As explained in \cite{shoup99}, by the
-\emph{transposition principle}, solving the power projection has the
-same complexity as computing $g(x)$ given $g\in\K[X]$.
+so that any algorithm to evaluate polynomials at $\zeta$ yields a
+power projection algorithm having the same complexity, and
+\emph{vice-versa}. But none of the algorithms of
+Chapter~\ref{cha:artin-schr-towers} allows to evaluate polynomials in
+$\F_q[X]$ at a generic point of $\U_k$, better than a Horner rule.
 
-But, in our specific case, the extension we work with is $\U_k/\F_q$.
-Without previous knowledge of the minimal polynomial of $x\in\U_k$, we
-have no method to evaluate a polynomial $g\in\F_q[X]$ on $x$, faster
-than lift $g$ in $\U_k[X]$ and evaluate by Horner rule. Unfortunately,
-this is too expensive, thus we will study an alternative approach that
-amounts to decompose $\iota$ as a chain of morphisms and invert them
-one-by-one going down in the tower $(\U_0,\U_1,\ldots,\U_k)$. This is
-similar to the way \cite{couveignes00} solves an Artin-Schreier
-equation by moving it down from $\U_k$ to $\U_1$.
+We shall thus give an alternative algorithm to compute the minimal
+polynomial $T_0$ of $x(P)$. It will be similar to a
+\hyperref[todo]{subproduct tree}, but it will exploit the structure of
+the Artin-Schreier tower. This is similar to the way we solved
+Artin-Schreier equations in Section~\ref{sec:couveignes-algorithm}.
 
 
 \paragraph{Interpolation in towers of extensions}
-We switch back to the interpolation viewpoint. The algorithm we give
-here can be applied in any tower of cyclic extensions, provided the
-action of the Galois groups can be computed. However we will present
-it only for our specific tower $(\U_0,\dots,\U_k)$, to avoid adding
-unnecessary notation.
+We set $\U_0=\F_q$. The algorithm we give here can be applied in any
+tower of cyclic extensions, provided the action of the Galois groups
+can be computed. However we will present it only for our specific
+tower $(\U_0,\dots,\U_k)$, to avoid adding unnecessary notation.
 
 Consider the following problem: given elements $x,y\in\U_k$ such that
 $x$ generates $\U_k$ over $\F_q$, find a polynomial $A\in\F_q[X]$ such
@@ -118,12 +124,8 @@ that
   A(x) = y
   \text{.}
 \end{equation}
-Let $A$ be such a polynomial and let $T$ be the minimal polynomial of
-$x$ over $\F_q$, then it is evident that $A+T$ satisfies
-\eqref{eq:affine-minimal}. Hence, we can look for a representative of
-minimal degree of the class of $A$ in $\F_q[X]/T(X)$. If one such
-class exists, then it is unique, because otherwise $x$ would be root
-of a polynomial in $\F_q[X]$ of degree smaller than $T$. 
+Let $T$ be the minimal polynomial of $x$ over $\F_q$, then, as above,
+the class of $A$ in $\F_q[X]/T(X)$ is uniquely determined.
 
 Let $A$ be a polynomial satisfying \eqref{eq:affine-minimal} it is
 clear that $A(\sigma(x)) = \sigma(y)$ for any
@@ -132,19 +134,19 @@ $\sigma(x)$ over $\sigma(y)$ for any $\sigma$ is invariant under
 $\Gal(\U_k/\F_q)$, thus it has coefficients in $\F_q$. Hence we can
 construct $A$ by interpolation.
 
-A fast interpolation algorithm would compute $T$ via a binary
-subproduct tree, and then interpolate $A$ recursively applying the
-Chinese remainder theorem along the branches of the tree. However this
-is too expensive. We can do better by using a non-binary subproduct
-tree on which the tower of Galois groups associated to
-$(\U_0,\ldots,\U_k)$ acts.
+A \hyperref[todo]{fast interpolation algorithm} would compute $T$ via
+a binary subproduct tree, and then interpolate $A$ recursively
+applying the Chinese remainder theorem along the branches of the
+tree. However this is too expensive. We can do better by using a
+non-binary subproduct tree on which the tower of Galois groups
+associated to $(\U_0,\ldots,\U_k)$ acts.
 
 First we need to compute $T$. Let $T_i$ be the minimal polynomial of
-$x$ over $\U_i$, it is computed recursively as
+$x$ over $\U_i$, we compute it recursively as
 \begin{align}
   T_k &= (X - x)\text{,}\\
   \label{eq:minprod}
-  T_i &= \prod_{\sigma\in\Gal(\U_{i+1}/\U_i)}T_{i+1}^\sigma\text{.}
+  T_{i-1} &= \prod_{\sigma\in\Gal(\U_{i}/\U_{i-1})}T_{i}^\sigma\text{.}
 \end{align}
 Then $T=T_0$. Observe that, rather than computing a whole subproduct
 tree of $T$, we have only computed one branching as shown in figure
@@ -201,11 +203,12 @@ tree of $T$, we have only computed one branching as shown in figure
 \end{figure}
 
 
-
-Now we compute recursively the polynomials in $A_i\in\U_i[X]$ such
-that $A_i(x)=y$. We start from $A_k=y$. Suppose $A_{i+1}$ is known,
-then we apply the Chinese remainder algorithm of Section~\ref{todo}
-to compute the polynomial $P\in\U_{i+1}[X]/T_i(X)$ such that
+Now the we have something like a subproduct tree for $T$, we proceed
+as for interpolation. We compute recursively the polynomials in
+$A_i\in\U_i[X]$ such that $A_i(x)=y$. We start from $A_k=y$. Suppose
+$A_{i+1}$ is known, then we apply the \hyperref[todo]{Chinese
+  remainder algorithm} to compute the polynomial
+$P\in\U_{i+1}[X]/T_i(X)$ such that
 \begin{equation}
   \label{eq:crt}
   P \equiv A_{i+1}^\sigma \bmod T_{i+1}^\sigma
@@ -220,6 +223,28 @@ build the whole subproduct tree. A similar algorithm was already given
 in \cite{enge+morain03}.
 
 
+\begin{remark}
+  Observe that, once the polynomials $T_i$ for $0\le i\le k$ are
+  known, we have an efficient algorithm to evaluate polynomials in
+  $g\in\U_0[X]$ at the point $x$: simply compute
+  \begin{equation}
+    \label{eq:191}
+    \begin{aligned}
+      g_0 &= g\bmod T_0\text{,}\\
+      g_1 &= g_0\bmod T_1\text{,}\\
+      \vdots\\
+      g_k &= g_{k-1}\bmod T_k\text{,}\\
+    \end{aligned}
+  \end{equation}
+  then $g_k=g(x)$. Transposing this algorithm gives a power projection
+  algorithm that can be used in \alg{RUR}; by the discussion in
+  Section~\ref{todo}, the transpose of this algorithm amounts to
+  iteratively extend a linear recurring sequence. However, we do not
+  use this method because it would not improve the overall complexity,
+  as we shall show in the next section.
+\end{remark}
+
+
 \paragraph{Back to our problem}
 It is easy to realize that, on inputs $x(P)$ and $x(P')$, the
 algorithm we just gave computes $A^{(0)}$. In fact, $T^{(0)}$ is
@@ -227,8 +252,8 @@ the minimal polynomial of $x(P)$ over $\F_q$ and $A^{(0)}$ is the
 unique polynomial in $\F_q[X]/T^{(0)}(X)$ that satisfies
 \eqref{eq:affine-minimal}.
 
-This can be viewed as decomposing $\iota$ as the chain of
-$\F_q$-linear isomorphisms
+This can be viewed as decomposing the morphism $\iota$ of
+Eq.~\eqref{eq:embed} as the chain of $\F_q$-linear isomorphisms
 \begin{equation}
   \xymatrix{
     ^{\U_0[X_0]}/_{T_0(X_0)} \ar@{^{(}->}[r]^-{\iota_0} &
@@ -262,18 +287,6 @@ difficult, however, to handle this case, as one only needs to take a
 subgroup of index $2$ of $\Gal(\U_1/\U_0)$, instead of the whole
 group, in the interpolation algorithm given above.
 
-% todo : change this
-
-Observe that we could have used a different approach: after $T^{(0)}$
-has been computed by \eqref{eq:minprod}, a polynomial $g\in\F_q[X]$
-can efficiently be evaluated at $x(P)$ by successively lifting in
-$\U_i$ and reducing modulo $T_i$ for $i=1,\ldots,k$. Thus, as noted
-before, by the transposition principle we also have an efficient
-algorithm to compute the power projection on $x(P)$; hence we can
-apply \cite{PS06} to efficiently find $A^{(0)}$. However, this
-approach cannot improve the overall complexity as it will be clear
-in the next section.
-
 
 \subsection{Complexity analysis}
 \label{sec:C2-AS-FI:complexity}
@@ -293,8 +306,7 @@ At each level $i\ge i_0$, it does the following
     \REQUIRE $T_{i+1},A_{i+1}\wrt\U_{i+1}[X]$.
     \ENSURE $T_i,A_i\wrt\U_i[X]$.
     \FORALL {$\sigma \in \Gal(\U_{i+1}/\U_i)$}
-    \STATE\label{alg:T:gal} compute $\left(T_{i+1}\right)^\sigma$ and
-    \STATE\label{alg:A:gal} $\left(A_{i+1}\right)^\sigma$ using \alg{IterFrobenius};
+    \STATE\label{alg:T:gal} compute $\left(T_{i+1}\right)^\sigma$ and $\left(A_{i+1}\right)^\sigma$ using \alg{IterFrobenius};
     \ENDFOR
     \STATE\label{alg:T:prod} compute $T_i$ by Eq.\eqref{eq:minprod}
     through a \hyperref[todo]{subproduct tree};
@@ -305,10 +317,9 @@ At each level $i\ge i_0$, it does the following
   \end{algorithmic}
 \end{algorithm}
 
-Steps \ref{alg:T:gal} and \ref{alg:A:gal} are identical. Both are
-repeated $p$ times, each iteration taking $O\bigl(p^{k-i}{\sf
-  L}(i-i_0)\bigr) \subset O\bigl({\sf L}(k-i_0)\bigr)$ by
-Theorem~\ref{th:b-ifrob}.
+Step~\ref{alg:T:gal} is repeated $p$ times, each iteration taking
+$O\bigl(p^{k-i}{\sf L}(i-i_0)\bigr) \subset O\bigl({\sf
+  L}(k-i_0)\bigr)$ by Theorem~\ref{th:b-ifrob}.
 
 Step \ref{alg:T:prod} takes $O\bigl(\Mult(p^{k-i_0+1}d/r)\log p\bigr)$
 by \ref{todo} and step \ref{alg:A:CRA} has the same
@@ -317,12 +328,13 @@ complexity by \ref{todo}.
 Step \ref{alg:T:push} takes $O\bigl(p^{k-i+1}{\sf L}(i-i_0)\bigr)
 \subset O\bigl(p{\sf L}(k-i_0)\bigr)$.
 
-When $i=0$ and $\U_1\ne\F_q$ the algorithm is identical but steps
-\ref{alg:T:gal} and \ref{alg:A:gal} must be computed through a generic
-Frobenius algorithm (using~\ref{todo}, for example) and step
+For any $1\le i<i_0$, there is nothing to do because
+$\U_{i+1}=\U_i$. Finally, when $i=0$ and $\U_1\ne\F_q$ the algorithm
+is identical but step \ref{alg:T:gal} must be computed through a
+generic Frobenius algorithm (using~\ref{todo}, for example) and step
 \ref{alg:T:push} must use the implementation of $F_q[c]$ to make the
-conversion (for example, linear algebra). In this case steps
-\ref{alg:T:gal} and \ref{alg:A:gal} cost
+conversion (for example, linear algebra). In this case
+step~\ref{alg:T:gal} costs
 $\Theta\bigl(\frac{p^{k-i_0}}{r}\ModComp(pd)\log d \bigr)$
 by~\ref{todo} and step \ref{alg:T:push} costs
 $\Theta\bigl(p^{k-i_0}(pd)^2\bigr)$.

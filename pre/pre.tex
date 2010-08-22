@@ -6,57 +6,9 @@
 \label{cha:algebra}
 \input{pre/algebra}
 
-\chapter{Basic category theory}
-\label{cha:basic-categ-theory}
-\input{pre/category}
-
-\chapter{Logics for computer science}
-\label{cha:logics-comp-science}
-\section{$\lambda$-calculus}
-\label{sec:lambda-calculus}
-\section{Simply typed $\lambda$-calculus}
-\label{sec:simply-typed-lambda}
-\section{System F}
-\label{sec:system-f}
-\section{Purely functional languages and polymorphic type checking}
-\label{sec:purely-funct-lang}
-
-
 \chapter{Algorithms and complexity}
 \label{cha:algor-compl}
-\section{Asymptotic complexity}
-\label{sec:asympt-compl}
-Many algorithms below rely on fast multiplication; thus, we let $\Mult
-: \N \rightarrow \N$ be a {\em multiplication function}, such that
-polynomials in $\F_p[X]$ of degree less than $n$ can be multiplied in
-$\Mult(n)$ operations, under the conditions of~\cite[Ch.~8.3]{vzGG}.
-Typical orders of magnitude for $\Mult(n)$ are $O(n^{\log_2(3)})$ for
-Karatsuba multiplication or $O(n\log (n) \log\log (n))$ for FFT
-multiplication. Using fast multiplication, fast algorithms are
-available for Euclidean division or extended GCD~\cite[Ch.~9 \&
-11]{vzGG}.
-
-The cost of {\em modular composition}, that is, of computing $F(G)
-\bmod H$, for $F,G,H\in\F_p[X]$ of degrees at most $n$, will be
-written $\ModComp(n)$. We refer to~\cite[Ch.~12]{vzGG} for a
-presentation of known results in an algebraic computational model: the
-best known algorithms have subquadratic (but superlinear) cost in
-$n$. Note that in a boolean RAM model, the algorithm of~\cite{KeUm08}
-takes quasi-linear time.
-
-\section{Fundamental algorithms}
-\label{sec:fund-algor}
-Polynomial multiplication (vzGG chap 9), Newton inversion (vzGG chap
-11), matrix multiplication, modular composition, GCD
-\cite[$\S$11.1]{vzGG}, rational fraction reconstruction
-\cite[$\S$5.8]{vzGG} ,chinese remainder, subproduct tree
-(~\cite[Algorithm~10.3]{vzGG}), interpolation
-\cite[$\S$10.2]{vzGG},transposed mod,frobenius composition(vzGS92
-Algorithm~5.2),Kronecker substitution (vzGS92)\ldots
-
-Transposed mod (or maybe later)
-Bivariate operations (some Pascal-Schost and some Li-Moreno-Schost) ?
-
+\input{pre/algos}
 
 %%% Local Variables: 
 %%% mode:flyspell
