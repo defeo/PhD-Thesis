@@ -53,8 +53,9 @@ are the only values we need to compute $\PTr_{p^jd}$.
 In the case $n=p^jd$, any $v \in \U_j$ is left invariant by this
 Frobenius map, thus we stop the recursion when $i=j$, as there is
 nothing left to do. In the case $n<d$, we stop the recursion when
-$i=0$ and apply~\todo (see Section~\ref{sec:fund-algor}). We summarize
-the two variants in one unique algorithm \alg{IterFrobenius}.
+$i=0$ and apply (see Section~\ref{sec:modular-composition}). We
+summarize the two variants in one unique algorithm
+\alg{IterFrobenius}.
 
 \begin{algorithm}
   \caption{IterFrobenius} 
@@ -117,9 +118,10 @@ function $\Lift$ of Section~\ref{sec:level-embedding}.
 \begin{proof}
   The analysis is identical to the previous one, except that
   step~\ref{alg:frob:base2} is now executed instead of
-  step~\ref{alg:frob:base} and this costs $O(\ModComp(d)\log (n))$
-  by~\todo\cite[Lemma 5.3]{vzGS92}. The conclusion follows by observing
-  that step~\ref{alg:frob:base2} is repeated $p^i$ times. 
+  step~\ref{alg:frob:base} and this costs $O(\ModComp(d)\log (n))$ by
+  the algorithm of Section~\ref{sec:modular-composition}. The
+  conclusion follows by observing that step~\ref{alg:frob:base2} is
+  repeated $p^i$ times.
 \end{proof}
 
 Next, we compute pseudotraces. We use the following relations, whose

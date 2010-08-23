@@ -67,7 +67,7 @@ differential equation
   \text{.}
 \end{equation}
 The key idea is to deduce a differential equation satisfied by the
-isogeny and then use the techniques of Section~\ref{sec:fund-algor} to
+isogeny and then use the techniques of Section~\ref{sec:diff-equat} to
 find its Laurent series expansion.
 
 Our goal is to compute the rational fraction $\frac{g(x)}{h(x)}$. From
@@ -128,10 +128,10 @@ for any $G\in\K[[x]]$ and $H\in\K[t]$.
     \STATE let $U \la 1/\beta +O(x^2)$, $J \la 1 + O(x^2)$, $V \la 1 + O(x^2)$;
     \STATE let $S \la \alpha + \beta x +  \frac{G'(0)H(\alpha) + G(0)G('\alpha)\beta}{4\beta}x^2+O(x^3)$;
     \FORALL {$d\in[2^2, \ldots, 2^\mu]$}
-    \STATE \label{alg:le-si-diff:int}$S \la S + V\int\left((H\circ S)G - {S'}^2\right)UJ/2 + O(x^{d+1})$;
-    \STATE $U \la U(2 - S' U) + O(x^{d+1})$;
-    \STATE $V \la (V +  (H\circ S) J (2 - VJ))/2 + O(x^{d+1})$;
-    \STATE $J \la J(2-VJ)) + O(x^{d+1})$;
+    \STATE \label{alg:le-si-diff:int}$S \la S + V\int\left((H\circ S)G - {S'}^2\right)UJ/2 \mod x^{d+1}$;
+    \STATE $U \la U(2 - S' U) \mod x^{d+1}$;
+    \STATE $V \la (V +  (H\circ S) J (2 - VJ))/2 \mod x^{d+1}$;
+    \STATE $J \la J(2-VJ)) \mod x^{d+1}$;
     \ENDFOR
     \STATE output $S$.
   \end{algorithmic}

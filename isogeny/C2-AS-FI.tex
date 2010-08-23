@@ -27,8 +27,9 @@ points. We want to compute the polynomial $A\in\F_q[X]$ such that
   A\bigl(x\bigl([n]P\bigr)\bigr) = x\bigl([n]P'\bigr)
   \quad\text{for any $n\in\left(\Z/p^k\Z\right)^\ast$.}
 \end{equation}
-As we saw in Section~\ref{todo}, such a polynomial is only defined
-modulo the polynomial vanishing on the interpolation points
+As we saw in Section~\ref{sec:chin-rema-algor}, such a polynomial is
+only defined modulo the polynomial vanishing on the interpolation
+points
 \begin{equation}
   T(X) = \prod_{n\in\left(\Z/p^k\Z\right)^\ast} \bigl(X - x([n]P)\bigr)
   \text{.}
@@ -105,9 +106,10 @@ $\F_q[X]$ at a generic point of $\U_k$, better than a Horner rule.
 
 We shall thus give an alternative algorithm to compute the minimal
 polynomial $T_0$ of $x(P)$. It will be similar to a
-\hyperref[todo]{subproduct tree}, but it will exploit the structure of
-the Artin-Schreier tower. This is similar to the way we solved
-Artin-Schreier equations in Section~\ref{sec:couveignes-algorithm}.
+\hyperref[sec:chin-rema-algor]{subproduct tree}, but it will exploit
+the structure of the Artin-Schreier tower. This is similar to the way
+we solved Artin-Schreier equations in
+Section~\ref{sec:couveignes-algorithm}.
 
 
 \paragraph{Interpolation in towers of extensions}
@@ -134,11 +136,11 @@ $\sigma(x)$ over $\sigma(y)$ for any $\sigma$ is invariant under
 $\Gal(\U_k/\F_q)$, thus it has coefficients in $\F_q$. Hence we can
 construct $A$ by interpolation.
 
-A \hyperref[todo]{fast interpolation algorithm} would compute $T$ via
-a binary subproduct tree, and then interpolate $A$ recursively
-applying the Chinese remainder theorem along the branches of the
-tree. However this is too expensive. We can do better by using a
-non-binary subproduct tree on which the tower of Galois groups
+A \hyperref[sec:chin-rema-algor]{fast interpolation algorithm} would
+compute $T$ via a binary subproduct tree, and then interpolate $A$
+recursively applying the Chinese remainder theorem along the branches
+of the tree. However this is too expensive. We can do better by using
+a non-binary subproduct tree on which the tower of Galois groups
 associated to $(\U_0,\ldots,\U_k)$ acts.
 
 First we need to compute $T$. Let $T_i$ be the minimal polynomial of
@@ -206,9 +208,9 @@ tree of $T$, we have only computed one branching as shown in figure
 Now the we have something like a subproduct tree for $T$, we proceed
 as for interpolation. We compute recursively the polynomials in
 $A_i\in\U_i[X]$ such that $A_i(x)=y$. We start from $A_k=y$. Suppose
-$A_{i+1}$ is known, then we apply the \hyperref[todo]{Chinese
-  remainder algorithm} to compute the polynomial
-$P\in\U_{i+1}[X]/T_i(X)$ such that
+$A_{i+1}$ is known, then we apply the
+\hyperref[sec:chin-rema-algor]{Chinese remainder algorithm} to compute
+the polynomial $P\in\U_{i+1}[X]/T_i(X)$ such that
 \begin{equation}
   \label{eq:crt}
   P \equiv A_{i+1}^\sigma \bmod T_{i+1}^\sigma
@@ -237,11 +239,11 @@ in \cite{enge+morain03}.
     \end{aligned}
   \end{equation}
   then $g_k=g(x)$. Transposing this algorithm gives a power projection
-  algorithm that can be used in \alg{RUR}; by the discussion in
-  Section~\ref{todo}, the transpose of this algorithm amounts to
-  iteratively extend a linear recurring sequence. However, we do not
-  use this method because it would not improve the overall complexity,
-  as we shall show in the next section.
+  algorithm that can be used in \alg{RUR}. By the discussion in
+  Section~\ref{sec:transp-algor}, the transpose of this algorithm
+  amounts to iteratively extend a linear recurring sequence. However,
+  we do not use this method because it would not improve the overall
+  complexity, as we shall show in the next section.
 \end{remark}
 
 
@@ -309,11 +311,11 @@ At each level $i\ge i_0$, it does the following
     \STATE\label{alg:T:gal} compute $\left(T_{i+1}\right)^\sigma$ and $\left(A_{i+1}\right)^\sigma$ using \alg{IterFrobenius};
     \ENDFOR
     \STATE\label{alg:T:prod} compute $T_i$ by Eq.\eqref{eq:minprod}
-    through a \hyperref[todo]{subproduct tree};
+    through a \hyperref[sec:chin-rema-algor]{subproduct tree};
     \STATE\label{alg:A:CRA} compute $A_i$ by Eq.\eqref{eq:crt} through
-    \hyperref[todo]{Chinese Reminder Algorithm};
-    \STATE\label{alg:T:push} convert $T_i$ and $A_i$ into
-    elements of $\U_i[X]$ using \alg{Push-down}.
+    \hyperref[sec:chin-rema-algor]{Chinese Reminder Algorithm};
+    \STATE\label{alg:T:push} convert $T_i$ and $A_i$ into elements of
+    $\U_i[X]$ using \alg{Push-down}.
   \end{algorithmic}
 \end{algorithm}
 
@@ -331,7 +333,8 @@ Step \ref{alg:T:push} takes $O\bigl(p^{k-i+1}{\sf L}(i-i_0)\bigr)
 For any $1\le i<i_0$, there is nothing to do because
 $\U_{i+1}=\U_i$. Finally, when $i=0$ and $\U_1\ne\F_q$ the algorithm
 is identical but step \ref{alg:T:gal} must be computed through a
-generic Frobenius algorithm (using~\ref{todo}, for example) and step
+generic Frobenius algorithm (using the algorithm of
+Section~\ref{sec:modular-composition}, for example) and step
 \ref{alg:T:push} must use the implementation of $F_q[c]$ to make the
 conversion (for example, linear algebra). In this case
 step~\ref{alg:T:gal} costs
@@ -351,9 +354,9 @@ The total cost of the algorithm is then
 \paragraph{The complete interpolation}
 We compute all the $A^{(j)}$'s using this algorithm; there's
 $p^{i_0-1}r$ of them. We then recombine them through a
-\hyperref[todo]{Chinese remainder algorithm} at a cost of
-$O\bigl(\Mult(p^kd)\log p^{i_0-1}r\bigr)$. The total cost of the whole
-interpolation phase is then
+\hyperref[sec:chin-rema-algor]{Chinese remainder algorithm} at a cost
+of $O\bigl(\Mult(p^kd)\log p^{i_0-1}r\bigr)$. The total cost of the
+whole interpolation phase is then
 \begin{equation*}
   O\left(\bigl(k-i_0\bigr) \bigl(p{\sf L}(k) + \Mult(p^kd)\log p\bigr) +
     p^{k-1}\ModComp(pd)\log d + p^{k-1}r(pd)^2 + i_0\Mult(p^kd)\log p
@@ -385,9 +388,9 @@ If more than $\euler(p^k)/2$ points are needed, but less than
 $\frac{p-1}{2}$, one can use the previous algorithm to interpolate
 over the primitive $p^i$-torsion points for each $i=1,\ldots,k$. The
 interpolating polynomials can then be recombined through a
-\hyperref[todo]{Chinese remainder algorithm} at a cost of
-$O\bigl(\Mult(p^kd)\log p^k\bigr)$, which doesn't change the overall
-complexity of C2-AS-FI.
+\hyperref[sec:chin-rema-algor]{Chinese remainder algorithm} at a cost
+of $O\bigl(\Mult(p^kd)\log p^k\bigr)$, which doesn't change the
+overall complexity of C2-AS-FI.
 
 
 Putting together the complexity estimates of C2-AS and C2-AS-FI, we

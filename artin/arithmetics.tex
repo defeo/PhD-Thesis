@@ -96,18 +96,18 @@ written on the basis $(x_i^\alpha Y^\beta)_{0 \le \alpha < p^id, 0 \le
   \beta}$ of $\U_i[Y]$.  Then, given $A,B \wrt \U_i[Y]$, both of
 degrees less than $n$, one can compute $AB \wrt \U_i[Y]$ in time
 $O(\Mult(p^id n))$ using Kronecker's substitution (see
-Section~\ref{sec:fund-algor}).
+Section~\ref{sec:mult-polyn}).
 
 One can extend the fast Euclidean division algorithm to this context,
 as Newton iteration reduces Euclidean division to polynomial
-multiplication. The analysis of\todo~\cite[Chapter~9]{vzGG} implies
+multiplication (see Section~\ref{sec:newtons-iteration}. This implies
 that Euclidean division of a degree $n$ polynomial $A \wrt \U_i[Y]$ by
 a monic degree $m$ polynomial $B \wrt \U_i[Y]$, with $m \le n$, can be
 done in time $O(\Mult(p^id n))$.
 
 Finally, fast GCD techniques carry over as well, as they are based on
-multiplication and division. Using the analysis
-of~\cite[Chapter~11]{vzGG}, we see that the extended GCD of two monic
+multiplication and division. As we saw in
+Section~\ref{sec:eucl-algor-rati}, the extended GCD of two monic
 polynomials $A,B \wrt \U_i[Y]$ of degree at most $n$ can be computed
 in time $O(\Mult(p^id n \log(n)))$.
 

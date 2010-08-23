@@ -57,8 +57,9 @@ each of them in order to deduce all the polynomials needed by C2.
 \subsection{Complexity analysis}
 We compute \eqref{eq:frob} via square-and-multiply, this costs
 $\Theta(d\Mult(p^kd)\log p)$ operations. Each application of
-\eqref{eq:modcomp} is done via a \hyperref[todo]{modular composition},
-the cost is thus $O(\ModComp(p^k))$ operations in $\F_q$, that is
+\eqref{eq:modcomp} is done via a
+\hyperref[sec:modular-composition]{modular composition}, the cost is
+thus $O(\ModComp(p^k))$ operations in $\F_q$, that is
 $O(\ModComp(p^k)\Mult(d))$ operations in $\F_p$. Using the algorithm
 of~\cite{kedlaya+umans08} for modular composition, the complexity of
 C2-AS-FI-MC wouldn't be essentially different from the one of

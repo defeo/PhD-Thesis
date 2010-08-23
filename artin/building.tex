@@ -230,11 +230,11 @@ following algorithm.
   As for the complexity, the algorithm of~\cite{brent93} computes
   $\Cyclo$ in time $O(p^2)$; then, polynomial multiplications of
   degree $s$ in $\algeb{A}[Y]$ can be done in time $O(\Mult(sp))$ by
-  Kronecker substitution. The overall cost of
-  step~\ref{alg:minpol-Qstar} is $O(\Mult(p^{i+2}d)\log p)$ using a
+  \hyperref[sec:mult-polyn]{Kronecker substitution}. The overall cost
+  of step~\ref{alg:minpol-Qstar} is $O(\Mult(p^{i+2}d)\log p)$ using a
   subproduct tree (see
-  Section~\ref{sec:fund-algor}). Step~\ref{alg:minpol-qstar} is free
-  and step~\ref{alg:minpol-Q} costs $O(p^{i+2}d\log_p(p^id))$.
+  Section~\ref{sec:chin-rema-algor}). Step~\ref{alg:minpol-qstar} is
+  free and step~\ref{alg:minpol-Q} costs $O(p^{i+2}d\log_p(p^id))$.
 \end{proof}
 
 The former cost is linear in $p^{i+2}d$, up to logarithmic factors,

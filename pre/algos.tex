@@ -1,69 +1,229 @@
 \section{Asymptotic complexity}
 \label{sec:asympt-compl}
-Many algorithms below rely on fast multiplication; thus, we let $\Mult
-: \N \rightarrow \N$ be a {\em multiplication function}, such that
-polynomials in $\F_p[X]$ of degree less than $n$ can be multiplied in
-$\Mult(n)$ operations, under the conditions of~\cite[Ch.~8.3]{vzGG}.
-Typical orders of magnitude for $\Mult(n)$ are $O(n^{\log_2(3)})$ for
-Karatsuba multiplication or $O(n\log (n) \log\log (n))$ for FFT
-multiplication. Using fast multiplication, fast algorithms are
-available for Euclidean division or extended GCD~\cite[Chapter~9 \&
-11]{vzGG}.
+% Many algorithms below rely on fast multiplication; thus, we let $\Mult
+% : \N \rightarrow \N$ be a {\em multiplication function}, such that
+% polynomials in $\F_p[X]$ of degree less than $n$ can be multiplied in
+% $\Mult(n)$ operations, under the conditions of~\cite[Ch.~8.3]{vzGG}.
+% Typical orders of magnitude for $\Mult(n)$ are $O(n^{\log_2(3)})$ for
+% Karatsuba multiplication or $O(n\log (n) \log\log (n))$ for FFT
+% multiplication. Using fast multiplication, fast algorithms are
+% available for Euclidean division or extended GCD~\cite[Chapter~9 \&
+% 11]{vzGG}.
 
-The cost of {\em modular composition}, that is, of computing $F(G)
-\bmod H$, for $F,G,H\in\F_p[X]$ of degrees at most $n$, will be
-written $\ModComp(n)$. We refer to~\cite[Chapter~12]{vzGG} for a
-presentation of known results in an algebraic computational model: the
-best known algorithms have subquadratic (but superlinear) cost in
-$n$. Note that in a boolean RAM model, the algorithm of~\cite{KeUm08}
-takes quasi-linear time.
+% The cost of {\em modular composition}, that is, of computing $F(G)
+% \bmod H$, for $F,G,H\in\F_p[X]$ of degrees at most $n$, will be
+% written $\ModComp(n)$. We refer to~\cite[Chapter~12]{vzGG} for a
+% presentation of known results in an algebraic computational model: the
+% best known algorithms have subquadratic (but superlinear) cost in
+% $n$. Note that in a boolean RAM model, the algorithm of~\cite{KeUm08}
+% takes quasi-linear time.
 
 \section{Fundamental algorithms}
 \label{sec:fund-algor}
 In this section we review some fundamental algorithms that we will
 repeatedly use in the rest of the document. Most of the algorithms we
 present are taken from~\cite{vzGG}; another source of inspiration
-is~\cite{todo}.
+is~\cite{poly-formel}.
 
-\paragraph{Polynomial multiplication}
+\subsection{Polynomial multiplication}
+\label{sec:polyn-mult}
 Multiplication of polynomials with coefficients in a ring is a
 fundamental brick to which most of the algorithms in computer algebra
-reduce. See \cite[Chapter~9]{vzGG} for a complete account.
+reduce.
 
 In the previous section we introduced the notation $\Mult(n)$ to
 denote the number of operations in $R$ required to multiply two
 polynomials of degree at most $n$ in $R[X]$.  Using the school-book
 algorithm, we have $\Mult(n) = O(n^2)$. The first major step forward
-in the complexity of multiplication was done by Karatsuba.  While a
-naive algorithm would make $4$ recursive calls, Karatsuba's makes only
-$3$. It follows that its complexity is $O(n^{\log_23})$.
+in the complexity of multiplication was done by \index{Karatsuba
+  multiplication}Karatsuba~\cite{karatsuba}. He observed that using
+the formula
+\begin{gather*}
+  f = f_1X^n + f_2\text{,}\qquad g = g_1X^n + g2\text{,}\\
+  fg = f_1g_1X^{2n} + \bigl((f_1+f_2)(g_1+g_2)-f_1g_1-f_2g_2\bigr)X^n + f_2g_2
+  \text{,}
+\end{gather*}
+multiplication can be computed recursively using only $3$ recursive
+calls.  It follows that $\Mult(n)=O(n^{\log_23})$.
 
-\begin{algorithm}
-  \caption{Karatsuba multiplication}
-  \begin{algorithmic}
-    \STATE Let $f = f_1X^{n/2} + f_2$, $g = g_1X^{n/2} + g_2$;
-    \STATE compute $p_1 = (f_1 + f_2)(g_1 + g_2)$;
-    \STATE compute $p_2 = f_1g_1$;
-    \STATE compute $p_3 = f_2g_2$;
-    \STATE return $p_3X^n + (p_1-p_2-p_3)X^{n/2} + p_2$.
-  \end{algorithmic}
-\end{algorithm}
+When the base ring $R$ is a field containing a primitive $n$-th root
+of unit $\omega$, polynomials can be multiplied by evaluating at the
+powers of $\omega$, multiplying each evaluation, and interpolating
+back. The map that sends a polynomial of degree $n$ over its
+evaluations at the $n$-th roots of unit is called
+\index{discrete~Fourier~transform}\textbf{discrete Fourier transform},
+there are many algorithms of complexity $O(n\log n)$ to compute it,
+they all go under the generic name of
+\index{FFT}\index{fast~Fourier~transform}\textbf{fast Fourier transform}
+(FFT).
 
-When the base ring $R$ is a field containing \emph{enough} roots of
-unit, algorithms based on the Fast Discrete Fourier Transform achieve
-a complexity of $O(n\log n)$.
+Thus, multiplication in certain fields can be carried out in time
+$O(n\log n)$. In the famous paper~\cite{schonage+strassen}, Schönage
+and Strassen showed how performing an FFT in an extension ring of $R$
+containing the required roots of unit yields an algorithm of
+complexity $O(n\log n\log\log n)$ to multiply polynomials in $R[X]$.
+
+\subsection{Formal power series}
+\label{sec:formal-power-series}
+We denote by $R[[X]]$ the ring of
+\index{formal~power~series}\textbf{formal power series} on $R$. Its
+elements are the sequences $(f_i)_{i>0}$ of elements of $R$, they are
+denoted by
+\begin{equation}
+  \label{eq:197}
+  f(X) = \sum_{i>0}f_iX^i
+  \text{.}
+\end{equation}
+Multiplication and evaluation are defined in the obvious way. An
+element $f\in R[[X]]$ is invertible if and only if $f(0)$ is an unit
+of $R$.
+
+Since formal power series are infinite objects, to be used in a
+discrete algorithm they must be approximated. We denote by $f\bmod
+X^n$ the polynomial
+\begin{equation}
+  \label{eq:198}
+  f\bmod X^n = \sum_{0\le i < n}f_iX^i
+  \text{.}
+\end{equation}
+We write $f = g + O(X^n)$, where $g$ is a polynomial or a power
+series, whenever
+\[f\bmod X^n=g\bmod X^n\text{,}\] and we say that $g$ approximates $f$
+to the precision $n$.
+
+Using polynomial multiplication, the product of two series known up to
+precision $n$ can be computed in $O(\Mult(n))$ operations.
+
+\paragraph{Derivative, integral}
+\label{sec:derivative-integral}
+If $R$ has characteristic $0$, we define the
+\index{formal~power~series!derivative}derivative and the
+\index{formal~power~series!integral}integral of a power series as
+\begin{align}
+  \label{eq:200}
+  f'(X) &= \sum_{i\ge0}(i+1)f_{i+1}X^i\text{,}\\
+  \int f(X) &= \sum_{i\ge0}\frac{f_i}{i+1}X^{i+1}\text{.}
+\end{align}
+Derivatives and integrals up to precision $n$ can be computed in
+$O(n)$ operations by their definition.
+
+\paragraph{Logarithm, exponential}
+\label{sec:logarithm}
+The \index{formal~power~series!logarithm}logarithm of a power series
+$f$ such that $f(0)=1$ is defined as
+\begin{equation}
+  \label{eq:194}
+  \log f = \int\frac{f'}{f}
+  \text{.}
+\end{equation}
+The \index{formal~power~series!exponential}exponential of a power
+series $f$ such that $f(0)=0$, is defined as
+\begin{equation}
+  \label{eq:195}
+  \exp(f) = 1 + f/1! + f^2/2! + \cdots
+\end{equation}
+All the usual identities involving multiplication, derivatives,
+integrals, logarithms and exponentials are verified on power
+series. In the next subsection we shall see that integrals, logarithms
+and powers up to precision $n$ can all be computed in time
+$O(\Mult(n))$.
+
+In characteristic different from $0$, these definition do not make
+sense anymore, however we can still do computations on truncated power
+series in positive characteristic, the theoretical justification being
+a lift in characteristic $0$.
 
 
-Newton inversion (vzGG chap
-11), matrix multiplication, modular composition, GCD
-\cite[$\S$11.1]{vzGG}, rational fraction reconstruction
-\cite[$\S$5.8]{vzGG} ,chinese remainder, subproduct tree
-(~\cite[Algorithm~10.3]{vzGG}), interpolation
-\cite[$\S$10.2]{vzGG},transposed mod,frobenius composition(vzGS92
-Algorithm~5.2),Kronecker substitution (vzGS92)\ldots
+\subsection{Newton's iteration}
+\label{sec:newtons-iteration}
+Let $\Phi:\R\ra\R$ be a $C^1$ function, the
+\index{Newton's~iteration}Newton's iteration is a classical method to
+approximate a root $x$ of $\Phi$. Start from an approximation $x_0$, and
+\emph{linearize} $\Phi$ to compute
+\begin{equation}
+  \label{eq:192}
+  x_1 = x_0 - \frac{\Phi(x_0)}{\Phi'(x_0)}
+  \text{,}
+\end{equation}
+then iterate this step until the desired precision is obtained. When
+$x_0$ is taken close enough to a root, and when the derivative at this
+root is non-zero, Newton's iteration converges \emph{quadratically} to
+the solution, meaning that at each iteration the distance to the
+solution is squared.
 
-Transposed mod (or maybe later)
-Bivariate operations (some Pascal-Schost and some Li-Moreno-Schost) ?
+In computer algebra, Newton's iteration is applied to operators
+$\Phi:R[[X]]\ra R[[X]]$ on formal power series; in this context,
+\emph{quadratic} convergence means that the number of correct terms is
+doubled at each iteration. Many fast algorithms for some fundamental
+operations on power series and polynomials are obtained by this
+method, here we summarize the most important ones.
+
+\paragraph{Inversion}
+If $f\in R[[X]]$ is invertible, the operator $\Phi(y) = 1/y - f$
+applied to $y_0=1$ converges quadratically to the inverse of
+$f$. Since the iteration associated to $\Phi$ is
+\begin{equation}
+  \label{eq:193}
+  y_{i+1} = y_i(2 - y_if)
+  \text{,}
+\end{equation}
+the cost of inverting a power series is $O(\Mult(n))$. From
+Eq.~\eqref{eq:194} we deduce that computing the logarithm of a power
+series has the same cost.
+
+Another important consequence of this algorithm is that the Euclidean
+division of polynomials of degree at most $n$ can also be performed in
+$O(\Mult(n))$ operations.
+
+\paragraph{Exponential}
+If $f$ is such that $f(0)=0$, we compute its exponential using the
+operator $\Phi(y)=f-\log y$, which gives the iteration
+\begin{equation}
+  \label{eq:196}
+  y_{i+1} = y_i(1 + f - \log y)
+  \text{.}
+\end{equation}
+Thus, the cost of computing an exponential is $O(\Mult(n))$ too. Using
+the formula
+\begin{equation}
+  \label{eq:201}
+  f^\alpha = \exp(\alpha\log f)
+  \text{,}
+\end{equation}
+we deduce that, in characteristic $0$, computing arbitrary rational
+powers of power series costs $O(\Mult(n))$ too.
+
+
+\subsection{Modular composition}
+\label{sec:modular-composition}
+
+
+also frobenius composition(vzGS92
+Algorithm~5.2),
+
+
+
+\subsection{Differential equations}
+\label{sec:diff-equat}
+
+
+\subsection{Euclidean algorithm and rational fraction reconstruction}
+\label{sec:eucl-algor-rati}
+\cite[$\S$11.1]{vzGG},
+\cite[$\S$5.8]{vzGG} 
+
+\subsection{Chinese remainder algorithm and interpolation}
+\label{sec:chin-rema-algor}
+\cite[$\S$10]{vzGG}
+
+\subsection{Multivariate polynomials}
+\label{sec:mult-polyn}
+Kronecker substitution (vzGS92)\\
+maybe bivariate operations (some Pascal-Schost and some Li-Moreno-Schost) ?
+
+\subsection{Transposed algorithms}
+\label{sec:transp-algor}
+transposed mul, transposed mod,
 
 
 %%% Local Variables: 

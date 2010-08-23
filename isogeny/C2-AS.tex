@@ -69,7 +69,7 @@ Theorem~\ref{theo:main}, at each level $i$ the first step costs
 while the second takes the GCD of two degree $p$ polynomials in
 $\U_i[X]$ for each $i$ (see Section \ref{sec:implementation}), at a
 cost of $O\bigl(\Mult(p^{i+1}d)\log p\bigr)$ operations using a
-\hyperref[todo]{fast Euclidean algorithm}.
+\hyperref[sec:eucl-algor-rati]{fast Euclidean algorithm}.
 
 Summing up over $i$, the total cost of this phase up to logarithmic
 factors is
@@ -91,11 +91,11 @@ then use \alg{Push-down} to obtain the corresponding polynomial in
 $\F_q[X]$ and finally do a rational fraction reconstruction.
 
 The first step costs $O\bigl(\Mult(p^{2k}d)\log p^k\bigr)$ using fast
-techniques as in Section~\ref{todo}, then converting to $\F_q[c][X]$
-takes $O\bigl(p^k{\sf L}(k-1)\bigr)$ and further converting to
-$\F_q[X]$ takes $\Theta\bigl((pd)^2\bigr)$ by linear algebra. The
-\hyperref[todo]{rational function reconstruction} then takes
-$O\bigl(\Mult(p^kd)\log p^k\bigr)$.
+techniques as in Section~\ref{sec:chin-rema-algor}, then converting to
+$\F_q[c][X]$ takes $O\bigl(p^k{\sf L}(k-1)\bigr)$ and further
+converting to $\F_q[X]$ takes $\Theta\bigl((pd)^2\bigr)$ by linear
+algebra. The \hyperref[sec:eucl-algor-rati]{rational function
+  reconstruction} then takes $O\bigl(\Mult(p^kd)\log p^k\bigr)$.
 
 The overall complexity of one interpolation is then
 \begin{equation}
