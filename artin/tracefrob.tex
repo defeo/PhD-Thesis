@@ -20,9 +20,11 @@ Our main purpose here is to compute the pseudotrace
 \begin{equation}
   \label{eq:74}
   \PTr_{p^jd}:x\mapsto\sum_{\ell=0}^{p^jd-1}x^{p^{\ell}}
-  \text{.}  
+  \text{;}  
 \end{equation}
-First, however, we describe how to compute values of the iterated
+we already gave an algorithm for this task in
+Section~\ref{sec:modular-composition}, but in our context we can do
+better. We start by describing how to compute values of the iterated
 Frobenius operator $x \mapsto x^{p^n}$ by a recursive descent in the
 tower.
 
@@ -138,10 +140,10 @@ We give two \emph{divide-and-conquer} algorithms that do a slightly
 different \emph{divide} step; each of them is based on one of the
 previous formulas. The first one, \alg{LittlePseudotrace}, is meant to
 compute $\PTr_d$. It follows a binary divide-and-conquer scheme
-similar to~\todo\cite[Algorithm~5.2]{vzGS92}. The second one,
-\alg{Pseudotrace}, computes $\PTr_{p^jd}$ for $j>0$. It uses the
-previous formula with $n=p^{j-1}d$ and $m=p$, computing Frobenius-es
-for such $n$; when $j=0$, it invokes the first algorithm.
+similar to the algorithm in Section~\ref{sec:modular-composition}. The
+second one, \alg{Pseudotrace}, computes $\PTr_{p^jd}$ for $j>0$. It
+uses the previous formula with $n=p^{j-1}d$ and $m=p$, computing
+Frobenius-es for such $n$; when $j=0$, it invokes the first algorithm.
 
 
 \begin{algorithm}
@@ -270,7 +272,7 @@ space requirements are quasi-linear.
 
 \begin{remark}
   A dynamic programming version of~\alg{LittlePseudotrace} as
-  in~\todo\cite[Algorithm~5.2]{vzGS92} would only precompute
+  in Section~\ref{sec:modular-composition} would only precompute
   $\beta_{i,2^e}$ for $2^e<d$, thus reducing the storage from $2\log
   d$ to $\lfloor\log d\rfloor$ elements. This would also allow to
   compute $\PTr_n$ for any $n<d$ without needing any further

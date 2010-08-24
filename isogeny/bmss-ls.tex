@@ -52,24 +52,6 @@ curves, details can be found in
 noteworthy that Vélu formulas output normalized models and a
 normalized isogeny.
 
-As we have seen in Section~\ref{sec:curves-over-c}, $E$ is isomorphic
-to a complex torus $\C/\Lambda$ via the map
-\begin{equation}
-  \label{eq:154}
-  z \mapsto \left(\wp(z), \frac{\wp'(z)}{2}\right)
-  \text{,}
-\end{equation}
-where $\wp$ is the Weierstrass function of $\Lambda$, satisfying the
-differential equation
-\begin{equation}
-  \label{eq:156}
-  {\wp'}^2 = 4(\wp^3 + a\wp + b)
-  \text{.}
-\end{equation}
-The key idea is to deduce a differential equation satisfied by the
-isogeny and then use the techniques of Section~\ref{sec:diff-equat} to
-find its Laurent series expansion.
-
 Our goal is to compute the rational fraction $\frac{g(x)}{h(x)}$. From
 the fact that $\I$ is normalized and from Eq.~\eqref{eq:156} we deduce
 \begin{equation}
@@ -78,11 +60,12 @@ the fact that $\I$ is normalized and from Eq.~\eqref{eq:156} we deduce
   \left(\frac{g(x)}{h(x)}\right)^3 + a'\frac{g(x)}{h(x)} + b'
   \text{.}
 \end{equation}
-However, we do not know the initial conditions at $0$, and we cannot
-look for an expansion at infinity either because the degree of $g$ is
-greater than the degree of $h$.
+The key idea is to find a power series solution to this differential
+equation and then deduce the rational fraction.
 
-Instead we set
+However, we do not know the initial condition at $0$, and we cannot
+look for an expansion at infinity either because the degree of $g$ is
+greater than the degree of $h$.  Instead we set
 \begin{equation}
   \label{eq:167}
   S(x) = \sqrt{\frac{h(1/x^2)}{g(1/x^2)}}
@@ -177,8 +160,8 @@ for any $G\in\K[[x]]$ and $H\in\K[t]$.
     2y'h' + {y'}^2 = G(x)H(t) + G(x)H'(t)h
     \mod x^{2d}
   \end{equation}
-  with initial condition $t(0)=0$. By \ref{todo}, this equation has
-  solution
+  with initial condition $t(0)=0$. By Eq.~\eqref{eq:209}, this
+  equation has solution
   \begin{equation}
     \label{eq:178}
     h = \frac{1}{J} \int \frac{(G(x)H(t) - {t'}^2)J}{2t'}\diff x

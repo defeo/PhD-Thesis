@@ -34,7 +34,7 @@ reduce.
 In the previous section we introduced the notation $\Mult(n)$ to
 denote the number of operations in $R$ required to multiply two
 polynomials of degree at most $n$ in $R[X]$.  Using the school-book
-algorithm, we have $\Mult(n) = O(n^2)$. The first major step forward
+algorithm, we have $\Mult(n) \in O(n^2)$. The first major step forward
 in the complexity of multiplication was done by \index{Karatsuba
   multiplication}Karatsuba~\cite{karatsuba}. He observed that using
 the formula
@@ -44,7 +44,7 @@ the formula
   \text{,}
 \end{gather*}
 multiplication can be computed recursively using only $3$ recursive
-calls.  It follows that $\Mult(n)=O(n^{\log_23})$.
+calls.  It follows that $\Mult(n)\in O(n^{\log_23})$.
 
 When the base ring $R$ is a field containing a primitive $n$-th root
 of unit $\omega$, polynomials can be multiplied by evaluating at the
@@ -96,7 +96,7 @@ precision $n$ can be computed in $O(\Mult(n))$ operations.
 
 \paragraph{Derivative, integral}
 \label{sec:derivative-integral}
-If $R$ has characteristic $0$, we define the
+If $R$ contains $\Q$, we define the
 \index{formal~power~series!derivative}derivative and the
 \index{formal~power~series!integral}integral of a power series as
 \begin{align}
@@ -122,16 +122,45 @@ series $f$ such that $f(0)=0$, is defined as
   \label{eq:195}
   \exp(f) = 1 + f/1! + f^2/2! + \cdots
 \end{equation}
+
+\paragraph{First order linear differential equations}
+\label{sec:first-order-linear}
 All the usual identities involving multiplication, derivatives,
 integrals, logarithms and exponentials are verified on power
-series. In the next subsection we shall see that integrals, logarithms
-and powers up to precision $n$ can all be computed in time
-$O(\Mult(n))$.
+series. An immediate consequence of this is a formula to solve first
+order linear differential equations to Brent and
+Kung~\cite{brent+kung}.
 
-In characteristic different from $0$, these definition do not make
-sense anymore, however we can still do computations on truncated power
-series in positive characteristic, the theoretical justification being
-a lift in characteristic $0$.
+Let $f,g\in
+R[[X]]$, the equation
+\begin{equation}
+  \label{eq:208}
+  y' = f(X)y + g(X)
+\end{equation}
+with initial condition $y(0)=a$ has solution
+\begin{equation}
+  \label{eq:209}
+  y(X) =  \frac{1}{j(X)}\left( a + \int g(X)j(X)\right)
+  \text{,}
+\end{equation}
+where $j = \exp(-\int f)$; the verification is immediate.
+
+In the next subsection we shall see that multiplicative inverses,
+logarithms, exponentials and powers up to precision $n$ can all be
+computed in time $O(\Mult(n))$, thus formula~\eqref{eq:209} can also
+be applied at the same cost.
+
+
+\begin{nota}
+  If $R$ does not contain $\Q$, but has characteristic $0$, it is easy
+  to use the previous definitions by working in
+  $R[2^{-1},3^{-1},\ldots]$ and taking the result back in $R$ when
+  needed. In characteristic different from $0$, these definition do
+  not make sense anymore because Eq.~\eqref{eq:200} introduces a
+  division by $0$. However, when $2,3,\ldots,n$ are invertible in $R$,
+  we can still do computations on power series truncated to the order
+  $n$.
+\end{nota}
 
 
 \subsection{Newton's iteration}
@@ -196,15 +225,151 @@ powers of power series costs $O(\Mult(n))$ too.
 
 \subsection{Modular composition}
 \label{sec:modular-composition}
+Given polynomials $f,g,h\in R[X]$ of degree at most $n$, the
+\index{modular~composition}\emph{modular composition} requires to
+compute
+\begin{equation}
+  \label{eq:190}
+  f(g(X)) \mod h(X)
+  \text{;}
+\end{equation}
+the special case where $h=X^n$ permits to compute the
+\index{formal~power~series!composition}\emph{composition of power
+  series} truncated to the order $n$.
+
+Modular composition is a fundamental algorithm with lots of
+applications, the most relevant being polynomial
+factorization\cite{vzgathen+shoup92,kaltofen+shoup98} and computation
+of minimal polynomials (see Remark~\ref{rk:shoups-algorithm-1}). In
+the next subsection we shall also see an application of composition of
+power series to solve differential equations.
+
+Since many algorithms in this document make use of modular
+composition, we introduced the notation $\ModComp(n)$ for its
+complexity. A naive algorithm implies $\ModComp(n)\in
+O(n\Mult(n))$. The first improvement to this bound was given by Brent
+and Kung in~\cite{brent+kung}: they devise a baby step-giant step
+algorithm of complexity $O\left(\sqrt{n}\Mult(n) +
+  n^{\frac{\omega+1}{2}}\right)$; in the same paper they also gave an
+algorithm of complexity $O\left(\sqrt{n\log n}\Mult(n)\right)$ for
+composition of power series. Bernstein~\cite{bernstein98} found the
+bound $O(\Mult(n)\log n)$ for the composition of power series in case
+the characteristic of the base ring is small, however for a long time
+Brent and Kung's algorithm and its
+variants\cite{huang+pan98,kaltofen+shoup98} have stood as the only
+generic algorithm for modular composition. A major breakthrough has
+been recently achieved by Kedlaya and
+Umans~\cite{umans:08,kedlaya+umans08}, who give an algorithm for
+modular composition over a finite field $\F_q$ of \emph{binary}
+complexity $n^{1+O(1)}\log^{1+O(1)}q$, using a reduction to
+multivariate multipoint evaluation.
 
 
-also frobenius composition(vzGS92
-Algorithm~5.2),
+\paragraph{Computing iterated Frobenius and pseudotrace}
+\label{sec:comp-frob-trace}
+Fast modular composition can be used to compute Frobenius
+automorphisms and \emph{pseudotraces} in finite fields. This algorithm
+is due to von zur Gathen and Shoup~\cite{vzgathen+shoup92}, who
+applied it to polynomial factorization. We will repeatedly use it in
+Chapters~\ref{cha:artin-schr-towers} and~\ref{cha:algor-small-char}.
 
+Consider the field extension $\F_{q^d}/\F_q$, its Galois group is
+generated by the Frobenius automorphism
+\begin{equation}
+  \label{eq:199}
+  \begin{aligned}
+  \frob_q : \F_{q^d}&\ra\F_{q^d}\text{,}\\
+  x &\mapsto x^{q}\text{.}
+  \end{aligned}
+\end{equation}
+For any $n<d$, we also define the $n$-th
+\index{pseudotrace}\emph{pseudotrace}\footnote{In~\cite{vzgathen+shoup92},
+  this map goes under the name of \index{trace~map}\emph{trace map}.}
+as
+\begin{equation}
+  \label{eq:202}
+  \begin{aligned}
+    \PTr_n : \F_{q^d}&\ra\F_{q^d}\text{,}\\
+    x&\mapsto\sum_{i=0}^{n-1} x^{q^i}\text{.}
+  \end{aligned}
+\end{equation}
+Notice that, when $n=d$, the pseudotrace coincides with the trace
+$\Tr_{\F_{q^d}/\F_q}$; in this case one can use much faster
+algorithms.
 
+We suppose that elements of $\F_{q^d}$ are represented as residue
+classes in $\F_q[X]/f(X)$ for some irreducible polynomial $f$, then
+the Frobenius morphism can be computed with $O(\log q)$
+multiplications in $\F_{q^d}$ plus one modular composition as
+\begin{align}
+  \label{eq:203}
+  \Phi_1(X) &= X^q \bmod f(X)\text{,}\\
+  \frob_q(a) &= X^q\circ a\bmod f = a\circ X^q\bmod f = a\circ \Phi_1\bmod f
+  \text{.}
+\end{align}
 
-\subsection{Differential equations}
-\label{sec:diff-equat}
+Iterating $i$ times the $\frob_q$ can be done with only $O(\log i)$
+modular compositions via square-and-multiply as follows.
+
+\begin{algorithm}
+  \caption{Iterated Frobenius}
+  \begin{algorithmic}[1]
+    \REQUIRE $0<i<d$, $a\in\F_q[X]/f(x)$, $\Phi_1(X) = X^q\bmod f(x)$.
+    \ENSURE $\frob_q^i(a)$.
+    \STATE let $i=\sum b_j2^j$ be the binary expansion of $i$;
+    \STATE $k \la 1$;
+    \FOR {$j=\lfloor\log_2 i\rfloor -1$ \TO $0$}
+    \IF{$b_j=0$}
+    \STATE $\Phi_{2k} \la \Phi_k\circ\Phi_k \bmod f$;
+    \STATE $k \la 2k$;
+    \ELSE
+    \STATE $\Phi_{2k} \la \Phi_k\circ\Phi_k \bmod f$;
+    \STATE $\Phi_{2k+1} \la \Phi_{2k}\circ\Phi_1 \bmod f$;
+    \STATE $k \la 2k +1$;
+    \ENDIF
+    \ENDFOR
+    \STATE return $a\circ\Phi_i \bmod f$.
+  \end{algorithmic}
+\end{algorithm}
+
+Thus the cost of computing the $i$-th iterated Frobenius is
+\begin{equation}
+  \label{eq:204}
+  O(\ModComp(d)\log i)
+\end{equation}
+operations in $\F_q$ plus a precomputation costing $O(\Mult(d)\log
+q)$.
+
+We can apply the same idea to compute the $n$-th pseudotrace in time
+$O(\ModComp(d)\log n)$, but we have to use a dynamic programming
+technique to keep the complexity into this bound. The key equation is
+\begin{equation}
+  \label{eq:205}
+  \PTr_{n+m}(a) = \PTr_{n}(a)+\frob_q^n(\PTr_{m}(a))
+  \text{.}
+\end{equation}
+
+\begin{algorithm}
+  \caption{Pseudotrace}
+  \begin{algorithmic}[1]
+    \REQUIRE $0<i<d$, $a\in\F_q[X]/f(x)$, $\Phi_1(X) = X^q\bmod f(x)$.
+    \ENSURE $\PTr_n(a)$.
+    \STATE let $n=\sum b_j2^j$ be the binary expansion of $n$;
+    \STATE $\Theta_o \la 0$;
+    \STATE $\Theta_1 \la a\circ\Phi_{1}$;
+    \STATE $k=b_0$;
+    \FOR{$j=1$ \TO $\lfloor\log_2n\rfloor$}
+    \STATE $\Phi_{2^j} \la \Phi_{2^{j-1}}\circ\Phi_{2^{j-1}} \bmod f$;
+    \STATE $\Theta_{2^j} \la \Theta_{2^{j-1}} + \Theta_{2^{j-1}}\circ\Phi_{2^{j-1}} \bmod f$;
+    \IF{$b_j=1$}
+    \STATE $\Theta_{2^j+k} \la \Theta_{2^j} + \Theta_{k}\circ\Phi_{2^j} \bmod f$;
+    \STATE $k \la 2^j + k$;
+    \ENDIF
+    \ENDFOR
+    \STATE return $\Theta_n$.
+  \end{algorithmic}
+\end{algorithm}
+
 
 
 \subsection{Euclidean algorithm and rational fraction reconstruction}
