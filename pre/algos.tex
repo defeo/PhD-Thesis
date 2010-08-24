@@ -308,10 +308,9 @@ multiplications in $\F_{q^d}$ plus one modular composition as
   \text{.}
 \end{align}
 
-Iterating $i$ times the $\frob_q$ can be done with only $O(\log i)$
-modular compositions via square-and-multiply as follows.
 
 \begin{algorithm}
+  \label{alg:itfrob}
   \caption{Iterated Frobenius}
   \begin{algorithmic}[1]
     \REQUIRE $0<i<d$, $a\in\F_q[X]/f(x)$, $\Phi_1(X) = X^q\bmod f(x)$.
@@ -332,6 +331,10 @@ modular compositions via square-and-multiply as follows.
   \end{algorithmic}
 \end{algorithm}
 
+Iterating $i$ times the $\frob_q$ can be done with only $O(\log i)$
+modular compositions via square-and-multiply as shown in
+Algorithm~\ref{alg:itfrob}.
+
 Thus the cost of computing the $i$-th iterated Frobenius is
 \begin{equation}
   \label{eq:204}
@@ -340,23 +343,13 @@ Thus the cost of computing the $i$-th iterated Frobenius is
 operations in $\F_q$ plus a precomputation costing $O(\Mult(d)\log
 q)$.
 
-We can apply the same idea to compute the $n$-th pseudotrace in time
-$O(\ModComp(d)\log n)$, but we have to use a dynamic programming
-technique to keep the complexity into this bound. The key equation is
-\begin{equation}
-  \label{eq:205}
-  \PTr_{n+m}(a) = \PTr_{n}(a)+\frob_q^n(\PTr_{m}(a))
-  \text{.}
-\end{equation}
-
 \begin{algorithm}
   \caption{Pseudotrace}
   \begin{algorithmic}[1]
     \REQUIRE $0<i<d$, $a\in\F_q[X]/f(x)$, $\Phi_1(X) = X^q\bmod f(x)$.
     \ENSURE $\PTr_n(a)$.
     \STATE let $n=\sum b_j2^j$ be the binary expansion of $n$;
-    \STATE $\Theta_o \la 0$;
-    \STATE $\Theta_1 \la a\circ\Phi_{1}$;
+    \STATE $\Theta_o \la 0$, $\Theta_1 \la a\circ\Phi_{1}$;
     \STATE $k=b_0$;
     \FOR{$j=1$ \TO $\lfloor\log_2n\rfloor$}
     \STATE $\Phi_{2^j} \la \Phi_{2^{j-1}}\circ\Phi_{2^{j-1}} \bmod f$;
@@ -370,16 +363,125 @@ technique to keep the complexity into this bound. The key equation is
   \end{algorithmic}
 \end{algorithm}
 
+We apply the same idea to compute the $n$-th pseudotrace in time
+$O(\ModComp(d)\log n)$; note that we use a dynamic programming
+technique to keep the complexity into this bound. The key equation is
+\begin{equation}
+  \label{eq:205}
+  \PTr_{n+m}(a) = \PTr_{n}(a)+\frob_q^n(\PTr_{m}(a))
+  \text{.}
+\end{equation}
 
-
-\subsection{Euclidean algorithm and rational fraction reconstruction}
-\label{sec:eucl-algor-rati}
-\cite[$\S$11.1]{vzGG},
-\cite[$\S$5.8]{vzGG} 
 
 \subsection{Chinese remainder algorithm and interpolation}
 \label{sec:chin-rema-algor}
+
 \cite[$\S$10]{vzGG}
+
+
+
+
+\subsection[XGCD, Cauchy interpolation and RFR]{Euclidean algorithm,
+  Cauchy interpolation and rational fraction reconstruction}
+\label{sec:eucl-algor-rati}
+Let $\K$ be a field, given two polynomials $f,g\in\K[X]$ of degrees
+$m,n$, the \index{Euclidean~algorithm}Euclidean algorithm permits to
+compute their \index{GCD}GCD using $O(mn)$ operations in $\K$. Let $r$
+be the GCD of $f$ and $g$, a \index{Bézout~relation}\emph{Bézout
+  relation} is an equation of the form
+\begin{equation}
+  \label{eq:154}
+  fu + gv = r
+  \text{,}
+\end{equation}
+with $u,v\in\K[X]$. If we ask $\deg(ur)<\deg(g)$ and
+$\deg(vr)<\deg(a)$, the Bézout relation is unique; computing it is
+called the extended GCD problem (\index{XGCD}XGCD) and can be computed
+by the \index{extended Euclidean algorithm}\emph{extended Euclidean
+  algorithm}.
+
+\begin{algorithm}
+  \caption{Extended Euclidean algorithm}
+  \begin{algorithmic}[1]
+    \REQUIRE $f,g\in\K[X]$.
+    \ENSURE $u,v,r\in\K[X]$ such that $fu+gv=r$.
+    \STATE let $r_0\la f$, $u_0\la1$, $v_0\la0$;
+    \STATE let $r_1\la f$, $u_1\la0$, $v_1\la1$;
+    \STATE $i\la1$;
+    \WHILE{$r_i\ne0$}
+    \STATE compute $r_{i-1} = q_ir_i + r_{i+1}$ by Euclidean division;
+    \STATE compute $u_{i+1} \la u_{i-1} - q_iu_i$, $v_{i+1} \la v_{i-1} - q_iv_i$;
+    \STATE $i\la i+1$;
+    \ENDWHILE
+    \STATE return $u_i,v_i,r_i$.
+  \end{algorithmic}
+\end{algorithm}
+
+One important application of XGCD's is computing modular inverses. Let
+$f,g\in\K[X]$ with $\deg(g)<\deg(f)$ and $f$ prime to $g$, then $r$ is
+a unit in $\K$, and a Bézout relation implies
+\begin{equation}
+  \label{eq:206}
+  g\frac{v}{r} \equiv 1 \mod f
+  \text{.}
+\end{equation}
+
+More generally, the polynomials computed at each iteration by the
+extended Euclidean algorithm satisfy
+\begin{equation}
+  \label{eq:156}
+  fu_i + gv_i =  r_i
+  \qquad\text{for any $i$;}
+\end{equation}
+each of these is also called a Bézout relation. These relations have
+two major applications: \emph{Cauchy interpolation} and \emph{rational
+  fraction reconstruction}.
+
+Given $n$ pairs $(x,e)\in\K\times\K$ with all $x$ distinct and an
+integer $\ell<n$, \index{Cauchy~interpolation}Cauchy interpolation
+computes, if it exists, a rational fraction $\frac{r}{v}\in\K(X)$ with
+$\deg r<\ell$ and $\deg v \le n-\ell$, such that $\frac{r(x)}{v(x)}=e$
+for any $(x,e)$. Let $f=\prod (X-x)$, by interpolation one obtains the
+unique polynomial $g\in\K[X]/f$ such that $g(x)=e$ for any
+$(x,e)$. Then a Bézout relation for $f$ and $g$ gives
+\begin{equation}
+  \label{eq:207}
+  \frac{r_i}{v_i} \equiv g \mod f
+  \qquad\text{for any $i$,}
+\end{equation}
+thus in particular $\frac{r_i(x)}{v_i(x)}=e$ for any $(x,e)$. It can
+be proven that a solution to the Cauchy interpolation problem exists
+if and only if one of the intermediate results of the extended
+Euclidean algorithm is such that $\deg(r_i)<\ell$ and $\deg(v_i)\le
+n-\ell$.
+
+\index{rational~fraction~reconstruction}Rational fraction
+reconstruction (\index{RFR}RFR) is very similar to Cauchy
+interpolation, and it can be viewed as a generalization of it using
+multiplicities. Let $g\in\K[[X]]$ be a power series, we want to
+compute a rational fraction $\frac{r}{v}\in\K(X)$ with $\deg(r)<\ell$
+and $\deg(v)\le n-\ell$, such that $\frac{r}{v}=g+O(X^n)$ in
+$\K[[x]]$. Such a rational fraction is called a
+\index{Padé~approximant}\emph{Padé approximant} of type
+$(\ell-1,n-\ell)$ of $g$. Again, it can be shown that a Padé
+approximant of type $(\ell-1,n-\ell)$ exists if and only if
+\begin{equation}
+  \label{eq:210}
+  \frac{r_i}{v_i}\equiv g \mod X^{n+m+1}
+\end{equation}
+is one of the intermediate results computed by the extended Euclidean
+algorithm.
+
+The extend Euclidean algorithm is not optimal. We address the reader
+to~\cite[$\S$11.1]{vzGG} for the description of an algorithm that
+takes $f,g\in\K[X]$ of degree at most $n$ and $\ell\le n$, and
+computes, using $O(\Mult(n)\log n)$ operations, the rows $u_i,v_i,r_i$
+and $u_{i+1},v_{i+1},r_{i+1}$ of the Extended Euclidean algorithm such
+that $\deg(r_i)\ge n-\ell$ and $\deg(r_{i+1})<n-\ell$. A consequence of
+this algorithm is that both Cauchy interpolation and rational fraction
+reconstruction can be computed in time $O(\Mult(n)\log n)$.
+
+
 
 \subsection{Multivariate polynomials}
 \label{sec:mult-polyn}
