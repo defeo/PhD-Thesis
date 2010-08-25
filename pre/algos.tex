@@ -1,22 +1,47 @@
 \section{Asymptotic complexity}
 \label{sec:asympt-compl}
-% Many algorithms below rely on fast multiplication; thus, we let $\Mult
-% : \N \rightarrow \N$ be a {\em multiplication function}, such that
-% polynomials in $\F_p[X]$ of degree less than $n$ can be multiplied in
-% $\Mult(n)$ operations, under the conditions of~\cite[Ch.~8.3]{vzGG}.
-% Typical orders of magnitude for $\Mult(n)$ are $O(n^{\log_2(3)})$ for
-% Karatsuba multiplication or $O(n\log (n) \log\log (n))$ for FFT
-% multiplication. Using fast multiplication, fast algorithms are
-% available for Euclidean division or extended GCD~\cite[Chapter~9 \&
-% 11]{vzGG}.
+We shall measure the complexity of the algorithms that appear in this
+document using the classical \index{big~O} big $O$ notation. Given two
+functions $f,g:\N\ra\N$, by $f\in O(g)$ we mean that there are an
+$x_0$ and a constant $M$ such that
+\begin{equation}
+  \label{eq:239}
+  f(x)<Mg(x) \quad\text{for any $x>x_0$.}  
+\end{equation}
+Similarly, we shall use the $\Omega$ and $\Theta$ notations to state
+lower bounds and tight bounds: the definition of $\Omega$ is the same
+as $O$, with the inequality in~\eqref{eq:239} turned the other way;
+the definition of $\Theta$ is $f\in\Theta(g)$ if and only if $f\in
+O(g)$ and $f\in\Omega(g)$.
 
-% The cost of {\em modular composition}, that is, of computing $F(G)
-% \bmod H$, for $F,G,H\in\F_p[X]$ of degrees at most $n$, will be
-% written $\ModComp(n)$. We refer to~\cite[Chapter~12]{vzGG} for a
-% presentation of known results in an algebraic computational model: the
-% best known algorithms have subquadratic (but superlinear) cost in
-% $n$. Note that in a boolean RAM model, the algorithm of~\cite{KeUm08}
-% takes quasi-linear time.
+We shall also make use of the notation $\tildO_x$
+(\index{soft~O}soft-$O$ of $x$) that forgets polylogarithmic factors
+in the variable $x$, thus $O(xy\log x \log y)\subset\tildO_x(xy\log
+y)\subset\tildO_{x,y}(xy)$. We simply write $\tildO$ when the
+variables are clear from the context.
+
+Many algorithms below rely on fast multiplication; thus, we let
+$\Mult_R : \N \rightarrow \N$ be a
+\index{multiplication~function}\textbf{multiplication
+  function}\nomenclature[Mn]{$\Mult(n)$}{Multiplication function},
+such that polynomials in $R[X]$ of degree less than $n$ can be
+multiplied in $\Mult_R(n)$ operations. We drop the index $R$ when the
+ring is clear from the context. To simplify expression, following
+\cite[$\S$8.3]{vzGG}, we shall assume that $\Mult(n)$ is
+\begin{itemize}
+\item superlinear: $\Mult(n)/n \ge \Mult(m)/m$ if $n\ge m$,
+\item at most quadratic: $\Mult(mn)\le m^2\Mult(n)$.
+\end{itemize}
+We shall see soon that this assumptions are reasonable ones.
+
+The cost of \index{modular~composition}\emph{modular composition},
+that is, of computing $f\circ g \bmod h$, for $f,g,h\in R[X]$ of
+degrees at most $n$ with $h$ monic, will be written
+$\ModComp(n)$\nomenclature[Cn]{$\ModComp(n)$}{Modular composition
+  function}. We shall make the assumption that
+$\ModComp(n)\ge\Mult(n)$ for any $n$; the next section will review
+algorithms for modular composition.
+
 
 \section{Fundamental algorithms}
 \label{sec:fund-algor}
@@ -189,7 +214,7 @@ method, here we summarize the most important ones.
 
 \paragraph{Inversion}
 If $f\in R[[X]]$ is invertible, the operator $\Phi(y) = 1/y - f$
-applied to $y_0=1$ converges quadratically to the inverse of
+applied to $y_0=1/f(0)$ converges quadratically to the inverse of
 $f$. Since the iteration associated to $\Phi$ is
 \begin{equation}
   \label{eq:193}
@@ -225,9 +250,9 @@ powers of power series costs $O(\Mult(n))$ too.
 
 \subsection{Modular composition}
 \label{sec:modular-composition}
-Given polynomials $f,g,h\in R[X]$ of degree at most $n$, the
-\index{modular~composition}\textbf{modular composition} requires to
-compute
+Given polynomials $f,g,h\in R[X]$ of degree at most $n$ with $h$
+monic, the \index{modular~composition}\textbf{modular composition}
+requires to compute
 \begin{equation}
   \label{eq:190}
   f(g(X)) \mod h(X)
@@ -297,17 +322,6 @@ Notice that, when $n=d$, the pseudotrace coincides with the trace
 $\Tr_{\F_{q^d}/\F_q}$; in this case one can use much faster
 algorithms.
 
-We suppose that elements of $\F_{q^d}$ are represented as residue
-classes in $\F_q[X]/f(X)$ for some irreducible polynomial $f$, then
-the Frobenius morphism can be computed with $O(\log q)$
-multiplications in $\F_{q^d}$ plus one modular composition as
-\begin{align}
-  \label{eq:203}
-  \Phi_1(X) &= X^q \bmod f(X)\text{,}\\
-  \frob_q(a) &= X^q\circ a\bmod f = a\circ X^q\bmod f = a\circ \Phi_1\bmod f
-  \text{.}
-\end{align}
-
 
 \begin{algorithm}
   \label{alg:itfrob}
@@ -330,6 +344,18 @@ multiplications in $\F_{q^d}$ plus one modular composition as
     \STATE return $a\circ\Phi_i \bmod f$.
   \end{algorithmic}
 \end{algorithm}
+
+We suppose that elements of $\F_{q^d}$ are represented as residue
+classes in $\F_q[X]/f(X)$ for some irreducible polynomial $f$, then
+the Frobenius morphism can be computed with $O(\log q)$
+multiplications in $\F_{q^d}$ plus one modular composition as
+\begin{align}
+  \label{eq:203}
+  \Phi_1(X) &= X^q \bmod f(X)\text{,}\\
+  \frob_q(a) &= X^q\circ a\bmod f = a\circ X^q\bmod f = a\circ \Phi_1\bmod f
+  \text{.}
+\end{align}
+
 
 Iterating $i$ times the $\frob_q$ can be done with only $O(\log i)$
 modular compositions via square-and-multiply as shown in
@@ -597,12 +623,210 @@ reconstruction can be computed in time $O(\Mult(n)\log n)$.
 
 \subsection{Multivariate polynomials}
 \label{sec:mult-polyn}
-Kronecker substitution (vzGG8.4,vzGS92)\\
-maybe bivariate operations (some Pascal-Schost and some Li-Moreno-Schost) ?
+Computing with multivariate polynomials adds many complications to the
+univariate case. Part~\ref{part:fast-arithm-using} will be dedicated
+to some advanced algorithms for some specific instances of quotient
+rings of multivariate polynomials. Here, we just recall the basic
+techniques that permit to reduce the multivariate to the univariate
+case.
+
+Multiplication of polynomials in $R[X,Y]$ can be reduced to univariate
+multiplication by \index{Kronecker~substitution}\textbf{Kronecker
+  substitution} \cite{vzGG,vzgathen+shoup92,harvey09}. If $f,g\in
+R[X,Y]$ have degree at most $m$ in $X$ and at most $n$ in $Y$, the
+product $fg$ can be computed as
+\begin{equation}
+  \label{eq:222}
+  fg \equiv f(X,X^{2m-1})\cdot g(X,X^{2m-1}) \mod Y-X^{2m-1}
+  \text{.}
+\end{equation}
+Observing that the reduction modulo $Y-X^{2m-1}$ comes for free, the
+cost of the previous computation is $O(\Mult(mn))$.
+
+Kronecker substitution also allows to do multiplication in
+$\bigl(\K[X]/f(X)\bigr)[Y]$ by multiplying in $\K[X,Y]$ first and then
+reducing modulo $f$. The $O(\Mult(mn))$ operations in $\K$ ($m$ being
+the degree of $f$ and $n$ being a bound on the degree in $Y$). The
+same idea can be applied to multiply elements of $\K[X,Y]/I$, where $I$
+is a \emph{triangular ideal}
+\begin{equation}
+  \label{eq:228}
+  I = \left\langle f(X), g(X,Y)\right\rangle
+  \qquad\text{with $g$ monic in $Y$,}
+\end{equation}
+in time $O(\Mult(mn))$, where $m=\deg f$ and $n=\deg_Y g$; the
+algorithm and the complexity analysis can be found
+in~\cite[Proposition~4]{pascal+schost06}.
+
+All the algorithms presented previously that use multiplication as a
+black box, can be generalized to the bivariate case using Kronecker
+substitution. Thus, for example, Euclidean division in
+$\left(\K[X]/f(x)\right)[Y]$ can be done in time $O(\Mult(mn))$,
+inversion in $\K[X,Y]/I$ in time $O(\Mult(mn)\log mn)$, etc.
+
+Unfortunately, Kronecker substitution does not scale well with the
+number of variables. For an analysis of the problem and alternatives,
+see~\cite{schost05,li+moreno+schost07}. In general, no quasi-linear
+time algorithm is known to multiply polynomials in
+$\K[X_1,\ldots,X_n]$, nor to multiply elements of a finite dimensional
+algebra $\K[X_1,\ldots,X_n]/I$, even in the case $I$ is triangular.
+
 
 \subsection{Transposed algorithms}
 \label{sec:transp-algor}
-transposed mul, transposed mod,
+Finally, we shall recall some known results about
+\index{transposed~algorithm}\textbf{transposed algorithms}. The theory
+of transposition will be studied in detail in
+Part~\ref{part:transp-princ}; for the moment we shall just recall that
+an algorithmic principle, known as the
+\index{transposition~principle}\textbf{transposition
+  principle}~\cite{shoup94,shoup95,shoup99,Ka2K,hanrot+quercia+zimmermann,bostan+lecerf+schost:tellegen},
+states that
+\begin{quote}
+  To any \emph{$R$-algebraic} algorithm computing a linear function
+  $f:M\ra N$, where $M,N$ are $R$-modules, corresponds an algebraic
+  algorithm that computes $\dual{f}$ using the same number of
+  algebraic operations.
+\end{quote}
+
+In Part~\ref{part:transp-princ} we shall see that this principle has
+an algorithmic content and that the \emph{dual} algorithm can be
+inferred automatically. For the moment, we are just interested in its
+existential aspect. We consider two problems for which the transpose
+problem has been studied.
+
+\paragraph{Transposed multiplication}
+\label{sec:transp-mult}
+The first one is \index{transposed~multiplication}polynomial
+multiplication. Let $a\in R[X]$, the map $M_a:b\mapsto ab$ is a linear
+map. As usual, we identify the dual module of $R[X]$ to $R[[1/X]]$ via
+the bilinear form
+\begin{equation}
+  \label{eq:47}
+  \braket{\alpha}{b} = [\alpha b]_0
+  \text{,}
+\end{equation}
+where $\alpha\in R[[1/X]]$, $b\in R[X]$ and
+$[\beta]_i$ is the coefficient of
+$X^i$ in $\beta$.
+
+Then, the dual map to $M_a$ is given by
+\begin{equation}
+  \label{eq:229}
+  \braketop{\alpha}{M_a}{b} = \braket{\alpha}{ab} = [\alpha ab]_0 =
+  \braket{a\cdot\alpha}{b} = \braket{\dual{M_a}(\alpha)}{b}
+  \text{,}
+\end{equation}
+where the product $a\cdot\alpha$ is defined as the usual product,
+with coefficients of $X^i$ discarded if $i>0$.
+
+In particular, let $a$ have degree $m$. If we restrict $M_a$ to
+$R[X]_n$ (the polynomials of degree at most $n$), the image of $M_a$
+is in $R[X]_{m+n}$. Then, we identify $\dual{(R[X]_{m+n})}$ to
+$R[1/X]_{m+n}$ and $\dual{(R[X]_n)}$ to $R[1/X]_n$. 
+
+Hence, the map 
+\begin{equation}
+  \label{eq:231}
+  \begin{aligned}
+    \dual{M_a}:R[1/X]_{m+n}&\ra R[1/X]_n\text{,}\\
+    \alpha&\mapsto a\cdot\alpha  
+  \end{aligned}
+\end{equation}
+is defined by truncating the power series at $1/X^n$:
+\begin{equation}
+  \label{eq:230}
+  a\cdot\alpha = \sum_{i=0}^ma_iX^i \cdot \sum_{j=0}^{m+n}\frac{\alpha_j}{X^j} =
+  \sum_{k=0}^{n}\sum_{i-j=k}\frac{a_i\alpha_j}{X^k}
+  \text{.}
+\end{equation}
+Observe that the coefficients of $a\cdot\alpha$ are the same as the
+coefficients of $a(\alpha X^{m+n})$ between $X^{m}$ and $X^{m+n}$,
+thus any algorithm for polynomial multiplication can be used to
+compute $a\cdot\alpha$ in $\Mult(2m+n)$ operations. This is the reason
+why \emph{transposed polynomial multiplication} is also called
+\index{middle~product}\emph{middle product} in the
+literature~\cite{bostan+lecerf+schost:tellegen,hanrot+quercia+zimmermann}.
+The generalization to the multivariate case is straightforward.
+
+Observe, however, that this algorithm has nothing to do with the
+transposition principle: it is just a property of
+multiplication. Applying the transposition principle, one obtains a
+tighter bound of $M(\max(m,n))$. The univariate case is treated
+in~\cite{hanrot+quercia+zimmermann,bostan+lecerf+schost:tellegen}, it
+is applied to speed up some Newton iterations on power series; the
+bivariate case appears in the proof
+of~\cite[Corollary~2]{pascal+schost06}.
+
+\paragraph{Transposed Euclidean division}
+\label{sec:transp-eucl-divis}
+We now study the dual of Euclidean division with remainder; it is
+actually only the remainder that we are interested in. Let $f$ be a
+monic polynomial in $R[X]$, the map 
+\begin{equation}
+  \label{eq:238}
+  \begin{aligned}
+    \bmod_f:R[X]&\ra R[X]_n\text{,}\\
+    a&\mapsto a\bmod f
+  \end{aligned}
+\end{equation}
+is a linear map.
+
+Suppose $f$ has degree $n+1$, then the dual map
+\begin{equation}
+  \label{eq:233}
+  \dual{\bmod_f}:R[1/X]_n\ra R[[1/X]]  
+\end{equation}
+is such that, for any $\alpha\in\R[X]_n$ and any $i\ge0$,
+\begin{equation}
+  \label{eq:234}
+  \braket{\beta}{X^if} \eqdef \braket{\dual{\bmod_f}(\alpha)}{X^if} = 
+  \braket{\alpha}{X^if\bmod f} = 0
+  \text{,}
+\end{equation}
+where we have set $\beta\eqdef\dual{\bmod_f}(\alpha)$.
+
+Using what we saw previously on transposed multiplication,
+\begin{equation}
+  \label{eq:235}
+  \braket{X^i\cdot\beta}{f} = \braket{\beta}{X^if} = 0
+  \quad\text{for any $i\ge0$.}
+\end{equation}
+Equivalently, the coefficients of $\beta$ satisfy a linear recurrence
+with minimal polynomial $f$. If
+\begin{equation}
+  \label{eq:236}
+  \alpha = \sum_{i=0}^{n}\frac{\alpha_i}{X^i}
+  \text{,}\qquad
+  \beta = \sum_{i\ge0}\frac{\beta_i}{X^i}
+\end{equation}
+the initial conditions for $\beta$ are
+\begin{equation}
+  \label{eq:237}
+  \beta_i = \braket{\beta}{X^i} = \braket{\alpha}{X^i\bmod f} = \braket{\alpha}{X^i} = \alpha_i
+\end{equation}
+for any $i\le n$.
+
+Thus, the dual of modular reduction consists in extending a linear
+recurring sequence of order $n$ from its first $n$ coefficients. Any
+algorithm for such task can be used to compute $\dual{\bmod_f}$,
+however one can also directly obtain one such algorithm by applying
+the transposition principle to any algorithm for Euclidean
+division. In any case,
+\index{transposed~modular~reduction}\textbf{transposed modular
+  reduction} to the order $N$ can be computed using $O(\Mult(N))$
+operations\footnote{One can do better when $N$ is much larger than
+  $n$, but we shall not need such an improvement in this document.}.
+
+Finally, the composition $\bmod_f\circ M_a$ gives an algorithm for
+multiplication in the ring $R[X]/f(X)$. Hence, the dual to this is
+simply $\dual{M_a}\circ\dual{\bmod_f}$. This is called
+\index{transposed~modular~multiplication}\textbf{transposed modular
+  multiplication} and we shall use this repeatedly in the next
+chapters. The generalization of this to the case of $\K[X,Y]/I$, where
+$I$ is a triangular ideal, is straightforward but technical; we
+address to~\cite[Corollary~2]{pascal+schost06} for the details.
+
 
 
 %%% Local Variables: 

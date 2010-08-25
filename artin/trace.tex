@@ -48,9 +48,10 @@ lifting~\cite{dahan+jin+moreno+schost08}; while the \emph{rational
   univariate representation} algorithm~\cite{rouiller99} allows to go
 from a Gröbner basis to a geometric resolution.
 
-In this chapter we focus on a generalization of Lagrange interpolation
-formula, called \emph{trace formulas}, and on its application to the
-rational univariate representation of a zero-dimensional
+In this chapter we focus on a generalization of
+\hyperref[sec:chin-rema-algor]{Lagrange interpolation formula}, called
+\emph{trace formulas}, and on its application to the rational
+univariate representation of a zero-dimensional
 ideal. Section~\ref{sec:decomp-zero-dimens} studies the decomposition
 of a zero dimensional ideal in the algebraic closure of $\K$, then
 Section~\ref{sec:dual} introduces the trace formulas, and, in
@@ -771,8 +772,8 @@ in order to deduce $g_i(T)$ as in the representation~\eqref{eq:22}.
 \label{sec:univariate-case}
 In this section we shall see that, in the particular case of ideals of
 the univariate polynomial ring $\K[x]$, trace formulas reduce to
-Lagrange interpolation and Lemma~\ref{th:multi-newton-sums} reduces to
-Newton's identities.
+\hyperref[sec:chin-rema-algor]{Lagrange interpolation} and
+Lemma~\ref{th:multi-newton-sums} reduces to Newton's identities.
 
 Any ideal $I$ of $\K[x]$ is principal. Let $f$ be a monic generator of
 $I$ and let $\zeta_1,\ldots,\zeta_d$ be its roots in $\clot{\K}$, then
@@ -799,7 +800,8 @@ hence the trace formulas rewrite
   a = \sum_{i=1}^d a(\zeta_i)\prod_{j\ne i}\frac{x-\zeta_i}{\zeta_i-\zeta_j}
   \text{,}
 \end{equation}
-which is exactly the formula of Lagrange interpolation.
+which is exactly the formula of Lagrange interpolation (see
+Eq.~\eqref{eq:225}).
 
 Now we want to compute the Newton sums of $f$, i.e. the values
 \begin{equation}
@@ -927,8 +929,8 @@ given basis $\basis{B}$ of $\algeb{A}$ can be transposed to compute
 $a\cdot\ell$ given $a$ on $\basis{B}$ and $\ell$ on
 $\dual{\basis{B}}$. Transposed multiplication is a classic problem, it
 can be solved without significant losses in space complexity on most
-bases, see
-\cite{shoup94,shoup95,shoup99,bostan+lecerf+schost:tellegen,hanrot+quercia+zimmermann}.
+bases, see Section~\ref{sec:transp-algor}
+and~\cite{shoup95,shoup99,bostan+lecerf+schost:tellegen,hanrot+quercia+zimmermann}.
 
 We now consider again the dual map of $\ev_t$, this time with respect
 to \eqref{eq:52}; we denote it by $\proj_t$ to avoid confusion
@@ -1000,11 +1002,13 @@ advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
   modulo $f$. Then,
   \[\ev_t(g) = g(t) = g\circ t \bmod f\text{,}\]
   where $g\circ t$ is polynomial composition. The problem of computing
-  $g\circ t\bmod f$ for $g,t,f\in\K[x]$ is known as modular
-  composition, a naive algorithm has complexity quadratic in $d=\deg f$.
+  $g\circ t\bmod f$ for $g,t,f\in\K[x]$ is known as
+  \hyperref[sec:modular-composition]{modular composition}, a naive
+  algorithm has complexity quadratic in $d=\deg f$.
   
-  The most efficient algorithms for modular composition are Brent and
-  Kung's \cite{brent+kung}, having complexity $O(\Mult(d)\sqrt{d} +
+  As we saw in Section~\ref{sec:modular-composition}, the most
+  efficient algorithms for modular composition are Brent and Kung's
+  \cite{brent+kung}, having complexity $O(\Mult(d)\sqrt{d} +
   d^{\frac{\omega+1}{2}})$, and Kedlaya and Umans'
   \cite{umans:08,kedlaya+umans08}, having quasi-linear
   complexity. Each of these has a dual algorithm solving power

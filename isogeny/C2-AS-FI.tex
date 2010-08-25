@@ -244,10 +244,12 @@ in \cite{enge+morain03}.
   \end{equation}
   then $g_k=g(x)$. Transposing this algorithm gives a power projection
   algorithm that can be used in \alg{RUR}. By the discussion in
-  Section~\ref{sec:transp-algor}, the transpose of this algorithm
-  amounts to iteratively extend a linear recurring sequence. However,
-  we do not use this method because it would not improve the overall
-  complexity, as we shall show in the next section.
+  Section~\ref{sec:transp-eucl-divis}, the
+  \index{transposed~modular~reduction}transpose of this algorithm
+  amounts to iteratively extend a linearly recurring
+  sequence. However, we do not use this method because it would not
+  improve the overall complexity, as we shall show in the next
+  section.
 \end{remark}
 
 
@@ -356,7 +358,7 @@ complexity of computing the subproduct tree.  We finally do the
 interpolation of $A_0$.
 
 \begin{algorithm}
-  \caption{truncated fast interpolation}
+  \caption{Truncated fast interpolation}
   \begin{algorithmic}[1]
     \REQUIRE $T_i\wrt\U_i[X]$ for $0\le i\le k$, $x(P')\wrt\U_k$, $T_0'(x(P))\wrt\U_k$.
     \ENSURE $A_0\wrt\U_0[X]$.
