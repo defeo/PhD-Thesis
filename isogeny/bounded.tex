@@ -25,11 +25,11 @@ part of the Cauchy interpolation, that is in the rational function
 reconstruction. We study more in detail this last step.
 
 
-\paragraph{Rational Function Reconstruction}
-Recall from Section~\ref{sec:eucl-algor-rati} that rational function
+\paragraph{Rational Fraction Reconstruction}
+Recall from Section~\ref{sec:eucl-algor-rati} that rational fraction
 reconstruction takes as input a degree $n$ polynomial $T$, a
 polynomial $A$ of degree less than $n$ and a target degree $m\le n$
-and outputs the unique rational function such that
+and outputs the unique rational fraction such that
 \begin{equation*}
   A \equiv \frac{R}{V} \bmod T
 \end{equation*}
@@ -46,8 +46,8 @@ all the lines
   \end{aligned}
 \end{equation}
 and stops as soon as a remainder $R_{i+1}$ with $\deg R_{i+1}<m$ is
-found. If a fast XGCD algorithm is used, one directly aims at the two
-lines
+found. If a fast XGCD algorithm such as~\cite[$\S$11.1]{vzGG} is used,
+one directly aims at the two lines
 \begin{equation}
   \label{eq:FastGCD}
   \begin{aligned}

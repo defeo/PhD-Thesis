@@ -212,8 +212,9 @@ series expansion of $S$ is computed to precision $4\ell$, then we set
   \frac{g(x)}{h(x)} = xU(1/x)
   \text{.}
 \end{equation}
-Finally, the rational fraction is recovered by rational fraction
-reconstruction; the overall complexity is dominated by this last step.
+Finally, the rational fraction is recovered by
+\hyperref[sec:eucl-algor-rati]{rational fraction reconstruction}; the
+overall complexity is dominated by this last step.
 
 \begin{algorithm}
   \caption{BMSS}
@@ -224,7 +225,7 @@ reconstruction; the overall complexity is dominated by this last step.
     \STATE find $S(x)\bmod x^{4\ell-1}$ using Algorithm~\ref{alg:le-si-diff};
     \STATE let $T(x) = \sum_{i=0}^{2\ell-1}s_{2i+1}x^i$;
     \STATE compute $U(x) = 1/T(x)^2 \mod x^{2\ell-1}$;
-    \STATE compute $\frac{g(x)}{h(x)}$ by rational fraction reconstruction.
+    \STATE compute $\frac{g(x)}{h(x)}$ by \hyperref[sec:eucl-algor-rati]{rational fraction reconstruction}.
   \end{algorithmic}
 \end{algorithm}
 
@@ -256,9 +257,10 @@ reconstruction; the overall complexity is dominated by this last step.
   again in $\Mult(\ell)$ operations.
 
   Using this approach, we gain a logarithmic factor compared to the
-  rational fraction reconstruction; and the number of coefficients of
-  $S(x)$ to compute goes down to $2\ell$. This is similar to the
-  trade-off we had in Remark~\ref{rk:shoups-algorithm-1}.
+  \hyperref[sec:eucl-algor-rati]{rational fraction reconstruction};
+  and the number of coefficients of $S(x)$ to compute goes down to
+  $2\ell$. This is similar to the trade-off we had in
+  Remark~\ref{rk:shoups-algorithm-1}.
 
   The knowledge of $p_1$ (i.e., the coefficient of $x^{\ell-2}$ in
   $h$) may seem a rather bizarre requirement; however, in the

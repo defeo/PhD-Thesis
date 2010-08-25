@@ -41,20 +41,6 @@ locus of zeros of Eq.~\eqref{eq:112} in $\clot{\K}^2$ (or, more
 exactly, in the affine plane $\mathbb{A}^2$), plus the extra point at
 infinity $\0$.
 
-\begin{definition}[Function field]
-  If $E$ is an elliptic curve defined by an affine Weierstrass
-  equation $f(x,y)=0$ with coefficients in $\K$, we denote by $\K(E)$%
-  \nomenclature[KE]{$\K(E)$}{Function field of an elliptic curve} the
-  field of fractions of
-  \begin{equation}
-    \label{eq:125}
-    K[E]=K[x,y]/(f(x,y))
-    \text{,}
-  \end{equation}
-  and call it the \index{function~field}\emph{function field} of $E$
-  over $\K$.
-\end{definition}
-
 The \index{discriminant~of~an~elliptic~curve}discriminant of
 Eq.~\eqref{eq:112} is
 \begin{equation}
@@ -102,6 +88,18 @@ where
   $j$-invariant
  \[j_E = \frac{(b_2^2-24b_4)^3}{\Delta_E}\text{.}\]
 \end{definition}
+
+\begin{nota}
+  Recall that if $E$ is an elliptic curve defined by an affine
+  Weierstrass equation $f(x,y)=0$ with coefficients in $\K$, its
+  \hyperref[sec:algebraic-varieties]{function field} $\K(E)$ is the
+  field of fractions of
+  \begin{equation}
+    \label{eq:125}
+    \K[E]\eqdef\K[x,y]/(f(x,y))
+    \text{.}
+  \end{equation}
+\end{nota}
 
 
 \subsection{Group law}
@@ -455,7 +453,7 @@ It turns out that isogenies preserve the group structure.
   \begin{equation}
     \label{eq:138}
     \begin{aligned}
-      \dual{\I}:\clot{K}(E')&\ra\clot{K}(E)\\
+      \dual{\I}:\clot{\K}(E')&\ra\clot{\K}(E)\\
       f &\ra f\circ\I
       \text{.}
     \end{aligned}
@@ -672,8 +670,10 @@ isogeny
 
 The map $\frobisog_q$ is an endomorphism of $E$ and fixes the points
 of $E(\F_q)$; it is called the \index{Frobenius
-  endomorphism}\emph{Frobenius endomorphism} of $E$. It plays an
-important role in determining the cardinality of $E(\F_q)$.
+  endomorphism}\emph{Frobenius
+  endomorphism}\nomenclature[f]{$\frobisog_q$,
+  $\frobisog_E$}{Frobenius endomorphism of an elliptic curve} of $E$. It plays an important role in
+determining the cardinality of $E(\F_q)$.
 
 \begin{theorem}[Hasse]
   \index{Hasse~bound}

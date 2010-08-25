@@ -11,11 +11,11 @@ representation of the elements of $\algeb{A}$.
 
 The most popular tools to compute in generic residue class rings are
 Gröbner
-bases~\cite{buchberger,cox+little+oshea,Cox-Little-OShea:UAG2005,faugere99,faugere02}. In
-the bivariate case,
+bases~\cite{buchberger,cox+little+oshea,Cox-Little-OShea:UAG2005,faugere99,faugere02}.
+An alternative to Gröbner bases, called \emph{geometric resolution} is
+presented in \cite{giusti+lecerf+salvy01}. In the bivariate case,
 resultants~\cite{cox+little+oshea,Cox-Little-OShea:UAG2005} are a
-classic tool; an alternative to Gröbner bases, called \emph{geometric
-  resolution} is presented in \cite{giusti+lecerf+salvy01}.
+classic tool.
 
 Besides the algorithmic tool used to compute in $\algeb{A}$, the
 choice of a basis for the ideal $I$ also has a great impact. Consider,
@@ -152,7 +152,7 @@ denote its points by $\zeta_i\in\clot{\K}^n$ for $1\le i\le d$.
   
   The $Q_i$'s are maximal and pairwise coprime
   (i.e. $Q_i+Q_j=\clot{\K}[\lst{x}]$ whenever $i\ne j$), hence, by the
-  Chinese remainder theorem,
+  \hyperref[th:chinese-remainder]{Chinese remainder theorem},
   \begin{equation}
     \label{eq:3}
     \clot{\K}[\lst{x}]/Q_1\cap\cdots\cap Q_d \isom \bigoplus_{i=1}^d\clot{\K}[\lst{x}]/Q_i

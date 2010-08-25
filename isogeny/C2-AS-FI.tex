@@ -13,11 +13,12 @@ algorithm could reach the bound $\Omega(p^kd)$.
 In this section we give an algorithm that reaches this bound up to
 some logarithmic factors. It realizes the polynomial interpolation on
 the primitive points of $E[p^k]$, thus its output is a degree
-$\euler(p^k)/2-1$ polynomial in $\F_q[X]$. Using the Chinese remainder
-theorem it is straightforward to generalize this to an algorithm,
-having the same asymptotic complexity, that realizes the polynomial
-interpolation on all the points of $E[p^k]$. We call C2-AS-FI the
-variant of C2-AS resulting from applying this new algorithm.
+$\euler(p^k)/2-1$ polynomial in $\F_q[X]$. Using the
+\hyperref[th:chinese-remainder]{Chinese remainder theorem} it is
+straightforward to generalize this to an algorithm, having the same
+asymptotic complexity, that realizes the polynomial interpolation on
+all the points of $E[p^k]$. We call C2-AS-FI the variant of C2-AS
+resulting from applying this new algorithm.
 
 
 \subsection{The algorithm}
@@ -36,8 +37,8 @@ points
 \end{equation}
 Thus we look for the canonical representative of $A$ in $\F_q[X]/T(X)$.
 
-We start by applying the Chinese remainder theorem to $\F_q[X]/T(X)$:
-let
+We start by applying the \hyperref[th:chinese-remainder]{Chinese
+  remainder theorem} to $\F_q[X]/T(X)$: let
 \begin{equation}
   \label{eq:T}
   T = \prod T^{(j)}
@@ -59,8 +60,10 @@ $\K_j$.
 
 It was already pointed out in \cite[$\S$2.3]{couveignes96} that,
 knowing the factorization of $T$ over $\U_0$ and all the $A^{(j)}$'s,
-we can recover $A$ using the Chinese remainder algorithm. Thus we will
-focus on computing, say, $A^{(0)}$.
+we can recover $A$ using the Chinese remainder algorithm
+of~\cite[$\S10$]{vzGG} (see also
+Section~\ref{th:chinese-remainder}). Thus we will focus on computing,
+say, $A^{(0)}$.
 
 Chose any root $\zeta$ of $T^{(0)}$, without loss of generality we
 can take $\zeta=x(P)$, then
@@ -138,10 +141,11 @@ construct $A$ by interpolation.
 
 A \hyperref[sec:chin-rema-algor]{fast interpolation algorithm} would
 compute $T$ via a binary subproduct tree, and then interpolate $A$
-recursively applying the Chinese remainder theorem along the branches
-of the tree. However this is too expensive. We can do better by using
-a non-binary subproduct tree on which the tower of Galois groups
-associated to $(\U_0,\ldots,\U_k)$ acts.
+recursively applying the \hyperref[th:chinese-remainder]{Chinese
+  remainder theorem} along the branches of the tree. However this is
+too expensive. We can do better by using a non-binary subproduct tree
+on which the tower of Galois groups associated to $(\U_0,\ldots,\U_k)$
+acts.
 
 First we need to compute $T$. Let $T_i$ be the minimal polynomial of
 $x$ over $\U_i$, we compute it recursively as
@@ -208,8 +212,8 @@ tree of $T$, we have only computed one branching as shown in figure
 Now the we have something like a subproduct tree for $T$, we proceed
 as for interpolation. We compute recursively the polynomials in
 $A_i\in\U_i[X]$ such that $A_i(x)=y$. We start from $A_k=y$. Suppose
-$A_{i+1}$ is known, then we apply the
-\hyperref[sec:chin-rema-algor]{Chinese remainder algorithm} to compute
+$A_{i+1}$ is known, then we use the
+\hyperref[th:chinese-remainder]{Chinese remainder theorem} to obtain
 the polynomial $P\in\U_{i+1}[X]/T_i(X)$ such that
 \begin{equation}
   \label{eq:crt}
@@ -268,8 +272,9 @@ defined by $\iota_k\circ\cdots\circ\iota_i(X_i) = x(P)$ for any $i$,
 and then finding the preimage of $x(P')$ by inverting them one by
 one.
 
-Then, the Chinese remainder step we applied in \eqref{eq:crt} amounts
-to invert $\iota_i$ by descending the lower path in the diagram below
+Then, the Chinese remainder theorem we applied in \eqref{eq:crt}
+amounts to invert $\iota_i$ by descending the lower path in the
+diagram below
 \begin{equation}
   \xymatrix{
     ^{\U_i[X_i]}/_{T_i(X_i)} \ar@{^{(}->}[r]^-{\iota_i} \ar@{^{(}->}[d]^{\varepsilon} &
@@ -293,42 +298,44 @@ group, in the interpolation algorithm given above.
 \subsection{Complexity analysis}
 \label{sec:C2-AS-FI:complexity}
 
-The two algorithms for computing $T^{(0)}$ and $A^{(0)}$ are very
-similar and run in parallel. We can merge them in one unique
-algorithm.
+In practice, the algorithms to compute $T^{(0)}$ and $A^{(0)}$ are
+modified versions of the subproduct tree and the interpolation (see
+Section~\ref{sec:chin-rema-algor}).
 
 We set some notation. Let $i_0$ be the largest index such that
 $\U_{i_0} = \U_1$ and let $\frac{p-1}{2r} = [\F_q[c^2]:\F_q]$.  Remark
 that all the $T^{(j)}$'s have degree $\frac{\euler(p^{k-i_0+1})}{2r}$.
-At each level $i\ge i_0$, it does the following
+
+We first compute the \emph{truncated} subproduct tree as in
+Figure~\ref{fig:tree}. The product of Eq.~\eqref{eq:minprod} is
+computed via a classic binary subproduct tree to keep the complexity
+low.
 
 \begin{algorithm}
-  \caption{Fast Interpolation}
+  \caption{Truncated subproduct tree}
   \begin{algorithmic}[1]
-    \REQUIRE $T_{i+1},A_{i+1}\wrt\U_{i+1}[X]$.
-    \ENSURE $T_i,A_i\wrt\U_i[X]$.
+    \REQUIRE $x(P)\wrt\U_k$.
+    \ENSURE The subproduct tree.
+    \STATE Let $T_k = (X - x(P))$;
+    \FOR {$i=k-1$ \TO $0$}
     \FORALL {$\sigma \in \Gal(\U_{i+1}/\U_i)$}
-    \STATE\label{alg:T:gal} compute $\left(T_{i+1}\right)^\sigma$ and $\left(A_{i+1}\right)^\sigma$ using \alg{IterFrobenius};
+    \STATE\label{alg:T:gal} compute $T_{i+1}^\sigma$  using \alg{IterFrobenius};
     \ENDFOR
-    \STATE\label{alg:T:prod} compute $T_i$ by Eq.\eqref{eq:minprod}
-    through a \hyperref[sec:chin-rema-algor]{subproduct tree};
-    \STATE\label{alg:A:CRA} compute $A_i$ by Eq.\eqref{eq:crt} through
-    \hyperref[sec:chin-rema-algor]{Chinese Reminder Algorithm};
-    \STATE\label{alg:T:push} convert $T_i$ and $A_i$ into elements of
+    \STATE\label{alg:T:prod}  $T_i\la\prod_\sigma T_{i+1}^\sigma$ 
+    via a binary \hyperref[sec:chin-rema-algor]{subproduct tree}.
+    \STATE\label{alg:T:push} convert $T_i$  into an element of
     $\U_i[X]$ using \alg{Push-down}.
+    \ENDFOR
   \end{algorithmic}
 \end{algorithm}
 
-Step~\ref{alg:T:gal} is repeated $p$ times, each iteration taking
-$O\bigl(p^{k-i}{\sf L}(i-i_0)\bigr) \subset O\bigl({\sf
-  L}(k-i_0)\bigr)$ by Theorem~\ref{th:b-ifrob}.
-
-Step \ref{alg:T:prod} takes $O\bigl(\Mult(p^{k-i_0+1}d/r)\log p\bigr)$
-by \ref{todo} and step \ref{alg:A:CRA} has the same
-complexity by \ref{todo}.
-
-Step \ref{alg:T:push} takes $O\bigl(p^{k-i+1}{\sf L}(i-i_0)\bigr)
-\subset O\bigl(p{\sf L}(k-i_0)\bigr)$.
+For any $i>i_0$, step~\ref{alg:T:gal} of is repeated $p$ times, each
+iteration taking $O\bigl(p^{k-i}{\sf L}(i-i_0)\bigr) \subset
+O\bigl({\sf L}(k-i_0)\bigr)$ by Theorem~\ref{th:b-ifrob}.
+Step~\ref{alg:T:prod} takes $O\bigl(\Mult(p^{k-i_0+1}d/r)\log p\bigr)$
+using Algorithm~\ref{alg:subprod} and step~\ref{alg:T:push} takes
+$O\bigl(p^{k-i+1}{\sf L}(i-i_0)\bigr) \subset O\bigl(p{\sf
+  L}(k-i_0)\bigr)$.
 
 For any $1\le i<i_0$, there is nothing to do because
 $\U_{i+1}=\U_i$. Finally, when $i=0$ and $\U_1\ne\F_q$ the algorithm
@@ -342,32 +349,63 @@ $\Theta\bigl(\frac{p^{k-i_0}}{r}\ModComp(pd)\log d \bigr)$
 by Eq.~\eqref{eq:204} and step \ref{alg:T:push} costs
 $\Theta\bigl(p^{k-i_0}(pd)^2\bigr)$.
 
-The total cost of the algorithm is then
-\begin{equation*}
+Now, we have $T_0$ at the root of the tree. We compute its derivative
+$T_0'$ and we evaluate it at $x(P)$ by reducing modulo
+$T_1,\ldots,T_k$. The cost is complexity is strictly smaller than the
+complexity of computing the subproduct tree.  We finally do the
+interpolation of $A_0$.
+
+\begin{algorithm}
+  \caption{truncated fast interpolation}
+  \begin{algorithmic}[1]
+    \REQUIRE $T_i\wrt\U_i[X]$ for $0\le i\le k$, $x(P')\wrt\U_k$, $T_0'(x(P))\wrt\U_k$.
+    \ENSURE $A_0\wrt\U_0[X]$.
+    \STATE\label{alg:A}  $P_k \la x(P')/T_0'(x(P))$;
+    \FOR {$i = k-1$ \TO $0$}
+    \FORALL {$\sigma \in \Gal(\U_{i+1}/\U_i)$}
+    \STATE\label{alg:A:gal} compute $P_{i+1}^\sigma$ using \alg{IterFrobenius};
+    \ENDFOR
+    \STATE\label{alg:T:lift} convert $T_i$ into an element of $\U_{i+1}$ using \alg{Lift-up}.
+    \STATE\label{alg:A:CRA} $P_i\la \sum_{\sigma}P_{i+1}^\sigma T_i/T_{i+1}^\sigma$ using the binary subproduct tree computed previously;
+    \STATE\label{alg:A:push} convert  $P_i$ into an element of
+    $\U_i[X]$ using \alg{Push-down}.
+    \ENDFOR return $P_0$.
+  \end{algorithmic}
+\end{algorithm}
+
+Step~\ref{alg:A} is just one inversion in $\U_k$, that is
+$O(\Mult(p^{k-i_0}d/r)\log p^{k-i_0}d/r)$. Steps~\ref{alg:A:gal}
+and~\ref{alg:A:push} are identical to steps~\ref{alg:T:gal}
+and~\ref{alg:T:push} of the subproduct tree and step~\ref{alg:T:lift}
+is also absorbed. Finally, step~\ref{alg:A:CRA} has the same
+complexity as step~\ref{alg:T:prod} of the subproduct tree, using the
+Algorithm~\ref{alg:interp}.
+
+In conclusion, the total cost of computing the subproduct tree and the
+interpolation is
+\begin{multline*}
   \label{eq:T:complexity}
-  O\left(\bigl(k-i_0\bigr)\bigl(p{\sf L}(k-i_0) + \Mult(p^{k-i_0+1}d/r)\log p\bigr) +
-    \frac{p^{k-i_0}}{r}\bigl(\ModComp(pd)\log d + r(pd)^2\bigr) \right)
-  \;\text{.}
-\end{equation*}
+  O\biggl(\bigl(k-i_0\bigr)p{\sf L}(k-i_0) + \Mult\left(\frac{p^{k-i_0+1}d}{r}\right)\log \frac{p^{k-i_0}d}{r} +\\
+    \frac{p^{k-i_0}}{r}\bigl(\ModComp(pd)\log d + r(pd)^2\bigr)\biggr)
+  \text{.}
+\end{multline*}
 
 
 \paragraph{The complete interpolation}
 We compute all the $A^{(j)}$'s using this algorithm; there's
 $p^{i_0-1}r$ of them. We then recombine them through a
 \hyperref[sec:chin-rema-algor]{Chinese remainder algorithm} at a cost
-of $O\bigl(\Mult(p^kd)\log p^{i_0-1}r\bigr)$. The total cost of the
+of $O\bigl(\Mult(p^kd)\log p^kd\bigr)$. The total cost of the
 whole interpolation phase is then
-\begin{equation*}
-  O\left(\bigl(k-i_0\bigr) \bigl(p{\sf L}(k) + \Mult(p^kd)\log p\bigr) +
-    p^{k-1}\ModComp(pd)\log d + p^{k-1}r(pd)^2 + i_0\Mult(p^kd)\log p
-  \right)
-  \;\text{,}
-\end{equation*}
+\begin{multline*}
+  O\left(\bigl(k-i_0\bigr) p{\sf L}(k) + p^{k-1}\ModComp(pd)\log d +
+    p^{k-1}r(pd)^2 + \Mult(p^kd)\log p^kd \right)\text{,}
+\end{multline*}
 that is
 \begin{equation}
   \label{eq:interp}
   O\left(p{\sf L}(k)\log\left(\frac{\ell}{p^{i_0}}\right) + 
-    \Mult(\ell d)\log\ell\log p +
+    \Mult(\ell d)\log\ell d +
     \frac{\ell}{p}\ModComp(pd)\log d +
     \ell (pd)^2
   \right)

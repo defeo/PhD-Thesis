@@ -39,13 +39,14 @@ and \hyperref[sec:velu-formulas]{Vélu formulas} imply that
 
 
 Using \eqref{eq:C2:I} one can compute the rational fraction
-$\frac{g(X)}{h(X)}$ through Cauchy interpolation over the points of
-$E[p^k]$ for $k$ large enough. C2 takes $p^k > 4\ell - 2$,
-interpolates the rational fraction and then checks that it corresponds
-to the restriction of an isogeny to the $x$-axis. If this is the case,
-the whole isogeny is computed through Vélu formulas and the algorithm
-terminates. Otherwise the guess $\I(P_k) = P_k'$ was wrong, then C2
-computes a new generator for $E'[p^k]$ and starts over again.
+$\frac{g(X)}{h(X)}$ through \hyperref[sec:eucl-algor-rati]{Cauchy
+  interpolation} over the points of $E[p^k]$ for $k$ large enough. C2
+takes $p^k \ge 4\ell +1$, interpolates the rational fraction and then
+checks that it corresponds to the restriction of an isogeny to the
+$x$-axis. If this is the case, the whole isogeny is computed through
+Vélu formulas and the algorithm terminates. Otherwise the guess
+$\I(P_k) = P_k'$ was wrong, then C2 computes a new generator for
+$E'[p^k]$ and starts over again.
 
 We now go through the details of the algorithm.
 
@@ -103,7 +104,7 @@ $p^k$-torsion points are iteratively computed via $p$-descent. The
 basic idea is to split the multiplication map as $[p] = \frobisog\circ
 V$ and invert each of the components. The purely inseparable isogeny
 $\frobisog$ is just a Frobenius map and the separable isogeny $V$ can
-be computed by \ref[sec:velu-formulas]{Vélu formulas} once the
+be computed by \hyperref[sec:velu-formulas]{Vélu formulas} once the
 $p$-torsion points are known. Although this is reasonably efficient,
 pulling $V$ back may involve factoring polynomials of degree $p$ in
 some extension field.
@@ -194,18 +195,18 @@ discussed in the next section.
 \paragraph{Cauchy interpolation}
 Interpolation reconstructs a polynomial from the values it takes on
 some points; Cauchy interpolation reconstructs a rational fraction. As
-we saw in Section~\ref{sec:chin-rema-algor}, the Cauchy interpolation
+we saw in Section~\ref{sec:eucl-algor-rati}, the Cauchy interpolation
 algorithm is divided in two phases: first find the polynomial $P$
-interpolating the evaluation points, then use rational fraction
-reconstruction to find a rational fraction congruent to $P$ modulo the
-polynomial vanishing on the points.
+interpolating the evaluation points, then use the Euclidean algorithm
+to find a rational fraction congruent to $P$ modulo the polynomial
+vanishing on the points.
 
-Cauchy interpolation needs $n+2$ points to reconstruct a degree
+Cauchy interpolation needs $n+1$ points to reconstruct a degree
 $(k,n-k)$ rational fraction. This, together with \eqref{eq:velu-deg},
-justifies the choice of $k$ such that $p^k > 4\ell - 2$. Some of our
+justifies the choice of $k$ such that $p^k \ge 4\ell+1$. Some of our
 variants of C2 will interpolate only on the primitive $p^k$-torsion
 points, thus requiring the slightly larger bound $\euler(p^k) \ge
-4\ell - 2$. This is not very important to our asymptotical analysis
+4\ell+1$. This is not very important to our asymptotical analysis
 since in both cases $p^k \in O(\ell)$.
 
 \paragraph{Recognising the isogeny}
