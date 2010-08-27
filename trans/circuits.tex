@@ -1,92 +1,82 @@
 \section{\index{arithmetic circuit}Arithmetic circuits}
 \label{sec:circuits}
 
-In this section we present the arithmetic circuit model and give some
-classical results. Since we have in mind applications to the theory of
-transposition, our presentation is slightly different from classical
-presentations of the subject \cite{BuClSh, Vollmer}.
+In this section we briefly present the arithmetic circuit model. Since
+we have in mind applications to the theory of transposition, our
+presentation slightly deviates from textbooks; for a more classical
+and extensive treatment see
+\cite{burgisser+clausen-shokrollahi,vollmer}.
+
+\subsection{Basic definitions}
+In the whole chapter, by $R$ we shall denote a (non necessarily
+commutative) ring with unit. Unless otherwise stated, we consider
+$R^n$ with its natural structure of left $R$-module; when needed, we
+shall use \hyperref[sec:linear-algebra:bra-ket]{kets} $\ket{x}$ to
+remove any ambiguity about the fact that we are talking of left
+modules.  We set $R^0=0$, the zero module, and we denote by $\bom$ (or
+$\ket{\bom}$) its unique element.
+
+The dual space $\dual{(R^n)}=\hom(R^n,R)$ has a natural structure of
+right $R$-module (or of left $R^\op$-module) by the assignment
+\begin{equation}
+  \label{eq:232}
+  \bra{\ell} a : \ket{x} \mapsto \braket{\ell}{x}a
+  \text{,}
+\end{equation}
+where we have used \hyperref[sec:linear-algebra:bra-ket]{bras} to
+denote elements of $\dual{(R^n)}$ and a
+\hyperref[sec:linear-algebra:bra-ket]{brakets} to denote the natural
+bilinear form that results by applying linear forms to elements.
 
 \begin{definition}[Arithmetic operator, arity]
-  Let $R$ be a (non necessarily commutative) ring with unit. An
-  arithmetic operator over $R$ is a function $f:R^i\ra R^o$ for some
-  $i,o\in\N$.  Here $i$ is called the \emph{in-arity} of $f$ or simply
+  An \index{arithmetic~operator}\emph{arithmetic operator} over $R$ is
+  a morphism of left modules $f:R^i\ra R^o$ for some $i,o\in\N$. Here
+  $i$ is called the \index{arity}\emph{in-arity} of $f$ or simply
   \emph{arity}, $o$ is called the \emph{out-arity} of $f$.
 \end{definition}
 
-The exact meaning of the product $R^n$ varies depending on what is
-meant by ``function'': a category must be specified in order for this
-notions to be well defined. In this paper we will use two different
-definitions:
-\begin{itemize}
-\item If we want ``function'' to mean any function in a set-theoretic
-  sense, we work in the category $\mathsf{Set}$. Then $R^n$ is the
-  product $\prod^nR$ of the category (the Cartesian product) and $R^0$
-  is the terminal object of the category, i.e. any singleton. For
-  convenience we note $\{\bom\}$ for $R^0$, with $\bom$ being its
-  unique element.
-\item In some cases it will be convenient to restrict ``function'' to
-  mean ``morphism of left $R$-modules'', then we will work in the
-  category $\RMod{R}$ of left $R$-modules with morphisms. Then $R^n$
-  is the product $\prod^nR$ of the category and $R^0$ is the zero
-  module.  We note $0$ for the zero module and $\bom$ for its unique
-  element in order to avoid confusion with the $0$ of $R$ (and to
-  stress the analogy with $\mathsf{Set}$). In what follows by
-  ``module'' we will always mean ``left module''.
-\end{itemize}
-
 \begin{definition}[Arithmetic basis]
-  Let $R$ be a ring.  An arithmetic $R$-basis is a (not necessarily
-  finite) set of arithmetic operators over $R$.
+  An \index{arithmetic~basis}\textbf{arithmetic $R$-basis} is a (not
+  necessarily finite) set of arithmetic operators over $R$.
 \end{definition}
 
-Two arithmetic bases will be important to us. The first one is the
-\emph{standard basis}, noted $\Sbasis$. It is composed of the
-following operators
+The arithmetic basis we will work with is the
+\index{standard~left-linear~basis}\emph{standard left-linear basis},
+denoted by $\Tbasis$.  It is composed of
 \begin{equation}
-  \label{eq:sbasis}
-  \tag{$\Sbasis$}
-  \begin{aligned}
-    + : R\times R &\ra R    & * : R\times R &\ra R &  \hub : R &\ra R\times R\\
-        a, b &\mapsto a+b   &     a, b &\mapsto ab &         a &\mapsto a,a\\ \\
-    \eta_a : \{\bom\} &\ra R     &&& \omega : R &\ra \{\bom\} \\
-          \bom &\mapsto a &&&          a &\mapsto \bom
-  \end{aligned}
-\end{equation}
-Remark that $\eta_a$ defines a possibly infinite family of operators,
-one for every $a\in R$.
-
-The other one is the \emph{linear basis}, noted $\Tbasis$.  It
-is composed of
-\begin{equation*}
   \label{eq:tbasis}
   \tag{$\Tbasis$}
   \begin{aligned}
-    + : R\times R &\ra R    &\quad
-    \rmul{a} : R &\ra R      &\quad
-    0 : 0 &\ra R  \\
-    a, b &\mapsto a+b   &
-    b &\mapsto ba &  
-    \bom &\mapsto 0  \\
-    \\
-    \hub : R &\ra R\times R  &\quad
-    &&
-    \omega : R &\ra 0 \\
-    a &\mapsto a,a    &
-    &&
-    a &\mapsto \bom
+    + : R\oplus R &\ra R\text{,}    & \rmul{a} : R &\ra R\text{,}     &  \hub : R &\ra R\oplus R\text{,}\\
+        a, b &\mapsto a+b\text{,}   &           b &\mapsto ba\text{,} &         a &\mapsto a,a\text{,}\\ \\
+    0 : 0 &\ra R\text{,}     &&& \omega : R &\ra 0\text{,} \\
+     \bom &\mapsto 0\text{,} &&&          a &\mapsto \bom\text{.}
   \end{aligned}
-\end{equation*}
-The linear basis is reproduced in figure \ref{fig:nodes}.
+\end{equation}
+Arithmetic circuits are directed acyclic multigraphs carrying
+information from an arithmetic basis; the formal definition follows.
 
-Finally, the \emph{opposite linear basis}, noted $\Tbasis^\op$, is
-obtained from $\Tbasis$ by substituting $\rmul{a}$ with
-$\lmul{a}:b\mapsto ab$. Notice that this is just a shorthand notation
-for the arithmetic $R^\op$-basis $\Tbasis$.
+\begin{definition}[Arithmetic node]
+  Let $\mathcal{B}$ be an $R$-basis. A \index{node}\textbf{node} over
+  $(R,\mathcal{B})$ is a tuple $v=(I, O, f)$ such that
+  \begin{itemize}
+  \item $I$ and $O$ are finite ordered sets, 
+  \item $f$ is either an element of $\mathcal{B}$ or the special value
+    $\emptyset$.
+  \item If $f=\emptyset$, one of the two following conditions must hold:
+    \begin{itemize}
+    \item $I$ is a singleton and $O$ is empty, in this case we say
+      that $v$ is an \index{node!input~node}\emph{input node};
+    \item $I$ is empty and $O$ is a singleton, in this case we say
+      that $v$ is an \index{node!output~node}\emph{output node}.
+    \end{itemize}
+  \item If $f\ne\emptyset$, the cardinality of $I$ matches the
+    in-arity of $f$ and the cardinality of $O$ matches the out-arity
+    of $f$; in this case we say that $v$ is an
+    \index{node!evaluation~node}\emph{evaluation node}.
+  \end{itemize}
+\end{definition}
 
-In terms of category theory, $\Sbasis$ only makes sense when working
-with $\mathsf{Set}$, while $\Tbasis$ can be defined even when working
-with $\RMod{R}$ (equivalently, $\Tbasis^\op$ can be defined when
-working with $\ModR{R}$, the category of right $R$-modules).
 \begin{figure}[!ht]
   \label{fig:nodes}
   \centering
@@ -163,68 +153,58 @@ working with $\ModR{R}$, the category of right $R$-modules).
 \end{figure}
 
 
-Arithmetic circuits are directed acyclic multigraphs carrying
-information from an arithmetic basis; the formal definition follows.
+We call \index{port!input~port}\emph{input ports} the elements of $I$
+and \index{port!output~port}\emph{output ports} the elements of $O$,
+which we denote respectively by
+$\inp(v)$\nomenclature[port-in]{$\inp(v)$}{Input ports of a node} and
+$\outp(v)$\nomenclature[port-out]{$\outp(v)$}{Output ports of a
+  node}. The cardinalities of $I$ and $O$ are called, respectively,
+the \index{node!degree}\emph{in-degree} and \emph{out-degree} of $v$.
+We call $f$ the \index{node!value}\emph{value} of $v$ and write
+$\beta(v)$ for it.
 
-\begin{definition}[Arithmetic node]
-  Let $R$ be a ring and $\mathcal{B}$ be an $R$-basis. A node over
-  $(R,\mathcal{B})$ is a tuple $v=(I, O, f)$ such that
-  \begin{itemize}
-  \item $I$ and $O$ are finite ordered sets, 
-  \item $f$ is either an element of $\mathcal{B}$ or the special value
-    $\emptyset$.
-  \item If $f=\emptyset$, one of the two following conditions must hold:
-    \begin{itemize}
-    \item $I$ is a singleton and $O$ is empty, in this case we say
-      that $v$ is an \emph{input node};
-    \item $I$ is empty and $O$ is a singleton, in this case we say
-      that $v$ is an \emph{output node}.
-    \end{itemize}
-  \item If $f\ne\emptyset$, the cardinality of $I$ matches the
-    in-arity of $f$ and the cardinality of $O$ matches the out-arity
-    of $f$; in this case we say that $v$ is an \emph{evaluation node}.
-  \end{itemize}
-\end{definition}
-
-We call \emph{input ports} the elements of $I$ and \emph{output ports}
-the elements of $O$, we note respectively $\inp(v)$ and
-$\outp(v)$. The cardinalities of $I$ and $O$ are called, respectively,
-the \emph{in-degree} and \emph{out-degree} of $v$.  We call $f$ the
-value of $v$ and note $\beta(v)$.
+Nodes over the linear basis are pictured in Figure~\ref{fig:nodes}. We
+do not explicitly represent the orderings on $\inp(+)$ and
+$\outp(\hub)$ because they are not relevant for the linear basis: in
+fact, all operators are commutative.
 
 \begin{definition}[Arithmetic circuit]
-  Let $R$ be a ring and $\mathcal{B}$ be an $R$-basis. An arithmetic
-  circuit over $(R,\mathcal{B})$ is a tuple $C=(V,E)$ such that
+  Let $\mathcal{B}$ be an $R$-basis. A (linear) \index{arithmetic
+    circuit}\emph{arithmetic circuit} over $(R,\mathcal{B})$ is a
+  tuple $C=(V,E,\le,\le_i,\le_o)$ such that
   \begin{enumerate}
-  \item $V$ is a finite ordered set of nodes over $(R,\mathcal{B})$,
+  \item $V$ is a finite set of nodes over $(R,\mathcal{B})$;
+  \item $<$ is a total order on $V$, $<_i$ is a total order on the
+    input nodes in $V$, $<_o$ is a total order on the output nodes in
+    $V$;
   \item let $I=\biguplus_{v\in V}\inp(v)$ and $O=\biguplus_{v\in
-      V}\outp(v)$, then $E$ is a bijection from $O$ to $I$.
+      V}\outp(v)$, then $E$ is a bijection from $O$ to $I$ such that
+    $E(o)=i$ implies that $o\in\outp(v)$, $i\in\inp(v')$ and $v\lneq
+    v'$.
   \end{enumerate}
 \end{definition}
 
-It is useful to see $E$ as a set of pairs $(o,i)$ with $i\in I$ and
-$o\in O$. Then the elements of $E$ are called the \emph{edges} of the
-circuit. The edges \emph{incident} to $v\in V$ are all the $(o,i)\in
-E$ such that $i\in\inp(v)$; the edges \emph{stemming} from $v\in V$
-are all the $(i,o)\in E$ such that $o\in\outp(v)$. An edge stemming
-from $v$ and incident to $v'$ is said to \emph{connect} $v$ to $v'$.
-We call \emph{inputs} and \emph{outputs} of a circuit, respectively,
-the input and output nodes in $V$; we note $\inp(C)$ and $\outp(C)$.
+In practice, the definition says that $C$ is a directed acyclic
+multigraph (also called \index{multiDAG}\emph{multiDAG}), where $V$
+are the \index{vertex}vertices, $E$ the \index{edge}edges, and where
+the \index{node!degree}degrees of each vertex are prescribed by the
+arities of the underlying arithmetic node. Moreover, we add an
+ordering on input nodes (vertices of in-degree $0$) and on output
+nodes (vertices of out-degree $0$). 
 
-By forgetting the ordering of $V$, a circuit induces a multiDAG with
-labelled nodes, we call it the \emph{graph} of $C$. In what follows we
-will often refer to graph-theoretic properties of the graph without
-explicitly making the difference between a circuit and its graph.
+In what follows, we shall call $(V,E)$ the
+\index{underlying~graph}\emph{underlying graph} of $C$, and use
+classic graph theoretic terms to refer to its properties. We shall
+often implicitly make this identification. Thus, we shall represent
+$E$ as a set of edges $(o,i)$, and make use of the classic concepts of
+\emph{incident} edge, nodes \emph{connected} by an edge,
+etc.
 
-Figure \ref{fig:circuit} shows an example of arithmetic circuit, the
-analogy with multiDAGs is evident. We draw input and output nodes in
-square boxes and evaluation nodes in round boxes. The orders on input
-and output ports are implicitly represented by ordering edges
-clockwise starting from 9 on the clock. The order on $V$ is actually
-only important for input and output nodes: we implicitly represent
-this information by arranging input and output nodes increasingly from
-left to right, but we omit it for evaluation nodes. We will always use
-these conventions when drawing circuits.
+Figure~\ref{fig:circuit} shows two examples of arithmetic circuits.
+We draw input and output nodes in square boxes and evaluation nodes in
+round boxes. Input and output nodes are ordered from left to right;
+ports are not ordered because the basis is commutative.
+
 
 \begin{figure}[!ht] \centering
   \begin{tikzpicture}
@@ -238,7 +218,7 @@ of=in1](in2){$x_2$}; \node[arg,right of=in2](in3){$x_3$};
 of=plus1](H){$\hub$};
 
       \node[node,below of=plus1](plus2){$+$}; \node[node,right
-of=plus2](times){$*_2$};
+of=plus2](times){$\rmul{2}$};
 
       \node[arg,below of=plus2,xshift=6mm](out1){$y_1$};
 \node[arg,right of=out1](out2){$y_2$};
@@ -257,7 +237,7 @@ of=plus2](times){$*_2$};
       \node[node,right of=plus1](H){$+$};
 
       \node[node,below of=plus1](plus2){$\hub$};
-      \node[node,right of=plus2](times){$*_2$};
+      \node[node,right of=plus2](times){$\rmul{2}$};
 
       \node[arg,below of=plus2,xshift=6mm](out1){$\dual{y_1}$};
       \node[arg,right of=out1](out2){$\dual{y_2}$};
@@ -275,23 +255,49 @@ of=plus2](times){$*_2$};
   \end{tikzpicture}
   \caption{Two arithmetic circuits over $\Tbasis$. The linear map
     $y_1=x_1+3x_2, y_2=x_3$ is computed by the circuit on the left and
-    its transpose is computed by the circuit on the right.}
+    its dual is computed by the circuit on the right.}
   \label{fig:circuit}
 \end{figure}
 
+\begin{definition}[Size, depth]
+  \label{def:size}
+  Let $C$ be a circuit over $(R,\mathcal{B})$. The
+  \index{arithmetic~circuit!size}\emph{size} of $C$, denoted by
+  $\size(C)$\nomenclature[circuit-size]{$\size_X(C)$}{Size
+    ($X$-weighted) of an arithmetic circuit} is the number of
+  evaluation nodes in $V$; the
+  \index{arithmetic~circuit!depth}\emph{depth} of $C$, denoted by
+  $\depth(C)$\nomenclature[circuit-depth]{$\depth(C)$}{Depth of an
+    arithmetic circuit} is the length of the longest directed path
+  --in a graph-theoretic sense-- in $(V,E)$.
+
+  Sometimes it is useful to only count certain nodes. Let
+  $X\subset\mathcal{B}$, the
+  \index{arithmetic~circuit!weighted~size}$X$-weighted size of $C$,
+  denoted by $\size_X(C)$ is the number of nodes $v\in V$ such that
+  $\beta(v)\in X$.
+\end{definition}
+
+
+\subsection{Semantic of a circuit}
+\label{sec:semantic-circuit}
 Circuits would be meaningless if they hadn't a semantic attached to
-them. Intuitively the semantic corresponds to evaluation of the nodes
-along the flow of the multiDAG.
+them. Intuitively the semantic corresponds to recursively feed the
+inputs to the nodes, evaluate $\beta(v)$ at the inputs and collect the
+outputs.
 
 \begin{definition}[Evaluation of an arithmetic circuit]
   \label{def:eval}
+  \index{arithmetic~circuit!semantic}\index{arithmetic~circuit!evaluation}
   Let $C$ be an arithmetic circuit with $i$ inputs and $o$ outputs,
-  then its evaluation is a function $\eval_C:R^i\ra R^o$.
+  then its evaluation is a morphism $\eval_C:R^i\ra
+  R^o$\nomenclature[eval]{$\eval_C$}{Evaluation of an arithmetic
+    circuit}.
 
   In order to define it, we simultaneously define the evaluation
   $\eval_v$ of each $v\in V$ and the evaluation $\eval_e$ of each
-  $e\in E$. We will note by $<_v$ the orders on the input and the
-  output ports of $v$; we will also note by $<_V$ the order on $V$.
+  $e\in E$. We will denote by $<_v$ the orders on the input and the
+  output ports of $v$.
   \begin{itemize}
   \item Let $v\in V$ have out-degree $n$, let its evaluation be
     $\eval_v:R^i\ra R^n$ and let $\pi_1,\ldots,\pi_n$ be the canonical
@@ -299,7 +305,7 @@ along the flow of the multiDAG.
     output ports of $v$ and let $e_j=\bigl(o_j,E(o_j)\bigr)$ be the
     corresponding edges stemming from $v$, then $\eval_{e_j} =
     \pi_j\circ\eval_v$ for any $j$.
-  \item Let $x_1<_V\cdots<_Vx_n$ be the input nodes and let
+  \item Let $x_1<_i\cdots<_ix_i$ be the input nodes and let
     $\pi_1,\ldots,\pi_i$ be the canonical projections from $R^i$ to
     $R$, then $\eval_{x_j}=\pi_j$ for any $j$.
   \item For every evaluation node $v$ with in-degree $m$, let
@@ -308,39 +314,26 @@ along the flow of the multiDAG.
     incident to $v$, then
     \begin{equation}
       \label{eq:eval_v}
-      \eval_v = \beta(v) \circ (\eval_{e_1} \times \cdots \times \eval_{e_m})
+      \eval_v = \beta(v) \circ (\eval_{e_1}, \cdots,\eval_{e_m})
       \text{.}
     \end{equation}
   \item For every output node $y$, let $e\in E$ be the only edge
     incident to $y$, then $\eval_y=\eval_e$.
   \end{itemize}
 
-  We can finally define $\eval_C:R^i\ra R^o$. Let $y_1<_V\cdots<_Vy_o$
+  We can finally define $\eval_C:R^i\ra R^o$. Let $y_1<_o\cdots<_oy_o$
   be the output nodes, then
   \begin{equation}
     \label{eq:eval}
-    \eval_C = \eval_{y_1} \times \cdots \times \eval_{y_o}
+    \eval_C = \left(\eval_{y_1}, \cdots,\eval_{y_o}\right)
     \text{.}
   \end{equation}
   We also say that $C$ \emph{computes} $\eval_C$.
 \end{definition}
 
-Observe that the products of functions in equation \eqref{eq:eval_v}
-and \eqref{eq:eval} are formally defined via the universal property of
-the product: for any collection of functions $f_j:X\ra R$, the product
-$f=\prod_jf_j$ is the unique function $f:X\ra \prod_jR$ such that
-$f_j=\pi_j\circ f$ for any $j$. This allows us to easily show the
-following property.
-
-\begin{proposition}
-  The evaluation of an arithmetic circuit is an arrow (a function) in
-  the category of interest. In particular, the evaluation of a circuit
-  over $(R,\Tbasis)$ is a morphism of $R$-modules.
-\end{proposition}
-
-The converse is not necessarily true : not any arrow of the category
-can be computed by a circuit. However for the basis $\Tbasis$ it is
-possible to give a partial converse.
+It is immediate to verify that the $\eval_C$ is a morphism of left
+modules, because we only used compositions and direct sums to define
+it. The converse is partially true.
 
 \begin{proposition}
   Any morphism of free finite-dimensional $R$-modules can be computed
@@ -351,146 +344,165 @@ possible to give a partial converse.
   that performs the matrix-vector product.
 \end{proof}
 
-Circuits can be composed in a natural way by connecting their inputs
-and outputs.
+% Circuits can be composed in a natural way by connecting their inputs
+% and outputs.
 
-\begin{definition}[Composition of circuits]
-  Let $C=(V,E)$ and $C'=(V',E')$ be two circuits over
-  $(R,\mathcal{B})$ and let $\mathcal{R}:\outp(C)\ra\inp(C')$ be an injective
-  partial function. The composition of $C$ and $C'$ through
-  $\mathcal{R}$, noted $C'\overset{\mathcal{R}}{\circ}C$, is the
-  circuit $(V'', E'')$ such that
-  \begin{itemize}
-  \item $V'' = \bigr(V - \mathcal{R}^{-1}(\inp(C'))\bigr) \uplus
-    \bigl(V' - \mathcal{R}(\outp(C))\bigr)$ with the orders inherited
-    from $V$ and $V'$ and the supplementary condition that $v<v'$
-    whenever $v\in V$ and $v'\in V'$.
-  \item $E''(o) = \begin{cases}
-      E'(o') & \text{if $E(o)\in\inp(v')$ and $\mathcal{R}(v') = v''$ and $\outp(v'')=\{o'\}$,}\\
-      (E\uplus E')(o) & \text{otherwise.}
-    \end{cases}$
-  \end{itemize}
+% \begin{definition}[Composition of circuits]
+%   \index{arithmetic~circuit!composition}
+%   Let $C=(V,E,\le,\le_i,\le_o)$ and $C'=(V',E',\le',\le_i',\le_o')$ be
+%   two circuits over $(R,\mathcal{B})$ and let
+%   $\mathcal{R}:\outp(C)\ra\inp(C')$ be an injective partial
+%   function. The composition of $C$ and $C'$ through $\mathcal{R}$,
+%   denoted by $C'\overset{\mathcal{R}}{\circ}C$, is the circuit $(V'',
+%   E'',\le'',\le_i'',\le_o'')$ such that
+%   \begin{itemize}
+%   \item $V'' = \bigr(V - \mathcal{R}^{-1}(\inp(C'))\bigr) \uplus
+%     \bigl(V' - \mathcal{R}(\outp(C))\bigr)$;
+%   \item $\le_i''=\le_i$, $\le_o''=\le_o'$;
+%   \item $v \le v'$ if and only if one of the following conditions hold:
+%     \begin{itemize}
+%     \item $v,v'\in V$ and $v\le v'$;
+%     \item $v,v'\in V'$ and $v\le' v'$;
+%     \item $v\in V$ and $v'\in V'$;
+%     \end{itemize}
+%   \item $E''(o) = \begin{cases}
+%       E'(o') & \text{if $E(o)\in\inp(v')$ and $\mathcal{R}(v') = v''$ and $\outp(v'')=\{o'\}$,}\\
+%       (E\uplus E')(o) & \text{otherwise.}
+%     \end{cases}$
+%   \end{itemize}
 
-  When the function $\mathcal{R}$ is total, bijective and monotone
-  (w.r.t. the orders on $V$ and $V'$), we say the the composition is
-  \emph{natural} and simply note $C'\circ C$.
-\end{definition}
+%   When the function $\mathcal{R}$ is total, bijective and monotone
+%   (w.r.t. the orders on $V$ and $V'$), we say the the composition is
+%   \emph{natural} and simply write $C'\circ C$.
+% \end{definition}
 
 
-\begin{figure}[!ht] \centering
-  \begin{tikzpicture}
-    \tikzstyle{node}=[circle,thick,draw=black,minimum size=4mm]
-    \tikzstyle{arg}=[rectangle,thin,draw=black,minimum size=4mm]
+% \begin{figure}[!ht] \centering
+%   \begin{tikzpicture}
+%     \tikzstyle{node}=[circle,thick,draw=black,minimum size=4mm]
+%     \tikzstyle{arg}=[rectangle,thin,draw=black,minimum size=4mm]
     
-    \begin{scope}
-      \node[arg](in1){$x_1$};
-      \node[arg,right of=in1](in2){$x_2$};
+%     \begin{scope}
+%       \node[arg](in1){$x_1$};
+%       \node[arg,right of=in1](in2){$x_2$};
       
-      \node[node,below of=in1](H){$\hub$};
+%       \node[node,below of=in1](H){$\hub$};
 
-      \node[arg,below of=H, xshift=-6mm](out1){$y_1$};
-      \node[arg,right of=out1](out2){$y_2$};
-      \node[arg,right of=out2](out3){$y_3$};
+%       \node[arg,below of=H, xshift=-6mm](out1){$y_1$};
+%       \node[arg,right of=out1](out2){$y_2$};
+%       \node[arg,right of=out2](out3){$y_3$};
 
-      \path[->]
-      (in1) edge (H)
-      (in2) edge (out3)
-      (H) edge (out1)
-      (H) edge (out2);
+%       \path[->]
+%       (in1) edge (H)
+%       (in2) edge (out3)
+%       (H) edge (out1)
+%       (H) edge (out2);
 
-      \node[arg,below of=out1,yshift=-6mm](in3){$x'_1$};
-      \node[arg,right of=in3](in4){$x'_2$};
-      \node[arg,right of=in4](in5){$x'_3$};
+%       \node[arg,below of=out1,yshift=-6mm](in3){$x'_1$};
+%       \node[arg,right of=in3](in4){$x'_2$};
+%       \node[arg,right of=in4](in5){$x'_3$};
 
-      \node[node,below of=in3,xshift=6mm](plus1){$+$};
+%       \node[node,below of=in3,xshift=6mm](plus1){$+$};
       
-      \node[node,below of=plus1,xshift=6mm](plus2){$*$};
+%       \node[node,below of=plus1,xshift=6mm](plus2){$*$};
 
-      \node[arg,below of=plus2](out4){$y'_1$};
+%       \node[arg,below of=plus2](out4){$y'_1$};
 
-      \path[->]
-      (in3) edge (plus1)
-      (in4) edge (plus1)
-      (plus1) edge (plus2)
-      (in5) edge (plus2)
-      (plus2) edge (out4);
+%       \path[->]
+%       (in3) edge (plus1)
+%       (in4) edge (plus1)
+%       (plus1) edge (plus2)
+%       (in5) edge (plus2)
+%       (plus2) edge (out4);
 
-      \path[->,dashed]
-      (out2) edge (in5)
-      (out3) edge (in3);
-    \end{scope}
+%       \path[->,dashed]
+%       (out2) edge (in5)
+%       (out3) edge (in3);
+%     \end{scope}
 
-    \begin{scope}[xshift=3cm,yshift=-3cm]
-      \Large
-      \node(=>){$\Ra$};
-    \end{scope}
+%     \begin{scope}[xshift=3cm,yshift=-3cm]
+%       \Large
+%       \node(=>){$\Ra$};
+%     \end{scope}
 
-    \begin{scope}[xshift=4cm,yshift=-2cm]
-      \node[arg](in1){$x_1$};
-      \node[arg,right of=in1](in2){$x_2$};
-      \node[arg,right of=in2](in4){$x'_2$};
+%     \begin{scope}[xshift=4cm,yshift=-2cm]
+%       \node[arg](in1){$x_1$};
+%       \node[arg,right of=in1](in2){$x_2$};
+%       \node[arg,right of=in2](in4){$x'_2$};
       
-      \node[node,below of=in1,xshift=6mm](H){$\hub$};
+%       \node[node,below of=in1,xshift=6mm](H){$\hub$};
 
-      \node[node,below of=in2,xshift=6mm](plus1){$+$};
+%       \node[node,below of=in2,xshift=6mm](plus1){$+$};
       
-      \node[node,below of=plus1, xshift=-4mm](plus2){$*$};
+%       \node[node,below of=plus1, xshift=-4mm](plus2){$*$};
 
-      \node[arg,below of=plus2,xshift=4mm](out4){$y'_1$};
-      \node[arg,left of=out4](out1){$y_1$};
+%       \node[arg,below of=plus2,xshift=4mm](out4){$y'_1$};
+%       \node[arg,left of=out4](out1){$y_1$};
 
-      \path[->]
-      (in1) edge (H)
-      (in2) edge[bend left=40] (plus1)
-      (H) edge[bend left=40] (plus2)
-      (H) edge (out1);
+%       \path[->]
+%       (in1) edge (H)
+%       (in2) edge[bend left=40] (plus1)
+%       (H) edge[bend left=40] (plus2)
+%       (H) edge (out1);
 
-      \path[->]
-      (in4) edge[bend right=40] (plus1)
-      (plus1) edge[bend right=40] (plus2)
-      (plus2) edge (out4);
-    \end{scope}
-  \end{tikzpicture}
-  \caption{Composition of circuits through $\mathcal{R} = \{y_2\mapsto
-    x'_3, y_3\mapsto x'_1\}$.}
-  \label{fig:composition}
-\end{figure}
-An example of composition is given in figure \ref{fig:composition}.
-It is evident that the concept of natural composition coincides with
-composition of functions, the proof of the following proposition is
-trivial.
+%       \path[->]
+%       (in4) edge[bend right=40] (plus1)
+%       (plus1) edge[bend right=40] (plus2)
+%       (plus2) edge (out4);
+%     \end{scope}
+%   \end{tikzpicture}
+%   \caption{Composition of circuits through $\mathcal{R} = \{y_2\mapsto
+%     x'_3, y_3\mapsto x'_1\}$.}
+%   \label{fig:composition}
+% \end{figure}
 
-\begin{proposition}
-  Let $C$ and $C'$ be circuits over $(R,\mathcal{B})$ and let $C$
-  have as many outputs as $C'$ has inputs, then
-  \[\eval_{C'\circ C} = \eval_{C'}\circ\eval_{C} \text{.}\]
-\end{proposition}
+% An example of composition is given in figure \ref{fig:composition}.
+% It is evident that the concept of natural composition coincides with
+% composition of functions, the proof of the following proposition is
+% immediate.
 
-Another evidence that we state without proof is the fact that any
-circuit over $(R,\mathcal{B})$ can be obtained by composition of small
-elementary circuits.
+% \begin{proposition}
+%   \label{th:compose-circuit}
+%   Let $C$ and $C'$ be circuits over $(R,\mathcal{B})$ and let $C$
+%   have as many outputs as $C'$ has inputs, then
+%   \[\eval_{C'\circ C} = \eval_{C'}\circ\eval_{C} \text{.}\]
+% \end{proposition}
 
-\begin{proposition}
-  We call \emph{elementary} a circuit that has one unique evaluation
-  node. Any circuit can be obtained by composition of elementary
-  circuits.
-\end{proposition}
+% Another evidence that we state without proof is the fact that any
+% circuit over $(R,\mathcal{B})$ can be obtained by composition of small
+% elementary circuits.
 
-We finally define a way of substituting nodes, first syntactically,
-then semantically.
+% \begin{proposition}
+%   We call \index{arithmetic~circuit!elementary}\emph{elementary} a
+%   circuit that has one unique evaluation node. Any circuit can be
+%   obtained by composition of elementary circuits.
+% \end{proposition}
+
+We now define a way of substituting nodes, first syntactically, then
+semantically.
 
 \begin{definition}[Syntactic substitution]
-  Let $C=(V,E)$ be a circuit over $(R,\mathcal{B})$ and let
-  $C'=(V',E')$ be a circuit over $(R,\mathcal{B}')$. Let $C'$ have $i$
-  inputs and $o$ outputs and let $v\in V$ have in-degree $i$ and
-  out-degree $o$. 
+  \label{def:syntax-subst}\index{arithmetic~circuit!substitution}
+  Let $C=(V,E,\le,\le_i,\le_o)$ be a circuit over $(R,\mathcal{B})$
+  and let $C'=(V',E',\le',\le_i',\le_o')$ be a circuit over
+  $(R,\mathcal{B}')$. Let $C'$ have $i$ inputs and $o$ outputs and let
+  $v\in V$ have in-degree $i$ and out-degree $o$.
 
   Let $\mathcal{I}$ and $\mathcal{O}$ be monotone bijections
   respectively from $\inp(v)$ to $\inp(C')$ and from $\outp(C')$ to
-  $\outp(v)$. We note by $C[C'/v]$ the circuit $(V'',E'')$ over
+  $\outp(v)$. We denote by $C[C'/v]$ the circuit
+  $(V'',E'',\le'',\le_i'',\le_o'')$ over
   $(R,\mathcal{B}\cup\mathcal{B}')$ defined as follows:
   \begin{itemize}
-  \item $V'' = V\uplus (V' - \inp(C') - \outp(C'))$,
+  \item $V'' = V\uplus (V' - \inp(C') - \outp(C'))$;
+  \item $\le_i''=\le_i$, $\le_o''=\le_o$;
+  \item $v'\le v''$ if and only if one of the following conditions hold:
+    \begin{itemize}
+    \item $v',v''\in V$ and $v'\le v''$;
+    \item $v',v''\in V'$ and $v'\le' v''$;
+    \item $v'\in V$ and $v''\in V'$ and $v'\le v$;
+    \item $v'\in V'$ and $v''\in V$ and $v\le v''$;
+    \end{itemize}
   \item $E''(o) = \begin{cases}
       E'(o') & \text{if $E(o)\in\inp(v)$ and $\mathcal{I}(E(o))=v'$ and $\outp(v')=\{o'\}$,}\\
       E(o') & \text{if $E'(o)\in\outp(C')$ and $\mathcal{O}(E'(o))=o'$,}\\
@@ -500,16 +512,21 @@ then semantically.
 \end{definition}
 
 \begin{definition}[Semantic substitution]
+  \label{def:sem-subst}\index{arithmetic~circuit!substitution}
   Let $C$ be a circuit over $(R,\mathcal{B}\cup\{f\})$ and let $F$ be
   a circuit over $(R,\mathcal{B})$ such that $\eval_F=f$.
 
-  We note by $C[F/f]$ the circuit over $(R,\mathcal{B})$ where any
+  We denote by $C[F/f]$ the circuit over $(R,\mathcal{B})$ where any
   node $v$ of $C$ such that $\beta(v)=f$ has been syntactically
   substituted by $F$.
-
-  It is obvious that
-  \[\eval_{C[F/f]} = \eval_C \text{.}\]
 \end{definition}
+
+The proof of the following proposition is immediate.
+
+\begin{proposition}
+  Under the conditions of the previous definition,
+  \[\eval_{C[F/f]} = \eval_C \text{.}\]
+\end{proposition}
 
 As a shorthand notation, we will draw octogones to signify that a node
 has been syntactically substituted by a circuit, without giving the
@@ -550,329 +567,265 @@ actual shape of the substituting circuit. Figure
     substituted by a circuit $F$ with $3$ inputs and $3$ outputs.}
 \end{figure}
 
-This shows that circuits are a good formalism to describe
-functions. However, they carry more information than simply their
-evaluation; the next step is to classify them in a
-complexity-theoretic way.
-
-\begin{definition}[Size, depth]
-  \label{def:size}
-  Let $C$ be a circuit over $(R,\mathcal{B})$. The size of $C$, noted
-  $\size(C)$ is the number of evaluation nodes in $V$; the depth of
-  $C$, noted $\depth(C)$ is the length of the longest directed path
-  --in a graph-theoretic sense-- in $(V,E)$.
-
-  Sometimes it is useful to only count certain nodes. Let
-  $X\subset\mathcal{B}$, the $X$-weighted size of $C$, noted
-  $\size_X(C)$ is the number of nodes $v\in V$ such that $\beta(v)\in
-  X$.
-\end{definition}
-
-
-\subsection{Coevaluation}
-When dealing with a construction in category theory, it is natural to
-simultaneously study its dual, that is the construction obtained by
-\emph{reversing all the arrows}. If in definition \ref{def:eval} we
-substitute the product $\prod^nR$ by its dual $\coprod^nR$, called
-\emph{coproduct}, we obtain a new way of evaluating an arithmetic
-circuit that we will call \emph{coevaluation}. We study here the
-properties of coevaluation, its interest will be clear in the next
-sections.
-
-In this context, we will make an abuse by using the same notation
-$R^n$ we used for the product to signify the coproduct $\coprod^nR$ in
-the category. Whether $R^n$ is product or coproduct will always be
-clear from the context.
-
-\begin{definition}[Arithmetic co-operator, cobasis]
-  Let $R$ be a ring. An arithmetic co-operator over $R$ is a function
-  $f:R^i\ra R^o$ for some $i,o\in\N$; here $R^n$ is coproduct.
-
-  An arithmetic $R$-cobasis is a set of arithmetic co-operators over
-  $R$.
-\end{definition}
-
-In particular when the category is $\mathsf{Set}$ the coproduct is the
-disjoint union of sets, thus the bases $\Sbasis$ and $\Tbasis$ make no
-sense in this context.
-
-The definitions of node and circuit naturally extend to cobases, but
-we need to define a new evaluation for arithmetic circuits defined
-over them.
-
-\begin{definition}[coevaluation of an arithmetic circuit]
-  \label{def:coeval}
-  Let $C$ be an arithmetic circuit with $i$ inputs and $o$ outputs
-  over a cobasis $\mathcal{B}$. Its coevaluation is a function
-  $\lave_C:R^i\ra R^o$.
-
-  We use the same notation as in definition \ref{def:eval}. As we did
-  there, we simultaneously define $\lave_v$ for each $v\in V$ and
-  $\lave_e$ for each $e\in E$.
-  \begin{itemize}
-  \item Let $v\in V$ have in-degree $m$, let its coevaluation be
-    $\lave_v:R^m\ra R^o$ and let $\iota_1,\ldots,\iota_n$ be the
-    canonical injections from $R$ to $R^m$. Let $i_1<_v\cdots<_vi_m$
-    be the input ports of $v$ and let
-    $e_j=\bigl(i_j,E^{-1}(i_j)\bigr)$ be the corresponding edges
-    incident to $v$, then $\lave_{e_j} = \lave_v\circ\iota_j$ for any
-    $j$.
-  \item Let $y_1<_V\cdots<_Vy_n$ be the output nodes and let
-    $\iota_1,\ldots,\iota_o$ be the canonical injections from $R$ to
-    $R^o$, then $\lave_{y_j}=\iota_j$ for any $j$.
-  \item For every evaluation node $v$ with out-degree $n$, let
-    $o_1<_v\cdots<_vo_n$ be the output ports of $v$ and let
-    $e_j=\bigl(E(o_j),o_j\bigr)$ be the corresponding edges
-    stemming from $v$, then
-    \begin{equation}
-      \label{eq:lave_v}
-      \lave_v = (\lave_{e_1} \oplus \cdots \oplus \lave_{e_n}) \circ \beta(v) 
-      \text{.}
-    \end{equation}
-  \item For every input node $x$, let $e\in E$ be the only edge
-    stemming from $x$, then $\lave_x=\lave_e$.
-  \end{itemize}
-
-  We can finally define $\lave_C:R^i\ra R^o$. Let $x_1<_V\cdots<_Vx_i$
-  be the input nodes, then
-  \begin{equation}
-    \label{eq:lave}
-    \lave_C = \lave_{x_1} \oplus \cdots \oplus \lave_{x_i}
-    \text{.}
-  \end{equation}
-\end{definition}
-
-As before, the sums of equations \eqref{eq:lave_v} and \eqref{eq:lave}
-are formally defined via the universal property of the coproduct.
-
-The coevaluation in general does not attach the same semantics to a
-circuit as the evaluation. For example in the case of $\mathsf{Set}$
-the coevaluation is a function from the disjoint union of $i$ copies
-of $R$ to the disjoint union of $o$ copies of $R$. We can regard
-circuits over cobases in $\mathsf{Set}$ as objects that are fed one
-single element of $R$ on one out of their $n$ inputs and then take
-decisions depending on which input was fed. An example is given in
-figure \ref{fig:coffee}.
-
-\begin{figure}[!ht]
-  \centering
-  
-  \begin{tikzpicture}
-    \tikzstyle{node}=[circle,thick,draw=black,minimum size=4mm]
-    \tikzstyle{arg}=[rectangle,thin,draw=black,minimum size=4mm]
-
-    \begin{scope}
-      \node[arg](in){$x$};
-
-      \node[node,below of=in](s10){$\ge_{10}$};
-
-      \node[node,right of=s10,xshift=2mm](s20){$\ge_{20}$};
-      \node[arg,below of=s10](o10){$10$c};
-
-      \node[node,right of=s20,xshift=2mm](s50){$\ge_{50}$};
-      \node[arg,below of=s20](o20){$20$c};
-
-      \node[node,right of=s50,xshift=2mm](s1){$\ge_{100}$};
-      \node[arg,below of=s50](o50){$50$c};
-
-      \node[arg,below of=s1](o1){$1$\euro};
-      \node[arg,right of=o1](o2){$2$\euro};
-
-      \path[->]
-      (in) edge (s10)
-      (s10) edge (o10)
-      (s10) edge (s20)
-      (s20) edge (o20)
-      (s20) edge (s50)
-      (s50) edge (o50)
-      (s50) edge (s1)
-      (s1) edge (o1)
-      (s1) edge (o2);
-    \end{scope}
-  \end{tikzpicture}  
-  
-  \caption{The coffee machine circuit. On input $r\in R$, the operator
-    $\ge_x:R\ra R\uplus R$ gives $r$ on its first output if $r\ge x$, on its
-    second output otherwise. The circuit is an euro coin separator.}
-  \label{fig:coffee}
-\end{figure}
-
-In some cases, howevever, evaluation and coevaluation coincide. The
-following lemma shows one important case when this happens.
-
-\begin{lemma}
-  \label{th:coeval}
-  Let $C$ be a circuit over $(R,\Tbasis)$. In the category $\RMod{R}$
-  $\eval_C\simeq\lave_C$.
-\end{lemma}
-\begin{proof}
-  For finite dimensional modules, the product and the direct sum are
-  the same object. More formally, when working in $\RMod{R}$ there is
-  a natural isomorphism $\prod^n R\simeq\coprod^n R$ for any $n$ (this
-  is true for any additive category, see \cite[VIII.2]{McLane}). Thus
-  $\Tbasis$ is both a basis and a cobasis, up to isomorphism, and both
-  evaluation and coevaluation of circuits over it are meaningful.
-
-  The rest of the proof is just induction on the size of the
-  circuit. First, it is obvious that for elementary circuits with an
-  unique evaluation node $v$ we have $\eval_C \simeq \beta(v) \simeq
-  \lave_C$. Then it suffices to show that the property is maintained
-  upon composition of circuits.
-\end{proof}
-
-The equivalence of evaluations and coevalutions suggests that there is
-some unexploited symmetry in circuits over $\Tbasis$. The next
-section explores it.
 
 
 \subsection{The transposition theorem}
 \label{sec:tellegen}
+We are now ready to state and prove the
+\index{transposition~theorem}\emph{transposition theorem} for
+arithmetics circuits. 
 
-Since we are in a non-commutative setting, we have to precisely define
-what we mean by ``transposition''. We start by recalling some well
-known facts.
+We fix a family $(M_i)_{i\in\N}$ of free left $R$-modules, with
+$M_i\isom R^i$. Via the isomorphisms, it is straightforward to extend
+the definition of arithmetic circuit so that $\eval_c$ is a morphism
+$M_i\ra M_o$.  We also fix a family $(N_i)_{i\in\N}$ of free right
+$R$-modules, and a family of non-singular bilinear forms
+\begin{equation}
+  \label{eq:240}
+  \left(\braket{}{}_i:N_i\times M_i\ra R\right)_{i\in\N}
+  \text{.}
+\end{equation}
+One can think of $M_n$ being $R^n$, $N_n$ being $\dual{(R^n)}$, and
+the bilinear forms being the natural ones.
 
+We define the notion of dual circuit, that intuitively corresponds to
+\emph{turn all the arrows around}.
 
-The transposition theorem says that from a circuit that computes the
-matrix-vector product $x\mapsto \trans{x}M$ for a fixed matrix $M$, one can
-deduce another circuit that computes $y\mapsto My$. We now
-give such construction.
-
-\begin{definition}[Dual circuit]
-  \label{def:dual}
-  Let $C=(V,E)$ be a circuit over $(R,\Tbasis)$, the dual circuit of
-  $C$, noted $\dual{C}$, is the arithmetic circuit $\dual{C} = (V',
-  E)$ over $(R^{\op},\Tbasis)$ where for any node $v=(I,O,f)$ in $V$
-  there is a node $\dual{v}=(O,I,f')$ in $V'$ where
+\begin{definition}[Dual arithmetic basis]
+  Let $\mathcal{B}$ be an arithmetic basis over $R$. The
+  \index{dual~arithmetic~basis}\emph{dual basis} $\dual{\mathcal{B}}$
+  (with respect to $\braket{}{}_i$) is the basis over $R^\op$
   \begin{equation}
-    \label{eq:dual-circuit}
-    f' = \begin{cases}
-      \rmul{a} & \text{if $f = \rmul{a^\op}$}\\
-      + & \text{if $f = \hub$}\\
-      \hub & \text{if $f = +$}\\
-      \omega & \text{if $f = 0$}\\
-      0 & \text{if $f = \omega$}
-    \end{cases}
+    \label{eq:241}
+    \dual{\mathcal{B}} = \{\dual{f} \,|\, f\in\mathcal{B}\}
+    \text{.}
   \end{equation}
-  The ordering of $V'$ is the same as the one of $V$.
 \end{definition}
 
-In particular, this makes $(V',E)$ the reverse graph of $(V,E)$ in a
-graph-theoretic sense. Figure \ref{fig:circuit} shows two circuits
-that are each other's dual.
+In particular, the dual basis to $(R,\Tbasis)$ is 
+\begin{equation}
+  \label{eq:tbasis}
+  \tag{$\dual{\Tbasis}$}
+  \begin{gathered}
+    \begin{aligned}
+      +=\dual{\hub} : \dual{R}\oplus \dual{R} &\ra \dual{R}\text{,}  &  \hub=\dual{+} : \dual{R} &\ra \dual{R}\oplus \dual{R}\text{,}\\
+      \bra{a,b} &\mapsto \bra{a}+\bra{b}\text{,}\qquad   &      \bra{a} &\mapsto \bra{a,a}\text{,}\\
+    \end{aligned}\\ \\
+    \begin{aligned}
+      \lmul{a}\eqdef\dual{(\rmul{a})} : \dual{R} &\ra \dual{R}\text{,} \\
+                                             \bra{b} &\mapsto \bra{ab}\text{,}
+    \end{aligned}\\ \\
+    \begin{aligned}
+      0=\dual{\omega} : \dual{0} &\ra \dual{R}\text{,}\qquad  & \omega=\dual{0} : \dual{R} &\ra \dual{0}\text{,} \\
+      \bra{\bom} &\mapsto \bra{0}\text{,} &          \bra{a} &\mapsto \bra{\bom}\text{.}
+    \end{aligned}
+  \end{gathered}
+\end{equation}
 
-\begin{theorem}[Transposition theorem, Fiduccia '72]
-  \label{th:tellegen}
-  Let $C$ be a circuit over $(R,\Tbasis)$ that computes a module
-  homomorphism $f$, then $\dual{C}$ computes the dual homomorphism
-  $\dual{f}$.
+\begin{definition}[Dual circuit]
+  \label{def:dual}\index{arithmetic~circuit!dual}
+  Let $C=(V,E,\le,\le_I,\le_O)$ be a circuit over
+  $(R,\mathcal{B})$. For any $v\in V$ define
+  \begin{equation}
+    \label{eq:244}
+    \dual{v} =
+    \begin{cases}
+    (O,I,\dual{f})          &\text{if $v=(I,O,f)$ with $f\ne\emptyset$,}\\
+    (O,\emptyset,\emptyset) &\text{if $v=(\emptyset,O,\emptyset)$,}\\
+    (\emptyset,I,\emptyset) &\text{if $v=(I,\emptyset,\emptyset)$.}
+    \end{cases}
+  \end{equation}
+
+  The dual circuit (with respect to $\braket{}{}_i$) of $C$, denoted
+  by $\dual{C}$, is the arithmetic circuit over
+  $(R^\op,\dual{\mathcal{B}})$
+  \[\dual{C} = (\dual{V}, E^{-1},\le',\le_i',\le_o')\text{,}\]
+  where $\dual{V}=\{\dual{v}|v\in V\}$ and the orderings are defined
+  as follows:
+  \begin{align}
+    v \le v' \;&\Leftrightarrow\; \dual{v'} \le' \dual{v}\text{,}\\
+    v \le_o v' \;&\Leftrightarrow\; \dual{v} \le_o' \dual{v'}\text{,}\\
+    v \le_i v' \;&\Leftrightarrow\; \dual{v} \le_i' \dual{v'}\text{.}
+  \end{align}
+\end{definition}
+
+In particular, this makes $(V',E^{-1})$ the reverse graph of $(V,E)$
+in a graph-theoretic sense. Figure \ref{fig:circuit} shows two
+circuits that are each other's dual (note that, since $\Z$ is in the
+center of any ring, $\lmul{2}=\rmul{2}$). We can now state the
+transposition theorem.
+
+\begin{theorem}[Transposition theorem]
+  \label{th:tellegen}\index{transposition~theorem}
+  Let $C$ be a circuit that computes a morphism $f$, then $\dual{C}$
+  computes the dual morphism $\dual{f}$.
 \end{theorem}
-\begin{proof}
-  We apply the functor $\dual{()}$ to the construction of $\eval_C$ as
-  defined in \ref{def:eval}. It is routine to verify that
-  \begin{itemize}
-  \item canonical projections in $\RMod{R}$ are taken to canonical
-    injections in $\RMod{R^\op}$;
-  \item products are taken to coproducts, in particular
-    $\dual{\left(\prod^n R\right)} \simeq \coprod^nR^\op$ and the isomorphism is canonical;
-  \item any morphism $t\in\Tbasis$ is taken it to its dual $\dual{t}$
-    in $\Tbasis^\op$, the same correspondences as in equation
-    \eqref{eq:dual-circuit} hold.
-  \end{itemize}
-  Furthermore, since $\dual{()}$ is contravariant, all the arrows are
-  reversed. By comparing this with definitions \ref{def:coeval} and
-  \ref{def:dual}, we clearly see that up to a natural isomorphism
-  $\dual{\eval_C}\simeq\lave_{\dual{C}}$.
 
-  The claim follows from lemma \ref{th:coeval}.
+We give here a quite tedious proof that amounts, in a hidden way, to
+write down the matrices of $f$ and $\dual{f}$ and check that they are
+the same. A much simpler proof will be given in
+Appendix~\ref{cha:basic-categ-theory}.
+
+\begin{definition}
+  Let $x$ and $y$ an be nodes of $C$ and let $p=(e_1,\ldots,e_k)$ be a
+  path from $x$ to $y$.
+
+  For any $1\le i<k$ let the node
+  \[\xymatrix{\cdots\ar[r]^{e_i}&v\ar[r]^{e_{i+1}}&\cdots}\]
+  have $n_i$ inputs and $m_i$ outputs, and let $\iota:R\ra R^{n_i}$ be
+  the injection corresponding to the position of $e_i$ in $\inp(v)$
+  and $\pi:R^{m_i}\ra R$ the projection corresponding to the position
+  of $e_{i+1}$ in $\outp(v)$, then we define
+  \begin{equation}
+    \label{eq:252}
+    f_i = \pi\circ\beta(v)\circ\iota
+    \text{.}
+  \end{equation}
+
+  Finally, we define $\eval_p$ as
+  \begin{equation}
+    \label{eq:247}
+    f_{k-1}\circ\cdots\circ f_1
+    \text{.}
+  \end{equation}
+\end{definition}
+
+\begin{lemma}[The electrical network lemma]
+  \label{th:electrical-network}
+  Let $C$ be an arithmetic circuit, let $x_1\le_i\cdots\le_ix_n$ be
+  its input nodes and $y_1\le_o\cdots\le_oy_m$ its output nodes. 
+  We have the following identity
+  \begin{equation}
+    \label{eq:248}
+    \pi_j\circ\eval_C\circ\iota_i =
+    \sum_{p\in x_i\leadsto y_j}\eval_p
+    \quad\text{for any $1\le i\le n$, $1\le j\le m$,}
+  \end{equation}
+  where the sum ranges over all the distinct paths from $x_i$ to
+  $y_j$.
+\end{lemma}
+\begin{proof}
+  We start by proving that for any evaluation node $v$ and any edge
+  $e$ stemming from $v$
+  \begin{equation}
+    \label{eq:250}
+    \eval_{e} = \sum_{i=1}^n\sum_{p\in x_i\leadsto v}\eval_p\circ\pi_i
+    \text{,}
+  \end{equation}
+  where $\pi_i:R^n\ra R$ is the $i$-th projection. We do this by
+  induction on the length of the longest path to $v$.
+
+  Let $e_1\le_v\ldots\le_ve_k$ be the edges incident to $v$, and let
+  $v_1,\ldots,v_k$ be the corresponding nodes. Then, by definition
+  \begin{equation}
+    \label{eq:251}
+    \eval_{e} = \pi_e\circ\beta(v)\circ(\eval_{e_1},\ldots,\eval_{e_k}) =
+    \sum_{j=1}^k \pi_e\circ\beta(v)\circ\iota_j\circ\eval_{e_j}
+    \text{,}
+  \end{equation}
+  where $\pi_e$ is the projection corresponding to the position of $e$
+  in $\outp(v)$. By induction, this is equivalent to
+  \begin{equation}
+    \label{eq:253}
+    \sum_{j=1}^k\sum_{i=1}^n\sum_{p\in x_i\leadsto v_j} \pi_e\circ\beta(v)\circ\iota_j\circ\eval_p\circ\pi_i =
+    \sum_{i=1}^n\sum_{p\in x_i\leadsto v}\eval_p\circ\pi_i
+    \text{,}
+  \end{equation}
+  where the equality comes from Eq.~\eqref{eq:252}.
+
+  Now, by the definition of $\eval_C$ we have 
+  \begin{equation}
+    \label{eq:254}
+    \pi_j\circ\eval_C = \sum_{i=1}\sum_{p\in x_i\leadsto y_j}\eval_p\circ\pi_i
+    \text{,}
+  \end{equation}
+  and composing on both sides with $\iota_i$ gives Eq.~\eqref{eq:248}.
+\end{proof}
+
+
+\begin{proof}[Proof of the transposition theorem]
+  The proof of the transposition theorem is now straightforward. By linearity
+  it is enough to prove that
+  \begin{equation}
+    \label{eq:242}
+    \pi_j\circ\eval_C\circ\iota_i =
+    \dual{\left(\pi_i\circ\eval_{\dual{C}}\circ\iota_j \right)}
+    \quad\text{for any $1\le i\le n$, $1\le j\le m$,}
+  \end{equation}
+  but this is evident by Eqs.~\eqref{eq:248},~\eqref{eq:247}
+  and~\eqref{eq:252}.
 \end{proof}
 
 \begin{corollary}
-  A linear function $f:R^n\ra R^m$ and its dual can be computed by
-  arithmetic circuits of same sizes and depths. In particular if $C$
-  computes $f$ and $\dual{C}$ computes $\dual{f}$,
+  A linear function $f:R^n\ra R^m$ and its transpose can be computed
+  by arithmetic circuits of same sizes and depths. In particular if
+  $C$ computes $f$ and $\dual{C}$ computes $\dual{f}$,
   \begin{gather*}
     \size_{\{+\}}(C) = \size_{\{\hub\}}(\dual{C}), \qquad  
     \size_{\{\hub\}}(C) = \size_{\{+\}}(\dual{C}), \\
-    \size_{\{\rmul{a}\}}(C) = \size_{\{\rmul{a}\}}(\dual{C})\quad\text{for any $a\in R$},\\
+    \size_{\{*_a\}}(C) = \size_{\{*_a\}}(\dual{C})\quad\text{for any $a\in R$},\\
     \size_{\{0\}}(C) = \size_{\{\omega\}}(\dual{C}), \qquad 
     \size_{\{\omega\}}(C) = \size_{\{0\}}(\dual{C}).
   \end{gather*}
 \end{corollary}
 
-In the commutative world, if $M$ is the matrix associated to the
-homomorphism $f$, $\trans{M}$ is the matrix associated to $\dual{f}$
-(up to isomorphism), but when $R$ is not commutative
-$\trans{(AB)}\ne\trans{B}\trans{A}$ and this correspondence fails. We
-can nevertheless define another transformation on circuits that acts
-in a way similar to transposition in some special cases.
+\begin{remark}
+  \label{rk:tellegen}
+  The name ``transposition theorem'' is somehow misleading. In fact,
+  the theorem says that if $\eval_C$ is the map $x\mapsto xM$ for some
+  matrix $M$, then $\eval_{\dual{C}}$ is the map $y\mapsto My$. If $R$
+  is commutative, this is equivalent to transpose $M$, but in the
+  non-commutative case this is not anymore true. For this reason, we
+  shall always prefer the formulation in terms of bilinear forms
+  instead of the one in terms of matrices.
 
-\begin{definition}[Opposite circuit]
-  Let $C=(V,E)$ be a circuit over $(R,\Tbasis)$, the \emph{opposite
-    circuit} of $C$, noted $C^\op$, is the arithmetic circuit over
-  $(R^{\op},\Tbasis)$ where any $\beta(v)=\rmul{a}$ has been changed to $\rmul{a^\op}$.
-\end{definition}
-
-Now the opposite of a circuit certainly computes some $R^\op$-module
-homomorphism, but there is no unique relationship between $\eval_C$
-and $\eval_{C^\op}$ due to the lack of commutativity. A special case
-of interest is stated in the next corollary.
-
-\begin{definition}[Bilinear chain]
-  Let $R$ be non-commutative and let $S\subset R$ be a subring of its
-  center. A circuit $C$ over $(R,\Tbasis)$ such that no directed path
-  in $C$ contains two nodes $v\ne v'$ with $\beta(v)=\rmul{a}$ and
-  $\beta(v')=\rmul{a'}$ where $a,a'\not\in S$ is called an
-  $S$-\emph{bilinear chain}.
-\end{definition}
-
-\begin{corollary}
-  Let $C$ be a bilinear chain and let $\eval_C(x)=\trans{x}M$ for some
-  matrix $M$, then $\eval_{C^\op}(x)=\trans{M}x$.
-\end{corollary}
-\begin{proof}
-  Let $x_1,\ldots,x_n$ be the inputs of $C$ and $y_1,\ldots,y_m$ its
-  outputs and let $M$ be the $n\times m$ matrix associated to
-  $\eval_C$. Each path connecting $x_i$ to $y_j$ contributes linearly
-  to the entry $(M)_{i,j}$; more precisely, let $p$ be a path from
-  $x_i$ to $y_j$ and let $\rmul{a_1},\ldots,\rmul{a_h}$ be the
-  multiplication nodes appearing (in that order) on it, we associate
-  to $p$ the element $C_p=a_1\cdots a_h\in R$, then
-  \begin{equation}
-    (M)_{i,j}=\sum_{p\in\mathcal{P}(x_i,x_j)}C_p
-  \end{equation}
-  where $p$ ranges over the paths from $x_i$ to $x_j$. Obviously, to
-  any path in $C$ corresponds an unique path in $C^\op$, by nothing
-  them with the same letter $p$ we have
-  \begin{equation}
-    C_p^\op=a_1^\op\cdots a_n^\op=(a_n\cdots a_1)^\op=(C_p)^\op
-    \text{ ,}
-  \end{equation}
-  where the last equality comes from the fact that all the $a_i$
-  except at most one are in the center of $R$. We conclude that if
-  $M'$ is the matrix associated to $C^\op$ then
-  \begin{equation}
-    (M')_{i,j}=\sum_{p\in\mathcal{P}(x_i,x_j)}C_p^\op=(M)_{i,j}^\op
-    \text{ ;}
-  \end{equation}
-  and thus $\trans{x}M'=\trans{\left(\trans{M}x\right)}$.
-\end{proof}
+  It is also worth noticing that the transposition theorem stays true
+  if instead of a bilinear form we had used a sesquilinear form (in
+  this case $\dual{(\rmul{a})}=\rmul{\bar{a}}$). This case of the
+  transposition theorem (applied to unitary matrices) is well known in
+  quantum physics and in particular in quantum computing.
+\end{remark}
 
 
+\begin{nota}
+  The name ``The electrical network lemma'' is ours, but it could well
+  have been original. The transposition theorem was first discovered
+  in electrical network theory by Bordewijk~\cite{bordewijk57}; he
+  only showed the case
+  $R=\C$. Some~\cite{burgisser+clausen-shokrollahi,bostan+lecerf+schost:tellegen}
+  attribute the discovery to tellegen, Bordweijk's advisor, but this
+  is debated~\cite{djb:tellegen}.
 
-\subsection{Uniformity}
+  The first complete algebraic proof, treating the case of an
+  arbitrary non-commutative ring, is due to
+  Fiduccia~\cite{fiduccia:phd}. There have been many rediscoveries of
+  the theorem (see\cite{djb:tellegen}), but Fiduccia's statement stays
+  the most general.
+
+  Kaltofen and Yagati~\cite{kaltofen+lakshman89} pointed out that the
+  transposition theorem can be proven as a special case of Baur and
+  Strassen's differentiation of circuits~\cite{baur+strassen83}. We
+  shall come back to this question in
+  Section~\ref{sec:word-about-automatic}.
+\end{nota}
+
+
+\subsection{Circuit families}
 \label{sec:uniformity}
 
 A circuit is limited to compute one specific function with inputs and
-outputs of fixed size (in term of elements of $R$). However complexity
+outputs of fixed size (in terms of elements of $R$). However complexity
 theory is interested in algorithms that compute on inputs of variable
-size. This will lead us to study families of circuits.
+size. This leads to study families of circuits.
 
 \begin{definition}[Circuit family]
-  Let $R$ be a ring, $\mathcal{B}$ a basis over $R$ and $\pspace$ a
-  set. A \emph{circuit family} over $(R,\mathcal{B},\pspace)$ is a
-  family of circuits over $(R,\mathcal{B})$ indexed by $\pspace$.
-  $\pspace$ is called the \emph{parameter space} of the family.
+  Let $\mathcal{B}$ a basis over $R$ and $\pspace$ a set. A
+  \index{circuit~family}\emph{circuit family} over
+  $(R,\mathcal{B},\pspace)$ is a family of circuits over
+  $(R,\mathcal{B})$ indexed by $\pspace$.  $\pspace$ is called the
+  \emph{parameter space} of the family. When the mapping from
+  $\pspace$ to the circuits is Turing-computable, the family is called
+  \emph{uniform}.
 \end{definition}
 
 Algebraic complexity textbooks usually take $\pspace=\N$ and force
@@ -881,7 +834,8 @@ interest will be clear in the next sections.
 
 \begin{definition}[Size and depth functions]
   Let $\mathcal{C} = (C_j)_{j\in\pspace}$ be a circuit family, we
-  define the size and depth function as
+  define the \index{arithmetic~circuit!size}size and
+  \index{arithmetic~circuit!depth}depth function as
   \begin{align*}
     \size^{\mathcal{C}}:\pspace&\ra\N  & \depth^{\mathcal{C}}:\pspace&\ra\N\\
                    j&\mapsto\size(C_j) &    j&\mapsto\depth(C_j)
@@ -897,34 +851,13 @@ interest will be clear in the next sections.
   \end{align*}
 \end{definition}
 
-Circuit families are interesting in theory and theorem
-\ref{th:tellegen} easily generalizes to them. However this model of
-computation is strictly more powerful than the BSS one (see \cite[Obs.
-2.3]{Vollmer}). It is sometimes desirable to restrict oneself to a
-more constrained model.
-
-\begin{definition}[Uniform circuit family]
-  Let $\mathcal{C} = (C_j)_{j\in\pspace}$ be a circuit family. Fix a
-  binary representation of arithmetic circuits over $(R,\mathcal{B})$
-  and a binary representation of $\pspace$.
-
-  $\mathcal{C}$ is said to be uniform if there is a multi-band Turing
-  machine $\mathcal{M}$ that on input $x$ writes the binary
-  representation of $C_x$ on its output tape if $x$ is the binary
-  representation of an element of $\pspace$, or an error token otherwise.
-
-  The complexity of $\mathcal{M}$ is called the \emph{uniform
-    complexity} of $\mathcal{C}$.
-\end{definition}
-
 We are mainly interested in uniform circuit families since they are
 equivalent to computable functions, theorem \ref{th:tellegen} easily
-generalizes to them. We won't study uniform circuit families more in
-depth. Instead, we directly work on computer programs that implicitly
-represent circuit families, and automatically deduce the transposed
-family without actually using the circuit model. More details on
-uniform circuit families can be found in \cite{Vollmer}.
-
+generalizes to them. We will not study uniform circuit families more
+in depth; what we shall do instead, is directly work on computer programs
+implicitly representing circuit families and automatically deduce the
+transposed family without actually using the circuit model. More
+details on uniform circuit families can be found in \cite{vollmer}.
 
 
 % Local Variables:

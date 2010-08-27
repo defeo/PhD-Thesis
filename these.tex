@@ -77,8 +77,6 @@
 \newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
 \newcommand{\braket}[2]{\left\langle #1 \middle| #2 \right\rangle}
 \newcommand{\braketop}[3]{\left\langle #1 \middle| #2 \middle| #3 \right\rangle}  % notation braket
-\newcommand{\lst}{\mathbf}  % lists of coordinates
-\newcommand{\algeb}{\mathcal}  % la police des algèbres
 \newcommand{\poinc}{\mathcal{H}}  % the Poincaré half plane
 
 %% Courbes
@@ -97,6 +95,19 @@
 \newcommand{\La}{\Leftarrow}
 \newcommand{\Ra}{\Rightarrow}
 
+%% Langages
+\newcommand{\bom}{\perp}  % bottom _|_
+\newcommand{\al}{\prec}  % Haskell's -<
+\newcommand{\tAL}{\textsf{transAL}}
+\newcommand{\Sbasis}{\mathcal{S}}  % standard basis
+\newcommand{\Tbasis}{\mathcal{L}}  % linear basis
+\newcommand{\lmul}[1]{{}_{#1}*}  % left multiplication node
+\newcommand{\rmul}[1]{*_{#1}}  % right multiplication node
+%\newcommand{\RMod}[1]{#1\text{\sf-Mod}}  % The category of left R-modules
+%\newcommand{\ModR}[1]{\text{\sf Mod-}#1}  % The category of right R-modules
+\newcommand{\pspace}{\mathcal{P}}  % the parameter space
+
+
 %% Complexité
 \newcommand{\tildO}{\tilde{O}}  % la notation O~ qui oublie les log
 \newcommand{\Mint}{\mathsf{M}_\text{int}}  % fonction de multiplication
@@ -114,6 +125,10 @@
 
 %% Polices
 \newcommand{\basis}{\mathbf}  % la police des bases
+\newcommand{\lst}{\mathbf}  % lists of coordinates
+\newcommand{\algeb}{\mathcal}  % la police des algèbres
+\newcommand{\alg}[1]{{\sf #1}}  % la police des algorithmes
+\newcommand{\algref}[1]{\alg{\ref{#1}}}  % la police des algorithmes
 
 %% Opérateurs
 \DeclareMathOperator{\im}{im}  % image
@@ -128,7 +143,7 @@
 \DeclareMathOperator{\lave}{coeval}  % (co)evaluation of an arithmetic circuit
 \DeclareMathOperator{\size}{size}
 \DeclareMathOperator{\depth}{depth}  % size and depth of a circuit
-\DeclareMathOperator{\hub}{H}  % a hub node
+\DeclareMathOperator{\hub}{\&}  % a hub node
 \DeclareMathOperator{\id}{id}  % identity
 \DeclareMathOperator{\proc}{proc}  % proc keywors in transAL
 \DeclareMathOperator{\diff}{d}  % differential operator
@@ -143,7 +158,7 @@
 \DeclareMathOperator{\proj}{proj}  % evaluation
 
 
-%%Théorèmes
+%% Théorèmes
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -156,26 +171,9 @@
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem*{nota}{Note}
 
-
 %% Algorithmes
-% \newenvironment{algorithm}[3]{\begin{center}\begin{minipage}{0.95\textwidth}
-%       \sf
-%       \rule{\textwidth}{0.2pt}\\
-%       \makebox[\textwidth][c]{\textbf{#1}}\\
-%       \rule[0.5\baselineskip]{\textwidth}{0.2pt}\\
-%       \parbox{\textwidth}{\textbf{Input~~~: } #2}
-%       \parbox{\textwidth}{\textbf{Output~: } #3}
-%       \begin{enumerate}
-% }{\end{enumerate}
-%       \rule{\textwidth}{0.2pt}
-% \end{minipage}\end{center}}
-
 \renewcommand{\algorithmicrequire}{\textbf{Input~~~:}}
 \renewcommand{\algorithmicensure}{\textbf{Output~:}}
-
-\newcommand{\alg}[1]{{\sf #1}}  % la police des algorithmes
-\newcommand{\algref}[1]{\alg{\ref{#1}}}  % la police des algorithmes
-
 
 
 \title{Duality at the Heart of Fast Algorithms}
@@ -201,7 +199,7 @@
 \appendix
 \chapter{Categorical considerations}
 \label{cha:basic-categ-theory}
-\input{pre/category}
+\input{trans/category}
 \input{trans/haskell}
 
 \include{isogeny/veluproof}
