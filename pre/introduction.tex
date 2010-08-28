@@ -1,5 +1,6 @@
 \chapter*{Introduction}
-\addcontentsline{toc}{chapter}{\protect\numberline{}Introduction (english)}
+\addcontentsline{toc}{chapter}{Introduction (English)}
+
 
 
 % In this thesis we apply techniques from computer algebra and language
@@ -79,37 +80,16 @@ your toaster maybe will one day. This is so true, that the last
 generation of Intel Core processors supports a hardware instruction
 (CLMUL) for multiplication in $\F_{2^m}$~\cite{intel-carryless}.
 
-This is because finite fields appear everywhere in telecommunication
-engineering. The list of their applications would not fit in one
-introduction, but the list of research domains involved almost resumes
-to Error Correcting Codes and Cryptography.  We shall forget the first
-and just skip quickly through the second, making our excuses to those
-who we will not mention the favorite cryptographic protocol of.
+This is because finite fields appear everywhere in telecommunications
+engineering, in particular in Error Correcting Codes and
+Cryptography. This thesis applies advanced algorithmic techniques to
+computations in towers of extensions of finite fields, in view of
+applications to elliptic curve cryptography.
 
-Cryptography is traditionally divided in two areas: \emph{symmetric}
-cryptography, where the parties are required to share a common secret,
-and \emph{public key} or \emph{asymmetric} cryptography, where no
-previous share of a secret is needed. Symmetric cryptography has been
-studied since the ancient times and is known for using finite groups
-since the first century B.C.~\cite{cesar}.
 
-Public key cryptography is a relatively young field. The first
-asymmetric protocol was invented in 1976 by Diffie and Hellman
-\cite{dh}, and it was based over the conjectured difficulty of the
-\emph{discrete logarithm problem} in the multiplicative group of
-$\Z/p\Z$ (yes, a finite field!). Shortly after, Rivest, Shamir and
-Adleman~\cite{rsa} invented the famous RSA encryption system, based on
-the difficulty of integer factorization.
 
-In the mid eighties, new cryptosystems were proposed, based on the
-difficulty of the discrete logarithm in the group of points of an
-elliptic curve defined over a finite field~\cite{miller86,koblitz87}.
-They have become increasingly popular because, compared to RSA and
-Diffie-Hellman, they have a smaller key size for an equivalent
-security level. Soon after, elliptic curve cryptosystems have been
-generalized to cryptosystems based on the discrete logarithm in the
-Jacobian of a hyperelliptic curve~\cite{koblitz89}.
-
+\paragraph{Isogeny computation}
+\label{sec:isogeny-computation}
 In elliptic curve cryptography, in order to build a secure
 cryptosystem, one must select a curve whose number of points contains
 a large enough prime factor. The preferred method for doing this is to
@@ -121,20 +101,168 @@ Elkies~\cite{atkin88,elkies92,elkies98,schoof95}, henceforth named
 SEA.
 
 The SEA algorithm raised interest in explicit computations with
-isogenies, i.e. algebraic group morphisms of elliptic curves. 
+isogenies, i.e. algebraic group morphisms of elliptic curves. When
+computing isogenies over finite fields one must distinguish between
+the large and arbitrary characteristic. In the first case, one can use
+algorithms that work for characteristic $0$, and then reduce the
+result; the methods of Elkies~\cite{elkies98,morain95},
+Atkin~\cite{schoof95} and Bostan, Morain, Salvy and
+Schost~\cite{bostan+morain+salvy+schost08} belong to this family. When
+the reduction modulo the characteristic introduces division by $0$,
+these algorithms are not of help.
+
+The first two algorithms to compute isogenies in arbitrary
+characteristic are due to Couveignes~\cite{couveignes94,couveignes96}:
+both have a polynomial dependency in the characteristic, which makes
+them unpractical for values higher than $2$ or $3$. An algorithm
+specific to characteristic $2$ was given by Lercier~\cite{lercier96};
+in practice it performs faster than Couveignes' algorithms, but its
+complexity is not well understood. More recently, Joux and
+Lercier~\cite{joux+lercier06} and Lercier and
+Sirvent~\cite{lercier+sirvent08} have shown that it is possible to
+avoid division by $0$ by lifting the curves in the $p$-adics. The last
+one is currently the algorithm for the arbitrary characteristic case
+having the best asymptotic complexity; its complexity in the
+characteristic is only logarithmic.
+
+It is interesting to remark, however, that no algorithm to compute
+isogenies has optimal or quasi-optimal complexity, with the only
+exception of~\cite{bostan+morain+salvy+schost08} on a very special
+case. 
+
+The starting point of this work was Couveignes' second
+algorithm~\cite{couveignes96}. It computes an isogeny by interpolating
+it over the $p^k$-torsion points of the elliptic curves for a large
+enough $k$; when those points are not defined on the base field, one
+has to take towers of field extensions to find them. The field
+extensions that naturally arise when doing this computation are
+splitting fields of polynomials of the from
+\[X^p - X -\alpha\text{;}\] such extension are called Artin-Schreier
+extensions. 
 
 
-finite fields again, Artin-Schreier, rur
+\paragraph{Towers of finite fields}
+\label{sec:towers-extensions}
+Besides addition, multiplication and inversion, the arithmetic
+operations of interest in a tower of finite extensions arguably are
+relative traces and embeddings. For finite fields one could add
+explicit Galois groups to the list as these are relatively easy to
+compute with.
 
-duality, transposed algorithms, functional languages, code generation
-function-level programming
+The arithmetic of towers of finite fields is a central question for
+any computer algebra system, however it has received few attention, if
+any. Magma is known for having had support for lattices of finite
+fields for a long time~\cite{bosma+cannon+steel97}, but it is hard to
+tell which algorithms it implements nowadays and what their
+complexities are. All other results that can possibly apply to towers
+of finite fields were derived in the more general context of
+polynomial system solving and effective algebraic geometry, in
+particular in the resolution of triangular
+sets~\cite{diaz+gonzalez01,giusti+lecerf+salvy01,bostan+salvy+schost03,pascal+schost06,li+moreno+schost07,dahan+jin+moreno+schost08,boulier+lemaire+moreno01,FGLM,rouiller99,alonso+becker+roy+wormann}.
+
+In the specific case of Artin-Schreier towers, the literature is not
+extensive either.  Using ideas from~\cite{Conway:ONAG2000},
+Cantor~\cite{cantor89} constructs a particular Artin-Schreier tower
+suited for FFT multiplication in characteristic
+$2$. In~\cite{couveignes00}, Couveignes gives an algorithm to compute
+isomorphisms between Artin-Schreier towers; however, his algorithm
+needs as a prerequisite a fast multiplication algorithm in some towers
+of a special kind, called ``Cantor towers''
+in~\cite{couveignes00}. Such an algorithm is unfortunately not in the
+literature, making the results of~\cite{couveignes00} non practical.
 
 
+\paragraph{Transposition principle}
+\label{sec:transp-princ}
+One algorithmic tool that we shall study in depth and apply throughout
+the whole document is the \emph{transposition principle}, which is the
+language-theoretic counterpart to algebraic duality.
 
-plan, resultats, implementations
+The transposition principle was discovered in electrical network
+theory by Bordewijk\cite{bordewijk57}, then proved in its general form
+by Fiduccia~\cite{fiduccia:phd}; but it only became popular in
+computer algebra much later through the works of Kaltofen, Yagati,
+Shoup, von zur Gathen and
+others~\cite{kaltofen+lakshman89,vzgathen+shoup92,shoup94,shoup95,shoup99,hanrot+quercia+zimmermann}. It
+states that
+\begin{quote}
+  To any \emph{$R$-algebraic} algorithm computing a linear function
+  $f:M\ra N$, where $M,N$ are $R$-modules, corresponds an algebraic
+  algorithm that computes $\dual{f}$ using the same number of
+  algebraic operations.
+\end{quote}
+
+The transposition principle is important in computer algebra because
+it permits to derive asymptotically good algorithms that were not
+otherwise evident. One big step forward in the understanding of it was
+done by Bostan, Lecerf and Schost~\cite{bostan+lecerf+schost:tellegen}
+who, extending work of Shoup~\cite{shoup95}, remarked that
+transposition can be systematically applied to a restricted
+programming language. It is also remarkable that the transposition
+principle has a strong connection with automatic
+differentiation~\cite{baur+strassen83,kaltofen+lakshman89,Ka2K,gashkov+gashkov05,sergeev08}.
+
+In this document we investigate more in depth the relationships
+between the transposition principle and programming languages. We use
+the theory of typed purely functional languages~\cite{pierce} as
+framework, because its elegant mathematical structure permits to
+reason at an algebraic level on programs.
 
 
+\paragraph{Outline, contributions and software packages}
+\label{sec:outl-contr}
+This document is divided in four parts. Part~\ref{cha:algebra} recalls
+the basic notions from algebra and computer algebra that we will use
+later.
 
+Part~\ref{part:transp-princ} studies the transposition principle. In
+Chapter~\ref{cha:algebr-compl-dual} we present the arithmetic circuit
+model and the straight line program model, and prove the principle in
+them. Then we discuss the relationships with automatic
+differentiation. Chapter~\ref{cha:autom-transp-code} is a
+collaboration with Schost. We study the relationships between the
+arithmetic circuit model and functional programming languages, then we
+show that transposition can be applied algorithmically to a generic
+functional language. Some complementary observations on the
+categorical semantics of arithmetic circuits and their application to
+automatic transposition are given in
+Appendix~\ref{cha:basic-categ-theory}, which is joint work with
+Boespflug.
+
+Part~\ref{part:fast-arithm-using} is devoted to arithmetics in towers
+of extensions. We start by reviewing the general theory of
+zero-dimensional ideals and rational univariate representations in
+Chapter~\ref{cha:trace-computations}. Here, the results of
+Part~\ref{part:transp-princ} are the key to obtain asymptotically fast
+algorithms. The algorithms of this chapter are then applied in
+Chapter~\ref{cha:artin-schr-towers}, where we provide asymptotically
+good algorithms for Artin-Schreier towers (fruit of another
+collaboration with Schost).
+
+Finally Part~\ref{part:appl-isog-comp} applies the results of the
+previous chapters to isogeny computation. After some general
+references on elliptic curves in Chapter~\ref{cha:ellipt-curv-isog},
+we review in Chapter~\ref{cha:algor-small-char} the most efficient
+algorithms to compute isogenies over finite fields, and present new
+asymptotically fast variants of Couveignes' algorithm, along with a
+promising generalization in
+Section~\ref{sec:bounded}. Chapter~\ref{cha:experimental-results} then
+discusses implementation and experimental results for this part of the
+document.
+
+Theory would be meaningless without practice. Similarly, this
+manuscript would make no sense if it was not accompanied by our
+software packages. The great majority of the algorithms we present
+here have been implemented, packaged and distributed under open source
+licences. So, all the algorithms of
+Chapter~\ref{cha:artin-schr-towers} can be found in the \texttt{C++}
+library \texttt{FAAST}, available from
+\url{http://www.lix.polytechnique.fr/Labo/Luca.De-Feo/FAAST/}. At the
+moment we write, the compiler for the language \texttt{transalpyne} of
+Chapter~\ref{cha:autom-transp-code} is not distributed yet; we are
+currently working on the first stable release and hope to start
+distributing it by the beginning of 2011. It will be available from
+\url{ http://transalpyne.gforge.inria.fr/}.
 
 
 
