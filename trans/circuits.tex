@@ -12,12 +12,13 @@ In the whole chapter, by $R$ we shall denote a (non necessarily
 commutative) ring with unit. Unless otherwise stated, we consider
 $R^n$ with its natural structure of left $R$-module; when needed, we
 shall use \hyperref[sec:linear-algebra:bra-ket]{kets} $\ket{x}$ to
-remove any ambiguity about the fact that we are talking of left
-modules.  We set $R^0=0$, the zero module, and we denote by $\bom$ (or
-$\ket{\bom}$) its unique element.
+remove any ambiguity about the fact that we are talking about elements
+of a left module.  We set $R^0=0$, the zero module, and we denote by
+$\bom$ (or $\ket{\bom}$) its unique element.
 
 The dual space $\dual{(R^n)}=\hom(R^n,R)$ has a natural structure of
-right $R$-module (or of left $R^\op$-module) by the assignment
+right $R$-module (equivalently, of left $R^\op$-module) by the
+assignment
 \begin{equation}
   \label{eq:232}
   \bra{\ell} a : \ket{x} \mapsto \braket{\ell}{x}a
@@ -25,7 +26,7 @@ right $R$-module (or of left $R^\op$-module) by the assignment
 \end{equation}
 where we have used \hyperref[sec:linear-algebra:bra-ket]{bras} to
 denote elements of $\dual{(R^n)}$ and a
-\hyperref[sec:linear-algebra:bra-ket]{brakets} to denote the natural
+\hyperref[sec:linear-algebra:bra-ket]{bracket} to denote the natural
 bilinear form that results by applying linear forms to elements.
 
 \begin{definition}[Arithmetic operator, arity]
@@ -36,8 +37,11 @@ bilinear form that results by applying linear forms to elements.
 \end{definition}
 
 \begin{definition}[Arithmetic basis]
-  An \index{arithmetic~basis}\textbf{arithmetic $R$-basis} is a (not
-  necessarily finite) set of arithmetic operators over $R$.
+  An \index{arithmetic~basis}\emph{arithmetic $R$-basis} is a (not
+  necessarily finite) set of arithmetic operators over $R$.  A basis
+  is said to be \index{arithmetic~basis!commutative}\emph{commutative}
+  if all its operators are invariant under the natural action of
+  $\mathcal{S}_n$ over $R^n$ (i.e.\ under permutation of coordinates).
 \end{definition}
 
 The arithmetic basis we will work with is the
@@ -57,7 +61,7 @@ Arithmetic circuits are directed acyclic multigraphs carrying
 information from an arithmetic basis; the formal definition follows.
 
 \begin{definition}[Arithmetic node]
-  Let $\mathcal{B}$ be an $R$-basis. A \index{node}\textbf{node} over
+  Let $\mathcal{B}$ be an $R$-basis. A \index{node}\emph{node} over
   $(R,\mathcal{B})$ is a tuple $v=(I, O, f)$ such that
   \begin{itemize}
   \item $I$ and $O$ are finite ordered sets, 
@@ -148,8 +152,8 @@ information from an arithmetic basis; the formal definition follows.
       \path[->] (in) edge (out);
     \end{scope}
   \end{tikzpicture}
-  \caption{Nodes over the linear basis: round ones are evaluation
-    nodes, square ones are input and output nodes.}
+  \caption{Nodes over the standard linear basis: round ones are
+    evaluation nodes, square ones are input and output nodes.}
 \end{figure}
 
 
@@ -197,13 +201,12 @@ In what follows, we shall call $(V,E)$ the
 classic graph theoretic terms to refer to its properties. We shall
 often implicitly make this identification. Thus, we shall represent
 $E$ as a set of edges $(o,i)$, and make use of the classic concepts of
-\emph{incident} edge, nodes \emph{connected} by an edge,
+\emph{incident} edge, nodes \emph{connected} by an edge, \emph{paths},
 etc.
 
 Figure~\ref{fig:circuit} shows two examples of arithmetic circuits.
-We draw input and output nodes in square boxes and evaluation nodes in
-round boxes. Input and output nodes are ordered from left to right;
-ports are not ordered because the basis is commutative.
+Input and output nodes are ordered from left to right; ports are not
+ordered because the basis is commutative.
 
 
 \begin{figure}[!ht] \centering
@@ -282,8 +285,8 @@ of=plus2](times){$\rmul{2}$};
 \subsection{Semantic of a circuit}
 \label{sec:semantic-circuit}
 Circuits would be meaningless if they hadn't a semantic attached to
-them. Intuitively the semantic corresponds to recursively feed the
-inputs to the nodes, evaluate $\beta(v)$ at the inputs and collect the
+them. Intuitively the semantic corresponds to recursively feed inputs
+to the nodes, evaluate $\beta(v)$ at the inputs and collect the
 outputs.
 
 \begin{definition}[Evaluation of an arithmetic circuit]
@@ -343,6 +346,9 @@ it. The converse is partially true.
   Take the matrix associated to such morphism and create a circuit
   that performs the matrix-vector product.
 \end{proof}
+
+This also gives an upper bound of $O(mn)$ on the circuit size of a
+linear operator $R^m\ra R^n$.
 
 % Circuits can be composed in a natural way by connecting their inputs
 % and outputs.
@@ -604,16 +610,16 @@ We define the notion of dual circuit, that intuitively corresponds to
 
 In particular, the dual basis to $(R,\Tbasis)$ is 
 \begin{equation}
-  \label{eq:tbasis}
+  \label{eq:tbasis-star}
   \tag{$\dual{\Tbasis}$}
   \begin{gathered}
     \begin{aligned}
-      +=\dual{\hub} : \dual{R}\oplus \dual{R} &\ra \dual{R}\text{,}  &  \hub=\dual{+} : \dual{R} &\ra \dual{R}\oplus \dual{R}\text{,}\\
+      +=\dual{\hub} : \dual{(R\oplus R)} &\ra \dual{R}\text{,}  &  \hub=\dual{+} : \dual{R} &\ra \dual{(R\oplus R)}\text{,}\\
       \bra{a,b} &\mapsto \bra{a}+\bra{b}\text{,}\qquad   &      \bra{a} &\mapsto \bra{a,a}\text{,}\\
     \end{aligned}\\ \\
     \begin{aligned}
-      \lmul{a}\eqdef\dual{(\rmul{a})} : \dual{R} &\ra \dual{R}\text{,} \\
-                                             \bra{b} &\mapsto \bra{ab}\text{,}
+      \rmul{a}=\dual{(\rmul{a})} : \dual{R} &\ra \dual{R}\text{,} \\
+                                             \bra{b} &\mapsto \bra{b}a\text{,}
     \end{aligned}\\ \\
     \begin{aligned}
       0=\dual{\omega} : \dual{0} &\ra \dual{R}\text{,}\qquad  & \omega=\dual{0} : \dual{R} &\ra \dual{0}\text{,} \\
@@ -649,10 +655,9 @@ In particular, the dual basis to $(R,\Tbasis)$ is
   \end{align}
 \end{definition}
 
-In particular, this makes $(V',E^{-1})$ the reverse graph of $(V,E)$
-in a graph-theoretic sense. Figure \ref{fig:circuit} shows two
-circuits that are each other's dual (note that, since $\Z$ is in the
-center of any ring, $\lmul{2}=\rmul{2}$). We can now state the
+In particular, this makes $(\dual{V},E^{-1})$ the reverse graph of
+$(V,E)$ in a graph-theoretic sense. Figure \ref{fig:circuit} shows two
+circuits that are each other's dual. We can now state the
 transposition theorem.
 
 \begin{theorem}[Transposition theorem]
@@ -704,19 +709,25 @@ Appendix~\ref{cha:basic-categ-theory}.
   where the sum ranges over all the distinct paths from $x_i$ to
   $y_j$.
 \end{lemma}
+%% this proof still needs a small fix
 \begin{proof}
-  We start by proving that for any evaluation node $v$ and any edge
-  $e$ stemming from $v$
+  We start by proving that for any node $v$ and any edge $e$ stemming
+  from $v$
   \begin{equation}
     \label{eq:250}
     \eval_{e} = \sum_{i=1}^n\sum_{p\in x_i\leadsto v}\eval_p\circ\pi_i
     \text{,}
   \end{equation}
   where $\pi_i:R^n\ra R$ is the $i$-th projection. We do this by
-  induction on the length of the longest path to $v$.
+  induction on the length of the longest path to $v$. 
 
-  Let $e_1\le_v\ldots\le_ve_k$ be the edges incident to $v$, and let
-  $v_1,\ldots,v_k$ be the corresponding nodes. Then, by definition
+  If the longest path to $v$ has length $0$, then $v$ is one of the
+  input nodes, say $x_i$. Then by \hyperref[def:eval]{definition}
+  $\eval_i=\pi_i$, and Eq.~\eqref{eq:250} is verified.
+
+  Then, let $v$ be an evaluation node, let $e_1\le_v\ldots\le_ve_k$ be
+  the edges incident to $v$, and let $v_1,\ldots,v_k$ be the
+  corresponding nodes. Then, by definition
   \begin{equation}
     \label{eq:251}
     \eval_{e} = \pi_e\circ\beta(v)\circ(\eval_{e_1},\ldots,\eval_{e_k}) =
@@ -733,10 +744,10 @@ Appendix~\ref{cha:basic-categ-theory}.
   \end{equation}
   where the equality comes from Eq.~\eqref{eq:252}.
 
-  Now, by the definition of $\eval_C$ we have 
+  Now, by the \hyperref[def:eval]{definition} of $\eval_C$ we have
   \begin{equation}
     \label{eq:254}
-    \pi_j\circ\eval_C = \sum_{i=1}\sum_{p\in x_i\leadsto y_j}\eval_p\circ\pi_i
+    \pi_j\circ\eval_C = \eval_{y_j} = \sum_{i=1}\sum_{p\in x_i\leadsto y_j}\eval_p\circ\pi_i
     \text{,}
   \end{equation}
   and composing on both sides with $\iota_i$ gives Eq.~\eqref{eq:248}.
@@ -758,8 +769,8 @@ Appendix~\ref{cha:basic-categ-theory}.
 
 \begin{corollary}
   A linear function $f:R^n\ra R^m$ and its transpose can be computed
-  by arithmetic circuits of same sizes and depths. In particular if
-  $C$ computes $f$ and $\dual{C}$ computes $\dual{f}$,
+  by arithmetic circuits on $(R,\Tbasis)$ of same sizes and depths. In
+  particular if $C$ computes $f$ and $\dual{C}$ computes $\dual{f}$,
   \begin{gather*}
     \size_{\{+\}}(C) = \size_{\{\hub\}}(\dual{C}), \qquad  
     \size_{\{\hub\}}(C) = \size_{\{+\}}(\dual{C}), \\
@@ -781,9 +792,7 @@ Appendix~\ref{cha:basic-categ-theory}.
 
   It is also worth noticing that the transposition theorem stays true
   if instead of a bilinear form we had used a sesquilinear form (in
-  this case $\dual{(\rmul{a})}=\rmul{\bar{a}}$). This case of the
-  transposition theorem (applied to unitary matrices) is well known in
-  quantum physics and in particular in quantum computing.
+  this case $\dual{(\rmul{a})}=\rmul{\bar{a}}$).
 \end{remark}
 
 
@@ -791,22 +800,21 @@ Appendix~\ref{cha:basic-categ-theory}.
   The name ``The electrical network lemma'' is ours, but it could well
   have been original. The transposition theorem was first discovered
   in electrical network theory by Bordewijk~\cite{bordewijk57}; he
-  only showed the case
-  $R=\C$. Some~\cite{burgisser+clausen-shokrollahi,bostan+lecerf+schost:tellegen}
-  attribute the discovery to tellegen, Bordweijk's advisor, but this
-  is debated~\cite{djb:tellegen}.
+  only showed the case $R=\C$. Some attribute the discovery to
+  Tellegen~\cite{burgisser+clausen-shokrollahi,bostan+lecerf+schost:tellegen},
+  Bordweijk's advisor, but this is debated~\cite{djb:tellegen}.
 
   The first complete algebraic proof, treating the case of an
   arbitrary non-commutative ring, is due to
   Fiduccia~\cite{fiduccia:phd}. There have been many rediscoveries of
-  the theorem (see\cite{djb:tellegen}), but Fiduccia's statement stays
+  the theorem (see~\cite{djb:tellegen}), but Fiduccia's statement stays
   the most general.
 
-  Kaltofen and Yagati~\cite{kaltofen+lakshman89} pointed out that the
-  transposition theorem can be proven as a special case of Baur and
-  Strassen's differentiation of circuits~\cite{baur+strassen83}. We
-  shall come back to this question in
-  Section~\ref{sec:word-about-automatic}.
+  Kaltofen and Yagati~\cite{kaltofen+lakshman89,Ka2K} pointed out that
+  the transposition theorem can be proven as a special case of Baur
+  and Strassen's differentiation of
+  circuits~\cite{baur+strassen83}. We shall come back to this question
+  in Section~\ref{sec:word-about-automatic}.
 \end{nota}
 
 
@@ -825,12 +833,13 @@ size. This leads to study families of circuits.
   $(R,\mathcal{B})$ indexed by $\pspace$.  $\pspace$ is called the
   \emph{parameter space} of the family. When the mapping from
   $\pspace$ to the circuits is Turing-computable, the family is called
-  \emph{uniform}.
+  \index{circuit~family!uniform}\emph{uniform}.
 \end{definition}
 
 Algebraic complexity textbooks usually take $\pspace=\N$ and force
-$C_n$ to have $n$ inputs. Our construction is more general and its
-interest will be clear in the next sections.
+$C_n$ to have $n$ inputs. Our construction is more general and lacks
+some of the interesting complexity theoretic properties of circuit
+families, but its interest will be clear in the next sections.
 
 \begin{definition}[Size and depth functions]
   Let $\mathcal{C} = (C_j)_{j\in\pspace}$ be a circuit family, we
@@ -852,12 +861,13 @@ interest will be clear in the next sections.
 \end{definition}
 
 We are mainly interested in uniform circuit families since they are
-equivalent to computable functions, theorem \ref{th:tellegen} easily
-generalizes to them. We will not study uniform circuit families more
-in depth; what we shall do instead, is directly work on computer programs
-implicitly representing circuit families and automatically deduce the
-transposed family without actually using the circuit model. More
-details on uniform circuit families can be found in \cite{vollmer}.
+equivalent to computable functions, the
+\hyperref[th:tellegen]{transposition theorem} easily generalizes to
+them. We will not study uniform circuit families more in depth; what
+we shall do instead, is directly work on computer programs implicitly
+representing circuit families and automatically deduce the transposed
+family without actually using the circuit model. More details on
+uniform circuit families can be found in \cite{vollmer}.
 
 
 % Local Variables:

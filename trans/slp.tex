@@ -1,8 +1,260 @@
 \section{Straight Line Programs}
 
-SLP's, Tellegen's theorem
 
-Bostan Lecerf Schost
+One can view arithmetic circuits as algorithms, where each node is an
+elementary step. Then, the size of a circuit is a measure of
+complexity in terms of number of elementary (algebraic)
+operations. However, arithmetic circuits do not carry any information
+about space complexity.
+
+\index{straight~line~program}Straight line programs (\index{SLP}SLP)
+permit to reason about both space and time complexity. Informally
+speaking, they are programs that are only made of a sequence of
+assignments (no branchings, no loops).  SLP's are isomorphic to
+arithmetic circuits, see~\cite{burgisser+clausen-shokrollahi} for
+formal definitions and proofs.
+
+\subsection{The BLS model}
+\label{sec:bls-model}
+In this section we study a particular family of \emph{linear straight
+  line programs} introduced by Bostan, Lecerf and
+Schost~\cite{bostan+lecerf+schost:tellegen} to study the transposition
+principle. They consider linear circuits over the basis
+\begin{equation}
+  \label{eq:246}
+  \mathsf{XOR}_1 :
+  \begin{pmatrix}
+    1 & 0\\1 & 1
+  \end{pmatrix}
+  \text{,}\quad
+  \mathsf{XOR}_2 :
+  \begin{pmatrix}
+    1 & 1\\0 & 1
+  \end{pmatrix}
+  \text{,}\quad
+  \rmul{a} :
+  \begin{pmatrix}
+    a
+  \end{pmatrix}
+  \text{ for $a\in R$,}
+\end{equation}
+that we shall denote by $\mathsf{BLS}$. Since all the operators have
+the same input and output arities, circuits over $\mathsf{BLS}$
+necessarily have the same number of inputs and outputs. Then Bostan,
+Lecerf and Schost remark that if a circuit has $n$ inputs (and
+outputs), its space complexity in the algebraic RAM
+model~\cite{kaltofen88:gcd} is upper bounded by $n$.
+
+In fact, consider a circuit $C$ over $(R,\mathsf{BLS})$ and let
+$x_1,\ldots,x_n$ be its inputs. Allocate $n$ registers
+$R_1,\ldots,R_n$ and initialize them to the values of
+$x_1,\ldots,x_n$. Then, walk through $C$ in any topological order and
+for any $\rmul{a}$ acting on $R_i$ issue the instruction
+\begin{equation}
+  \label{eq:249}
+  R_i \lat a
+  \text{,}
+\end{equation}
+for any $\mathsf{XOR}_1$ acting on $R_i$ and $R_j$ issue the
+instruction
+\begin{equation}
+  \label{eq:255}
+  R_i \lap R_j
+  \text{,}
+\end{equation}
+and for any $\mathsf{XOR}_2$ acting on $R_i$ and $R_j$ issue the
+instruction
+\begin{equation}
+  \label{eq:256}
+  R_j \lap R_i
+  \text{.}
+\end{equation}
+
+Inversely, any straight line program using only multiplication by
+scalars and self-increment can be represented by a circuit over this
+basis. We make this identification between circuits and SLP's, then,
+by observing that $\mathsf{XOR}_1$ is the dual of $\mathsf{XOR}_2$, we
+deduce that any circuit $C$ on $(R,\mathsf{BLS})$ has a dual circuit
+with the same space and time complexities in the algebraic RAM model.
+
+\begin{remark}
+  Let $(L_1,\ldots,L_k)$ be a SLP on $n$ registers, where $L_i$ is one
+  of the instructions~\eqref{eq:249},~\eqref{eq:255}
+  or~\eqref{eq:256}. By what we just said we can take as its dual the
+  sequence $(\dual{L_k},\ldots,\dual{L_1})$, where $\dual{L_i}$ is the
+  dual instruction to $L_i$.
+\end{remark}
+
+
+\subsection{Generic straight line programs}
+\label{sec:gener-stra-line}
+The step from the SLP's we just defined to generic linear SLP's is
+very small. In fact, all one has to do is simulate the instructions
+\begin{align}
+  \label{eq:257}
+  R_i &\la R_j*a\quad\text{with $i\ne j$,}\\
+  \label{eq:258}
+  R_i &\la R_j + R_k\quad\text{with $i\ne j,k$.}
+\end{align}
+The first one can be simulated by the sequence
+\begin{equation}
+  \label{eq:259}
+  \begin{aligned}
+    R_i &\lat 0\text{,}\\
+    R_i &\lap R_j\text{,}\\
+    R_i &\lat a\text{;}
+  \end{aligned}
+\end{equation}
+and the second one by
+\begin{equation}
+  \label{eq:260}
+  \begin{aligned}
+    R_i &\lat 0\text{,}\\
+    R_i &\lap R_j\text{,}\\
+    R_i &\lap R_k\text{.}
+  \end{aligned}
+\end{equation}
+It is reasonable not to count multiplications by $0$, as these just
+require to free the memory, than one sees that transposing linear
+SLP's preserves the space complexity and loses a factor of at most two
+on time complexity. However this is clumsy, one can do much better by
+transposing directly the instructions~\eqref{eq:257}
+and~\eqref{eq:258}.
+
+\begin{definition}[Double use]
+  We say that a register $R_i$ is \index{double~use}\emph{doubly used}
+  in a sequence of instructions if it appears on the right hand side
+  of two instructions, and no instruction between them is of one of
+  the forms~\eqref{eq:257} or~\eqref{eq:258}.
+\end{definition}
+
+The matrix of the instruction $R_i\la R_j*a$ is
+$\left(\begin{smallmatrix}1&0\\a&0\end{smallmatrix}\right)$ in
+general, but simply
+$\left(\begin{smallmatrix}0&0\\a&0\end{smallmatrix}\right)$ if $R_j$
+is not doubly used; then, the transposition is
+\begin{equation}
+  \label{eq:262}
+  \begin{aligned}
+    R_j&\la R_i*a\text{,}\\
+    R_i&\lat 0\text{.}
+  \end{aligned}
+\end{equation}
+Similarly, the matrix of $R_i\la R_j+R_k$ is 
+\begin{equation}
+  \label{eq:265}
+  \begin{pmatrix}
+    0 & 0 & 0\\
+    0 & 0 & 0\\
+    1 & 1 & 0
+  \end{pmatrix}
+\end{equation}
+if $R_j$ and $R_k$ are not doubly used; this transposes to
+\begin{equation}
+  \label{eq:263}
+  \begin{aligned}
+    R_j &\la R_i\text{,}\\
+    R_k &\la R_i\text{,}\\
+    R_i &\lat 0
+  \end{aligned}
+\end{equation}
+(notice that a double use is introduced by this transposition).
+
+By comparing this to equations~\eqref{eq:259} and~\eqref{eq:260}, one
+sees that each double use of a variable name on the right introduces a
+self-increment in the transposed code; this corresponds well to the
+duality between $+$ and $\hub$. 
+
+In conclusion, one sees that the sum of additions and double uses of
+variables stays unchanged when transposing generic straight line
+programs. Again, it is reasonable not to count multiplications by $0$.
+Copies of registers like in~\eqref{eq:263} are still a problem in the
+algebraic RAM model, but at a higher level of abstraction they can be
+handled using references (or one can simplify the code by hand, if his
+code has to run on an algebraic CPU!).
+
+Thus, counting double uses as algebraic operations, we conclude that
+any linear straight line program can be transposed preserving space
+\emph{and} time algebraic complexities. This property will come handy
+in the next chapter.
+
+
+\subsection{$R$-algebraic programs}
+\label{sec:r-algebraic-programs}
+One rarely programs with straight line programs: to make transposition
+really useful, we must transpose families of SLP's. Bostan, Lecerf and
+Schost consider SLP's parameterized by integers and booleans: they
+restrict algebraic operations to sums and scalar multiplications, but
+they allow for loops and conditionals, under the restriction that
+their guards only range over the parameters.
+
+\begin{algorithm}
+  \caption{\label{alg:r-algeb}$R$-algebraic algorithm}
+  \begin{algorithmic}
+    \REQUIRE $a,b\in R$; $n\in\N$.
+    \FOR{$i=1$ \TO $n$}
+    \IF{$n$ is even}
+    \STATE $a \lap b$;
+    \ELSE
+    \STATE $b \lap a$;
+    \ENDIF
+    \ENDFOR
+    \STATE return $a,b$;
+  \end{algorithmic}
+\end{algorithm}
+
+This is equivalent to transpose circuit families; for example,
+Algorithm~\ref{alg:r-algeb} corresponds to a circuit family with
+parameter space $\N$. They also allow function calls, which
+corresponds to do a semantic substitution as in
+Definition~\ref{def:sem-subst}. Even recursive function calls are
+allowed, provided they terminate.
+
+We shall call
+\index{r-algebraic~algorithm@$R$-algebraic~algorithm}\emph{$R$-algebraic}
+an algorithm that can be expressed in such model. It is clear that,
+for any value of the parameters, an $R$-algebraic algorithm
+corresponds to a SLP, then the transposition theorem can be applied to
+it. In practice, one leaves conditionals untouched and reverses for
+loops; function calls (recursive or not) are substituted by their
+transpose. For example, Algorithm~\ref{alg:r-algeb} becomes
+Algorithm~\ref{alg:r-algeb-t}.
+
+\begin{algorithm}
+  \caption{\label{alg:r-algeb-t}Transposition of
+    Algorithm~\ref{alg:r-algeb}}
+  \begin{algorithmic}
+    \REQUIRE $a,b\in R$; $n\in\N$.
+    \FOR{$i=n$ \TO $1$}
+    \IF{$n$ is even}
+    \STATE $b \lap a$;
+    \ELSE
+    \STATE $a \lap b$;
+    \ENDIF
+    \ENDFOR
+    \STATE return $a,b$;
+  \end{algorithmic}
+\end{algorithm}
+
+Putting together the results of this section and the previous ones, we
+can now state the \emph{transposition
+  principle}.
+
+\begin{theorem}[Transposition principle]
+  \label{th:transp-princip}
+  \index{transposition~principle} Any \emph{$R$-algebraic} algorithm
+  computing a linear function $f:M\ra N$, where $M,N$ are $R$-modules,
+  can be transformed in an $R$-algebraic algorithm to compute
+  $\dual{f}$. The two algorithms have the same space and time
+  algebraic complexities.
+\end{theorem}
+
+
+A formal proof of the principle will be the object of the next
+chapter. Notice, however, that very few interesting algorithms are
+$R$-algebraic: for example, multiplication and Euclidean division are
+not (they are parameterized by an algebraic element), nevertheless we
+transposed in Section~\ref{sec:transp-algor}.
 
 
 

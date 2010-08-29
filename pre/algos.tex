@@ -410,7 +410,7 @@ we know that
   \K[X]/f(X) \isom\prod_i \K[X]/(X-x_i)
   \text{.}
 \end{equation}
-If $a$ is an element on the left side of the isomorphism (i.e. a
+If $a$ is an element on the left side of the isomorphism (i.e.\ a
 polynomial modulo $f$), moving it to the right is evaluation at the
 points $x_1,\ldots,x_n$. The inverse operation is interpolation. 
 
@@ -683,6 +683,10 @@ an algorithmic principle, known as the
   principle}~\cite{shoup94,shoup95,shoup99,Ka2K,hanrot+quercia+zimmermann,bostan+lecerf+schost:tellegen},
 states that
 \begin{quote}
+  % To any \emph{$R$-algebraic} algorithm computing a linear function
+  % $f:M\ra N$, where $M,N$ are $R$-modules, corresponds an algebraic
+  % algorithm that computes $\dual{f}$ using the same number of
+  % algebraic operations.
   To any \emph{$R$-algebraic} algorithm computing a linear function
   $f:M\ra N$, where $M,N$ are $R$-modules, corresponds an algebraic
   algorithm that computes $\dual{f}$ using the same number of

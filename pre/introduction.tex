@@ -82,9 +82,10 @@ generation of Intel Core processors supports a hardware instruction
 
 This is because finite fields appear everywhere in telecommunications
 engineering, in particular in Error Correcting Codes and
-Cryptography. This thesis applies advanced algorithmic techniques to
-computations in towers of extensions of finite fields, in view of
-applications to elliptic curve cryptography.
+Cryptography. This thesis applies advanced
+algorithmic % and algebraic ?
+techniques to computations in towers of extensions of finite fields,
+in view of applications to elliptic curve cryptography.
 
 
 
@@ -101,7 +102,7 @@ Elkies~\cite{atkin88,elkies92,elkies98,schoof95}, henceforth named
 SEA.
 
 The SEA algorithm raised interest in explicit computations with
-isogenies, i.e. algebraic group morphisms of elliptic curves. When
+isogenies, i.e.\ algebraic group morphisms of elliptic curves. When
 computing isogenies over finite fields one must distinguish between
 the large and arbitrary characteristic. In the first case, one can use
 algorithms that work for characteristic $0$, and then reduce the
@@ -122,7 +123,10 @@ Lercier~\cite{joux+lercier06} and Lercier and
 Sirvent~\cite{lercier+sirvent08} have shown that it is possible to
 avoid division by $0$ by lifting the curves in the $p$-adics. The last
 one is currently the algorithm for the arbitrary characteristic case
-having the best asymptotic complexity; its complexity in the
+having the best asymptotic complexity; 
+%% Or rather: the last algorithm is currently the one having the best
+%% asymptoyic complexity for the arbitrary characteristic case
+its complexity in the
 characteristic is only logarithmic.
 
 It is interesting to remark, however, that no algorithm to compute
@@ -136,7 +140,7 @@ it over the $p^k$-torsion points of the elliptic curves for a large
 enough $k$; when those points are not defined on the base field, one
 has to take towers of field extensions to find them. The field
 extensions that naturally arise when doing this computation are
-splitting fields of polynomials of the from
+splitting fields of polynomials of the form
 \[X^p - X -\alpha\text{;}\] such extension are called Artin-Schreier
 extensions. 
 
@@ -145,9 +149,9 @@ extensions.
 \label{sec:towers-extensions}
 Besides addition, multiplication and inversion, the arithmetic
 operations of interest in a tower of finite extensions arguably are
-relative traces and embeddings. For finite fields one could add
-explicit Galois groups to the list as these are relatively easy to
-compute with.
+relative traces %, minimal polynomials
+and embeddings. For finite fields one could add explicit Galois groups
+to the list as these are relatively easy to compute with.
 
 The arithmetic of towers of finite fields is a central question for
 any computer algebra system, however it has received few attention, if
@@ -163,11 +167,13 @@ sets~\cite{diaz+gonzalez01,giusti+lecerf+salvy01,bostan+salvy+schost03,pascal+sc
 In the specific case of Artin-Schreier towers, the literature is not
 extensive either.  Using ideas from~\cite{Conway:ONAG2000},
 Cantor~\cite{cantor89} constructs a particular Artin-Schreier tower
+% that he applies to FFT multiplication in $\F_2[X]$.
 suited for FFT multiplication in characteristic
 $2$. In~\cite{couveignes00}, Couveignes gives an algorithm to compute
 isomorphisms between Artin-Schreier towers; however, his algorithm
-needs as a prerequisite a fast multiplication algorithm in some towers
-of a special kind, called ``Cantor towers''
+needs as a prerequisite a fast multiplication algorithm in
+% a tower of the same shape as in~\cite{cantor89}
+some towers of a special kind, called ``Cantor towers''
 in~\cite{couveignes00}. Such an algorithm is unfortunately not in the
 literature, making the results of~\cite{couveignes00} non practical.
 
@@ -179,17 +185,18 @@ the whole document is the \emph{transposition principle}, which is the
 language-theoretic counterpart to algebraic duality.
 
 The transposition principle was discovered in electrical network
-theory by Bordewijk\cite{bordewijk57}, then proved in its general form
+theory by Bordewijk~\cite{bordewijk57}, then proved in its general form
 by Fiduccia~\cite{fiduccia:phd}; but it only became popular in
 computer algebra much later through the works of Kaltofen, Yagati,
 Shoup, von zur Gathen and
 others~\cite{kaltofen+lakshman89,vzgathen+shoup92,shoup94,shoup95,shoup99,hanrot+quercia+zimmermann}. It
 states that
 \begin{quote}
-  To any \emph{$R$-algebraic} algorithm computing a linear function
-  $f:M\ra N$, where $M,N$ are $R$-modules, corresponds an algebraic
-  algorithm that computes $\dual{f}$ using the same number of
-  algebraic operations.
+Any \emph{$R$-algebraic} algorithm
+  computing a linear function $f:M\ra N$, where $M,N$ are $R$-modules,
+  can be transformed in an $R$-algebraic algorithm to compute
+  $\dual{f}$. The two algorithms have the same space and time
+  algebraic complexities.
 \end{quote}
 
 The transposition principle is important in computer algebra because
@@ -211,14 +218,15 @@ reason at an algebraic level on programs.
 
 \paragraph{Outline, contributions and software packages}
 \label{sec:outl-contr}
-This document is divided in four parts. Part~\ref{cha:algebra} recalls
-the basic notions from algebra and computer algebra that we will use
-later.
+This document is divided in four parts. Part~\ref{part:prerequisites}
+recalls the basic notions from algebra and computer algebra that we
+will use later.
 
 Part~\ref{part:transp-princ} studies the transposition principle. In
 Chapter~\ref{cha:algebr-compl-dual} we present the arithmetic circuit
-model and the straight line program model, and prove the principle in
-them. Then we discuss the relationships with automatic
+model and the straight line program model, and prove the
+% transposition theorem
+principle in them. Then we discuss the relationships with automatic
 differentiation. Chapter~\ref{cha:autom-transp-code} is a
 collaboration with Schost. We study the relationships between the
 arithmetic circuit model and functional programming languages, then we

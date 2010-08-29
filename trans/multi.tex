@@ -10,8 +10,8 @@ methods.
 \subsection{Multilinear circuits}
 \label{sec:multilinear-circuits}
 We shall consider \index{multilinear~circuit}\emph{multilinear
-  circuits}, i.e. circuits that, besides the operators
-of~\eqref{eq:tbasis}, also contain binary multiplication nodes. The
+  circuits}, i.e.\ circuits that, besides the operators
+of~\ref{eq:tbasis}, also contain binary multiplication nodes. The
 definitions of the previous section must be adapted to deal with
 operators that are not module morphisms, but this generalization is
 straightforward (see also Appendix~\ref{cha:basic-categ-theory} for a
@@ -35,9 +35,12 @@ $\Sbasis$
 
 We are going to define a transformation process that transforms a
 circuit over $(R,\Sbasis)$ in a (uniform) circuit family over
-$(R,\Tbasis)$. We call this process \emph{linearization}, a special
-case of it has been used in \cite{gashkov+gashkov05,sergeev08} to
-transpose circuits that compute differentials.
+$(R,\Tbasis)$; the idea is to make any bilinear multiplication node
+linear by \emph{fixing} one of its inputs (see
+Figure~\ref{fig:linearization}). We call this process
+\emph{linearization}, a special case of it has been used in
+\cite{gashkov+gashkov05,sergeev08} to transpose circuits that compute
+differentials.
 
 \begin{definition}[Zero edge, null edge]
   Let $C$ be a circuit over $(R,\Sbasis)$, a \emph{zero edge} is any
@@ -86,9 +89,14 @@ will restrict ourselves to normal circuits.
     incident edges is reachable from $\ell$, or both are;
   \item for every $v\in V$ with $\beta(v)=*$ at most one of the edges
     incident to $v$ is reachable from $\ell$; if $R$ is
-    non-commutative, such edge is always the left (right) edge and the
-    linearization is called a \emph{left (right) linearization}.
+    non-commutative, such edge is always the right (left) edge and the
+    linearization is called a
+    \index{linearization!left}\index{linearization!right}\emph{left
+      (right) linearization}.
   \end{itemize}
+  If $\ell=\emptyset$, the linearization is called
+  \index{linearization!trivial}\emph{trivial}.
+
   The elements of $\ell\cap\inp(C)$ and $s = \inp(C) - \ell$ are
   respectively called the \index{linear~input}\emph{linear} and
   \index{scalar~input}\emph{scalar} inputs. An edge reachable from
@@ -99,14 +107,17 @@ will restrict ourselves to normal circuits.
 
 \begin{definition}[Linearized circuit, scalar part]
   Let $C=(V,E,\le,\le_i,\le_o)$ be a normal circuit over $(R,\Sbasis)$
-  and let $\ell$ be a linearization; without loss of generality, we
-  suppose that all the scalar inputs precede the linear inputs in the
-  ordering of $V$ (one can always permute inputs). Let $n$ be the
-  number of scalars for the linearization $\ell$ and let
-  $x_1,\ldots,x_n$ be distinct indeterminates over $R$. The
+  and let $\ell$ be a left (resp. right) linearization; without loss
+  of generality, we suppose that all the scalar inputs precede the
+  linear inputs in the order $\le_i$ (one can always permute inputs).
+  
+  Let $n$ be the number of scalars for the linearization $\ell$ and
+  let $x_1,\ldots,x_n$ be distinct indeterminates over $R$. The
   \index{linearized~circuit}\emph{linearized circuit}
-  $C_\ell=(V_\ell,E_\ell,\le_\ell,\le_{i,\ell},\le_{o,\ell})$ is the
-  circuit over $(R[x_1,\ldots,x_n], \Tbasis)$
+  \begin{equation*}
+    C_\ell=(V_\ell,E_\ell,\le_\ell,\le_{i,\ell},\le_{o,\ell})
+  \end{equation*}
+  is the circuit over $(R[x_1,\ldots,x_n], \Tbasis)$
   (resp. $(R^\op[x_1,\ldots,x_n],\dual{\Tbasis})$) obtained from $C$
   as follows:
   \begin{itemize}
@@ -118,10 +129,9 @@ will restrict ourselves to normal circuits.
     \item if $\beta(v)=*$, let $e$ be the only non-linear edge
       incident to $v$ and let
       $a=\eval_e(x_1,\ldots,x_n,\bullet,\ldots,\bullet)$, then $*$
-      becomes $\rmul{a}$ (resp. $\lmul{a}$) if $e$ is the right
-      (resp. left) incident edge to $v$;
-    \item The ordering are the restriction to $V$ of the original
-      ones.
+      becomes $\rmul{a}$;
+    \item The orders $\le_\ell,\le_{i,\ell},\le_{o,\ell}$ are the
+      restriction to $V$ of the original ones.
     \end{itemize}
   \end{itemize}
 
@@ -130,9 +140,11 @@ will restrict ourselves to normal circuits.
 \end{definition}
 
 Observe that non-linear edges do not depend on linear inputs, thus the
-substitution for $*$ is well defined. Figure \ref{fig:linearization}
-shows an example of linearized circuit (in the case $R$ is
-commutative), we gray out the scalar part of the circuit.
+substitution for $*$ is well defined. The trivial linearization gives
+the trivial linear circuit with no nodes, hence, its evaluation is the
+trivial map $0\ra0$. Figure \ref{fig:linearization} shows an example
+of linearized circuit (in the case $R$ is commutative), we gray out
+the scalar part of the circuit.
 
 \begin{figure}[!ht]
   \centering
@@ -211,10 +223,8 @@ computes the same function as the transposed family.
   $(R,\Sbasis)$ obtained by dualizing the linearized circuit $C_\ell$,
   then connecting back the edges of the scalar part to the
   corresponding nodes in $C_\ell$: in doing this nodes with
-  $\beta(v)=\rmul{a}$ are changed back to $\beta(v)=*$; if the scalar
-  edge was incident to the left (right) in $C$, it becomes incident to
-  the right (left). The order on the nodes of the $\ell$-dual is
-  arbitrary.
+  $\beta(v)=\rmul{a}$ are changed back to $\beta(v)=*$. The order on
+  the nodes of the $\ell$-dual is arbitrary.
 \end{definition}
 
 By abuse of notation, the $\ell$-dual will also be noted
@@ -287,7 +297,7 @@ case the transposition principle does not \emph{transpose
   one element not in the center of $R$, thus
   \begin{equation}
     \label{eq:245}
-    p_1p_2\cdots p_{n_p}=p_{n_p}\cdots p_2p_1
+    (p_1p_2\cdots p_{n_p})^\op=p_{1}^\op p_2^\op\cdots p_{n_p}^\op
     \text{,}
   \end{equation}
   and the claim follows.
@@ -295,9 +305,9 @@ case the transposition principle does not \emph{transpose
 
 Thus, to any linear chain one can associate the four circuits
 $C,\dual{C},C^\op,\dual{{C^\op}}$. In~\cite{hopcroft+musinski73,fiduccia:phd},
-bilinear chains are considered, i.e.  bilinear circuits whose only two
-linearizations are linear chains. The opposite circuit of a
-\index{bilinear~chain}bilinear chain is defined by swapping every
+bilinear chains are considered, i.e.\ bilinear circuits whose only two
+non-trivial linearizations are linear chains. The opposite circuit of
+a \index{bilinear~chain}bilinear chain is defined by swapping every
 multiplication node. Thus, if $C$ is a bilinear chain and
 $\ell_1,\ell_2$ its linearizations, one obtains the six circuits
 \[C,C^\op,\dual{C_{\ell_1}},\dual{{C_{\ell_1}^\op}},\dual{C_{\ell_2}},\dual{{C_{\ell_2}^\op}}\text{.}\]
