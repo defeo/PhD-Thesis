@@ -1,22 +1,52 @@
+In this chapter we study the
+\index{automatic~transposition}\emph{automatic transposition} of
+generic code (i.e.\ not limited to straight line
+programs). Section~\ref{sec:autom-diff} has shown that this has
+applications in automatic differentiation, and we will see other
+applications in the next chapters.
+
+By looking at a specific subproblem of automatic differentiation, our
+goal is to be more efficient and more general. In particular, compared
+to the existing implementations of AD tools, we want to:
+\begin{itemize}
+\item avoid unnecessary space overhead;
+\item handle algebraic, rather than just numerical code;
+\item handle advanced programming constructs, including recursion and
+  algebraic data types;
+\item transpose code parameterized by arbitrary algebraic variables.
+\end{itemize}
+
+In this chapter we shall abandon the algebraic RAM model we used in
+Section~\ref{sec:stra-line-progr} and work on source code
+transformation. Implementation details such as knowing what the cost
+of copying variables is, shall be ignored: one can assume that a good
+compiler will optimize most of these details. Hence, we shall assume
+that Theorem~\ref{th:transp-princip} really reflects the behavior of
+the code we generate.
+
+
 \section{Inferring linearity}
 \label{sec:inference}
 \lstset{language=haskell}
 
-The main drawback of the technique described in the previous Section
-is that the user has to explicitly split the computation in a linear
-and a scalar part. This requires a lot of man-work and is arguably the
-most time consuming task when transposing code by hand as done in
-\cite{Sho95,BoLeSc03}. Another limitation of the technique is that if
-one is interested in obtaining all the transpositions of a multilinear
-algorithms as in Section \ref{sec:multi}, she has essentially to
-rewrite it once for each linearization.
+By looking at Section~\ref{sec:transp-algor} one sees that often we
+want to transpose families of $R$-algebraic algorithms parameterized
+by algebraic elements (e.g., we want to transpose the code that for
+any $a\in R$ evaluates the map $b\mapsto ab$). This is also necessary
+in automatic differentiation, when the code for $\diff_x f$ not only
+depends on $\diff x_1,\ldots,\diff x_n$, but also on $x$.
 
-In this section we show how the type system of common statically typed
-functional languages can be extended to automatically infer all the
-possible \emph{linearizations} of a computer program. We first present
-the non-commutative case, which can be fully expressed inside the
-Haskell type system, then we discuss how to extend to the commutative
-case.
+The next section will address the question of how to transpose such
+code. This section, instead, asks the question: can a compiler guess
+by itself which inputs to a function are parameters, and which are
+linear arguments?
+
+The answer is yes. We show how the type system of common statically
+typed functional languages can be extended to automatically infer all
+the possible \index{linearization}\emph{linearizations} of a computer
+program. We first present the non-commutative case, which can be fully
+expressed inside the Haskell type system, then we discuss how to
+extend to the commutative case.
 
 Suppose we have defined some data type \lstinline{R} implementing
 elements of a ring $R$ together with the usual constants (say
@@ -249,6 +279,7 @@ $\Z[X]$.
 % mode:flyspell
 % ispell-local-dictionary:"american"
 % mode:TeX-PDF
-% TeX-master: "transAL"
+% mode: reftex
+% TeX-master: "../these"
 % End:
 %
