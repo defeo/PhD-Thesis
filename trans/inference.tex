@@ -1,4 +1,4 @@
-In this chapter we study the
+In this chapter we present a joint work with Schost. We study the
 \index{automatic~transposition}\emph{automatic transposition} of
 generic code (i.e.\ not limited to straight line
 programs). Section~\ref{sec:autom-diff} has shown that this has
@@ -48,16 +48,16 @@ program. We first present the non-commutative case, which can be fully
 expressed inside the Haskell type system, then we discuss how to
 extend to the commutative case.
 
-Suppose we have defined some data type \lstinline{R} implementing
+\paragraph{Linears, scalars}
+\label{sec:linears-scalars}
+Suppose we have defined some data type \lstinline{R} representing
 elements of a ring $R$ together with the usual constants (say
 \lstinline{zeroR}, \lstinline{oneR}, etc.), arithmetic operations (say
 \lstinline{plus}, \lstinline{times}, etc.), tests and so on. To
 simplify, we assume --as usual in algebraic complexity theory-- that
 the type \lstinline{R} is isomorphic to $R$, i.e.\ the elements of $R$
 can be represented exactly, the operations don't introduce any
-rounding error, etc. This assumptions takes us out of the Turing
-model, right into a BSS-like model \cite{BSS}, but this won't affect
-our results.
+rounding error, etc.
 
 For any term involving elements of type \lstinline{R} we would like
 the type system to tell us whether its outputs are linear in its
@@ -66,31 +66,37 @@ inputs. For example the term
   \x y -> plus x y
 \end{lstlisting}
 has type \lstinline{R -> R -> R}, but we would like the type checker
-to also output something like $\ell\ra\ell\ra\ell$ telling that the
-term is a (left) module homomorphism from $R^2$ to $R$ (after
-uncurrying). For consistency, we want to view constants as mappings
-from $R^0$ to $R$, thus for the term \lstinline{zeroR} we want the
-type checker to compute something like $0\ra\ell$, that we simply
-write as $\ell$.
+to also output something like $\ell\ra\ell\ra\ell$ ($\ell$ for
+\index{linear~input}\emph{linear}) telling that the term is a
+(curryfied) left module homomorphism from $R^2$ to $R$. For
+consistency, we want to view constants as mappings from $R^0$ to $R$,
+thus for the term \lstinline{zeroR} we want the type checker to
+compute something like $0\ra\ell$, that we simply write as $\ell$.
 
 Now, what do we expect about \lstinline{oneR} or \lstinline{times}?
 The former is the mapping $\bom\mapsto1$, which is not a module
-homomorphism; by analogy with the linearization technique we want the
-type checker to output something like $0\ra s$, or simply $s$, telling
-that \lstinline{oneR} is a scalar. The second can be made into a
+homomorphism; then, by analogy with
+Definition~\ref{def:linearization}, we want the type checker to output
+something like $0\ra s$, or simply $s$ ($s$ for
+\index{scalar~input}\emph{scalar}). The second can be made into a
 linear mapping by \emph{fixing} its second argument (remember that for
-the moment we are restricting to left modules) as we did in Section
-\ref{sec:multi}; thus we expect the type checker to output $\ell\ra
-s\ra\ell$, telling that the section \lstinline{flip times x} is a
-homomorphism $R\ra R$ for any \lstinline{x::R}.
+the moment we are restricting to left modules) as we did in
+Section~\ref{sec:multi}; thus we expect the type checker to output
+$\ell\ra s\ra\ell$, meaning that
+\begin{lstlisting}
+  \x -> times x y
+\end{lstlisting}
+is a left module homomorphism $R\ra R$ for any \lstinline{y::R}.
 
 Finally consider the following term
 \begin{lstlisting}
   z x n = if n <= 0 then zeroR else plus x (z x (n-1))
 \end{lstlisting}
-as before we expect something like $\ell\ra\N\ra\ell$ telling that the
-section \lstinline{flip z n} is a homomorphism $R\ra R$ for any
-integer \lstinline{n}.
+as before we expect something like $\ell\ra\N\ra\ell$, meaning that
+\begin{lstlisting}
+  \x -> z x n
+\end{lstlisting}
+is a homomorphism $R\ra R$ for any integer \lstinline{n}.
 
 Observe that in order to make a correct inference about a term such as
 \begin{lstlisting}
@@ -100,8 +106,8 @@ we must also admit for any of the previous cases the possibility where
 everything is a scalar, so that from the hypothesis that
 \lstinline{plus} has type $s\ra s\ra s$ we can deduce the correct type
 $\ell\ra s\ra\ell$ for the term above. Summarizing, we would like to
-have two types \lstinline{L} and \lstinline{S} such that the all
-following equations hold
+have two types \lstinline{L} and \lstinline{S} such that the following
+equations hold
 \begin{lstlisting}
   plus :: L -> L -> L
   plus :: S -> S -> S
@@ -115,11 +121,12 @@ following equations hold
 If we define \lstinline{L} and \lstinline{S} as wrappers around
 \lstinline{R}
 \begin{lstlisting}
-  data L = L R
-  data S = S R
+  data L = Lin R
+  data S = Sca R
 \end{lstlisting}
-then, using Haskell type classes \cite{WaBl89}, we can conveniently
-express all the equations above as
+then, using Haskell type classes
+\cite{Walder+Blott-ad-hoc-polymorphism}, we can conveniently express
+all the equations above as
 \begin{lstlisting}
   class Ring r where
     zero :: r
@@ -127,63 +134,135 @@ express all the equations above as
     neg :: r -> r
     (<*>) :: r -> S -> r
 \end{lstlisting}
-together with the obvious \lstinline{instance}
-definitions\footnote{The type \lstinline{S} is somewhat redundant with
-  \lstinline{R}, but we present it for clarity.}. Any other function
+together with the obvious \lstinline{instance} definitions (see the
+example in Appendix~\ref{cha:line-infer-karats}). Any other function
 acting on \lstinline{R} can be wrapped inside a function acting on
 \lstinline{S} as, for example,
 \begin{lstlisting}
-  one = S oneR
-  (S a) == (S b) = a == b
+  one = Sca oneR
+  (Sca a) == (Sca b) = a == b
 \end{lstlisting}
 but it is important that no other function is exported to
 \lstinline{L}.
 
-If now we forbid the use of the type constructor \lstinline{L}, then
-we can show that for any given term $t$ any correct type implies that
-a certain section (up to some \lstinline{flip}'s) of $t$ is an
-$R$-module homomorphism. The proof for the full language would be too
-long, thus we restrict to a simply typed $\lambda$-calculus with
-constants defined by the following grammar, where $x$ are identifiers
-and $c$ are constants,
+If we restrict to terms that do not use the type constructor
+\lstinline{Lin}, then we can show that the semantic of a term with
+type
+\begin{lstlisting}
+  L->...->L->L
+\end{lstlisting}
+is a left module homomorphism.  The proof for the full language would
+be too long, thus we restrict to a simply typed $\lambda$-calculus
+with constants defined by the following grammar, where $x$ are
+identifiers and $c$ are constants,
 \begin{equation}
   \label{eq:lambda}
-  t ::= c \;|\; x \;|\; t_0 t_1 \;|\; \lambda x . t  \text{ .}
+  t ::= c \;|\; x \;|\; t_0 t_1 \;|\; \lambda x . t  \text{ ;}
 \end{equation}
+the semantic is the usual one.
+
 We suppose all the constants and types above are defined; observe that
 our grammar forbids type constructors all together (including
-\lstinline{L} and \lstinline{S}, but also including constructors for
+\lstinline{Lin} and \lstinline{Sca}, but also including constructors for
 lists and tuples). In this context we use the type names $\ell$ and
 $s$ in place of the Haskell types \lstinline{L} and \lstinline{S}
 defined above.
 
-\begin{definition}[Linear section]
-  Let $t::\tau$ be a term and let
-  $\tau=\alpha_0\ra\cdots\ra\alpha_n\ra\beta$ where $\beta$ is not a
-  function type. Let $(i_j)_{j<m}$ be the set of indices such that
-  $\alpha_{i_j}=\ell$ and set $s_{i_j}=x_j$ for any $j<m$, where $x_j$
-  is a fresh identifier.  For any $\alpha_i\ne\ell$ let
-  $s_i::\alpha_i$ be any term, then the term
-  \begin{equation}
-    \lambda x_1.\cdots\lambda x_m.ts_1\cdots s_n
-  \end{equation}
-  is called a \emph{linear section} of $t::\tau$.
-\end{definition}
-
-\begin{proposition}
+\begin{lemma}
   \label{th:lininference}
-  Using the same notation as above, assume that $t$ and all the
-  $s::\alpha_i$ for $\alpha_i\ne\ell$ are closed terms. Then any
-  linear section of $t::\tau$ is (semantically equivalent to)
+  Let $\Gamma\vdash t:\tau$ be a term, let $m,n\ge0$ and let
+  \begin{equation}
+    \label{eq:264}
+    \tau=\alpha_1\ra\alpha_2\ra\cdots\ra\alpha_n\ra\underbrace{\ell\ra\cdots\ra\ell}_{\text{$m$ times}}\ra\beta
+    \text{,}    
+  \end{equation}
+  with $\alpha_i\ne\ell$ and $\beta$ not a function type. Let
+  $\Delta_i\vdash s_i::\alpha_i$ for $1\le i\le n$. The semantic of
+  \begin{equation}
+    \label{eq:270}
+    \Gamma,\Delta_1,\ldots,\Delta_n\vdash ts_1\cdots s_n
+  \end{equation}
+  is
   \begin{enumerate}
-  \item a constant function if $\beta\ne\ell$,
-  \item a module homomorphism $R^m\ra R$ if $\beta=\ell$.
+  \item\label{item:1} a constant function if $\beta\ne\ell$,
+  \item\label{item:2} a module homomorphism $R^m\ra R$ if $\beta=\ell$,
   \end{enumerate}
-\end{proposition}
+  assuming the free variables in $t$ satisfy~\ref{item:1}
+  or~\ref{item:2}.
+\end{lemma}
+
+First observe that up to some \emph{flips} any term $t$ can be
+rewritten so to have a type of the form~\eqref{eq:264}. The proof that
+follows is somewhat informal because we prove the claim by induction
+\emph{up to flips}; we prefer this to defining pages of notation.
+
 \begin{proof}
-  \todo
+  We distinguish the following cases.
+  \begin{itemize}
+  \item $\Gamma\vdash c$. All the constants satisfy either~\ref{item:1}
+    or~\ref{item:2}. We just work out $0$ and $+$ defined above and
+    leave the others to the reader. 
+    \begin{itemize}
+    \item $\Gamma\vdash0::\ell$ is the map $\bom\mapsto 0$, thus a
+      (constant) morphism.
+    \item $\Gamma\vdash0::s$ is the map $\bom\mapsto 0$, thus a constant
+      (morphism).
+    \item $\Gamma\vdash+::\ell\ra\ell\ra\ell$ is the map $a,b\mapsto
+      a+b$. A morphism.
+    \item $\Gamma\vdash+::s\ra s\ra s$. Take any $a::s$ and $b::s$, then
+      $\Gamma\vdash a+b::s$ is a constant.
+    \end{itemize}
+  \item $\Gamma,x::\alpha\vdash x::\alpha$. The claim follows by
+    tautology.
+  \item $\Gamma\vdash t_0t_1::\tau$. This is the only real case
+    to prove. We distinguish two cases:
+    \begin{itemize}
+    \item $\Gamma\vdash t_1::\ell$, then by induction its semantic is
+      a morphism $0\ra R$. Let $t_0'$ the term obtained by flipping
+      the arguments of $t_0$ enough times so that its type is of the
+      form \eqref{eq:264}.  Let $\Delta_i\vdash s_i$ for $1\le i\le n$
+      be as in the hypothesis, then \emph{by induction}
+      \begin{equation}
+        \label{eq:271}
+        \Gamma,\Delta_1,\ldots,\Delta_n\vdash t_0''\eqdef t_0's_1,\ldots,s_n
+      \end{equation}
+      is either a morphism $R^{m+1}\ra R$ or a constant function. In
+      the first case $t_0''t_1$ is a morphism $R^m\ra R$, in the
+      second case it is a constant function; in both cases its
+      semantic is the same as $t_0t_1s_1\cdots s_n$ \emph{because we had
+      just flipped arguments}.
+    \item $\Gamma\vdash t_1::\alpha$ with $\alpha\ne\ell$. Then the claim follows
+      directly by induction on $t_0$.
+    \end{itemize}
+  \item $\Gamma\vdash \lambda x.t::\alpha_1\ra\alpha_2$. By
+    induction $\Gamma,x::\alpha_1\vdash t::\alpha_2$
+    satisfies~\ref{item:1} or~\ref{item:2} (assuming $x$ does). Then
+    $\lambda x.t$ does to.
+  \end{itemize}
 \end{proof}
 
+\begin{proposition}
+  Let $t:\tau$ be a closed term, let $m\ge0$ and let
+  \begin{equation}
+    \label{eq:264}
+    \tau=\underbrace{\ell\ra\cdots\ra\ell}_{\text{$m$ times}}\ra\beta
+    \text{,}    
+  \end{equation}
+  with $\beta$ not a function type. Then, the semantic of $t$ is
+  \begin{enumerate}
+  \item\label{item:1} a constant function if $\beta\ne\ell$,
+  \item\label{item:2} a module homomorphism $R^m\ra R$ if $\beta=\ell$.
+  \end{enumerate}
+\end{proposition}
+
+By the proof, it should be now clear why we forbid the type
+constructor \lstinline{Lin}. In fact, introducing a term as
+\lstinline{Lin oneR :: L} tricks the proof (the type checker) by
+making it believe that the function $\bom\mapsto 1$ is a morphism.
+
+
+\paragraph{The commutative case}
+\label{sec:commutative-case}
 In the commutative case we shall add a second multiplication operator
 allowing multiplication on the left by a scalar
 \begin{lstlisting}
@@ -191,38 +270,37 @@ allowing multiplication on the left by a scalar
     (>*<) :: S -> r -> r 
 \end{lstlisting}
 but this would force the user to chose between the two operators any
-time she multiplies two elements of $R$. Although this is slightly
-easier than translating an algorithm in the arrow jargon, it still
-requires a supplementary effort to the user; to avoid this problem we
-need to overload the operator \lstinline{(<*>)} with both type
-signatures, a technique sometimes called \emph{ad-hoc} polymorphism
-\cite{Str00}, but this is not possible in Haskell's type system since
-the two types are contradictory.  To make it possible we need to
+time he multiplies two elements of $R$. To avoid this we need to
+overload the operator \lstinline{(<*>)} with both type signatures, a
+technique sometimes called \emph{ad-hoc} polymorphism
+\cite{strachey00}, but this is not possible in Haskell's type system
+since the two types are contradictory.  To make it possible we need to
 extend the type inference algorithm: our idea is not new, but it has
 been rarely implemented because it is not practical for solving
 generic \emph{ad-hoc} polymorphism; it perfectly fits the needs of our
 special case, though.
 
 First observe that type classes can be translated to ordinary types of
-the Hindley-Milner type system as explained in \cite[$\S 4$]{WaBl89},
-thus it suffices to modify the classic type inference algorithm
-\cite{DM82,Cardelli}. Second observe that there is some redundancy
-between the two signatures of \lstinline{(<*>)} and that a more
-concise version is
+the Hindley-Milner type system as explained in \cite[$\S
+4$]{Walder+Blott-ad-hoc-polymorphism}, thus it suffices to modify the
+classic type inference algorithm
+\cite{Damas+Milner,Cardelli:Typechecking}. Second, observe that there
+is some redundancy between the two signatures of \lstinline{(<*>)} and
+that a more concise version is
 \begin{lstlisting}
   (<*>) :: Ring r => r -> S -> r
   (<*>) :: S -> L -> L
 \end{lstlisting}
 
 A review of the Hindley-Milner algorithm and its implementation can be
-found in \cite{Cardelli}. The idea is to first assign type variables
-to terms, then solve type equations by unifying them.  In our
-generalization, instead of handling a single unification, we keep a
-list of possible unifications: when a type equation implies that a
-certain unification is not acceptable, the unification is discarded
-from the list; if the list gets empty the term cannot by typed and an
-error is returned, otherwise any unification in the list is valid and
-is returned.
+found in \cite{Cardelli:Typechecking}. The idea is to first assign
+type variables to terms, then solve type equations by unifying them.
+In our generalization, instead of handling a single unification, we
+keep a list of possible unifications: when a type equation implies
+that a certain unification is not acceptable, the unification is
+discarded from the list; if the list gets empty the term cannot by
+typed and an error is returned, otherwise any unification in the list
+is valid and is returned.
 
 In practice, the only term that makes the list of unification grow is
 \lstinline{(<*>)}: any time an equation involving it has to be solved,
@@ -233,16 +311,16 @@ interested in knowing all the possible types of a term because each of
 them gives rise to a different linearization and, hence, to a
 different transposition.
 
-In Section \ref{sec:} we will present an implementation of these
-ideas.
-
-Finally we remark that by allowing tuples and lists, proposition
-\ref{th:lininference} can be generalized to morphisms $R^m\ra R^n$ and
-even to infinite dimensional modules using lazy lists. Elements of
-type \lstinline{L}, \lstinline{[L]}, \lstinline{(L,L)}, etc. share a
-common pattern: they can be viewed as $R$-modules. It is convenient to
-summarize their properties in an unique interface\footnote{We make use
-  of some experimental modules of Haskell: this codes needs the flags
+\paragraph{Modules}
+\label{sec:modules}
+Finally we remark that by allowing tuples and lists,
+lemma~\ref{th:lininference} can be generalized to morphisms $R^m\ra
+R^n$ and even to infinite dimensional modules using lazy
+lists. Elements of type \lstinline{L}, \lstinline{[L]},
+\lstinline{(L,L)}, etc. share a common pattern: they can be viewed as
+$R$-modules. It is convenient to summarize their properties in an
+unique interface\footnote{We make use of some experimental modules of
+  Haskell: this codes needs the flags
   \lstinline{-XMultiParamTypeClasses},
   \lstinline{-XFunctionalDependencies} and
   \lstinline{-XFlexibleInstances} in order to work.}
@@ -260,19 +338,19 @@ summarize their properties in an unique interface\footnote{We make use
 
 Instances of this class represent free $R$-modules: \lstinline{zeroM}
 is the zero element, \lstinline{(<<*)} is scalar multiplication,
-\lstinline{(<++>)} is addition, \lstinline{<<<} and \lstinline{(>>>)}
-are canonical injections and projections. 
+\lstinline{(<++>)} is addition, \lstinline{(<<<)} and
+\lstinline{(>>>)} are canonical injections and projections.
 
-This interface doesn't add anything to the linearity inference system,
-but it will be of great use in the next Sections.  Also notice the
+This interface adds nothing to the linearity inference system, but we
+will need it in Section~\ref{sec:texttttransalpyne}.  Also notice the
 presence of the operator \lstinline{add} that performs addition up to
 a truncation order, it is of no great importance in this section, but
 for efficiency reasons we will eventually prefer it to plain addition.
 
 A fully worked Haskell example of the ideas presented in this section
-(without the extension to the commutative case) is given in the
-appendix where we implement karatsuba multiplication of polynomials in
-$\Z[X]$.
+(without the extension to the commutative case) is given in
+Appendix~\ref{cha:line-infer-karats} where we implement Karatsuba
+multiplication of polynomials in $\Z[X]$.
 
 
 % Local Variables:
