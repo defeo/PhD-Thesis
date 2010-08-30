@@ -149,7 +149,6 @@ factorization, by working modulo $\Cyclo$.
   Let $\algeb{A}=\F_p[X]/\Cyclo$ and let $x = X \bmod \Cyclo$. For
   $Q\in\F_p[Y]$, define 
   \begin{equation}
-    \label{eq:73}
     Q^\star = \prod_{i=0}^{2p-2}Q(x^iY)
     \text{.}    
   \end{equation}
@@ -161,7 +160,6 @@ factorization, by working modulo $\Cyclo$.
   $f$ be their common degree. To prove that $Q^\star$ is in $\F_p[Y]$,
   we prove that for $j \le e$, 
   \begin{equation}
-    \label{eq:74}
     Q^\star_j = Q^\star \bmod F_j    
   \end{equation}
   is in $\F_p[Y]$ and independent from $j$; the claim follows by
@@ -170,7 +168,6 @@ factorization, by working modulo $\Cyclo$.
   For $j \le e$, let $a_j$ be a root of $F_j$ in the algebraic closure
   of $\F_p$, so that
   \begin{equation}
-    \label{eq:75}
     Q^\star_j = \prod_{i=0}^{2p-2}Q(a_j^iY)
     \text{.}
   \end{equation}
@@ -181,7 +178,6 @@ factorization, by working modulo $\Cyclo$.
 
   To conclude, note that for $j \le e$,
   \begin{equation}
-    \label{eq:76}
     Q^\star_j(a_jY)=Q^\star_j(Y)
     \text{,}    
   \end{equation}
@@ -215,7 +211,6 @@ following algorithm.
   Algorithm \alg{MinimalPolynomial} is correct and computes its output
   in time
   \begin{equation}
-    \label{eq:77}
     O( p^{i+2}d\log_p(p^id)+\Mult(p^{i+2}d)\log(p))
     \text{.}    
   \end{equation}

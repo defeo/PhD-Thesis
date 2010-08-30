@@ -21,7 +21,7 @@ Section~\ref{sec:stra-line-progr} and work on source code
 transformation. Implementation details such as knowing what the cost
 of copying variables is, shall be ignored: one can assume that a good
 compiler will optimize most of these details. Hence, we shall assume
-that Theorem~\ref{th:transp-princip} really reflects the behavior of
+that Theorem~\ref{th:tellegen-R-algeb} really reflects the behavior of
 the code we generate.
 
 
@@ -244,14 +244,13 @@ follows is somewhat informal because we prove the claim by induction
 \begin{proposition}
   Let $t:\tau$ be a closed term, let $m\ge0$ and let
   \begin{equation}
-    \label{eq:264}
     \tau=\underbrace{\ell\ra\cdots\ra\ell}_{\text{$m$ times}}\ra\beta
     \text{,}    
   \end{equation}
   with $\beta$ not a function type. Then, the semantic of $t$ is
   \begin{enumerate}
-  \item\label{item:1} a constant function if $\beta\ne\ell$,
-  \item\label{item:2} a module homomorphism $R^m\ra R$ if $\beta=\ell$.
+  \item a constant function if $\beta\ne\ell$,
+  \item a module homomorphism $R^m\ra R$ if $\beta=\ell$.
   \end{enumerate}
 \end{proposition}
 

@@ -887,8 +887,8 @@ For a $t\in\algeb{A}$, consider the  evaluation map at $t$
   \end{equation}
 \end{proof}
 
-Thus, applying the techniques of Chapter~\ref{cha:todo}, from any
-algorithm to compute $\ev_t$ for a fixed $t$ we can deduce an
+Thus, applying the techniques of Part~\ref{part:transp-princ}, from
+any algorithm to compute $\ev_t$ for a fixed $t$ we can deduce an
 algorithm to compute $\dual{\ev_t}$ that has the same time and space
 complexity. Furthermore, from a generic algorithm to evaluate
 polynomials in $\K[T]$ at points of $\algeb{A}$, we can deduce an
@@ -924,13 +924,13 @@ on $\dual{\algeb{A}}\times\algeb{A}$, instead.
   \end{equation}
 \end{proof}
 
-Hence, using Theorem~\ref{th:todo}, any multiplication algorithm for a
-given basis $\basis{B}$ of $\algeb{A}$ can be transposed to compute
-$a\cdot\ell$ given $a$ on $\basis{B}$ and $\ell$ on
-$\dual{\basis{B}}$. Transposed multiplication is a classic problem, it
-can be solved without significant losses in space complexity on most
-bases, see Section~\ref{sec:transp-algor}
-and~\cite{shoup95,shoup99,bostan+lecerf+schost:tellegen,hanrot+quercia+zimmermann}.
+Hence, using Principle~\ref{th:tellegen-princip}, any multiplication
+algorithm for a given basis $\basis{B}$ of $\algeb{A}$ can be
+transposed to compute $a\cdot\ell$ given $a$ on $\basis{B}$ and $\ell$
+on $\dual{\basis{B}}$. Transposed multiplication is a classic problem,
+it can be solved without significant losses in space complexity on
+most bases, see Section~\ref{sec:transp-algor}
+and~\cite{shoup95,shoup99,bostan+lecerf+schost:tellegen,hanrot+quercia+zimmermann,pascal+schost06}.
 
 We now consider again the dual map of $\ev_t$, this time with respect
 to \eqref{eq:52}; we denote it by $\proj_t$ to avoid confusion
@@ -951,10 +951,10 @@ with~\eqref{eq:50}.
 \end{proof}
 
 The problem of computing $\proj_t$ is often known as \emph{power
-  projection}. Using again Theorem~\ref{th:todo}, any algorithm to
-evaluate polynomials in $\K[T]$ on $t$ can be transposed to a power
-projection algorithm on $t$. We will see some instances of power
-projection algorithms later on.
+  projection}. Using again Principle~\ref{th:tellegen-princip}, any
+algorithm to evaluate polynomials in $\K[T]$ on $t$ can be transposed
+to a power projection algorithm on $t$. We will see some instances of
+power projection algorithms later on.
 
 Then, the proof of the following theorem is evident.
 
@@ -1069,7 +1069,6 @@ $\dual{\basis{B}}$ be known.
   Let $\Mult_{\basis{B}}$ be the cost of multiplication in the basis
   $\basis{B}$ and let $\mathsf{E}_\basis{B}$ be the cost of the change of basis from
     \begin{equation}
-    \label{eq:74}
     \basis{T} = (1,t,\ldots,t^{d-1})
   \end{equation}
   to $\basis{B}$. Then, the cost of the change of basis from
@@ -1092,7 +1091,6 @@ The algorithm follows immediately from the observation that the change
 of basis map from $\basis{T}$ to $\basis{B}$ is the same thing as the
 map
 \begin{equation}
-  \label{eq:76}
   \begin{aligned}
     \ev_t : \K[T] &\ra \algeb{A}^{\basis{B}}\text{,}\\
     g &\mapsto g(t)\text{.}
@@ -1103,13 +1101,14 @@ $\Tr$, outputs the expression of $a$ on the basis $\basis{T}$. We now
 prove the complexity estimates~\eqref{eq:75} and~\eqref{eq:65}.
 
 \begin{proof}[Proof of Proposition~\ref{th:uni-multi-uni}]
-  By Theorem~\ref{th:todo}, the call to $\proj_t$ at
+  By Principle~\ref{th:tellegen-princip}, the call to $\proj_t$ at
   step~\ref{alg:rur:1} of \alg{RUR} has the same cost as
   $\mathsf{E}_{\basis{B}}$. Then the cost of step~\ref{alg:rur:2} is
   $O(\Mult(d))$ using a Newton iteration. Both these steps can be done
   just once, thus they contribute to~\eqref{eq:65}.
 
-  Again by Theorem~\ref{th:todo}, step~\ref{alg:rur:4} costs
+  Again by Principle~\ref{th:tellegen-princip}, step~\ref{alg:rur:4}
+  costs
   \begin{equation}
     \label{eq:80}
     \Mult_{\basis{B}} + \mathsf{E}_{\basis{B}} + \Mult(d)

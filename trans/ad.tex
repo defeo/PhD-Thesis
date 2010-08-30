@@ -34,7 +34,7 @@ this is why there is an extensive literature on it. In particular the
 differentiation of functions $R^n\ra R$ can be done with a constant
 factor penalty in algebraic time complexity and an $O(\log(n))$
 penalty in algebraic space complexity. However, this is still far from
-the bounds of Theorem~\ref{th:transp-princip}.
+the bounds of Theorem~\ref{th:tellegen-R-algeb}.
 
 Using the method of the
 \index{adjoint~code}\index{automatic~differentiation!adjoint~code}{adjoint
@@ -269,9 +269,9 @@ what is called ``reverse mode'' in automatic differentiation.
 \end{remark}
 
 \begin{nota}
-  Also note that one is not limited to direct or reverse mode: any
-  black-box algorithm can be combined with the differential circuit to
-  obtain information on the original function. For example Wiedemann's
+  One is not limited to direct or reverse mode: any black-box
+  algorithm can be combined with the differential circuit to obtain
+  information on the original function. For example Wiedemann's
   algorithm~\cite{wiedemann:sparse} can be used to determine if the
   function is invertible around $x$, and the directional derivatives
   of the inverse can be computed.

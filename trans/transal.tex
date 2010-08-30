@@ -1,13 +1,13 @@
 \section{\tAL}
 \label{sec:transAL}
 
-In the previous Section we saw how the scalar and linear parts of a
-computation can be automatically inferred through type checking, this
-is however not enough to generate transposed code for a generic
-program. In this section we define \tAL{}, a very narrow sublanguage
-of purely functional languages, and give an algorithm to transpose
-programs written in it. Our approach is similar to \cite{BoLeSc03},
-but \tAL{} is more powerful than the language defined there.
+Once a linearization is known, code can be transposed using the
+techniques of Section~\ref{sec:stra-line-progr}; however, it is
+extremely hard to transpose generic lambda terms.  In this section we
+define \index{transAL@see{transposable~Algebraic~Language}}\tAL{} (the
+\index{transposable~Algebraic~Language}transposable Algebraic
+Language), a very narrow sublanguage of purely functional languages,
+and give an algorithm to transpose programs written in it.
 
 The main obstacle to transposition of $\lambda$-terms is the
 possibility to form terms whose types contain an arbitrary number of
@@ -52,14 +52,14 @@ For simplicity, we assume a strict evaluation strategy.
 Some functions and identifiers are supposed predefined in \tAL{}:
 besides the usual arithmetic and logic constants, there are the
 constants \lstinline{zero}, \lstinline{(<+>)}, etc., defined in the
-previous Section. Constants of function type are exported to \tAL{} as
+previous section. Constants of function type are exported to \tAL{} as
 predefined functions, constants of non-function type as identifiers,
 with the only exception of \lstinline{zero} that is exported as a
 function of type $()\ra\tau$.
 
 \tAL{} programs must be valid programs after translation to the
 functional language and they must type correctly according to the
-rules given in the previous Section; in practice the types of
+rules given in the previous section; in practice the types of
 identifiers could be omitted since they can automatically be computed
 by the generalized Hindley-Milner inference we sketched there, but we
 explicitly list them in \tAL{} for simplicity. In our grammar we only
@@ -139,13 +139,13 @@ environment $\Gamma:A^\ast\la E$ is the environment $\Gamma$ augmented
 by matching the names in $A^\ast$ to the value of $\Gamma(E)$.
 
 \begin{definition}[Linearization of predefined functions]
-  Let $v$ be a value of type $s$, the \emph{linearization} by $s$ of
-  \lstinline{<*>}$::\ell\ra s\ra\ell$, noted \lstinline{<*>}$_v$, is
-  the section $($\lstinline{<*>}$v)$; the linearization of
-  \lstinline{<*>}$::s\ra\ell\ra\ell$ is also noted\lstinline{<*>}$_v$
-  and is defined analogously. Since the type is always specified by
-  the context, we never need to precise which of the two
-  linearizations we are talking about.
+  Let $v$ be a value of type $s$, the \emph{linearization} by $v$ of
+  \lstinline{<*>}$::\ell\ra s\ra\ell$, denoted by \lstinline{<*>}$_v$,
+  is the section $($\lstinline{<*>}$v)$; the linearization of
+  \lstinline{<*>}$::s\ra\ell\ra\ell$ is also denoted by
+  \lstinline{<*>}$_v$ and is defined analogously. Since the type is
+  always specified by the context, we never need to precise which of
+  the two linearizations we are talking about.
   
   The functions \lstinline{zero}, \lstinline{<+>} and \lstinline{neg}
   are their own linearization if and only if their type contains
@@ -315,7 +315,7 @@ usually written using pattern-matching, but this interacts very poorly
 with transpostion because the information on which pattern matches the
 output is lost. A good compromise is to add two types $M(\ell)$ and
 $M(s)$ representing infinite dimensional modules over $R$ and to
-expose an interface as in the previous Section. However, this adds
+expose an interface as in the previous section. However, this adds
 some issues that will be discussed in the next section.
 
 
@@ -323,6 +323,7 @@ some issues that will be discussed in the next section.
 % mode:flyspell
 % ispell-local-dictionary:"american"
 % mode:TeX-PDF
-% TeX-master: "transAL"
+% mode:reftex
+% TeX-master: "../these"
 % End:
 %

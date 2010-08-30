@@ -9,12 +9,10 @@ $P_2=X_2^2+X_2+X_1$ for $p=2$ and $d$ odd) is easier.
 
 Recall the two families of $\F_p$-bases we have defined so far:
 \begin{align}
-  \label{eq:58}
   \basis{B}_i &=
   \{x_0^{e_0} \cdots x_i^{e_i} \;|\; 0 \le e_0 < d,\; 0\le e_j < p 
   \text{ for $j>0$}\}
   \text{,}\\
-  \label{eq:60}
   \basis{C}_i &=(1,x_i,\dots,x_i^{p^id-1})
   \text{.}  
 \end{align}
@@ -61,7 +59,6 @@ inspired by this paper.
 Since $\deg(Q_{i-1})=p^{i-1}d$ and $\deg(Q_{i})=p^id$, we associate
 the following $\F_p$-bases of $\U_i$ to each system:
 \begin{align}
-  \label{eq:73}
   \basis{D}_i &= (x_i^j,\,x_{i-1}x_i^j,\,\ldots,\,x_{i-1}^{p^{i-1}d-1}x_i^j)_{0 \le j < p}\text{,}\\
   \label{eq:bases}
   \basis{C}_i &= (1,\,x_i,\,\ldots,\,x_i^{p^id-1})\text{.}  
@@ -284,10 +281,12 @@ So its transpose is the map
   \end{aligned}
 \end{equation}
 
-As in Theorem~\ref{th:todo}, the transposed algorithm is obtained by
-reversing the initial algorithm step by step, and replacing
-subroutines by their transposes. The overall cost remains the same; we
-review here the main transformations.
+\alg{Push-down} is an \hyperref[sec:r-algebraic-transforms]{algebraic
+  transform}, thus, applying Theorem~\ref{th:tellegen-R-algeb}, the
+transposed algorithm is obtained by reversing the initial algorithm
+step by step, and replacing subroutines by their transposes. The
+overall cost remains the same; we review here the main
+transformations.
 
 As usual, we identify the dual of the space $\F_p[Y,X_i]$ to
 $\F_p[[1/Y,1/X_i]]$. Thus linear forms given as input to the algorithm

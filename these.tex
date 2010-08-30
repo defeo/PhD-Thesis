@@ -4,11 +4,14 @@
 \usepackage[utf8]{inputenc}
 \usepackage{bbm}
 \usepackage{amsmath}
+\let\equation\gather
+\let\endequation\endgather
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{mathrsfs}
 \usepackage{mdwlist}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage[pdftex]{hyperref}
 \hypersetup{pdfborderstyle={/S/U/W 0.5},citebordercolor={0 0.4 1}}
 \usepackage{url}
@@ -168,6 +171,7 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{principle}[theorem]{Principle}
 \theoremstyle{definition}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}

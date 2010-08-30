@@ -9,19 +9,46 @@ about space complexity.
 
 \index{straight~line~program}Straight line programs
 (\index{SLP@see{straight~line~program}}SLP) permit to reason about
-both space and time complexity. Informally speaking, they are programs
-that are only made of a sequence of assignments (no branchings, no
-loops).  SLP's are isomorphic to arithmetic circuits,
-see~\cite{burgisser+clausen-shokrollahi} for formal definitions and
-proofs.
+both space and time complexity: they can be seen as evaluation
+strategies for arithmetic circuits, carrying information about
+registers to store intermediate results. Informally speaking, they are
+programs that are only made of a sequence of assignments (no
+branchings, no loops).  See~\cite{burgisser+clausen-shokrollahi} for
+formal definitions and proofs.
 
 \subsection{The BLS model}
 \label{sec:bls-model}
 In this section we study a particular family of \emph{linear straight
   line programs} introduced by Bostan, Lecerf and
 Schost~\cite{bostan+lecerf+schost:tellegen} to study the transposition
-principle. They consider linear circuits over the basis
+principle. They consider straight line programs consisting uniquely of
+the two operations
+\begin{align}
+  \label{eq:269}
+  R_i &\la R_i + R_j
+  \text{,}
+  &\text{also written }
+  R_i \overset{+}{\la} R_j
+  \text{,}\\
+  \label{eq:272}
+  R_i &\la R_i * a
+  \text{,}
+  &\text{also written }
+  R_i \overset{*}{\la} a
+  \text{,}
+\end{align}
+where $R_i,R_j$ are registers and $a\in R$. 
+
+We work in the algebraic RAM model of~\cite{kaltofen88:gcd}; this is
+to the classic RAM model what the BSS model~\cite{BSS} is to the
+Turing machine. In the algebraic RAM model, the time complexity of a
+SLP is given by the number of instructions, the space complexity by
+the number of different registers used.
+
+The semantic of such SLP's is equivalent to that of linear circuits
+over the basis $\mathsf{BLS}$:
 \begin{equation}
+  \tag{$\mathsf{BLS}$}
   \label{eq:246}
   \mathsf{XOR}_1 :
   \begin{pmatrix}
@@ -37,15 +64,8 @@ principle. They consider linear circuits over the basis
   \begin{pmatrix}
     a
   \end{pmatrix}
-  \text{ for $a\in R$,}
+  \text{ for $a\in R$.}
 \end{equation}
-that we shall denote by $\mathsf{BLS}$. Since all the operators have
-the same input and output arities, circuits over $\mathsf{BLS}$
-necessarily have the same number of inputs and outputs. Then Bostan,
-Lecerf and Schost remark that if a circuit has $n$ inputs (and
-outputs), its space complexity in the algebraic RAM
-model~\cite{kaltofen88:gcd} is upper bounded by $n$.
-
 In fact, consider a circuit $C$ over $(R,\mathsf{BLS})$ and let
 $x_1,\ldots,x_n$ be its inputs. Allocate $n$ registers
 $R_1,\ldots,R_n$ and initialize them to the values of
@@ -70,20 +90,36 @@ instruction
   R_j \lap R_i
   \text{.}
 \end{equation}
+Observe that all the operators in \ref{eq:246} have the same input and
+output arities, then circuits over \ref{eq:246} necessarily have the
+same number of inputs and outputs. Hence, if a circuit has $n$ inputs
+(and outputs), any topological order yields a straight line program
+using $n$ registers by this evaluation strategy.  Inversely, any
+straight line program using only instructions~\eqref{eq:269}
+and~\eqref{eq:272} can be represented by a circuit over \ref{eq:246}
+having $n$ inputs (and outputs).
 
-Inversely, any straight line program using only multiplication by
-scalars and self-increment can be represented by a circuit over this
-basis. We make this identification between circuits and SLP's, then,
-by observing that $\mathsf{XOR}_1$ is the dual of $\mathsf{XOR}_2$, we
-deduce that any circuit $C$ on $(R,\mathsf{BLS})$ has a dual circuit
-with the same space and time complexities in the algebraic RAM model.
+Thus, we identify circuits over \ref{eq:246} with such SLP's (note
+that the identification is not one-to-one) and define the space
+complexity of a circuit in the algebraic RAM model as its number of
+inputs (and outputs).
+
+Finally, observing that $\mathsf{XOR}_1$ is the dual of
+$\mathsf{XOR}_2$, we deduce that any circuit $C$ on $(R,\mathsf{BLS})$
+has a dual circuit with the same space and time complexities in the
+algebraic RAM model.
+
 
 \begin{remark}
   Let $(L_1,\ldots,L_k)$ be a SLP on $n$ registers, where $L_i$ is one
-  of the instructions~\eqref{eq:249},~\eqref{eq:255}
-  or~\eqref{eq:256}. By what we just said we can take as its dual the
-  sequence $(\dual{L_k},\ldots,\dual{L_1})$, where $\dual{L_i}$ is the
-  dual instruction to $L_i$.
+  of the instructions~\eqref{eq:269} or~\eqref{eq:272}. By what we
+  just said we can take as its dual the sequence
+  $(\dual{L_k},\ldots,\dual{L_1})$, where $\dual{L_i}$ is defined as
+  \begin{align}
+    \label{eq:273}
+    \dual{(R_i\overset{+}{\la}R_j)} &= R_j\overset{+}{\la}R_i\text{,}\\
+    \dual{(R_i\overset{*}{\la}a)} &= R_i\overset{*}{\la}a\text{.}
+  \end{align}
 \end{remark}
 
 
@@ -116,24 +152,25 @@ and the second one by
   \end{aligned}
 \end{equation}
 It is reasonable not to count multiplications by $0$, as these just
-require to free the memory, than one sees that transposing linear
+require to free some memory, than one sees that transposing linear
 SLP's preserves the space complexity and loses a factor of at most two
-on time complexity. However this is clumsy, one can do much better by
+on time complexity. However this is clumsy: one can do much better by
 transposing directly the instructions~\eqref{eq:257}
 and~\eqref{eq:258}.
 
 \begin{definition}[Double use]
   We say that a register $R_i$ is \index{double~use}\emph{doubly used}
-  in a sequence of instructions if it appears on the right hand side
-  of two instructions, and no instruction between them is of one of
-  the forms~\eqref{eq:257} or~\eqref{eq:258}.
+  in a sequence of instructions $(L_1,\ldots,L_n)$ if it appears on
+  the right hand side of two instructions $L_i$ and $L_j$, and no
+  instruction $L_k$ for $i<k<j$ is of the form~\eqref{eq:257}
+  or~\eqref{eq:258}.
 \end{definition}
 
 The matrix of the instruction $R_i\la R_j*a$ is
 $\left(\begin{smallmatrix}1&0\\a&0\end{smallmatrix}\right)$ in
 general, but simply
 $\left(\begin{smallmatrix}0&0\\a&0\end{smallmatrix}\right)$ if $R_j$
-is not doubly used; then, the transposition is
+is not doubly used; in the second case, the transposition is
 \begin{equation}
   \label{eq:262}
   \begin{aligned}
@@ -162,39 +199,65 @@ if $R_j$ and $R_k$ are not doubly used; this transposes to
 (notice that a double use is introduced by this transposition).
 
 By comparing this to equations~\eqref{eq:259} and~\eqref{eq:260}, one
-sees that each double use of a variable name on the right introduces a
-self-increment in the transposed code; this corresponds well to the
-duality between $+$ and $\hub$. 
+sees that each double use of a register introduces self-increment in
+the transposed code, and each addition introduces a double use in the
+transposed code. This corresponds well to the duality between $+$ and
+$\hub$.
 
-In conclusion, one sees that the sum of additions and double uses of
-variables stays unchanged when transposing generic straight line
-programs. Again, it is reasonable not to count multiplications by $0$.
+In conclusion, one sees that the sum of additions and double uses
+stays unchanged when transposing generic straight line
+programs. Again, it is reasonable not to count multiplications by $0$
+(in fact, they can be merged to the next assignment to the register).
 Copies of registers like in~\eqref{eq:263} are still a problem in the
 algebraic RAM model, but at a higher level of abstraction they can be
 handled using references (or one can simplify the code by hand, if his
-code has to run on an algebraic CPU!).
+code has to run on an algebraic CPU!). Thus we can state the following
+version of the transposition theorem for straight line programs.
 
-Thus, counting double uses as algebraic operations, we conclude that
-any linear straight line program can be transposed preserving space
-\emph{and} time algebraic complexities. This property will come handy
-in the next chapter.
+\begin{theorem}[Transposition theorem]
+  \label{th:tellegen-slp}\index{transposition~theorem}
+  Any linear straight line program $S$ computing a function $f$ can be
+  transformed in a new straight line program $\dual{S}$ computing
+  $\dual{f}$.  $S$ and $\dual{S}$ use the same number of
+  registers. The sum of the algebraic time complexity and the number
+  of double uses of registers is the same for $S$ and $\dual{S}$.
+\end{theorem}
 
 
-\subsection{$R$-algebraic programs}
-\label{sec:r-algebraic-programs}
+
+\subsection{$R$-algebraic transforms}
+\label{sec:r-algebraic-transforms}
 One rarely programs with straight line programs: to make transposition
 really useful, we must transpose families of SLP's. Bostan, Lecerf and
-Schost consider SLP's parameterized by integers and booleans: they
-restrict algebraic operations to sums and scalar multiplications, but
-they allow for loops and conditionals, under the restriction that
-their guards only range over the parameters.
+Schost consider SLP's parameterized by integers and booleans.
+
+\begin{definition}[algebraic transform]
+  Let $R$ be a ring, an \index{algebraic~transform}\emph{$R$-algebraic
+    transform} is a program in the algebraic RAM model composed by the
+  following constructs:
+  \begin{itemize}
+  \item linear algebraic assignments of the
+    forms~\eqref{eq:269},~\eqref{eq:272},~\eqref{eq:257},~\eqref{eq:258};
+  \item for loops with iterator ranging over a list of non-algebraic
+    registers;
+  \item conditionals with tests over non-algebraic registers;
+  \item function calls, recursive function calls.
+  \end{itemize}
+  If the program is recursive, it must terminate on any valid input.
+\end{definition}
+
+By extension, we shall also call $R$-algebraic transform any algorithm
+that can be expressed in this model. This is equivalent to consider
+circuit families; for example, Algorithm~\ref{alg:r-algeb} corresponds
+to a circuit family with parameter space $\N$.
+
 
 \begin{algorithm}
   \caption{\label{alg:r-algeb}$R$-algebraic algorithm}
   \begin{algorithmic}
     \REQUIRE $a,b\in R$; $n\in\N$.
-    \FOR{$i=1$ \TO $n$}
-    \IF{$n$ is even}
+    \FOR{$i\in[1,\ldots,n]$}
+    \IF{$i$ is even}
     \STATE $a \lap b$;
     \ELSE
     \STATE $b \lap a$;
@@ -204,30 +267,21 @@ their guards only range over the parameters.
   \end{algorithmic}
 \end{algorithm}
 
-This is equivalent to transpose circuit families; for example,
-Algorithm~\ref{alg:r-algeb} corresponds to a circuit family with
-parameter space $\N$. They also allow function calls, which
-corresponds to do a semantic substitution as in
-Definition~\ref{def:sem-subst}. Even recursive function calls are
-allowed, provided they terminate.
-
-We shall call
-\index{r-algebraic~algorithm@$R$-algebraic~algorithm}\emph{$R$-algebraic}
-an algorithm that can be expressed in such model. It is clear that,
-for any value of the parameters, an $R$-algebraic algorithm
-corresponds to a SLP, then the transposition theorem can be applied to
-it. In practice, one leaves conditionals untouched and reverses for
-loops; function calls (recursive or not) are substituted by their
-transpose. For example, Algorithm~\ref{alg:r-algeb} becomes
-Algorithm~\ref{alg:r-algeb-t}.
+ 
+It is clear that, for any value of the non-algebraic parameters, an
+$R$-algebraic transform corresponds to a SLP, then the transposition
+theorem can be applied to it. In practice, one leaves conditionals
+untouched and reverses for loops; function calls (recursive or not)
+are substituted by their transpose. For example,
+Algorithm~\ref{alg:r-algeb} becomes Algorithm~\ref{alg:r-algeb-t}.
 
 \begin{algorithm}
   \caption{\label{alg:r-algeb-t}Transposition of
     Algorithm~\ref{alg:r-algeb}}
   \begin{algorithmic}
     \REQUIRE $a,b\in R$; $n\in\N$.
-    \FOR{$i=n$ \TO $1$}
-    \IF{$n$ is even}
+    \FOR{$i\in[n,\ldots,1]$}
+    \IF{$i$ is even}
     \STATE $b \lap a$;
     \ELSE
     \STATE $a \lap b$;
@@ -238,24 +292,106 @@ Algorithm~\ref{alg:r-algeb-t}.
 \end{algorithm}
 
 Putting together the results of this section and the previous ones, we
-can now state the \emph{transposition
-  principle}.
+can now state the transposition theorem for algebraic transforms.
 
-\begin{theorem}[Transposition principle]
-  \label{th:transp-princip}
-  \index{transposition~principle} Any \emph{$R$-algebraic} algorithm
-  computing a linear function $f:M\ra N$, where $M,N$ are $R$-modules,
-  can be transformed in an $R$-algebraic algorithm to compute
-  $\dual{f}$. The two algorithms have the same space and time
-  algebraic complexities.
+\begin{theorem}[Transposition theorem]
+  \label{th:tellegen-R-algeb}\index{transposition~theorem}
+  Any $R$-algebraic transform $T$ computing a linear function
+  $f$ can be transformed in an $R$-algebraic transform $\dual{T}$
+  computing $\dual{f}$.  $T$ and $\dual{T}$ use the same number of
+  registers. The sum of the algebraic time complexity and the number
+  of double uses of registers is the same for $T$ and $\dual{T}$.
 \end{theorem}
 
+\begin{nota}
+  Observe that some care must be taken when counting double uses in
+  for loops: a single assignment in a for loop counts as $n-1$ double
+  uses, where $n$ is the number of times the loop is repeated.
+\end{nota}
 
-A formal proof of the principle will be the object of the next
-chapter. Notice, however, that very few interesting algorithms are
-$R$-algebraic: for example, multiplication and Euclidean division are
-not (they are parameterized by an algebraic element), nevertheless we
-transposed in Section~\ref{sec:transp-algor}.
+
+\subsection{$R$-algebraic algorithms}
+\label{sec:r-algebr-algor}
+The transposition theorem for algebraic transforms is an important
+result that we shall use in the following chapters. However, if we
+want to transpose the multiplication or the Euclidean division of
+Section~\ref{sec:transp-algor}, we need to consider SLP's
+parameterized by algebraic elements.
+
+With a little of hand waving, the transposition theorem is applied to
+algorithms parameterized by algebraic elements
+in~\cite{bostan+lecerf+schost:tellegen}:
+\begin{quote}
+  ``Last, we will consider algorithms mixing linear and non-linear
+  precomputations; the transposition principle leaves the latter
+  unchanged.''
+\end{quote}
+
+We shall call \index{algebraic~algorithm}\emph{$R$-algebraic} any
+algorithm that can be expressed in the algebraic RAM model, and that
+terminates on any input. Formally, the way an $R$-algebraic algorithm
+can be transposed is by \emph{partial
+  evaluation}~\cite{consel+danvy93,riazanov+voronkov04,carette+kiselyov+shan09:jfp}.
+
+\begin{definition}[Partial evaluation]
+  Let $M,N$ be free $R$-modules (non necessarily finite). Let
+  $A:M\times\pspace\ra N$ be an $R$-algebraic algorithm and let $p\in
+  \pspace$. The \index{partial~evaluation}\emph{partial evaluation} of
+  $A$ on $p$ is the algorithm
+  \begin{equation}
+    \label{eq:274}
+    \begin{aligned}
+      A_{p}:L&\ra N\text{,}\\
+      x &\mapsto A(x;p)
+      \text{.}
+    \end{aligned}
+  \end{equation}
+\end{definition}
+
+If for any $p\in\pspace$ the partial evaluation $A_{p}$ is
+a straight line program, then we can apply the transposition theorem
+to $A_{p}$. For example, if $M:R[X]\times R[X]\times \N\ra R[X]$ is
+a polynomial multiplication algorithm, then for any $b\in R[X]$, the
+\emph{transposed multiplication} is $\dual{M_{b,\deg b}}$, as in
+Section~\ref{sec:transp-mult}.
+
+There are many strategies to compute partial evaluations, we shall see
+one in Section~\ref{sec:transAL}. The simplest strategy is to evaluate
+all the expressions that depend on $p$ and store them in memory so
+that they can be used in $A_p$ as constants; this is similar to the
+linearization of arithmetic circuits we saw in
+Section~\ref{sec:multi}. Obviously, the cost in time complexity is
+bounded by the time complexity of $A$; however, the cost in space
+complexity is also bounded by the time complexity of $A$.
+
+\begin{principle}[Transposition principle]
+  \label{th:tellegen-princip}\index{transposition~theorem}\index{transposition~principle}
+  Let $\pspace$ be an arbitrary set. Any $R$-algebraic algorithm $A$
+  computing a family of linear functions $(f_p:M\ra N)_{p\in\pspace}$
+  can be transformed in an $R$-algebraic algorithm $\dual{A}$
+  computing the \emph{dual family}
+  $(\dual{f}_p:\dual{N}\ra\dual{M})_{p\in\pspace}$. The algebraic time
+  and space complexities of $\dual{A}$ are bounded by the time
+  complexity of $A$.
+\end{principle}
+
+Notice, however, that in many practical instances of transposition,
+the partially evaluated values constitute a negligible amount of the
+space used by the algorithm. Thus, in practice, transposed algorithms
+often have the same space \emph{and} time complexities as the original
+ones; this is the case for all the transposed algorithms that appear
+in this document.\footnote{Actually, the author is not aware of
+  \emph{any} application of the transposition principle where space
+  complexity is not preserved, although it is easy to artificially
+  create examples that behave badly.}
+
+\begin{nota}
+  Is this the end of the story? Probably not. Umans and
+  Kedlaya~\cite{kedlaya+umans08} have recently shown an example of
+  non-algebraic algorithm that can be transposed with no loss in space
+  and time complexity. This makes one wonder what the true limits of
+  the transposition principle are.
+\end{nota}
 
 
 

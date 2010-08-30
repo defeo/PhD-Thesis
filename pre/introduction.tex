@@ -182,18 +182,20 @@ the whole document is the \emph{transposition principle}, which is the
 language-theoretic counterpart to algebraic duality.
 
 The transposition principle was discovered in electrical network
-theory by Bordewijk~\cite{bordewijk57}, then proved in its general form
-by Fiduccia~\cite{fiduccia:phd}; but it only became popular in
+theory by Bordewijk~\cite{bordewijk57}, then proved in its general
+form by Fiduccia~\cite{fiduccia:phd}; but it only became popular in
 computer algebra much later through the works of Kaltofen, Yagati,
 Shoup, von zur Gathen and
-others~\cite{kaltofen+lakshman89,vzgathen+shoup92,shoup94,shoup95,shoup99,hanrot+quercia+zimmermann}. It
-states that
+others~\cite{kaltofen+lakshman89,vzgathen+shoup92,shoup94,shoup95,shoup99,hanrot+quercia+zimmermann}. One
+possible statement is:
 \begin{quote}
-Any \emph{$R$-algebraic} algorithm
-  computing a linear function $f:M\ra N$, where $M,N$ are $R$-modules,
-  can be transformed in an $R$-algebraic algorithm to compute
-  $\dual{f}$. The two algorithms have the same space and time
-  algebraic complexities.
+  Let $\pspace$ be an arbitrary set. To any $R$-algebraic algorithm
+  $A$ computing a family of linear functions $(f_p:M\ra
+  N)_{p\in\pspace}$ corresponds an $R$-algebraic algorithm $\dual{A}$
+  computing the \emph{dual family}
+  $(\dual{f}_p:\dual{N}\ra\dual{M})_{p\in\pspace}$. The algebraic time
+  and space complexities of $\dual{A}$ are bounded by the time
+  complexity of $A$.
 \end{quote}
 
 The transposition principle is important in computer algebra because

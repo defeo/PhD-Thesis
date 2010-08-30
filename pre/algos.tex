@@ -683,14 +683,13 @@ an algorithmic principle, known as the
   principle}~\cite{shoup94,shoup95,shoup99,Ka2K,hanrot+quercia+zimmermann,bostan+lecerf+schost:tellegen},
 states that
 \begin{quote}
-  % To any \emph{$R$-algebraic} algorithm computing a linear function
-  % $f:M\ra N$, where $M,N$ are $R$-modules, corresponds an algebraic
-  % algorithm that computes $\dual{f}$ using the same number of
-  % algebraic operations.
-  To any \emph{$R$-algebraic} algorithm computing a linear function
-  $f:M\ra N$, where $M,N$ are $R$-modules, corresponds an algebraic
-  algorithm that computes $\dual{f}$ using the same number of
-  algebraic operations.
+  Let $\pspace$ be an arbitrary set. To any $R$-algebraic algorithm
+  $A$ computing a family of linear functions $(f_p:M\ra
+  N)_{p\in\pspace}$ corresponds an $R$-algebraic algorithm $\dual{A}$
+  computing the \emph{dual family}
+  $(\dual{f}_p:\dual{N}\ra\dual{M})_{p\in\pspace}$. The algebraic time
+  and space complexities of $\dual{A}$ are bounded by the time
+  complexity of $A$.
 \end{quote}
 
 In Part~\ref{part:transp-princ} we shall see that this principle has
@@ -706,7 +705,7 @@ multiplication. Let $a\in R[X]$, the map $M_a:b\mapsto ab$ is a linear
 map. As usual, we identify the dual module of $R[X]$ to $R[[1/X]]$ via
 the bilinear form
 \begin{equation}
-  \label{eq:47}
+  \label{eq:276}
   \braket{\alpha}{b} = [\alpha b]_0
   \text{,}
 \end{equation}
