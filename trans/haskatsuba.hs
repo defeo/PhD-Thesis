@@ -97,5 +97,5 @@ kara x y n =
          
 -- Run ghci -fglasgow-exts
 -- and at the prompt type 
---    :t kara
+--    ghci> :t kara
 -- enjoy \end{lstlisting}\endinput
