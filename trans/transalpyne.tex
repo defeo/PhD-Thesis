@@ -1,5 +1,487 @@
-\section{\texttt{transalpyne}}
+\section{\tALpy{}}
 \label{sec:texttttransalpyne}
+
+\lstset{language=python}
+
+We present here a ``python implementation of a transposable Algebraic
+Language'', in short \index{transalpyne@\tALpy{}}\tALpy{}.
+
+\tALpy{} is a limited functional language incorporating all the
+features that we have discussed until now, in particular:
+\begin{itemize}
+\item it supports algebraic code (i.e., not restricted to native types
+  such as integers or floats);
+\item it has a static type checker that only gives types to algebraic
+  variables and performs linearity inference (see
+  Section~\ref{sec:inference});
+\item it is able to transpose any linearization of an algebraic
+  program (see Section~\ref{sec:r-algebr-algor};
+\item its code can be compiled to python code, or interpreted inside
+  python's interpreter.
+\end{itemize}
+
+At the moment we write, the first stable release of \tALpy{} is not
+ready yet. We plan to start distribute it by the beginning of 2011. It
+will be available from \url{http://transalpyne.gforge.inria.fr/}.
+
+
+\subsection{Concepts}
+\tALpy{} has been conceived as a scripting language to be used on top
+of computer algebra systems. We made an effort to give syntax and
+semantics as close as possible to the python programming language.
+
+In \tALpy{} there is no such concept as an executable program: only
+functions can be defined in \tALpy{}.  \tALpy{} programs can be
+compiled to python code, so that their functions can be called by
+python programs; we plan to support compilation to other languages in
+the future. \tALpy{} can also be interpreted via the python
+interpreter. A \tALpy{} library contained in a file
+\texttt{my-library.yp} can be imported in a python program via the
+statement
+\begin{lstlisting}
+  import my-library
+\end{lstlisting}
+The python interpreter recognizes the \texttt{.yp} extension and
+launches the \tALpy{} interpreter on the file; the functions of the
+library are interpreted and transposed by the \tALpy{} interpreter and
+their names are exported to the python namespace.
+
+\tALpy{} is mostly dynamically typed, with the only exception of
+\emph{algebraic types}. In order to transpose a function, \tALpy{}
+must know at \emph{transpose time} which variables contain algebraic
+elements and which variables contain other data (such as booleans,
+strings, ints, etc.); this can be done by explicitly specifying the
+type of the input and output parameters of a function, while all the
+other variables can be left untyped. \tALpy{} supports two sorts of
+algebraic types: ring elements and module elements; we plan to support
+more complex algebraic types, such as algebras, in the
+future. \tALpy{} relies on python's operator overloading to represent
+ring operations.
+
+\tALpy{} type checker also performs a linearity inference as described
+in Section~\ref{sec:inference}. The base ring is supposed to be
+commutative, we plan to add support for non commutative rings in the
+future. When a function admits more than one linearization, \tALpy{}
+computes and transposes all of them; if this leads to an ambiguity in
+a function call, it raises a compile time error.
+
+
+\subsection{Syntax}
+\label{sec:syntax}
+We only describe \tALpy{} syntax informally. Indentation has a
+syntactic value (it delimits blocks) and keywords are pretty much the
+same as python's. A \tALpy{} file contains a \emph{type declaration}
+section followed by a \emph{name definition} section.
+
+\subsubsection{Type declarations}
+Type declarations permit to declare which are the algebraic types.
+\tALpy{} supports two type constructors: a ring constructor and a free
+module constructor.
+
+\begin{lstlisting}
+  type Ring R
+  type Module(R) M
+\end{lstlisting}
+
+This example declares \lstinline+R+ as a ring type and \lstinline+M+
+as a free module type over the ring \lstinline+R+. The typechecker
+ensures that modules are consistently declared.
+
+
+\subsubsection{Name declarations}
+Name declarations take three forms: \emph{imports}, \emph{function
+  definitions} and \emph{aliases}. Imports are declared as in python
+and have the same semantics. Note however that the type checker does
+not enter imported modules to infer linearity: any imported function
+is considered as a scalar function.
+
+There is no \lstinline+return+ statement in \tALpy{}, function
+definitions are declared as follows
+\begin{lstlisting}
+  def (a, b)my-function(c, d):
+\end{lstlisting}
+where input arguments are given on the right and output arguments on
+the left.
+
+Inside function definitions, there are four types of statements:
+\lstinline+pass+ statements (the statement that does nothing),
+assignments (including augmented assignments), \lstinline+for+ loops
+and \lstinline+if+s. The syntax is identical to python's.
+
+On the left hand side of assignments, may only appear variable names
+and subscripts. On the right hand side of assignments, the following
+types of expressions may appear:
+\begin{itemize}
+\item String, numeric and boolean constants;
+\item Binary and unary operators \lstinline-+-, \lstinline+-+,
+  \lstinline+*+, \lstinline+/+,
+  \lstinline+%+, \lstinline+div+, \lstinline+mod+, \lstinline+<+,
+  \lstinline+>+, \lstinline+<=+, \lstinline+<=+, \lstinline+==+,
+  \lstinline+!=+, \lstinline+and+, \lstinline+or+, \lstinline+not+,
+  \lstinline+in+;
+\item Parenthesized expressions;
+\item Subscripts and slices;
+\item List constructors, including comprehensions;
+\item Variable evaluations;
+\item Function calls.
+\end{itemize}
+The syntax for all of these is identical to python's. The only notable
+exception are function calls where a keyword \lstinline+trans+ is
+added to let the user call a transposition of a function. In case a
+function has more than one linearization (and thus more than one
+transposition), \emph{signature specifiers} enclosed in braces
+\lstinline+{+, \lstinline+}+ permit to specify which
+linearization/transposition is wanted.
+
+Finally, aliases permit to export specific
+linearization/transpositions of functions with names that can be used
+inside a python program.
+
+Figure \ref{fig:prog} gives a complete \tALpy{} example. It defines a
+\lstinline+product+ function and two aliases (with transposition and
+signature specifiers).
+
+\begin{figure}[!h]
+  \centering
+\begin{lstlisting}[frame=single,frameround=tttt]
+type Ring R
+
+def (R c)product(R a, R b):
+    c = a * b
+  
+l_product = trans {linear R}product{linear R, const R}
+r_product = trans {linear R}product{const R, linear R}
+\end{lstlisting}
+  
+  \caption{A \tALpy{} program}
+  \label{fig:prog}
+\end{figure}
+
+
+\subsection{Semantics}
+We only give here the points were \tALpy{} semantics differ from
+python's.
+
+\subsubsection{Types}
+\tALpy{} is statically typed for algebraic types. The type of each
+input and output parameter of a function must be specified in the
+definition as in figure \ref{fig:prog}. When the type of an argument
+is omitted, it is assumed to have non-algebraic type. Variables inside
+the body of a function cannot be explicitly typed, the type checker
+deduces their types from the types of the input parameters.
+
+\subsubsection{Side effects}
+There is no side effect in \tALpy{}. In particular, there is no global
+variable and assignment itself is a let-binding. After having
+transposed the functions, the \tALpy{} compiler/interpreter leaves to
+the target language the task of executing them, thus it cannot enforce
+the no-side-effect policy at runtime. It is the responsibility of the
+user to insure that no side effect happens inside a \tALpy{} function.
+
+\subsubsection{Conditionals, loops}
+\label{sec:conditionals-loops}
+In order for the type inference to work, we must work around a feature
+of python. The following is correct python code, even if a is not
+defined before the if statement:
+\begin{lstlisting}
+  if x:
+      a = 0
+  b = a
+\end{lstlisting}
+In case the if block is not executed, python simply issues a runtime
+error. If we want to do a type inference, we must give a more strict
+syntax.
+
+In \tALpy{} one cannot use outside of an if block a variable that has
+been first assigned in one of the branches but not in all of them.  If
+blocks have a return type: it is the product of the types of all the
+variables modified inside one of its branches, and that appear in each
+branch or were defined before the if; this type must be the same at
+the issue of any branch. For example, in the following code
+\begin{lstlisting}
+  a = R.zero()
+  if True:
+      a = R.one()
+  else:
+      b = R.zero()
+\end{lstlisting}
+the return type of the if statement is the type of \lstinline{a},
+because it has been modified in the if branch, and was defined before
+the if, and is the same in both branches (namely,
+\lstinline{R}). Using the value of \lstinline{b} after the block
+generates a compile time error.
+
+For loops also have a return type. To this extent, they are treated as
+if they were if blocks with an empty else block.
+
+
+
+\subsubsection{Algebraic variables}
+\label{sec:algebraicvar}
+Type declarations merely say that some variables belong to a type, but
+do not specify any particular implementation of the type. The
+implementation of rings and modules is left to the user and must be
+given in an external module written in python (or in general, the
+target language, when the code is compiled to a different
+language). The user is only required to implement them as objects and
+to expose a few methods.
+
+Ring objects must:
+\begin{itemize}
+\item Overload \lstinline-+- and \lstinline+*+ with the obvious semantic;
+\item Implement a method \lstinline-zero- that returns the zero of the ring;
+\item Optionally, implement a method \lstinline-one- that returns the
+  one of the ring;
+\item Optionally, implement a method \lstinline-Z- that takes an
+  integer $n$ and returns the element $n\cdot 1$ of the ring;
+\item Optionally, implement methods \lstinline+div+ and
+  \lstinline+mod+ that perform Euclidean division with remainder;
+\item Optionally, overload \lstinline+/+, thus making the ring into a
+  field.
+\end{itemize}
+
+Module objects must:
+\begin{itemize}
+\item Overload \lstinline-+- and \lstinline+*+ with the obvious semantic;
+\item Implement a method \lstinline-zero- that returns the zero of the
+  module;
+\item Overload the subscript operator \lstinline+[]+ so that it
+  implements some arbitrary projections on the underlying ring. Most
+  often, a module will be implemented as an array of ring objects and
+  \lstinline+[i]+ will just be projection onto the \lstinline+i+-th
+  coordinate.
+\item Overload the assignment-to-subscript operator in the obvious
+  way.
+\end{itemize}
+
+Algebraic output parameters of a function are implicitly initialized
+to zero via their \lstinline+zero+ method. This insures that
+non-assigned algebraic output parameters are always linear in the
+inputs of the function.
+
+Algebraic elements cannot be combined through the use of lists: lists
+of algebraic objects are non-algebraic objects and extraction from a
+list always yields a non-algebraic object.
+
+
+\subsubsection{Function calls}
+\tALpy{} does not have tuples; the return type of a function with many
+output parameters is not a tuple, as a consequence its return value
+cannot be assigned to a variable: it must be assigned to as many
+variables as there are output parameters.  Another consequence of this
+is that functions with many outputs cannot be used inside expressions:
+their outputs can only be assigned to variables.
+
+Function names not declared in the library are simply regarded as
+external functions. They are assumed to have one return parameter,
+thus a multi-assignment will return an error. External functions have
+no algebraic input or output parameters. This is useful to call
+built-in python functions from inside a \tALpy{} program (one common
+example is the function \lstinline+range+, needed to iterate in for
+loops).
+
+\subsubsection{Recursion and Higher order}
+\tALpy{} allows recursion and even calling its own transpose. It does
+not allow to pass functions as arguments to a function, although the
+transposition algorithm internally uses this technique to transpose
+for loops. A higher order transposable language is theoretically
+possible and we consider adding this feature to \tALpy{} in the
+future.
+
+\subsection{Linearization}
+\label{sec:linearization}
+
+After a first type checking to determine which variables are
+algebraic, \tALpy{}'s compiler/interpreter runs the linearization
+inference algorithm of Section~\ref{sec:inference}. 
+
+Since a function may have more than one linearization, \tALpy{} allows
+the user to annotate the types of the algebraic arguments so that they
+can be constrained to be linears or scalars (non-algebraic arguments
+are by default scalars). The two keywords for this are
+\lstinline{linear} and \lstinline{const}, the following code shows an
+example of use:
+\begin{lstlisting}
+  def (linear R c)product(linear R a, const R b):
+      c = a * b
+\end{lstlisting}
+
+The user is free to leave some arguments unspecified. For example, the
+previous code could have been written
+\begin{lstlisting}
+  def (R c)product(linear R a, R b):
+      c = a * b
+\end{lstlisting}
+The linearity inference looks for all the linearizations compatible
+with the specified modifiers, thus in this case both codes yield the
+same linearization. If more than a linearization is acceptable,
+\tALpy{} computes all of them.
+
+We call \index{signature}\emph{signature} a list of linear/const
+modifiers inferred for the arguments of a function. Signature
+specifiers (see Section~\ref{sec:syntax}) can be used to distinguish
+between different linearizations when calling the transposed
+function. They are written as
+\begin{lstlisting}
+  {const R}product{linear R, const R}
+\end{lstlisting}
+
+Thus, in the example we gave in figure \ref{fig:prog},
+\lstinline+l_product+ is an alias for the transposed left-linear
+product, while \lstinline+r_product+ is an alias for the transposed
+right-linear one. Aliases are extremely useful since they are the only
+way to export the transposed functions to the namespace of the target
+language.
+
+
+
+
+\subsection{Partial evaluation}
+\label{sec:partial-evaluation-1}
+After the type checking and linearity inference phase, any discovered
+linearization of any function is partially evaluated and transposed as
+in Section~\ref{sec:r-algebr-algor}.
+
+
+\begin{figure}[b]
+  \centering
+\begin{lstlisting}[frame=single,frameround=tttt]
+def (R a, R b)f(R c, R d):
+  if d > R.zero():
+    x, y = f(c, d - R.one())
+    a, b = x * y, y + R.one()
+  else:
+    a, b = c, d
+\end{lstlisting}
+  \caption{\label{fig:bad}A \tALpy{} program that does nothing
+    interesting, but is very hard to transpose (with respect to the
+    signature \lstinline+\{linear R, const R\}f\{linear R, const
+    R\}+).}
+\end{figure}
+
+
+The first step is to translate any for loop into a tail-recursive
+function, as this simplifies greatly the partial evaluation. The
+partial evaluation is then done in two steps: first we evaluate all
+the statements depending exclusively from the scalars, then we strip
+those statements off the partially evaluated program. Let us explain
+this through an example. Consider the program in Figure~\ref{fig:bad},
+we want to transpose it with respect to the signature $\ell\times
+s\ra\ell\times s$.
+
+First we generate the program that evaluates at \lstinline+d+ the
+statements that only depend on \lstinline+d+, we call it
+\lstinline+fS+.
+\begin{lstlisting}
+def (R b)fS(R d):
+  if d > R.zero():
+    y = fS(d - R.one())
+    b = y + R.one()
+  else:
+    b = d
+\end{lstlisting}
+
+Now we generate the partial evaluation of \lstinline+f+ at
+\lstinline+d+ by stripping off all the values that solely depend on
+\lstinline+d+.
+\begin{lstlisting}
+def (R a)f(R c):
+  if d > R.zero():
+    x = f(c, d - R.one())
+    a = x * y
+  else:
+    a = c
+\end{lstlisting}
+Notice that this program needs the values of \lstinline+d+ and
+\lstinline+y+ that are computed in \lstinline+fS+. Depending on
+whether the code is compiled or interpreted, we use a different
+strategy.
+
+In case we generate code, we simply concatenate the bodies of
+\lstinline+fS+ and \lstinline+f+, eventually performing
+$\alpha$-conversion to avoid name clashes (notice that
+$\alpha$-conversion is possible because we have eliminated for
+loops). Thus, the refactored code for \lstinline+f+ would look like in
+Figure~\ref{fig:bad-ref}.
+
+\begin{figure}[t]
+  \centering
+\begin{lstlisting}[frame=single,frameround=tttt]
+def (R a, R b)f(R c, R d):
+  # Scalar part
+  if d > R.zero():
+    y = fS(d - R.one())
+    b = y + R.one()
+  else:
+    b = c
+  # Linear part
+  if d > R.zero():
+    x, _ = f(c, d - R.one())
+    a = x * y
+  else:
+    a = c
+\end{lstlisting}
+  \caption{\label{fig:bad-ref}Refactoring of the code of
+    Figure~\ref{fig:bad}, separating the scalar from the linear part.}
+\end{figure}
+
+
+Notice, however, that this is inefficient because it generates two
+recursive calls: one in the scalar part and one in the linear part. A
+better solution would be to evaluate \lstinline+fS(d)+ only once and
+save all its stack, so that all the scalar values needed in the
+partial evaluation can be retrieved from it. When we interpret code we
+chose an intermediate solution: we save the return value of any call
+to \lstinline+fS+ in a memoization table, then retrieve the values
+from the table when they are needed in the linear part. This is a sort
+of lazy evaluation of functions in the scalar part.
+
+\begin{remark}
+  Regardless of whether the code is interpreted or compiled, scalar
+  parts of real world algorithms tend to be very short and simple. In
+  particular they seldom contain a recursive call having both scalar
+  and linear return values as the one in Figure~\ref{fig:bad}. Thus we
+  can reasonably assume that the generated code is as efficient as the
+  original one.
+\end{remark}
+
+
+\subsection{Transposition}
+\label{sec:transposition}
+Finally, the linear part of each linearized function is transposed as
+in Section~\ref{sec:stra-line-progr}. In doing this we read the code
+from bottom to top and transpose each instruction, i.e.\ we swap input
+and output algebraic arguments of any function, and substitute each
+function call with a call to the transposed function. The example of
+Figure~\ref{fig:bad} is transposed in Figure~\ref{fig:mechant}. We
+borrow the names \index{forward~sweep}\emph{forward sweep} and
+\index{reverse~sweep}\emph{reverse sweep} from the theory of automatic
+differentiation, where a similar technique is applied in the reverse
+mode.
+
+\begin{figure}[hb]
+  \centering
+\begin{lstlisting}[frame=single,frameround=tttt]
+def (R c, R b)fT(R a, R d):
+  # Forward sweep
+  if (d > R.zero()):
+    y = fS(d - R.one())
+    b = y + R.one()
+  else:
+    b = d
+  # Reverse sweep
+  if (d > R.zero()):
+    x = a * y
+    c, _ = trans f(x, d - R.one())
+  else:
+    c = a
+\end{lstlisting}
+  \caption{Transposition of Figure~\ref{fig:bad}.}
+  \label{fig:mechant}
+\end{figure}
+
+
+
 
 
 %%% Local Variables: 
