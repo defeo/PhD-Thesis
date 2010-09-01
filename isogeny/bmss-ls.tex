@@ -342,8 +342,10 @@ large discriminant, as pointed out in~\cite[$\S7$]{schoof95}.
   \end{quote}
   
   However, in the cases $p=2,3$, Elkies formulas yield a curve over
-  $\Q_q$ that reduces badly in $\F_q$. For this reason we were not
-  able to derive the aforementioned generalization.
+  $\Q_q$ that reduces badly in $\F_q$, thus it is not possible to
+  apply Algorithm~\ref{alg:le-si} as is, just by using the appropriate
+  differential equation in BMSS. We did not attempt to modify the
+  descent from $\Q_q$ to $\F_q$ to solve this problem.
 \end{nota}
 
 Computations in $\Q_q$ must be approximated to a certain
@@ -382,17 +384,27 @@ Building on this, we now analyze the complexity of the algorithm.
 \end{proof}
 
 \begin{remark}
-  The complexity bound we just proved is lower than the original one
-  given in~\cite{lercier+sirvent08} and used in our
-  article~\cite{df10}. This is due to two factors:
-  \begin{itemize}
-  \item We rely on the new algorithms to compute the modular
-    polynomial $\Modpol_\ell$ in the ring $\Z/m\Z[X,Y]$ appeared
-    in~\cite{sutherland10:modpol};
-  \item We do not take into account the cost of factoring
-    $\Phi_\ell(X,j_E)$ in $\F_q$, this is because we assume that the
-    curve $E'$ is given as input to the algorithm.
-  \end{itemize}
+  Our presentation of the algorithm slightly deviates from the
+  original paper~\cite{lercier+sirvent08}. Since we want to compare
+  its running time with Couveignes' algorithm, we assume that the
+  elliptic curve $E'$ isogenous to $E$ is provided as an input, while
+  in~\cite{lercier+sirvent08} it is assumed that only $E$ is known.
+
+  The consequence is that in the original version, before
+  step~\ref{alg:le-si:modpol} one has to factor the univariate
+  polynomial $\Modpol(X,j_E)$ in $\F_q$ to find an isogenous
+  $j$-invariant. Lercier and Sirvent,
+  citing~\cite{lidl+niederreiter:2}, estimate this cost to be
+  $\tildO(\ell\log^2 q)$. This contribution must be added to the
+  complexity announced in Proposition~\ref{th:lercier-sirvent} if one
+  wants to work in the original setting.
+
+  Another important difference is that we rely on an algorithm to
+  compute the modular polynomial $\Modpol_\ell$ in the ring
+  $\Z/m\Z[X,Y]$, recently appeared in~\cite{sutherland10:modpol}. This
+  permits to compute $\Modpol_\ell$ in $\Q_q$ truncated to the
+  required precision using only $O(\ell^2\log^2\ell)$ binary
+  operations, instead of $\tildO(\ell^3)$.
 \end{remark}
 
 

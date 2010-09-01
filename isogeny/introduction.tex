@@ -49,16 +49,37 @@ well as its improved variants in Sections~\ref{sec:C2}
 to~\ref{sec:bounded}.
 
 After the discovery of $p$-adic alternatives to Schoof's
-algorithm\cite{satoh00}, interest in computing isogenies in small
-characteristic was lost. Nevertheless, two $p$-adic algorithms were
-recently proposed by Joux and Lercier \cite{joux+lercier06} and
-Lercier and Sirvent \cite{lercier+sirvent08} to solve the isogeny
-problem. The former method has complexity $\tildO(\ell^2(1 +
-\ell/p)\log q)$ operations in $\F_p$, which makes it well adapted to
-the case where $p\sim\log q$. The latter has complexity
-$\tildO(\ell^2\log q)$ operations in $\F_p$, making it the best
-algorithm to compute isogenies is small characteristics. We review the
-second algorithm in Section~\ref{sec:lercier-sirvent}.
+algorithm\cite{satoh00,fouquet+gaudry+harley00}, interest in computing
+isogenies in small characteristic was lost for some time. However,
+other cryptographic applications of isogenies soon appeared.  The
+\index{GHS~attack}GHS attack uses Weil descent to reduce the
+\index{discrete~logarihm~problem}discrete logarithm problem
+(\index{DLP@see{discrete logarithm problem}}DLP) of an elliptic curve
+over a binary field of composite degree to the DLP of an hyperelliptic
+curve over a smaller field~\cite{gaudry+hess+smart02,GHS,hess03}. A
+similar application is the reduction of the DLP of some genus $3$
+hyperelliptic curves to the DLP of genus $3$ non-hyperelliptic
+curves~\cite{smith09}. Isogeny graphs have been used to construct hash
+functions~\cite{charles+lauter+goren09} and to compute Hilbert class
+polynomials and modular
+polynomials~\cite{sutherland10:hilbert,sutherland10:modpol}. New
+cryptographic protocols based on isogenies have also been proposed:
+Rostovtsef and Stolbunov~\cite{rostovtsev+stolbunov06} construct a
+Diffie-Hellman key exchange based on a DLP-like problem in a cycle of
+isogenous curves; Teske~\cite{mauer+menezes+teske01,teske06}
+constructs a trapdoor cryptosystem by hiding a GHS-vulnerable curve
+behind a random path of isogenies.
+
+On the wave of the renewed interest for isogenies, two $p$-adic
+algorithms were recently proposed by Joux and Lercier
+\cite{joux+lercier06} and Lercier and Sirvent \cite{lercier+sirvent08}
+to compute isogenies in arbitrary characteristic. The former method
+has complexity $\tildO(\ell^2(1 + \ell/p)\log q)$ operations in
+$\F_p$, which makes it well adapted to the case where $p\sim\log q$.
+The latter has complexity $\tildO(\ell^2\log q)$ operations in $\F_p$,
+making it the best algorithm to compute isogenies is small
+characteristics. We review the second algorithm in
+Section~\ref{sec:lercier-sirvent}.
 
 
 \section{Vélu formulas}

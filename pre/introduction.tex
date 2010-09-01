@@ -73,20 +73,16 @@
 
 
 
-It would not be far from the truth saying that all our electronic
-devices spend their time doing: 1. nothing, 2. integer arithmetics, 3.
-finite field arithmetics. Your favorite CD player certainly does and
-your toaster maybe will one day. This is so true, that the last
-generation of Intel Core processors supports a hardware instruction
-(CLMUL) for multiplication in $\F_{2^m}$~\cite{intel-carryless}.
 
-This is because finite fields appear everywhere in telecommunications
-engineering, in particular in Error Correcting Codes and
-Cryptography. This thesis applies advanced
-algorithmic % and algebraic ?
-techniques to computations in towers of extensions of finite fields,
-in view of applications to elliptic curve cryptography.
-
+Finite field arithmetics are at the hearth of modern technology; this
+is so true, that the last generation of Intel Core processors supports
+a hardware instruction (CLMUL) for multiplication in
+$\F_{2^m}$~\cite{intel-carryless}. The reason is that finite fields
+appear everywhere in telecommunications engineering, in particular in
+Error Correcting Codes and Cryptography. This thesis applies advanced
+algorithmic and algebraic techniques to computations in towers of
+extensions of finite fields, in view of applications to elliptic curve
+cryptography.
 
 
 \paragraph*{Elliptic curves}
@@ -117,15 +113,18 @@ both have a polynomial dependency in the characteristic, which makes
 them unpractical for values higher than $2$ or $3$. An algorithm
 specific to characteristic $2$ was given by Lercier~\cite{lercier96};
 in practice it performs faster than Couveignes' algorithms, but its
-complexity is not well understood. More recently, Joux and
+complexity is not well understood. 
+
+After the discovery of p-adic alternatives to the SEA
+algorithm~\cite{satoh00,fouquet+gaudry+harley00} interest in computing
+isogenies in small characteristic was lost.  Nevertheless, two
+$p$-adic algorithms were recently proposed by Joux and
 Lercier~\cite{joux+lercier06} and Lercier and
-Sirvent~\cite{lercier+sirvent08} have shown that it is possible to
-avoid division by $0$ by lifting the curves in the $p$-adics. The last
-one is currently the algorithm for the arbitrary characteristic case
-having the best asymptotic complexity; 
-%% Or rather: the last algorithm is currently the one having the best
-%% asymptoyic complexity for the arbitrary characteristic case
-its complexity in the
+Sirvent~\cite{lercier+sirvent08} to solve the isogeny problem in
+arbitrary characteristic. They show that it is possible to avoid
+divisions by $0$ by lifting the curves in the $p$-adics. The last
+algorithm is currently the one having the best asymptotic complexity
+for the arbitrary characteristic case; its complexity in the
 characteristic is only logarithmic.
 
 It is interesting to remark, however, that no algorithm to compute
@@ -215,25 +214,25 @@ framework, because its elegant mathematical structure permits to
 reason at an algebraic level on programs.
 
 
-\paragraph*{Outline, contributions and software packages}
+\paragraph*{Outline of our contributions}
 This document is divided in four parts. Part~\ref{part:prerequisites}
 recalls the basic notions from algebra and computer algebra that we
 will use later.
 
 Part~\ref{part:transp-princ} studies the transposition principle. In
-Chapter~\ref{cha:algebr-compl-dual} we present the arithmetic circuit
-model and the straight line program model, and prove the
-% transposition theorem
-principle in them. Then we discuss the relationships with automatic
-differentiation. Chapter~\ref{cha:autom-transp-code} is a
-collaboration with Schost. We study the relationships between the
-arithmetic circuit model and functional programming languages, then we
-show that transposition can be applied algorithmically to a generic
-functional language. Some complementary observations on the
-categorical semantics of arithmetic circuits and their application to
-automatic transposition are given in
-Appendix~\ref{cha:basic-categ-theory}, which is joint work with
-Boespflug.
+Chapter~\ref{cha:algebr-compl-dual} we review the arithmetic circuit
+model and the straight line program model, and prove the transposition
+theorem in them. Then we discuss the relationships with automatic
+differentiation. As a complement, in
+Appendix~\ref{cha:basic-categ-theory} we also give a new proof of the
+transposition theorem, using categorical semantics, and discuss its
+consequences on the implementation of a DSL in Haskell; this is joint
+work with Boespflug.
+
+Chapter~\ref{cha:autom-transp-code} is a collaboration with Schost. We
+study the relationships between the arithmetic circuit model and
+functional programming languages, then we show that transposition can
+be applied algorithmically to a generic functional language. 
 
 Part~\ref{part:fast-arithm-using} is devoted to arithmetics in towers
 of extensions. We start by reviewing the general theory of
@@ -248,13 +247,21 @@ collaboration with Schost).
 Finally Part~\ref{part:appl-isog-comp} applies the results of the
 previous chapters to isogeny computation. After some general
 references on elliptic curves in Chapter~\ref{cha:ellipt-curv-isog},
-we review in Chapter~\ref{cha:algor-small-char} the most efficient
-algorithms to compute isogenies over finite fields, and present new
-asymptotically fast variants of Couveignes' algorithm, along with a
-promising generalization in
-Section~\ref{sec:bounded}. Chapter~\ref{cha:experimental-results} then
-discusses implementation and experimental results for this part of the
-document.
+we review in Chapter~\ref{cha:algor-small-char} the asymptotically
+fastest algorithms to compute isogenies over finite fields.  We start
+by reviewing the BMSS algorithm for large
+characteristic~\cite{bostan+morain+salvy+schost08} and its
+generalization for arbitrary characteristic by
+Lercier-Sirvent~\cite{lercier+sirvent08}; then we review Couveignes'
+original algorithm~\cite{couveignes96}, and present some improved
+variants with better asymptotic behavior, based on the results of
+Chapter~\ref{cha:artin-schr-towers} and some other new ideas.  We also
+present in Section~\ref{sec:bounded} a surprising generalization of
+Couveignes' algorithm that allows to compute isogenies of unknown
+degree at the same cost of computing an isogeny of a given degree.
+This discovery sheds new light on the (sub)optimality of Couveignes'
+algorithm and can possibly find applications in
+cryptology~\cite{gaudry+hess+smart02,GHS,hess03,teske06}.
 
 Theory would be meaningless without practice. Similarly, this
 manuscript would make no sense if it was not accompanied by our
@@ -263,7 +270,7 @@ here have been implemented, packaged and distributed under open source
 licences. So, all the algorithms of
 Chapter~\ref{cha:artin-schr-towers} can be found in the \texttt{C++}
 library \texttt{FAAST}, available from
-\url{http://www.lix.polytechnique.fr/Labo/Luca.De-Feo/FAAST/}. At the
+\url{http://www.lix.polytechnique.fr/~defeo/FAAST/}. At the
 moment we write, the compiler for the language \texttt{transalpyne} of
 Chapter~\ref{cha:autom-transp-code} is not distributed yet; we are
 currently working on the first stable release and hope to start

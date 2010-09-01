@@ -64,14 +64,33 @@ crosspoint between these two algorithms.
 Next we ran experiments on C2-UD. The first observation was that the
 heuristic argument --on the probability that a degree sequence not
 associated to an isogeny is not normal-- is well verified in practice:
-except for a degree $2$-symmetry verified in characteristic $2$,
+except for a degree $2$ symmetry verified in characteristic $2$,
 polynomials not associated to an isogeny very rarely gave a degree
 sequence with a gap around the middle.
 
 Looking for isogenies of unknown degree may be of some cryptographic
-significance. From~\cite[Appendix~A]{teske06}, we took the two curves
-defined over $F_{2^{161}}=\F_2[z]/(z^{161}+z^{18}+1)$ of $j$
-invariants:
+significance. For example, Teske's trapdoor cryptosystem selects a
+binary field of composite degree ($\F_{2^{7\cdot 23}}$, in the
+proposal) and chooses an elliptic curve $E$ vulnerable to the GHS
+attack~\cite{gaudry+hess+smart02}. Then hides $E$ by taking a random
+path of isogenies of small degrees landing on a curve $E'$ not
+vulnerable to GHS, and uses $E'$ as public key. The security of the
+cryptosystem comes from the assumption that it is infeasible to find a
+GHS-vulnerable curve isogenous to $E'$, without the knowledge of the
+isogeny path. 
+
+The \emph{trapdoor} of the cryptosystem is the curve $E$: it is given
+to a trusted authority so that --using an isogeny path from $E'$ to
+$E$ and a GHS attack-- it has the power of deciphering messages at a
+relatively high computational cost. This feature rests on the
+assumption that it is feasible, but relatively hard, to compute any
+isogeny path from $E$ to $E'$.
+
+
+In this context, it may be interesting to verify that $E$ and $E'$ are
+not relied by an isogeny of too low degree.
+From~\cite[Appendix~A]{teske06}, we took the two curves defined over
+$F_{2^{161}}=\F_2[z]/(z^{161}+z^{18}+1)$ of $j$ invariants:
 
 $1/j = z^{152} + z^{143} + z^{139} + z^{136} + z^{135} + z^{133} +
 z^{130} + z^{125} + z^{124} + z^{122} + z^{120} + z^{119} + z^{118} +
@@ -98,13 +117,9 @@ z^{57} + z^{55} + z^{50} + z^{48} + z^{45} + z^{41} + z^{38} + z^{37}
 +z^{22} +z^{21} +z^{20} +z^{19} +z^{17} +z^{16} +z^{14} +z^{13}
 +z^{10} +z^{8} +z^{7} +z^{4} +z^{3} +z$.
 
-The two curves are interesting because the cryptosystem defined
-in~\cite{teske06} relies on the existence of an isogeny between the
-two curves of very high composite degree $\ell$, that is practically
-impossible to compute directly without knowledge of $\ell$. We ran our
-two variants of C2-UD on the two curves to certify the conjectured
-property that no unexpected isogeny of low degree exists between the
-two curves.
+We ran our two variants of C2-UD on the two curves to certify the
+conjectured property that no unexpected isogeny of low degree exists
+between the two curves.
 
 In 258 cpu-hours we were able to prove that no isogeny of degree
 $p^c\ell$ for $\ell<2^{11}$ and $c$ arbitrary exists between the two
