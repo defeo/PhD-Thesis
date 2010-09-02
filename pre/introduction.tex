@@ -115,7 +115,7 @@ specific to characteristic $2$ was given by Lercier~\cite{lercier96};
 in practice it performs faster than Couveignes' algorithms, but its
 complexity is not well understood. 
 
-After the discovery of p-adic alternatives to the SEA
+After the discovery of $p$-adic alternatives to the SEA
 algorithm~\cite{satoh00,fouquet+gaudry+harley00} interest in computing
 isogenies in small characteristic was lost.  Nevertheless, two
 $p$-adic algorithms were recently proposed by Joux and
@@ -146,9 +146,9 @@ extensions.
 \paragraph*{Towers of finite fields}
 Besides addition, multiplication and inversion, the arithmetic
 operations of interest in a tower of finite extensions arguably are
-relative traces %, minimal polynomials
-and embeddings. For finite fields one could add explicit Galois groups
-to the list as these are relatively easy to compute with.
+relative traces, minimal polynomials and embeddings. For finite fields
+one could add explicit Galois groups to the list as these are
+relatively easy to compute with.
 
 The arithmetic of towers of finite fields is a central question for
 any computer algebra system, however it has received few attention, if
@@ -164,15 +164,14 @@ sets~\cite{diaz+gonzalez01,giusti+lecerf+salvy01,bostan+salvy+schost03,pascal+sc
 In the specific case of Artin-Schreier towers, the literature is not
 extensive either.  Using ideas from~\cite{Conway:ONAG2000},
 Cantor~\cite{cantor89} constructs a particular Artin-Schreier tower
-% that he applies to FFT multiplication in $\F_2[X]$.
-suited for FFT multiplication in characteristic
-$2$. In~\cite{couveignes00}, Couveignes gives an algorithm to compute
-isomorphisms between Artin-Schreier towers; however, his algorithm
-needs as a prerequisite a fast multiplication algorithm in
-% a tower of the same shape as in~\cite{cantor89}
-some towers of a special kind, called ``Cantor towers''
-in~\cite{couveignes00}. Such an algorithm is unfortunately not in the
-literature, making the results of~\cite{couveignes00} non practical.
+that he applies to FFT multiplication in
+$\F_2[X]$. In~\cite{couveignes00}, Couveignes gives an algorithm to
+compute isomorphisms between Artin-Schreier towers; however, his
+algorithm needs as a prerequisite a fast multiplication algorithm in a
+tower of the same shape as in~\cite{cantor89}, called ``Cantor
+towers'' in~\cite{couveignes00}. Such an algorithm is unfortunately
+not in the literature, making the results of~\cite{couveignes00} non
+practical.
 
 
 \paragraph*{Transposition principle}
