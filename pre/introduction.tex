@@ -250,16 +250,17 @@ we review in Chapter~\ref{cha:algor-small-char} the asymptotically
 fastest algorithms to compute isogenies over finite fields.  We start
 by reviewing the BMSS algorithm for large
 characteristic~\cite{bostan+morain+salvy+schost08} and its
-generalization for arbitrary characteristic by
-Lercier-Sirvent~\cite{lercier+sirvent08}; then we review Couveignes'
-original algorithm~\cite{couveignes96}, and present some improved
-variants with better asymptotic behavior, based on the results of
-Chapter~\ref{cha:artin-schr-towers} and some other new ideas.  We also
-present in Section~\ref{sec:bounded} a surprising generalization of
-Couveignes' algorithm that allows to compute isogenies of unknown
-degree at the same cost of computing an isogeny of a given degree.
-This discovery sheds new light on the (sub)optimality of Couveignes'
-algorithm and can possibly find applications in
+generalization for arbitrary characteristic by Lercier and
+Sirvent~\cite{lercier+sirvent08}; then we review Couveignes' original
+algorithm~\cite{couveignes96}, and present some improved variants with
+better asymptotic behavior: the key to this results are
+Chapter~\ref{cha:artin-schr-towers} and new ideas on interpolation in
+towers of extensions.  We also present in Section~\ref{sec:bounded} a
+surprising generalization of Couveignes' algorithm that allows to
+compute isogenies of unknown degree at the same cost of computing an
+isogeny of a given degree.  This discovery sheds new light on the
+(sub)optimality of Couveignes' algorithm and can possibly find
+applications in
 cryptology~\cite{gaudry+hess+smart02,GHS,hess03,teske06}.
 
 Theory would be meaningless without practice. Similarly, this

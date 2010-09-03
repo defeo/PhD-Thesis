@@ -146,7 +146,73 @@ le cadre de la théorie des langages purement fonctionnels
 typés~\cite{pierce}, car sa structure mathématique élégante nous
 permet de raisonner sur les programmes à un niveau algébrique.
 
-\paragraph*{}
+\paragraph*{Organisation du document, résultats}
+Ce document est divisé en quatre parties. Dans la
+partie~\ref{part:prerequisites} nous faisons des rappels sur les
+notions fondamentales d'algèbre et calcul formel dont nous allons nous
+servir par la suite.
+
+La partie~\ref{part:transp-princ} a pour objet le principe de
+transposition. Au Chapitre~\ref{cha:algebr-compl-dual} nous rappelons
+le modèle des circuits arithmétiques et le modèle des programmes sans
+branchements, puis prouvons le théorème de transposition pour
+chacun. Ensuite nous évoquons les liens avec la différentiation
+automatique. En complément, dans
+l'Annexe~\ref{cha:basic-categ-theory}, nous donnons une nouvelle
+preuve du théorème de transposition, à base de sémantique catégorique,
+et étudions ses implications pour l'implantation d'un DSL en Haskell;
+ceci est un travail commun avec Boespflug.
+
+Le Chapitre~\ref{cha:autom-transp-code} est une collaboration avec
+Schost. Nous étudions les liens entre les circuits arithmétiques et
+les langages fonctionnels, puis montrons que la transposition peut
+être appliquée algorithmiquement à un langage fonctionnel générique.
+
+La Partie~\ref{part:fast-arithm-using} est dédiée à l'arithmétique
+dans les tours d'extensions. Nous commençons par rappeler la théorie
+des idéaux zéro-dimensionnels et la représentation univariée
+rationnelle au Chapitre~\ref{cha:trace-computations}. Ici, les
+résultats de la Partie~\ref{part:transp-princ} sont la clef pour
+obtenir des algorithmes asymptotiquement rapides. Les algorithmes de
+ce chapitre sont ensuite appliqués au
+Chapitre~\ref{cha:artin-schr-towers}, où nous fournissons des
+algorithmes asymptotiquement bons pour les tours d'Artin-Schreier (fruit d'une autre collaboration avec Schost).
+
+Enfin, la Partie~\ref{part:appl-isog-comp} applique les résultats des
+chapitres précédents au calcul d'isogénies. Après quelques rappels sur
+les courbes elliptiques au Chapitre~\ref{cha:ellipt-curv-isog}, nous
+passons en revue les algorithmes asymptotiquement meilleurs pour le
+calcul d'isogénies sur les corps finis. Nous commençons par rappeler
+l'algorithme BMSS pour le cas de la grande
+caractéristique~\cite{bostan+morain+salvy+schost08} et sa
+généralisation à la caractéristique quelconque de Lercier et
+Sirvent~\cite{lercier+sirvent08}; puis nous rappelons l'algorithme
+original de Couveignes~\cite{couveignes96} et présentons des variantes
+améliorées avec un meilleur comportement asymptotique: la clef pour
+ces résultats sont le Chapitre~\ref{cha:artin-schr-towers} et des
+nouvelles idées algorithmiques pour l'interpolation dans les tours
+d'extensions. Nous présentons aussi en Section~\ref{sec:bounded} une
+généralisation surprenante de l'algorithme de Couveignes, qui permet
+le calcul d'isogénies de degré inconnu au même prix que le calcul
+d'isogénies de degré prescrit. Cette découverte éclaire davantage la
+(sous)optimalité de l'algorithme de Couveignes et pourrait avoir des
+applications en
+cryptologie~\cite{gaudry+hess+smart02,GHS,hess03,teske06}.
+
+La théorie ne serait rien sans pratique. De la même façon, ce
+manuscrit n'aurait pas d'intérêt s'il n'était pas accompagné par nos
+paquets logiciels. La grande majorité des algorithmes présentés ici a
+été implantée, paquetée et distribuée avec des licences \emph{open
+  source}. Ainsi, tous les algorithmes du
+Chapitre~\ref{cha:artin-schr-towers} sont disponibles dans la
+bibliothèque \texttt{FAAST}, écrite en \texttt{C++} et disponible à
+l'adresse \url{http://www.lix.polytechnique.fr/~defeo/FAAST/}.  Au
+moment où nous écrivons, le compilateur pour le langage
+\texttt{transalpyne} du Chapitre~\ref{cha:autom-transp-code} n'est pas
+encore distribué; nous travaillons en ce moment à la première
+\emph{stable release} et espérons commencer la distribution au début
+de 2011. Il sera disponible à l'adresse
+\url{ http://transalpyne.gforge.inria.fr/}.
 
 
 
