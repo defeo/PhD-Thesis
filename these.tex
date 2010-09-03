@@ -192,6 +192,9 @@
 \makeindex
 \makenomenclature
 
+%% PDF metadata
+\hypersetup{pdftitle={Fast Algorithms for Towers of Finite Fields and Isogenies},pdfauthor={Luca De Feo}}
+
 \begin{document}
 %\frontmatter
 
@@ -211,14 +214,19 @@
 
 %\backmatter
 \appendix
+\pdfbookmark[-1]{Appendices}{part:appendices}
+\part*{Appendices}
 \include{trans/category}
 \include{trans/haskatsuba}
 \include{isogeny/veluproof}
 
 \renewcommand{\nomname}{List of Symbols}
 \printnomenclature
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{\indexname}
 \printindex
-\bibliographystyle{abbrv}
+\bibliographystyle{amsalpha}
 \bibliography{defeo}
 
 \end{document}

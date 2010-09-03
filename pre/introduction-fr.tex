@@ -7,7 +7,7 @@ au point que la dernière génération de processeurs Intel Core possède
 une instruction matérielle (CLMUL) pour la multiplications dans
 $\F_{2^m}$~\cite{intel-carryless}. Cela tient au fait que les corps
 finis apparaissent partout dans le génie des télécommunications, en
-particulier en Codes Correcteurs d'Erreurs et Cryptographie. Cette
+particulier en Codes Correcteurs d'Érreurs et Cryptographie. Cette
 thèse applique des techniques algorithmiques et algébriques avancées
 aux calculs dans les tours d'extensions sur les corps finis, avec pour
 but des applications à la cryptographie à base de courbes elliptiques.
@@ -112,7 +112,7 @@ appliquer tout le long du document est le \emph{principe de
 est à l'algèbre.
 
 Le principe de transposition fut découvert dans la théorie des
-circuits eléctriques par Bordewijk~\cite{bordewijk57}, puis prouvé
+circuits électri\-ques par Bordewijk~\cite{bordewijk57}, puis prouvé
 dans sa forme générale par Fiduccia~\cite{fiduccia:phd}; mais ce n'est
 que bien plus tard, à travers les travaux de Kaltofen, Yagati, Shoup,
 von zur Gathen et
@@ -131,14 +131,15 @@ qu'il est devenu populaire en calcul formel. L'un des ses possibles
 
 Le principe de transposition est important en calcul formel car il
 permet d'obtenir des algorithmes asymptotiquement bons qui n'auraient
-pas paru évidents autrement. Un grand pas en avant dans sa
-compréhension fut fait par Bostan, Lecerf and
+pas paru évid\-ents autrement. Un grand pas en avant dans sa
+compréhension fut fait par Bostan, Lecerf et
 Schost~\cite{bostan+lecerf+schost:tellegen} qui, en généralisant un
 travail de Shoup~\cite{shoup95}, remarquèrent que la transposition
 peut être appliquée de façon systématique à un langage de
 programmation restreint. Il est aussi intéressant de remarquer que le
 principe de transposition a des liens importants avec la
-différentiation automatique~\cite{baur+strassen83,kaltofen+lakshman89,Ka2K,gashkov+gashkov05,sergeev08}.
+différentiation
+automatique~\cite{baur+strassen83,kaltofen+lakshman89,Ka2K,gashkov+gashkov05,sergeev08}.
 
 Dans ce document nous enquêtons plus en détail les rapports entre la
 transposition et les langages de programmation. Nous travaillons dans
@@ -170,13 +171,14 @@ les langages fonctionnels, puis montrons que la transposition peut
 
 La Partie~\ref{part:fast-arithm-using} est dédiée à l'arithmétique
 dans les tours d'extensions. Nous commençons par rappeler la théorie
-des idéaux zéro-dimensionnels et la représentation univariée
+des idéaux zéro-dimensionnels et la représen\-tation univariée
 rationnelle au Chapitre~\ref{cha:trace-computations}. Ici, les
 résultats de la Partie~\ref{part:transp-princ} sont la clef pour
 obtenir des algorithmes asymptotiquement rapides. Les algorithmes de
 ce chapitre sont ensuite appliqués au
 Chapitre~\ref{cha:artin-schr-towers}, où nous fournissons des
-algorithmes asymptotiquement bons pour les tours d'Artin-Schreier (fruit d'une autre collaboration avec Schost).
+algorithmes asymptotiquement bons pour les tours d'Artin-Schreier
+(fruit d'une autre collaboration avec Schost).
 
 Enfin, la Partie~\ref{part:appl-isog-comp} applique les résultats des
 chapitres précédents au calcul d'isogénies. Après quelques rappels sur

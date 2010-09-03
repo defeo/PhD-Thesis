@@ -18,7 +18,7 @@ Section~\ref{sec:artin-benchmarks}).
 
 \begin{figure}
   \centering
-%  \includegraphics[width=0.9\textwidth]{p2}
+  \includegraphics[width=0.9\textwidth]{isogeny/p2}
   \caption{Comparative timings for different implementations of C2-AS-FI-MC with curves defined over $\F_{2^{101}}$. Plot in logarithmic scale.}
   \label{fig:2-101}
 \end{figure}
@@ -159,6 +159,16 @@ implemented it on top of a quadratic XGCD algorithm.
   \label{tab:ls}
 \end{table}
 
+
+\begin{figure}
+  \centering
+  \includegraphics[height=0.45\textwidth]{isogeny/C2-LS}
+  \includegraphics[height=0.45\textwidth]{isogeny/C2-LS2}
+   \caption{Comparative timings for C2-AS-FI-MC (C2) and LS over
+     different curves. Plot in logarithmic scale.}
+  \label{fig:comp}
+\end{figure}
+
 We also compared the running times of C2-AS-FI-MC and LS over curves
 of half the cryptographic size in figure~\ref{fig:comp} (left). We
 only plot average times for C2, in characteristic $2$ we only plot the
@@ -169,27 +179,10 @@ algorithm~\cite{lercier96} is much faster.  Figure~\ref{fig:comp}
 however, comparing a Magma prototype to our highly optimized
 implementation of C2-AS-FI-MC is somewhat unfair.
 
-\begin{figure}
-  \centering
-%  \includegraphics[height=0.45\textwidth]{C2-LS}
-%   \includegraphics[height=0.45\textwidth]{C2-LS2}
-   \caption{Comparative timings for C2-AS-FI-MC (C2) and LS over
-     different curves. Plot in logarithmic scale.}
-  \label{fig:comp}
-\end{figure}
-
 Furthermore, it is unlikely that C2-AS-FI-MC could be
 practical for any $p>3$ because of its high dependence on $p$, while
 LS scales pretty well with the characteristic as shown in
 figure~\ref{fig:LSp}.
-
-\begin{figure}
-  \centering
-%  \includegraphics[width=0.9\textwidth]{LSp}
-  \caption{Timings for LS for different fields. We increase $p$ while
-    keeping constant $d$ and the isogeny degree.}
-  \label{fig:LSp}
-\end{figure}
 
 Considering that the asymptotic dependency of Couveignes' algorithm in
 $\log q$ and in $p$ is worse than the one of Lercier-Sirvent (compare
@@ -203,11 +196,20 @@ algorithm. Whether they might find other applications is still to be
 seen; for the moment the only sparkle of hope comes from the discovery
 of the algorithm C2-UD.
 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.9\textwidth]{isogeny/LSp}
+  \caption{Timings for LS for different fields. We increase $p$ while
+    keeping constant $d$ and the isogeny degree.}
+  \label{fig:LSp}
+\end{figure}
+
 
 % Local Variables:
 % mode:flyspell
 % ispell-local-dictionary:"american"
 % TeX-master: "../these"
+% mode: TeX-PDF
 % mode:reftex
 % End:
 %
