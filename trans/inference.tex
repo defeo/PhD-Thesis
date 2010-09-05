@@ -169,40 +169,56 @@ lists and tuples). In this context we use the type names $\ell$ and
 $s$ in place of the Haskell types \lstinline{L} and \lstinline{S}
 defined above.
 
+\begin{definition}[Flipper]
+  Let $\tau$ be the type
+  \begin{equation}
+    \label{eq:58}
+    \tau = \alpha_0\ra\alpha_1\ra\cdots\ra\alpha_n
+  \end{equation}
+  with $\alpha_n$ not a function type. Let $I\subset[0,\ldots,n-1]$
+  such that $\alpha_i\ne\ell$ if and only if $i\in I$, and let
+  $m=\card{I}$.  The \emph{flipper} for $\tau$, denoted by $f_\tau$,
+  is the term
+  \begin{equation}
+    \label{eq:60}
+    f_\tau = \lambda t.\lambda x_{i_1}.\ldots.\lambda x_{i_m}.
+    \lambda x_{j_1}.\ldots.\lambda x_{j_{n-m}}.tx_0\cdots x_{n-1}
+    \text{,}
+  \end{equation}
+  with $i_1,\ldots,i_m\in I$ and $j_1,\ldots,j_{n-m}\in\bar{I}$.
+\end{definition}
+
+
 \begin{lemma}
   \label{th:lininference}
-  Let $\Gamma\vdash t:\tau$ be a term, let $m,n\ge0$ and let
+  Let $\Gamma\vdash t::\tau$ be a term, let $m,m'\ge0$, and let
+  $\Gamma\vdash f_{\tau}t::\sigma$ with
   \begin{equation}
     \label{eq:264}
-    \tau=\alpha_1\ra\alpha_2\ra\cdots\ra\alpha_n\ra\underbrace{\ell\ra\cdots\ra\ell}_{\text{$m$ times}}\ra\beta
+    \sigma=\alpha_1\ra\alpha_2\ra\cdots\ra\alpha_m\ra\underbrace{\ell\ra\cdots\ra\ell}_{\text{$m'$ times}}\ra\beta
     \text{,}    
   \end{equation}
   with $\alpha_i\ne\ell$ and $\beta$ not a function type. Let
-  $\Delta_i\vdash s_i::\alpha_i$ for $1\le i\le n$. The semantic of
+  $\Delta_i\vdash s_i::\alpha_i$ for $1\le i\le ,$. The semantic of
   \begin{equation}
     \label{eq:270}
-    \Gamma,\Delta_1,\ldots,\Delta_n\vdash ts_1\cdots s_n
+    \Gamma,\Delta_1,\ldots,\Delta_m\vdash f_\tau ts_1\cdots s_m
   \end{equation}
   is
   \begin{enumerate}
   \item\label{item:1} a constant function if $\beta\ne\ell$,
-  \item\label{item:2} a module homomorphism $R^m\ra R$ if $\beta=\ell$,
+  \item\label{item:2} a module homomorphism $R^{m'}\ra R$ if $\beta=\ell$,
   \end{enumerate}
   assuming the free variables in $t$ satisfy~\ref{item:1}
   or~\ref{item:2}.
 \end{lemma}
-
-First observe that up to some \emph{flips} any term $t$ can be
-rewritten so to have a type of the form~\eqref{eq:264}. The proof that
-follows is somewhat informal because we prove the claim by induction
-\emph{up to flips}; we prefer this to defining pages of notation.
-
 \begin{proof}
   We distinguish the following cases.
   \begin{itemize}
-  \item $\Gamma\vdash c$. All the constants satisfy either~\ref{item:1}
-    or~\ref{item:2}. We just work out $0$ and $+$ defined above and
-    leave the others to the reader. 
+  \item $\Gamma\vdash c$. All the constants satisfy
+    either~\ref{item:1} or~\ref{item:2}. We just work out $0$ and $+$
+    defined above and leave the others to the reader; in both cases
+    $f_\tau c=c$ up to $\beta\eta$-conversion.
     \begin{itemize}
     \item $\Gamma\vdash0::\ell$ is the map $\bom\mapsto 0$, thus a
       (constant) morphism.
@@ -213,32 +229,55 @@ follows is somewhat informal because we prove the claim by induction
     \item $\Gamma\vdash+::s\ra s\ra s$. Take any $a::s$ and $b::s$, then
       $\Gamma\vdash a+b::s$ is a constant.
     \end{itemize}
-  \item $\Gamma,x::\alpha\vdash x::\alpha$. The claim follows by
-    tautology.
+  \item $\Gamma,x::\alpha\vdash x::\alpha$. The claim follows because
+    $x$ is free.
   \item $\Gamma\vdash t_0t_1::\tau$. This is the only real case
     to prove. We distinguish two cases:
     \begin{itemize}
-    \item $\Gamma\vdash t_1::\ell$, then by induction its semantic is
-      a morphism $0\ra R$. Let $t_0'$ the term obtained by flipping
-      the arguments of $t_0$ enough times so that its type is of the
-      form \eqref{eq:264}.  Let $\Delta_i\vdash s_i$ for $1\le i\le n$
-      be as in the hypothesis, then \emph{by induction}
+    \item $\Gamma\vdash t_1::\ell$, then, by induction its semantic is
+      a morphism $0\ra R$ (because it is $\beta\eta$-equivalent to
+      $f_\ell t_1$). 
+
+      Let $\Gamma\vdash f_\tau t_0t_1::\sigma$, with $\sigma$ as in
+      Eq.~\eqref{eq:264}, and let $\Delta_i\vdash s_i$ for $1\le i\le
+      m$ be as in the hypothesis.  Let $\Gamma\vdash t_0::\tau_0$ and
+      $\Gamma\vdash f_{\tau_0}t_0::\sigma_0$, then by induction
       \begin{equation}
         \label{eq:271}
-        \Gamma,\Delta_1,\ldots,\Delta_n\vdash t_0''\eqdef t_0's_1,\ldots,s_n
+        \Gamma,\Delta_1,\ldots,\Delta_m\vdash t_0'\eqdef f_{\tau_0}t_0s_1,\ldots,s_m
       \end{equation}
       is either a morphism $R^{m+1}\ra R$ or a constant function. In
-      the first case $t_0''t_1$ is a morphism $R^m\ra R$, in the
-      second case it is a constant function; in both cases its
-      semantic is the same as $t_0t_1s_1\cdots s_n$ \emph{because we had
-      just flipped arguments}.
-    \item $\Gamma\vdash t_1::\alpha$ with $\alpha\ne\ell$. Then the claim follows
-      directly by induction on $t_0$.
+      the first case $t_0't_1$ is a morphism $R^{m'}\ra R$, in the second
+      case it is a constant function; in both cases
+      \begin{equation}
+        \label{eq:74}
+        f_\tau(t_0t_1)s_1\cdots s_m\xleftrightarrow{\beta\eta}t_0't_1        
+      \end{equation}
+      and the claim follows.
+    \item $\Gamma\vdash t_1::\alpha$ with $\alpha\ne\ell$. Then the
+      claim follows directly by induction on $t_0$ and
+      $\beta\eta$-conversion, by choosing $s_1=t_1$.
     \end{itemize}
-  \item $\Gamma\vdash \lambda x.t::\alpha_1\ra\alpha_2$. By
-    induction $\Gamma,x::\alpha_1\vdash t::\alpha_2$
-    satisfies~\ref{item:1} or~\ref{item:2} (assuming $x$ does). Then
-    $\lambda x.t$ does to.
+  \item $\Gamma\vdash \lambda x.t::\alpha_1\ra\alpha_2$. By induction
+    $\Gamma,x::\alpha_1\vdash t::\alpha_2$ satisfies~\ref{item:1}
+    or~\ref{item:2} (assuming $x$ does). We distinguish two cases
+    \begin{itemize}
+    \item $\alpha_1\ne\ell$, then
+      \begin{equation}
+        \label{eq:73}
+        \lambda x.f_{\alpha_2}t\xleftrightarrow{\beta\eta}f_{\alpha_1\ra\alpha_2}(\lambda x.t)
+        \text{;}
+      \end{equation}
+    \item $\alpha_1=\ell$, then
+      \begin{equation}
+        \label{eq:76}
+        \lambda x.f_{\alpha_2}ts_1\cdots s_m\xleftrightarrow{\beta\eta}
+        f_{\alpha_1\ra\alpha_2}(\lambda x.t)s_1\cdots s_m
+        \text{.}
+      \end{equation}
+    \end{itemize}
+    In both cases, $\lambda x.t$ satisfies~\ref{item:1}
+    or~\ref{item:2} accordingly.
   \end{itemize}
 \end{proof}
 
