@@ -191,15 +191,15 @@ defined above.
 
 \begin{lemma}
   \label{th:lininference}
-  Let $\Gamma\vdash t::\tau$ be a term, let $m,m'\ge0$, and let
+  Let $\Gamma\vdash t::\tau$ be a term, let $m,n\ge0$, and let
   $\Gamma\vdash f_{\tau}t::\sigma$ with
   \begin{equation}
     \label{eq:264}
-    \sigma=\alpha_1\ra\alpha_2\ra\cdots\ra\alpha_m\ra\underbrace{\ell\ra\cdots\ra\ell}_{\text{$m'$ times}}\ra\beta
+    \sigma=\alpha_1\ra\alpha_2\ra\cdots\ra\alpha_m\ra\underbrace{\ell\ra\cdots\ra\ell}_{\text{$n$ times}}\ra\beta
     \text{,}    
   \end{equation}
   with $\alpha_i\ne\ell$ and $\beta$ not a function type. Let
-  $\Delta_i\vdash s_i::\alpha_i$ for $1\le i\le ,$. The semantic of
+  $\Delta_i\vdash s_i::\alpha_i$ for $1\le i\le m$. The semantic of
   \begin{equation}
     \label{eq:270}
     \Gamma,\Delta_1,\ldots,\Delta_m\vdash f_\tau ts_1\cdots s_m
@@ -207,10 +207,10 @@ defined above.
   is
   \begin{enumerate}
   \item\label{item:1} a constant function if $\beta\ne\ell$,
-  \item\label{item:2} a module homomorphism $R^{m'}\ra R$ if $\beta=\ell$,
+  \item\label{item:2} a module homomorphism $R^n\ra R$ if $\beta=\ell$,
   \end{enumerate}
-  assuming the free variables in $t$ satisfy~\ref{item:1}
-  or~\ref{item:2}.
+  assuming the free variables in $t,s_1,\ldots,s_m$
+  satisfy~\ref{item:1} or~\ref{item:2}.
 \end{lemma}
 \begin{proof}
   We distinguish the following cases.
@@ -246,8 +246,8 @@ defined above.
         \label{eq:271}
         \Gamma,\Delta_1,\ldots,\Delta_m\vdash t_0'\eqdef f_{\tau_0}t_0s_1,\ldots,s_m
       \end{equation}
-      is either a morphism $R^{m+1}\ra R$ or a constant function. In
-      the first case $t_0't_1$ is a morphism $R^{m'}\ra R$, in the second
+      is either a morphism $R^{n+1}\ra R$ or a constant function. In
+      the first case $t_0't_1$ is a morphism $R^{n'}\ra R$, in the second
       case it is a constant function; in both cases
       \begin{equation}
         \label{eq:74}
@@ -282,15 +282,15 @@ defined above.
 \end{proof}
 
 \begin{proposition}
-  Let $t:\tau$ be a closed term, let $m\ge0$ and let
+  Let $t:\tau$ be a closed term, let $n\ge0$ and let
   \begin{equation}
-    \tau=\underbrace{\ell\ra\cdots\ra\ell}_{\text{$m$ times}}\ra\beta
+    \tau=\underbrace{\ell\ra\cdots\ra\ell}_{\text{$n$ times}}\ra\beta
     \text{,}    
   \end{equation}
   with $\beta$ not a function type. Then, the semantic of $t$ is
   \begin{enumerate}
   \item a constant function if $\beta\ne\ell$,
-  \item a module homomorphism $R^m\ra R$ if $\beta=\ell$.
+  \item a module homomorphism $R^n\ra R$ if $\beta=\ell$.
   \end{enumerate}
 \end{proposition}
 
