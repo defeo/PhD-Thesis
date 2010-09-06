@@ -442,15 +442,13 @@ Any bilinear form $f$ gives rise to a morphism $ \phi_f : M \ra
 $\phi^f:N\ra\dual{M}$ of left modules. The maps $f\mapsto\phi_f$,
 $f\mapsto\phi^f$ and their obvious inverses induce group isomorphisms
 between $\hom(M,\dual{N})$, $\hom(N,\dual{M})$ and the group of
-bilinear forms on $M\times N$.
-
-A bilinear form $f$ is said to be
-\index{bilinear~form!degenerate}\textbf{non-degenerate} if
-$\braket{x}{y}=0$ for any $x$ implies $y=0$, and $\braket{x}{y}=0$ for
-any $y$ implies $x=0$. It is said to be
-\index{bilinear~form!singular}\textbf{non-singular} if $\phi_f$ and
-$\phi^f$ are module isomorphisms; a non-singular form is necessarily
-non-degenerate.
+bilinear forms on $M\times N$.  A bilinear form $f$ is said to be
+\index{bilinear~form!degenerate}\textbf{non-degenerate} if $\phi_f$
+and $\phi^f$ are module isomorphisms.
+\pdfmargincomment{The distinction
+  non-singular/non-degenerate comes from Lang, but it is not very
+  standard, indeed. I removed the distinction: now I call
+  non-degenerate what I used to call non-singular before.}
 
 
 \subsection{Matrices and morphisms}
@@ -496,19 +494,19 @@ M(f)$\nomenclature[det]{$\det$}{Determinant of a matrix, of a linear
 
 \subsection{Duality}
 \label{sec:linear-algebra:duality}
-We fix a non-singular bilinear form $f$ on $M\times N$. Let
+We fix a non-degenerate bilinear form $f$ on $M\times N$. Let
 $g\in\End(M)$, then the map
-\[(x,y) \mapsto \braket{g(x)}{y}_f\] is a bilinear
-form. On the other hand, let $h$ be a bilinear form on $M\times N$,
-for any $x\in M$ the map $h_x : \ket{y} \mapsto \braket{x}{y}_h$
-is a linear form on $N$, thus $h_x\in\dual{N}$. From the
-non-singularity of $f$ we deduce that there is an unique element
-$x'\in M$ such that $\braket{x'}{y}_f=\braket{x}{y}_h$ and it is
-clear that the map $\bra{x}\mapsto \bra{x'}$ is an endomorphism of
-$M$. It is evident that the two maps are each other's inverse, thus we
-have a group isomorphism between $\End(M)$ and the group of bilinear
-forms. An analogous argument shows that $\End(N)$ is isomorphic to the
-group of bilinear forms and ultimately $\End(M)\isom\End(N)$.
+\[(x,y) \mapsto \braket{g(x)}{y}_f\] is a bilinear form. On the other
+hand, let $h$ be a bilinear form on $M\times N$, for any $x\in M$ the
+map $h_x : \ket{y} \mapsto \braket{x}{y}_h$ is a linear form on $N$,
+thus $h_x\in\dual{N}$. From the non-degeneracy of $f$ we deduce that
+there is an unique element $x'\in M$ such that
+$\braket{x'}{y}_f=\braket{x}{y}_h$ and it is clear that the map
+$\bra{x}\mapsto \bra{x'}$ is an endomorphism of $M$. It is evident
+that the two maps are each other's inverse, thus we have a group
+isomorphism between $\End(M)$ and the group of bilinear forms. An
+analogous argument shows that $\End(N)$ is isomorphic to the group of
+bilinear forms and ultimately $\End(M)\isom\End(N)$.
 
 A consequence of this is that for any linear operator $g\in\End(M)$
 there is an operator $\dual{g}\in\End(N)$ such that
@@ -516,7 +514,7 @@ there is an operator $\dual{g}\in\End(N)$ such that
 for any $x\in M$ and $y\in N$. We define similarly $\dual{h}$ when
 $h\in\End(N)$, obviously $\dual{(\dual{g})} = g$. The operator
 $\dual{g}$ is called the
-\index{dual!operator}\textbf{dual}\nomenclature[dual]{$\dual{g}$}{Dual
+\index{dual~operator}\textbf{dual}\nomenclature[dual]{$\dual{g}$}{Dual
   operator: $\braket{g(x)}{y}=\braket{x}{\dual{g}(y)}$} of $g$ with
 respect to $f$. In general, whenever it is clear from the context that
 $g$ belongs to $\End(M)$ (or to $\End(N)$), we simply
@@ -524,7 +522,7 @@ write\nomenclature[braket-4]{$\braketop{x}{g}{y}$}{Bilinear form with linear ope
 \[\braketop{x}{g}{y} \eqdef \braket{g(x)}{y} = \braket{x}{\dual{g}(y)}\text{.}\]
 
 More generally, Let $f:M\times M'\ra R$ and $g:N'\times N\ra R$ be two
-non-singular bilinear forms, by the same technique as above we can
+non-degenerate bilinear forms, by the same technique as above we can
 show that there is a group isomorphism between $\hom_R(N,M')$,
 $\hom(M,N')$ and the bilinear forms on $M\times N$. Then, for any
 $h:N\ra M'$ there is an unique $\dual{h}:M\ra N'$ such that
@@ -532,7 +530,7 @@ $h:N\ra M'$ there is an unique $\dual{h}:M\ra N'$ such that
 \text{.}\]
 We also call $\dual{h}$ the \textbf{dual} of $h$.
 
-The canonical example of non-singular bilinear forms is obtained by
+The canonical example of non-degenerate bilinear forms is obtained by
 considering the family of forms on $\dual{M}\times M$ defined by
 \[\braket{\ell}{x} = \ell(x) \text{.}\]
 For any $f:M\ra N$, we define the dual map
@@ -542,10 +540,23 @@ easy to verify that
 \[\braketop{\ell}{f}{x} =  \braket{\ell}{f(x)} = \braket{\dual{f}(\ell)}{x}
 = \ell(f(x))\text{.}\]
 
-In the special case where $M$ and $N$ are free modules, for any fixed
-finite bases of $M$ and $N$, kets are isomorphic to column vectors,
-bras to row vectors, and the bilinear form $\braket{\ell}{x}=\ell(x)$
-is given by the inner product
+
+\pdfmargincomment{Introduced definition of dual basis, clarified messy
+  comments about columns and vectors.}  If $M$ is a free module and
+$\basis{B}=\{\basis{e}_1,\ldots,\basis{e}_n\}$ a basis, the
+\index{dual~basis}\textbf{dual basis} $\dual{\basis{B}}$ is the unique
+basis $\{\dual{\basis{e}_1},\ldots,\dual{\basis{e}_1}\}$ of $\dual{M}$
+such that
+\begin{equation*}
+  \braket{\dual{\basis{e}_i}}{\basis{e}_j} =
+  \begin{cases}
+    1 &\text{if $i=j$,}\\
+    0 &\text{if $i\ne j$.}
+  \end{cases}
+\end{equation*}
+If elements of $M$ and $\dual{M}$ are represented, respectively, as
+vectors over $\basis{B}$ and $\dual{\basis{B}}$, then the bilinear
+form $\braket{\ell}{x}=\ell(x)$ is given by the inner product
 \begin{equation*}
   \left\langle\begin{matrix}
       \ell_1 &\cdots & \ell_n
@@ -559,8 +570,9 @@ is given by the inner product
   \sum_i x_i\ell_i
 \end{equation*}
 (notice how the product is swapped, this is because $\End(R)\isom
-R^\op$).  Now a linear map $f:M\ra N$ is just a matrix with entries in
-$R^\op$, the application $f\ket{x}$ is just matrix-vector
+R^\op$).  Now, if $M$ and $N$ are free modules with a fixed basis, a
+linear map $f:M\ra N$ is isomorphic to a matrix with entries in
+$R^\op$. Then the application $f\ket{x}$ is just matrix-vector
 multiplication, while $\bra{\ell}\dual{f}$ is vector-matrix
 multiplication by the same matrix. This justifies the notation
 $\braketop{\ell}{A}{x}$ where $A$ is the matrix associated to $f$.
@@ -574,18 +586,12 @@ the general concepts.
 
 \subsection{Galois extensions}
 \label{sec:basic-galois-theory:galois-extensions}
-Whenever $P$ is an irreducible polynomial in $\K[X]$, the quotient
-ring $\K[X]/(P)$ is a finite field extension of $\K$; it may also be
-written $\K[X]/P(X)$. Up to isomorphism, this is the smallest
-extension of $\K$ where $P$ has a root. It is also the smallest
-extension where $P$ factors completely into linear terms and is called
-the \index{splitting~field}\textbf{splitting field} of $P$ over
-$\K$. 
-
-More generally a \textbf{splitting field} of a family of generic
-polynomials $(Q_i)_{i\in I}$ in $\K[X]$ is defined as an extension of
-$\K$ where all the $Q_i$ factor completely into linear terms and such
-that $\LK$ is generated over $\K$ by the roots of the $Q_i$. An
+\pdfmargincomment{Removed pastiche about splitting fields} Let $\K$ be
+a field. The \index{splitting~field}\textbf{splitting field} of a
+family of polynomials $(Q_i)_{i\in I}$ in $\K[X]$ is defined as an
+extension $\LK$ of $\K$ where all the $Q_i$ factor completely into
+linear factors and such that $\LK$ is generated over $\K$ by the roots
+of the $Q_i$; the splitting field is unique up to isomorphism. An
 algebraic field extension $\LK/\K$ such that $\LK$ is the splitting
 field of a family of polynomials in $\K[X]$ is called a
 \index{normal~field~extension}\textbf{normal extension}.
@@ -628,8 +634,8 @@ G$. Obviously, $\K=\LK^{\Gal(\LK/\K)}$.
 Let $\LK/\K$ be a Galois extension and let $x\in\LK$. The elements
 $\sigma(x)$ for $\sigma\in\Gal(\LK/\K)$ are called the
 \index{conjugate~element}\textbf{conjugates} of $x$ under the action
-of $\Gal(\LK/\K)$; they correspond to the roots of the minimal
-polynomial of $x$ over $\K$.
+of $\Gal(\LK/\K)$; they are the roots of the minimal polynomial of $x$
+over $\K$.
 
 Let $\K$ be a field, an element $x\in \K$ such that $x^n=1$ is called
 an $n$-th \index{root~of~unity}\textbf{root of unity}. If the
@@ -644,7 +650,7 @@ The \index{Euler~function}\textbf{Euler function}
 $\euler:\N\ra\N$\nomenclature[f]{$\euler$}{Euler totient function} is
 defined as
 \begin{align*}
-  \euler(1) &= 1 &\text{,}\\
+  \euler(1) &= 1\text{,}\\
   \euler(p^r) &= p^{r-1}(p-1) &\text{for $p$ prime, $r\ge1$,}\\
   \euler(nm) &= \euler(n)\euler(nm) &\text{when $\gcd(n,m)=1$.}
 \end{align*}
@@ -666,7 +672,8 @@ is a monic polynomial with coefficients in $\Z$. $\Cyclo_n$ is an
 irreducible factor of $X^n-1$ over $\Q$, its roots are all the
 primitive $n$-th roots of unity, hence $\deg\Cyclo_n=\euler(n)$.
 
-Let $\LK/\K$ be a finite Galois extension and let $x\in\LK$, the map
+\pdfmargincomment{Removed the Galois requirement.}
+Let $\LK/\K$ be a finite extension and let $x\in\LK$, the map
 $M_x:a\mapsto xa$ is an automorphism of the $\K$-vector space
 $\LK$. The minimal polynomial of its matrix with respect to any basis
 is equal to the minimal polynomial of $x$ over $\K$.  The trace of
@@ -688,9 +695,9 @@ $\Norm_{\LK/\K}(x)$\nomenclature[Norm]{$\Norm_{\LK/\K}$}{Norm of a
     \Norm_{\LK/\K}(x) &= \prod_{\sigma\in G}\sigma(x) \text{,}&
     \Norm_{\LK/k} &= \Norm_{\K/k}\circ\Norm_{\LK/\K}\text{.}
   \end{align*}
-  The trace is an additive morphism of $\K$-vector spaces from $\LK$
-  to $\K$, the norm is a multiplicative morphism of groups from
-  $\LK^\ast$ to $\K^\ast$.
+  The trace is a morphism of $\K$-vector spaces from $\LK$ to $\K$,
+  the norm is a multiplicative morphism of groups from $\LK^\ast$ to
+  $\K^\ast$.
 \end{proposition}
 
 
@@ -739,27 +746,29 @@ of Noetherian rings, rings of polynomials in finitely many variables
 over a Noetherian ring, are all Noetherian. In particular, all the
 rings we will work with in this document are Noetherian.
 
-A proper ideal is \index{ideal!maximal}\textbf{maximal} if it is not
-strictly contained in any proper ideal, this is equivalent to $R/I$
-being a field. A proper ideal is \index{ideal!prime}\textbf{prime} if
-$R/I$ is an integral domain. The \index{ideal!radical}\textbf{radical}
-of an ideal $I$ is the ideal\nomenclature[I]{$\sqrt{I}$}{Radical of an
-  ideal}
+\pdfmargincomment{Changed definition of primary ideal.}
+A proper ideal $I$ is \index{ideal!maximal}\textbf{maximal} if it is
+not strictly contained in any proper ideal, this is equivalent to
+$R/I$ being a field. A proper ideal is
+\index{ideal!prime}\textbf{prime} if $R/I$ is an integral domain;
+\index{ideal!primary}\textbf{primary} if $ab\in I$ implies that $a\in
+I$ or $b^n\in I$ for some $n$. The
+\index{ideal!radical}\textbf{radical} of an ideal $I$ is the
+ideal\nomenclature[I]{$\sqrt{I}$}{Radical of an ideal}
 \begin{equation}
   \label{eq:212}
   \sqrt{I} = \{f \,|\, f^r\in I \text{ for some $r\ge0$.}\}
   \text{.}
 \end{equation}
-An ideal is said to be radical if $\sqrt{I}=I$. A
-\index{ideal!primary}\textbf{primary} ideal is an ideal such that its
-radical is prime.
+An ideal is said to be radical if $\sqrt{I}=I$. The radical of a
+primary ideal is prime.
 
-
+\pdfmargincomment{Forgot strict inclusion for reducibility.}
 An ideal $I$ is said to be \index{ideal!reducible}\textbf{reducible}
-if there exist ideals $I_1,I_2$ such that $I=I_1\cap I_2$,
-\index{ideal!irreducible}\textbf{irreducible} otherwise. Any primary
-ideal is irreducible; we have the following two fundamental results
-about reducibility.
+if it is strictly contained in two ideals $I_1,I_2$ such that
+$I=I_1\cap I_2$, \index{ideal!irreducible}\textbf{irreducible}
+otherwise. Any primary ideal is irreducible; we have the following two
+fundamental results about reducibility.
 
 \begin{proposition}
   Let $R$ be Noetherian. Any radical ideal $I$ admits an unique
@@ -802,40 +811,55 @@ next chapters.
 
 \subsection{Algebraic varieties}
 \label{sec:algebraic-varieties}
-We now consider the polynomial ring $\K[x_1,\ldots,x_n]$ where $\K$ is
-a perfect field with algebraic closure $\clot{\K}$. To any ideal $I$,
-we associate the \index{variety}\textbf{variety}
+\pdfmargincomment{Substituted the ambiguous use of "variety" with "set
+  of zeros".}  We now consider the polynomial ring
+$\K[x_1,\ldots,x_n]$, where $\K$ is a perfect field with algebraic
+closure $\clot{\K}$. To any ideal $I$, we associate its \textbf{set of
+  zeros}
 \begin{equation}
   \label{eq:215}
   V(I) = \{x\in\clot{\K}^n \,|\, f(x) = 0 \text{ for any } f\in I\}
   \text{.}
 \end{equation}
+\pdfmargincomment{Detailed definition of I(V), so that it is
+  compatible with the version of the Nullstellensatz given later. }
 Reciprocally, to any $V\subset\clot{\K}^n$ we associate the ideal
 \begin{equation}
   \label{eq:216}
-  I(V) = \{f \,|\, f(x) = 0 \text{ for any } x\in V\}
+  I(V) = \{f\in\clot{\K}[x_1,\ldots,x_n] \,|\, f(x) = 0 \text{ for any } x\in V\}
   \text{.}
 \end{equation}
 
-A subset of $\clot{\K}^n$ is called an
+\pdfmargincomment{Defined the affine space (and the projective space
+  three paragraphs later).} A subset of $\clot{\K}^n$ is called an
 \index{algebraic~set!affine}\textbf{affine algebraic set} if it is the
-variety of an ideal of $\clot{\K}[x_1,\cdots,x_n]$.  An algebraic set
-$V$ is \index{algebraic~set!defined~over~a~field}\textbf{defined over}
-$\K$ if $I(V)$ has a set of generators in $\K[x_1,\ldots,x_n]$.
+set of zeros of an ideal of $\clot{\K}[x_1,\cdots,x_n]$.  The
+\index{affine~space}\textbf{affine space} of dimension $n$, denoted by
+$\mathbb{A}^n$, is the affine algebraic set associated to the zero
+ideal.
+
+An algebraic set $V$ is
+\index{algebraic~set!defined~over~a~field}\textbf{defined over} $\K$
+if $I(V)$ has a set of generators in $\K[x_1,\ldots,x_n]$; in this
+case we denote by $V(\K)$ the subset $V\cap\K^n$.
 
 An algebraic set is
-\index{algebraic~set!irreducible}\textbf{irreducible} if it
-cannot be written as the union of two proper algebraic sets;
-equivalently, it is irreducible if $I(V)$ is prime. An irreducible
-affine algebraic set is called an \index{variety!affine}\textbf{affine
-  variety}.
+\index{algebraic~set!irreducible}\textbf{irreducible} if it cannot be
+written as the union of two proper algebraic sets; equivalently, it is
+irreducible if $I(V)$ is prime. An irreducible affine algebraic set is
+called an \index{variety!affine}\textbf{affine variety}.
 
 There is also an equivalent notion of
 \index{variety!projective}\textbf{projective variety} for homogeneous
-ideals. In the sequel we shall drop the qualificatives ``affine'' or
+ideals. The projective variety associate to the zero ideal is called
+the \index{projective~space}\textbf{projective space} of dimension $n$,
+and is denoted by $\Proj^n$.
+
+In the sequel we shall drop the qualificatives ``affine'' or
 ``projective'', and simply speak of
 \index{variety!algebraic}\textbf{algebraic varieties} whenever
 definitions/theorems are identical.
+
 
 \begin{theorem}[Nullstellensatz]
   Let $I$ be an ideal and $V$ an algebraic set. We have the following
@@ -849,10 +873,11 @@ definitions/theorems are identical.
   \end{equation}
 \end{theorem}
 
-If $V$ is defined over $\K$, the
+\pdfmargincomment{Made more explicit that V must be a variety.}
+If $V$ is a variety defined over $\K$, its
 \index{coordinate~ring}\textbf{coordinate
   ring}\nomenclature[KV]{$\K[V]$}{Coordinate ring of an algebraic
-  variety} of a variety is
+  variety} is
 \begin{equation}
   \label{eq:218}
   \K[V] \eqdef \K[x_1,\ldots,x_n]/I(V)

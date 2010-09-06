@@ -82,11 +82,14 @@ they all go under the generic name of
 \index{FFT}\index{fast~Fourier~transform}\textbf{fast Fourier transform}
 (FFT).
 
+\pdfmargincomment{More bibliography around Schönage and Strassen.}
 Thus, multiplication in certain fields can be carried out in time
-$O(n\log n)$. In the famous paper~\cite{schonage+strassen}, Schönage
-and Strassen showed how performing an FFT in an extension ring of $R$
-containing the required roots of unit yields an algorithm of
-complexity $O(n\log n\log\log n)$ to multiply polynomials in $R[X]$.
+$O(n\log n)$. Schönhage and Strassen's
+method~\cite{schonage+strassen}, along with its
+generalizations~\cite{schonhage77,cantor+kaltofen91}, adjoins enough
+roots of unit to any ring $R$ by taking an extension of it; this
+yields an algorithm of complexity $O(n\log n\log\log n)$ to multiply
+polynomials of degree $n$ in $R[X]$.
 
 \subsection{Formal power series}
 \label{sec:formal-power-series}
@@ -96,11 +99,11 @@ elements are the sequences $(f_i)_{i>0}$ of elements of $R$, they are
 denoted by
 \begin{equation}
   \label{eq:197}
-  f(X) = \sum_{i>0}f_iX^i
+  f(X) = \sum_{i\ge0}f_iX^i
   \text{.}
 \end{equation}
 Multiplication and evaluation are defined in the obvious way. An
-element $f\in R[[X]]$ is invertible if and only if $f(0)$ is an unit
+element $f\in R[[X]]$ is invertible if and only if $f_0$ is an unit
 of $R$.
 
 Since formal power series are infinite objects, to be used in a
@@ -117,25 +120,30 @@ series, whenever
 to the precision $n$.
 
 Using polynomial multiplication, the product of two series known up to
-precision $n$ can be computed in $O(\Mult(n))$ operations.
+precision $n$ can be computed in $\Mult(n)$ operations.
 
 \paragraph{Derivative, integral}
 \label{sec:derivative-integral}
-If $R$ contains $\Q$, we define the
-\index{formal~power~series!derivative}derivative and the
-\index{formal~power~series!integral}integral of a power series as
-\begin{align}
+\pdfmargincomment{Clearer statement of when we want R to contain Q.}
+We define the \index{formal~power~series!derivative}derivative of a
+power series as
+\begin{equation}
+  f'(X) = \sum_{i\ge0}(i+1)f_{i+1}X^i\text{;}
+\end{equation}
+if $R$ contains $\Q$, we also define the
+\index{formal~power~series!integral}integral as
+\begin{equation}
   \label{eq:200}
-  f'(X) &= \sum_{i\ge0}(i+1)f_{i+1}X^i\text{,}\\
-  \int f(X) &= \sum_{i\ge0}\frac{f_i}{i+1}X^{i+1}\text{.}
-\end{align}
+  \int f(X) = \sum_{i\ge0}\frac{f_i}{i+1}X^{i+1}\text{.}
+\end{equation}
 Derivatives and integrals up to precision $n$ can be computed in
 $O(n)$ operations by their definition.
 
 \paragraph{Logarithm, exponential}
 \label{sec:logarithm}
-The \index{formal~power~series!logarithm}logarithm of a power series
-$f$ such that $f(0)=1$ is defined as
+In what follows, we suppose that $R$ contains $\Q$. The
+\index{formal~power~series!logarithm}logarithm of a power series $f$
+such that $f(0)=1$ is defined as
 \begin{equation}
   \label{eq:194}
   \log f = \int\frac{f'}{f}
@@ -286,7 +294,7 @@ generic algorithm for modular composition. A major breakthrough has
 been recently achieved by Kedlaya and
 Umans~\cite{umans:08,kedlaya+umans08}, who give an algorithm for
 modular composition over a finite field $\F_q$ of \emph{binary}
-complexity $n^{1+O(1)}\log^{1+O(1)}q$, using a reduction to
+complexity $n^{1+o(1)}\log^{1+o(1)}q$, using a reduction to
 multivariate multipoint evaluation.
 
 
@@ -610,14 +618,14 @@ approximant of type $(\ell-1,n-\ell)$ exists if and only if
 is one of the intermediate results computed by the extended Euclidean
 algorithm.
 
-The extend Euclidean algorithm is not optimal. We address the reader
+The extended Euclidean algorithm is not optimal. We address the reader
 to~\cite[$\S$11.1]{vzGG} for the description of an algorithm that
 takes $f,g\in\K[X]$ of degree at most $n$ and $\ell\le n$, and
 computes, using $O(\Mult(n)\log n)$ operations, the rows $u_i,v_i,r_i$
 and $u_{i+1},v_{i+1},r_{i+1}$ of the Extended Euclidean algorithm such
-that $\deg(r_i)\ge n-\ell$ and $\deg(r_{i+1})<n-\ell$. A consequence of
-this algorithm is that both Cauchy interpolation and rational fraction
-reconstruction can be computed in time $O(\Mult(n)\log n)$.
+that $\deg(r_i)\ge n-\ell$ and $\deg(r_{i+1})<n-\ell$. A consequence
+of this algorithm is that both Cauchy interpolation and rational
+fraction reconstruction can be computed in time $O(\Mult(n)\log n)$.
 
 
 
@@ -664,11 +672,12 @@ substitution. Thus, for example, Euclidean division in
 $\left(\K[X]/f(x)\right)[Y]$ can be done in time $O(\Mult(mn))$,
 inversion in $\K[X,Y]/I$ in time $O(\Mult(mn)\log mn)$, etc.
 
-Unfortunately, Kronecker substitution does not scale well with the
-number of variables. For an analysis of the problem and alternatives,
+\pdfmargincomment{Cowardly removed false statement about known
+  algorithms for multivariate multiplication.}  Unfortunately,
+Kronecker substitution does not scale well with the number of
+variables. For an analysis of the problem and alternatives,
 see~\cite{schost05,li+moreno+schost07}. In general, no quasi-linear
-time algorithm is known to multiply polynomials in
-$\K[X_1,\ldots,X_n]$, nor to multiply elements of a finite dimensional
+time algorithm is known to multiply elements of a finite dimensional
 algebra $\K[X_1,\ldots,X_n]/I$, even in the case $I$ is triangular.
 
 
@@ -810,12 +819,13 @@ the initial conditions for $\beta$ are
 \end{equation}
 for any $i\le n$.
 
+\pdfmargincomment{Cited Shoup 99.}
 Thus, the dual of modular reduction consists in extending a linear
 recurring sequence of order $n$ from its first $n$ coefficients. Any
-algorithm for such task can be used to compute $\dual{\bmod_f}$,
-however one can also directly obtain one such algorithm by applying
-the transposition principle to any algorithm for Euclidean
-division. In any case,
+algorithm for such task (for example, \cite[$\S$3]{shoup99}) can be
+used to compute $\dual{\bmod_f}$, however one can also directly obtain
+one such algorithm by applying the transposition principle to any
+algorithm for Euclidean division. In any case,
 \index{transposed~modular~reduction}\textbf{transposed modular
   reduction} to the order $N$ can be computed using $O(\Mult(N))$
 operations\footnote{One can do better when $N$ is much larger than

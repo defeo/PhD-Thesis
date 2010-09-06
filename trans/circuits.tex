@@ -334,7 +334,7 @@ outputs.
   We also say that $C$ \emph{computes} $\eval_C$.
 \end{definition}
 
-It is immediate to verify that the $\eval_C$ is a morphism of left
+It is immediate to verify that $\eval_C$ is a morphism of left
 modules, because we only used compositions and direct sums to define
 it. The converse is partially true.
 
@@ -579,13 +579,13 @@ actual shape of the substituting circuit. Figure
 \label{sec:tellegen}
 We are now ready to state and prove the
 \index{transposition~theorem}\emph{transposition theorem} for
-arithmetics circuits. 
+arithmetic circuits. 
 
 We fix a family $(M_i)_{i\in\N}$ of free left $R$-modules, with
 $M_i\isom R^i$. Via the isomorphisms, it is straightforward to extend
 the definition of arithmetic circuit so that $\eval_c$ is a morphism
 $M_i\ra M_o$.  We also fix a family $(N_i)_{i\in\N}$ of free right
-$R$-modules, and a family of non-singular bilinear forms
+$R$-modules, and a family of non-degenerate bilinear forms
 \begin{equation}
   \label{eq:240}
   \left(\braket{}{}_i:N_i\times M_i\ra R\right)_{i\in\N}
@@ -768,6 +768,7 @@ Appendix~\ref{cha:basic-categ-theory}.
 \end{proof}
 
 \begin{corollary}
+  \label{th:tellegen-coro}
   A linear function $f:R^n\ra R^m$ and its transpose can be computed
   by arithmetic circuits on $(R,\Tbasis)$ of same sizes and depths. In
   particular if $C$ computes $f$ and $\dual{C}$ computes $\dual{f}$,
@@ -790,9 +791,11 @@ Appendix~\ref{cha:basic-categ-theory}.
   shall always prefer the formulation in terms of bilinear forms
   instead of the one in terms of matrices.
 
-  It is also worth noticing that the transposition theorem stays true
-  if instead of a bilinear form we had used a sesquilinear form (in
-  this case $\dual{(\rmul{a})}=\rmul{\bar{a}}$).
+  \pdfmargincomment{Dropped comment about quantum computing: it is
+    more complicated than that (and I didn't want to develop it in the
+    appendix).}  It is also worth noticing that the transposition
+  theorem stays true if instead of a bilinear form we had used a
+  sesquilinear form (in this case $\dual{(\rmul{a})}=\rmul{\bar{a}}$).
 \end{remark}
 
 

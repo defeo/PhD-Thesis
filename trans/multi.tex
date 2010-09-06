@@ -236,6 +236,7 @@ the ordering of the linearized circuit, while we take the freedom to
 permute the scalar part as it will be more convenient.
 
 \begin{proposition}
+  \label{th:tellegen-multi}
   The size of the $\ell$-dual is the same as that of $C$, more
   precisely
   \begin{align*}
@@ -246,7 +247,16 @@ permute the scalar part as it will be more convenient.
   \end{align*}
   Its depth is at most twice that of $C$.
 \end{proposition}
-
+\begin{proof}
+  \pdfmargincomment{Added proof.}  The statement on the size follows
+  immediately from Corollary~\ref{th:tellegen-coro} and the fact that
+  the scalar part is left unchanged. For the depth, observe that any
+  path in $\dual{C_\ell}$ cannot exit the linearized circuit once it
+  has entered it, thus it is at most composed of a path $p$ in the
+  scalar part of $C$ and a reverse path $p'$ in $C_\ell$; since both
+  $p$ and the reverse of $p'$ are paths of $C$, the sum of their
+  lengths is at most twice the depth of $C$.
+\end{proof}
 
 \subsection{Bilinear chains}
 \label{sec:bilinear-chains}
@@ -305,19 +315,34 @@ case the transposition principle does not \emph{transpose
   and the claim follows.
 \end{proof}
 
-Thus, to any linear chain one can associate the four circuits
-$C,\dual{C},C^\op,\dual{{C^\op}}$. In~\cite{hopcroft+musinski73,fiduccia:phd},
-bilinear chains are considered, i.e.\ bilinear circuits whose only two
-non-trivial linearizations are linear chains. The opposite circuit of
-a \index{bilinear~chain}bilinear chain is defined by swapping every
-multiplication node. Thus, if $C$ is a bilinear chain and
-$\ell_1,\ell_2$ its linearizations, one obtains the six circuits
-\[C,C^\op,\dual{C_{\ell_1}},\dual{{C_{\ell_1}^\op}},\dual{C_{\ell_2}},\dual{{C_{\ell_2}^\op}}\text{.}\]
+\pdfmargincomment{More details on Hopcroft-Musinski.}  Thus, to any
+linear chain one can associate the four circuits
+$C,\dual{C},C^\op,\dual{{C^\op}}$. Hopcroft and
+Musinski~\cite{hopcroft+musinski73}, consider
+\index{bilinear~chain}bilinear chains, i.e.\ bilinear circuits whose
+only two non-trivial linearizations are linear chains.  They start
+from a formula to compute $p$ bilinear forms given by $m\times n$
+matrices with coefficients in the center $S$ of $R$. Call this a
+$(m,n,p)$-formula. They show that any such formula can be transformed
+in $(m,p,n)$, $(n,m,p)$, $(n,p,m)$, $(p,m,n)$, $(p,n,m)$-formulas
+using the same number of multiplications in $S$ and in $R\backslash
+S$.
 
-Finally, the complexity bounds of~\cite{hopcroft+musinski73}, are
-obtained by considering the sets $D=\{\rmul{a}|a\in S\}$ and
-$M=\{\rmul{a}|a\not\in S\}$ and realizing that both $\size_D$ and
-$\size_M$ are preserved taking the $\ell$-dual and/or the opposite.
+Their result can be derived from this section by observing that their
+formula is a bilinear chain with linearizations $\ell_1,\ell_2$, and
+that their five transformed formulas are given by the bilinear chains
+\[C^\op,\dual{C_{\ell_1}},\dual{{C_{\ell_1}^\op}},\dual{C_{\ell_2}},\dual{{C_{\ell_2}^\op}}\text{;}\]
+where the opposite circuit of a multilinear circuit is defined by
+swapping every multiplication node. 
+
+Their bounds on the number of multiplications follow by considering
+the sets $D=\{\rmul{a}|a\in S\}$ and $M=\{\rmul{a}|a\not\in S\}$ and
+applying Proposition~\ref{th:tellegen-multi}.
+
+A consequence of their result is that any formula to multiply an
+$m\times n$ matrix by an $n\times p$ can be transformed in five
+formulas of the same complexity to multiply matrices of sizes permuted
+as above.
 
 
 
