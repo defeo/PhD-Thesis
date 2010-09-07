@@ -192,18 +192,19 @@ For $m\in\Z$, we denote by $[m]P$ the point%
   curve} $\overbrace{P+P+\cdots+P}^{m\text{ times}}$ if $m>0$, or the
 point $[-m](-P)$ if $m<0$, or $\0$ if $m=0$. 
 
-
-\begin{definition}[Kummer surface]
+\pdfmargincomment{Oups! Changed "Kummer surface" to "Kummer variety"
+  (it is called "surface" only for two-dimensional abelian varieties).}
+\begin{definition}[Kummer variety]
   \label{def:kummer}
-  The \index{Kummer~surface}\emph{Kummer surface} of an elliptic curve
-  $E$, denoted by $K_E$\nomenclature[KE]{$K_E$}{Kummer surface of an
+  The \index{Kummer~variety}\emph{Kummer variety} of an elliptic curve
+  $E$, denoted by $K_E$\nomenclature[KE]{$K_E$}{Kummer variety of an
     elliptic curve}, is the quotient of $E$ by the equivalence
   relation $P\simeq-P$.
 \end{definition}
 
 \begin{remark}
   \label{rk:montgomery}
-  The Kummer surface can be represented by taking the abscissas of the
+  The Kummer variety can be represented by taking the abscissas of the
   points of $E$. It is not anymore a group, but we can still compute
   scalar multiples of its points. In fact, from the addition formulas
   we deduce for $P\ne-P$
@@ -257,7 +258,7 @@ is a group endomorphisms of $E(\K)$.
   The $m$-th \emph{torsion subgroup} of $E$ is
   \begin{equation}
     \label{eq:123}
-    E[m] = \{P\in E(\K) \,|\, [n]P=\0\}
+    E[m] = \{P\in E(\clot{\K}) \,|\, [n]P=\0\}
     \text{,}
   \end{equation}
   its points are called%
@@ -357,7 +358,7 @@ the point at infinity.  Then, clearly $E(\clot{\K})$ and
 $E'(\clot{\K})$ are isomorphic as groups. If the change of variables
 has coefficients in $\K$, the curves are said to be
 \index{isomorphism!of~elliptic~curves}\index{elliptic~curve!isomorphic}isomorphic
-over $\K$, then $E(\K)$ and $E(\K)$ are isomorphic as groups.
+over $\K$, then $E(\K)$ and $E'(\K)$ are isomorphic as groups.
 
 It can be shown that the only such changes of variables are
 \begin{equation}
@@ -652,10 +653,11 @@ corresponding to it as in Eq.~\eqref{eq:146}.
 
 The correspondences we just defined are actually equivalences.
 
+\pdfmargincomment{Repetita iuvant: elliptic curves "over C".}
 \begin{theorem}
-  The category of elliptic curves with isogenies as maps is equivalent
-  to the category of lattices up to homothety with maps $z\mapsto az$
-  such that $a\Lambda_1\subset\Lambda_2$.
+  The category of elliptic curves over $\C$ with isogenies as maps is
+  equivalent to the category of lattices up to homothety with maps
+  $z\mapsto az$ such that $a\Lambda_1\subset\Lambda_2$.
 \end{theorem}
 
 Thus to any elliptic curve there is an unique lattice $\Lambda$
@@ -721,8 +723,9 @@ scale $\Lambda$ so that $(1,\tau)$ is a basis for it. Then
 $\C/\Lambda$ is $\ell$-isogenous to $\C/(\Z+\ell\tau\Z)$ via the map
 $z\mapsto\ell z$.
 
-For any prime $\ell$, the minimal polynomial of the modular function
-$j(\ell\tau)$ is called the \index{th modular
+\pdfmargincomment{It is the minimal polynomial "over C".}
+For any prime $\ell$, the minimal polynomial over $\C$ of the modular
+function $j(\ell\tau)$ is called the \index{th modular
   polynomial}\emph{$\ell$-th modular polynomial}, it is denoted by
 $\Modpol_\ell(X,Y)$\nomenclature[f]{$\Modpol_\ell$}{$\ell$-th modular
   polynomial}. It is a bivariate polynomial with coefficients in $\Z$,
@@ -737,7 +740,7 @@ the algorithms of the next chapter.
 The modular polynomial has $O(\ell^2)$ coefficients, and the
 coefficients themselves have logarithmic height $O(\ell\log\ell)$. For
 this reason minimal polynomials associated to other modular functions
-are often preferred to $\Modpol_\ell$, as for example Atkins'
+are often preferred to $\Modpol_\ell$, as for example Atkin's
 \emph{canonical polynomial} $\Modpol_\ell^\ast$~\cite{atkin88}.
 
 Algorithms to compute the modular polynomial and its variants are

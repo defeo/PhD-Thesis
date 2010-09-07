@@ -41,8 +41,9 @@ the abscissas of $E[p^k]$, this is enough to complete the
 algorithm. Scalar multiples of $P$ can be computed without knowledge
 of $y(P)$ using \hyperref[rk:montgomery]{Montgomery formulas}.
 
-Remark that for $p=2$ we use the same construction in an implicit way
-since we do a $p$-descent on the Kummer surface.
+\pdfmargincomment{"Kummer surface" -> "Kummer variety".}  Remark that
+for $p=2$ we use the same construction in an implicit way since we do
+a $p$-descent on the Kummer variety.
 
 
 \paragraph{$p^k$-Torsion points}
@@ -121,7 +122,7 @@ negligible amount of time compared to the rest of the algorithm.
 
 The most expensive step of C2-AS-FI-MC, in theory as well as in
 practice, is the final loop over the points of $E'[p^k]$. Fortunately,
-this phase is very easy to parallelise with very few overhead.
+this phase is very easy to parallelise with very little overhead.
 
 Let $n$ be the number of processors we wish to parallelise on, suppose
 that $[\U_k:\F_q]$ is maximal, then we make only one interpolation

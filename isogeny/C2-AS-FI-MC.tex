@@ -5,7 +5,8 @@ However asymptotically fast, the polynomial interpolation step is
 quite expensive for reasonably sized data. Instead of repeating it
 $\frac{\euler(p^k)}{2}$ times, one can use composition with the
 Frobenius endomorphism $\frobisog_E$ in order to reduce the number of
-interpolations in the final loop.
+interpolations in the final loop. We call this variant C2-AS-FI-MC (MC
+for Modular Composition).
 
 \subsection{The algorithm}
 Suppose we have computed, by the algorithm of the previous Section,

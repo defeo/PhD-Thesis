@@ -15,8 +15,9 @@ $\ell$ is the degree of the smallest isogeny, this of course adds a
 factor $\ell$ to the complexity of any polynomial time algorithm.
 
 Couveignes' algorithm can be easily adapted to solve this problem at
-no additional cost. We call this algorithm C2-UD, all the variants of
-C2 presented until now also apply to C2-UD.
+no additional cost. We call this algorithm C2-UD (UD for Unknown
+Degree), all the variants of C2 presented until now also apply to
+C2-UD.
 
 Observe that, apart for the choice of $k$, the computation of $E[p^k]$
 and the polynomial interpolation step do not depend at all on
@@ -155,8 +156,8 @@ $\ell\le\left\lfloor\frac{\deg T}{2}\right\rfloor-t$ is less than $\frac{1}{q^{2
 Therefore, by choosing an appropriate $t\in O(\log_q p^k)$, C2-UD can
 find any isogeny of degree less than $\frac{p^k-1}{4}-t$ at the same
 cost of one run of C2. Also notice that C2-UD is not restricted to
-isogenies of degree prime to $p$ as it was already mentioned in
-Section \ref{sec:C2:non-prime}.
+isogenies of degree prime to $p$ as was already mentioned in Section
+\ref{sec:C2:non-prime}.
 
 This variant makes Couveignes' algorithm quite unique for various
 reasons. First of all, it is the first algorithm, other than trivial

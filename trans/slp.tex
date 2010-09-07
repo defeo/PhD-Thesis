@@ -16,6 +16,37 @@ programs that are only made of a sequence of assignments (no
 branchings, no loops).  See~\cite{burgisser+clausen-shokrollahi} for
 formal definitions and proofs.
 
+\pdfmargincomment{More precisions on the algebraic RAM.}
+We work in the algebraic \index{RAM~model}RAM model
+of~\cite{kaltofen88:gcd}; this is to the classic RAM model what the
+BSS model~\cite{BSS} is to the Turing machine. In a slightly
+simplified way, an $R$-algebraic RAM (Random Access Machine) has a
+memory, made of an infinite set of registers that can contain an
+arbitrary element of $R$, and a CPU, that can perform arithmetic
+operations on elements of $R$ and store the result in a register.
+
+An SLP can be seen as a program for an algebraic RAM: its inputs are
+initially stored in some registers, its instructions are executed in
+order, and its outputs are to be read in some other registers. For
+example, the program
+\begin{equation}
+  \label{eq:275}
+  \begin{aligned}
+    R_3 &\la R_1 + R_2\\
+    R_3 &\la R_3 * 3\\
+    R_2 &\la R_2 * R_3
+  \end{aligned}
+\end{equation}
+expects is inputs in the registers $R_1$ and $R_2$, performs an
+addition, a scalar multiplication and a multiplication, and stores its
+output in the registers $R_2$ and $R_3$ (in our context, it is somehow
+arbitrary to decide which are the input and output registers). In this
+model, the time complexity of a SLP is given by the number of
+instructions, the space complexity by the number of different
+registers used.
+
+
+
 \subsection{The BLS model}
 \label{sec:bls-model}
 In this section we study a particular family of \emph{linear straight
@@ -39,13 +70,8 @@ the two operations
 \end{align}
 where $R_i,R_j$ are registers and $a\in R$. 
 
-We work in the algebraic RAM model of~\cite{kaltofen88:gcd}; this is
-to the classic RAM model what the BSS model~\cite{BSS} is to the
-Turing machine. In the algebraic RAM model, the time complexity of a
-SLP is given by the number of instructions, the space complexity by
-the number of different registers used.
-
-The semantic of such SLP's is equivalent to that of linear circuits
+\pdfmargincomment{Slightly rephrased.}
+Such SLP's can compute the same morphisms as linear circuits
 over the basis $\mathsf{BLS}$:
 \begin{equation}
   \tag{$\mathsf{BLS}$}
@@ -94,15 +120,17 @@ Observe that all the operators in \ref{eq:246} have the same input and
 output arities, then circuits over \ref{eq:246} necessarily have the
 same number of inputs and outputs. Hence, if a circuit has $n$ inputs
 (and outputs), any topological order yields a straight line program
-using $n$ registers by this evaluation strategy.  Inversely, any
-straight line program using only instructions~\eqref{eq:269}
-and~\eqref{eq:272} can be represented by a circuit over \ref{eq:246}
-having $n$ inputs (and outputs).
+using $n$ registers by this evaluation strategy.  Inversely, it is
+clear that any straight line program using only
+instructions~\eqref{eq:269} and~\eqref{eq:272} can be represented by a
+circuit over \ref{eq:246} having $n$ inputs (and outputs).
 
-Thus, we identify circuits over \ref{eq:246} with such SLP's (note
-that the identification is not one-to-one) and define the space
-complexity of a circuit in the algebraic RAM model as its number of
-inputs (and outputs).
+\pdfmargincomment{Added precision on the one-to-many correspondence.}  Thus,
+we identify circuits over~\ref{eq:246} with such SLP's (note that the
+identification is not one-to-one as different topological orders yield
+different SLP's), and define the space complexity in the algebraic RAM
+model of a circuit over~\ref{eq:246} as its number of inputs (and
+outputs).
 
 Finally, observing that $\mathsf{XOR}_1$ is the dual of
 $\mathsf{XOR}_2$, we deduce that any circuit $C$ on $(R,\mathsf{BLS})$
@@ -123,9 +151,10 @@ algebraic RAM model.
 \end{remark}
 
 
-\subsection{Generic straight line programs}
+\subsection{Linear straight line programs}
 \label{sec:gener-stra-line}
-The step from the SLP's we just defined to generic linear SLP's is
+\pdfmargincomment{"generic" -> "classic"}
+The step from the SLP's we just defined to classic linear SLP's is
 very small. In fact, all one has to do is simulate the instructions
 \begin{align}
   \label{eq:257}
@@ -198,11 +227,12 @@ if $R_j$ and $R_k$ are not doubly used; this transposes to
 \end{equation}
 (notice that a double use is introduced by this transposition).
 
+\pdfmargincomment{Removed undefined "self-increment".}
 By comparing this to equations~\eqref{eq:259} and~\eqref{eq:260}, one
-sees that each double use of a register introduces self-increment in
-the transposed code, and each addition introduces a double use in the
-transposed code. This corresponds well to the duality between $+$ and
-$\hub$.
+sees that each double use of a register introduces a
+$\overset{+}{\la}$ in the transposed code, and each addition
+introduces a double use in the transposed code. This corresponds well
+to the duality between $+$ and $\hub$.
 
 In conclusion, one sees that the sum of additions and double uses
 stays unchanged when transposing generic straight line
@@ -232,6 +262,7 @@ really useful, we must transpose families of SLP's. Bostan, Lecerf and
 Schost consider SLP's parameterized by integers and booleans.
 
 \begin{definition}[algebraic transform]
+  \label{def:algebraic-transform}
   Let $R$ be a ring, an \index{algebraic~transform}\emph{$R$-algebraic
     transform} is a program in the algebraic RAM model composed by the
   following constructs:

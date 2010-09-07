@@ -17,8 +17,9 @@ $\euler(p^k)/2-1$ polynomial in $\F_q[X]$. Using the
 \hyperref[th:chinese-remainder]{Chinese remainder theorem} it is
 straightforward to generalize this to an algorithm, having the same
 asymptotic complexity, that realizes the polynomial interpolation on
-all the points of $E[p^k]$. We call C2-AS-FI the variant of C2-AS
-resulting from applying this new algorithm.
+all the points of $E[p^k]$. We call C2-AS-FI (FI for Fast
+Interpolation) the variant of C2-AS resulting from applying this new
+algorithm.
 
 
 \subsection{The algorithm}
@@ -224,10 +225,11 @@ It is clear that $P$ is invariant under $\Gal(\U_{i+1}/\U_i)$, hence
 $P\in\U_i[X]/T_i(X)$ and by \eqref{eq:crt} it is evident that
 $P(x)=A_{i+1}(x)=y$, thus $P=A_i$.
 
-We have thus succeeded in interpolating $A=A_0$, without having to
-build the whole subproduct tree. A similar algorithm was already given
-in \cite{enge+morain03}.
-
+\pdfmargincomment{More details on Enge-Morain.} We have thus succeeded
+in interpolating $A=A_0$, without having to build the whole subproduct
+tree. A similar algorithm was applied by Enge and Morain to the
+solution of equations by radicals~\cite{enge+morain03}, although they
+did not recognize the application to polynomial interpolation.
 
 \begin{remark}
   Observe that, once the polynomials $T_i$ for $0\le i\le k$ are
@@ -331,13 +333,16 @@ low.
   \end{algorithmic}
 \end{algorithm}
 
-For any $i>i_0$, step~\ref{alg:T:gal} of is repeated $p$ times, each
-iteration taking $O\bigl(p^{k-i}{\sf L}(i-i_0)\bigr) \subset
-O\bigl({\sf L}(k-i_0)\bigr)$ by Theorem~\ref{th:b-ifrob}.
-Step~\ref{alg:T:prod} takes $O\bigl(\Mult(p^{k-i_0+1}d/r)\log p\bigr)$
-using Algorithm~\ref{alg:subprod} and step~\ref{alg:T:push} takes
-$O\bigl(p^{k-i+1}{\sf L}(i-i_0)\bigr) \subset O\bigl(p{\sf
-  L}(k-i_0)\bigr)$.
+Recall that we denote by $\Lift(i)$ the cost of performing one lift-up
+or push-down at the $i$-th level (see Theorem~\ref{theo:L}). For any
+$i>i_0$, step~\ref{alg:T:gal} of is repeated $p$ times, each iteration
+taking 
+\[O\bigl(p^{k-i}\Lift(i-i_0)\bigr) \subset O\bigl(\Lift(k-i_0)\bigr)\]
+by Theorem~\ref{th:b-ifrob}.  Step~\ref{alg:T:prod} takes
+$O\bigl(\Mult(p^{k-i_0+1}d/r)\log p\bigr)$ using
+Algorithm~\ref{alg:subprod} and step~\ref{alg:T:push} takes
+\[O\bigl(p^{k-i+1}\Lift(i-i_0)\bigr) \subset
+O\bigl(p\Lift(k-i_0)\bigr)\text{.}\]
 
 For any $1\le i<i_0$, there is nothing to do because
 $\U_{i+1}=\U_i$. Finally, when $i=0$ and $\U_1\ne\F_q$ the algorithm
@@ -367,7 +372,7 @@ interpolation of $A_0$.
     \FORALL {$\sigma \in \Gal(\U_{i+1}/\U_i)$}
     \STATE\label{alg:A:gal} compute $P_{i+1}^\sigma$ using \alg{IterFrobenius};
     \ENDFOR
-    \STATE\label{alg:T:lift} convert $T_i$ into an element of $\U_{i+1}$ using \alg{Lift-up}.
+    \STATE\label{alg:T:lift} convert $T_i$ into an element of $\U_{i+1}[X]$ using \alg{Lift-up}.
     \STATE\label{alg:A:CRA} $P_i\la \sum_{\sigma}P_{i+1}^\sigma T_i/T_{i+1}^\sigma$ using the binary subproduct tree computed previously;
     \STATE\label{alg:A:push} convert  $P_i$ into an element of
     $\U_i[X]$ using \alg{Push-down}.

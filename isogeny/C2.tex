@@ -135,8 +135,12 @@ of $\widetilde{E}$. Voloch shows the following proposition.
     \label{th:voloch:cover}
     C:\; \tilde{z}^p - \tilde{z} = \frac{\tilde{y}\beta(\tilde{x})}{\tilde{c}^p}
   \end{equation}
-  is an étale cover of degree $p$ and is isomorphic to $E$ over
-  $\F_q[\tilde{c}]$; the isomorphism is given by
+  \pdfmargincomment{The "étale" property is from the original
+    statement in Voloch's paper, I guess it is necessary to guarantee
+    that the cover is a group morphism.  Not that I really understand
+    what it means exactly, but is this a reason to change the
+    statement?} is an étale cover of degree $p$ and is isomorphic to
+  $E$ over $\F_q[\tilde{c}]$; the isomorphism is given by
   \begin{equation}
     \label{th:voloch:isom}
     \left\{
@@ -233,8 +237,9 @@ work is the computation of the $p^k$-torsion points. For curves in the
 simplified Weierstrass form \eqref{eq:weierstrass=2} the only
 $2$-torsion point is $(0,\sqrt{b})$.
 
+\pdfmargincomment{"Kummer surface" -> "Kummer variety".}
 Voloch formulas are hard to adapt, nevertheless a $2$-descent on the
-\hyperref[def:kummer]{Kummer surface} of $E$ can easily be performed
+\hyperref[def:kummer]{Kummer variety} of $E$ can easily be performed
 since the doubling formula reads
 \begin{equation}
   x([2]P) = \frac{b}{x(P)^2} + x(P)^2 =
@@ -251,7 +256,7 @@ amounts to solve
 and this can be turned in an Artin-Schreier equation through the
 change of variables $x \rightarrow x'\tilde{x}_P$.
 
-From the descent on the Kummer surfaces one could deduce a full
+From the descent on the Kummer varieties one could deduce a full
 $2$-descent on the curves by solving a quadratic equation at each step
 in order recover the $y$ coordinate, but this would be too
 expensive. Fortunately, the $y$ coordinates are not needed by the
