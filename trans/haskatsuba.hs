@@ -1,8 +1,8 @@
 -- \begin{lstlisting}[language=haskell,basicstyle=\ttfamily\small]
 
 -- Linear and Scalar wrappers
-data L = Lin Integer
-data S = Sca Integer
+newtype L = Lin Integer deriving (Show)
+newtype S = Sca Integer deriving (Num, Show, Eq)
 
 -- The ring
 class Ring r where
@@ -31,13 +31,13 @@ instance Ring L where
   
 -- Scalar is an instance of Ring
 instance Ring S where
-  zero = Sca 0
-  (Sca x) <+> (Sca y) = Sca (x+y)  
-  (Sca x) <*> (Sca y) = Sca (x*y)
-  neg (Sca x) = Sca (-x)
+  zero = 0::S
+  (<+>) = (+)  
+  (<*>) = (*)
+  neg = negate
 
 -- We can add any other constant we like to S
-one = Sca 1
+one = 1::S
 
 -- Lists (polynomials) are free modules
 instance Ring r => Module [r] r where

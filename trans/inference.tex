@@ -119,11 +119,12 @@ equations hold
   oneR :: S
 \end{lstlisting}
 
+\pdfmargincomment{Better with newtypes, thanks to Mathieu.}
 If we define \lstinline{L} and \lstinline{S} as wrappers around
 \lstinline{R}
 \begin{lstlisting}
-  data L = Lin R
-  data S = Sca R
+  newtype L = Lin R
+  newtype S = Sca R
 \end{lstlisting}
 then, using Haskell type classes
 \cite{Walder+Blott-ad-hoc-polymorphism}, we can conveniently express
@@ -136,15 +137,22 @@ all the equations above as
     (<*>) :: r -> S -> r
 \end{lstlisting}
 together with the obvious \lstinline{instance} definitions (see the
-example in Appendix~\ref{cha:line-infer-karats}). Any other function
-acting on \lstinline{R} can be wrapped inside a function acting on
-\lstinline{S} as, for example,
+example in Appendix~\ref{cha:line-infer-karats}). 
+
+\pdfmargincomment{Better terminology, thanks to Mathieu.}  For our
+inference to work, it is important that \lstinline{L} be an abstract
+data type with only the above functions in its interface. On the other
+hand, any other function acting on \lstinline{R} can be wrapped inside
+a function acting on \lstinline{S} as, for example,
 \begin{lstlisting}
   one = Sca oneR
   (Sca a) == (Sca b) = a == b
 \end{lstlisting}
-but it is important that no other function is exported to
-\lstinline{L}.
+or, simply, using a \lstinline{deriving} clause in the declaration of
+\lstinline{S}
+\begin{lstlisting}
+  newtype S = Sca R deriving (Eq)
+\end{lstlisting}
 
 If we restrict to terms that do not use the type constructor
 \lstinline{Lin}, then we can show that the semantic of a term with
@@ -152,47 +160,61 @@ type
 \begin{lstlisting}
   L->...->L->L
 \end{lstlisting}
-is a left module homomorphism.  The proof for the full language would
-be too long, thus we restrict to a simply typed $\lambda$-calculus
-with constants defined by the following grammar, where $x$ are
-identifiers and $c$ are constants,
+is a left module homomorphism.  \pdfmargincomment{More details on the
+  simply typed lambda calculus, as suggested by Mathieu.}  The proof
+for the full language would be too long, thus we restrict to a simply
+typed $\lambda$-calculus with constants. Its terms are defined by the
+following grammar
 \begin{equation}
   \label{eq:lambda}
-  t ::= c \;|\; x \;|\; t_0 t_1 \;|\; \lambda x . t  \text{ ;}
+  t ::= c \;|\; x \;|\; t_0 t_1 \;|\; \lambda x . t  \text{ ,}
 \end{equation}
-the semantic is the usual one.
+where $x$ are identifiers and $c$ are constants; its types are
+defined by the grammar
+\begin{equation}
+  \label{eq:77}
+  \tau ::= \ell \;|\; s \;|\; \beta \;|\; \tau \ra \tau
+  \text{ ,}
+\end{equation}
+where $\beta$ are the usual base types (integers, booleans, etc.). If
+$\Gamma$ is a type environment, by $\Gamma\vdash t::\tau$ we mean that
+the term $t$ has type $\tau$ in $\Gamma$.  The semantic of our
+calculus is the usual one, based on $\beta\eta$-reduction.
 
-We suppose all the constants and types above are defined; observe that
-our grammar forbids type constructors all together (including
-\lstinline{Lin} and \lstinline{Sca}, but also including constructors for
-lists and tuples). In this context we use the type names $\ell$ and
-$s$ in place of the Haskell types \lstinline{L} and \lstinline{S}
-defined above.
+\pdfmargincomment{Careful about lists and tuples, thanks Mathieu!}  We
+suppose all the constants above are defined, plus the usual constants
+for the other base types; observe that our grammar forbids type
+constructors altogether (including \lstinline{Lin} and
+\lstinline{Sca}). In this context we use the type names $\ell$ and $s$
+in place of the Haskell types \lstinline{L} and \lstinline{S} defined
+above. For simplicity, we shall also assume that lists and tuples are
+not part of the types of our language; see the end of this section for
+a discussion about them.
 
 \begin{definition}[Flipper]
-  Let $\tau$ be the type
+  \pdfmargincomment{Defined the flipper and changed the proof of the
+    lemma, thanks to Léo.}  Let $\tau$ be the type
   \begin{equation}
     \label{eq:58}
     \tau = \alpha_0\ra\alpha_1\ra\cdots\ra\alpha_n
   \end{equation}
   with $\alpha_n$ not a function type. Let $I\subset[0,\ldots,n-1]$
   such that $\alpha_i\ne\ell$ if and only if $i\in I$, and let
-  $m=\card{I}$.  The \emph{flipper} for $\tau$, denoted by $f_\tau$,
+  $m=\card{I}$.  The \emph{flipper} for $\tau$, denoted by $\flip_\tau$,
   is the term
   \begin{equation}
     \label{eq:60}
-    f_\tau = \lambda t.\lambda x_{i_1}.\ldots.\lambda x_{i_m}.
+    \flip_\tau = \lambda t.\lambda x_{i_1}.\ldots.\lambda x_{i_m}.
     \lambda x_{j_1}.\ldots.\lambda x_{j_{n-m}}.tx_0\cdots x_{n-1}
     \text{,}
   \end{equation}
   with $i_1,\ldots,i_m\in I$ and $j_1,\ldots,j_{n-m}\in\bar{I}$.
 \end{definition}
 
-
 \begin{lemma}
   \label{th:lininference}
   Let $\Gamma\vdash t::\tau$ be a term, let $m,n\ge0$, and let
-  $\Gamma\vdash f_{\tau}t::\sigma$ with
+  $\Gamma\vdash \flip_{\tau}t::\sigma$ with
   \begin{equation}
     \label{eq:264}
     \sigma=\alpha_1\ra\alpha_2\ra\cdots\ra\alpha_m\ra\underbrace{\ell\ra\cdots\ra\ell}_{\text{$n$ times}}\ra\beta
@@ -202,7 +224,7 @@ defined above.
   $\Delta_i\vdash s_i::\alpha_i$ for $1\le i\le m$. The semantic of
   \begin{equation}
     \label{eq:270}
-    \Gamma,\Delta_1,\ldots,\Delta_m\vdash f_\tau ts_1\cdots s_m
+    \Gamma,\Delta_1,\ldots,\Delta_m\vdash \flip_\tau ts_1\cdots s_m
   \end{equation}
   is
   \begin{enumerate}
@@ -218,7 +240,7 @@ defined above.
   \item $\Gamma\vdash c$. All the constants satisfy
     either~\ref{item:1} or~\ref{item:2}. We just work out $0$ and $+$
     defined above and leave the others to the reader; in both cases
-    $f_\tau c=c$ up to $\beta\eta$-conversion.
+    $\flip_\tau c=c$ up to $\beta\eta$-conversion.
     \begin{itemize}
     \item $\Gamma\vdash0::\ell$ is the map $\bom\mapsto 0$, thus a
       (constant) morphism.
@@ -236,22 +258,22 @@ defined above.
     \begin{itemize}
     \item $\Gamma\vdash t_1::\ell$, then, by induction its semantic is
       a morphism $0\ra R$ (because it is $\beta\eta$-equivalent to
-      $f_\ell t_1$). 
+      $\flip_\ell t_1$). 
 
-      Let $\Gamma\vdash f_\tau t_0t_1::\sigma$, with $\sigma$ as in
+      Let $\Gamma\vdash \flip_\tau t_0t_1::\sigma$, with $\sigma$ as in
       Eq.~\eqref{eq:264}, and let $\Delta_i\vdash s_i$ for $1\le i\le
       m$ be as in the hypothesis.  Let $\Gamma\vdash t_0::\tau_0$ and
-      $\Gamma\vdash f_{\tau_0}t_0::\sigma_0$, then by induction
+      $\Gamma\vdash\flip_{\tau_0}t_0::\sigma_0$, then by induction
       \begin{equation}
         \label{eq:271}
-        \Gamma,\Delta_1,\ldots,\Delta_m\vdash t_0'\eqdef f_{\tau_0}t_0s_1,\ldots,s_m
+        \Gamma,\Delta_1,\ldots,\Delta_m\vdash t_0'\eqdef\flip_{\tau_0}t_0s_1,\ldots,s_m
       \end{equation}
       is either a morphism $R^{n+1}\ra R$ or a constant function. In
       the first case $t_0't_1$ is a morphism $R^{n'}\ra R$, in the second
       case it is a constant function; in both cases
       \begin{equation}
         \label{eq:74}
-        f_\tau(t_0t_1)s_1\cdots s_m\xleftrightarrow{\beta\eta}t_0't_1        
+        \flip_\tau(t_0t_1)s_1\cdots s_m\xleftrightarrow{\beta\eta}t_0't_1        
       \end{equation}
       and the claim follows.
     \item $\Gamma\vdash t_1::\alpha$ with $\alpha\ne\ell$. Then the
@@ -265,14 +287,14 @@ defined above.
     \item $\alpha_1\ne\ell$, then
       \begin{equation}
         \label{eq:73}
-        \lambda x.f_{\alpha_2}t\xleftrightarrow{\beta\eta}f_{\alpha_1\ra\alpha_2}(\lambda x.t)
+        \lambda x.\flip_{\alpha_2}t\xleftrightarrow{\beta\eta}\flip_{\alpha_1\ra\alpha_2}(\lambda x.t)
         \text{;}
       \end{equation}
     \item $\alpha_1=\ell$, then
       \begin{equation}
         \label{eq:76}
-        \lambda x.f_{\alpha_2}ts_1\cdots s_m\xleftrightarrow{\beta\eta}
-        f_{\alpha_1\ra\alpha_2}(\lambda x.t)s_1\cdots s_m
+        \lambda x.\flip_{\alpha_2}ts_1\cdots s_m\xleftrightarrow{\beta\eta}
+        \flip_{\alpha_1\ra\alpha_2}(\lambda x.t)s_1\cdots s_m
         \text{.}
       \end{equation}
     \end{itemize}
