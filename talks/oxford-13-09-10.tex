@@ -1,0 +1,315 @@
+\documentclass[10pt]{beamer}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[all]{xy}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+
+%% Stuff
+\renewcommand{\le}{\leqslant}
+\renewcommand{\ge}{\geqslant}  % comme François le demande...
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}  % colouring
+%% Algèbre
+  \newcommand{\hub}{}
+  \newcommand{\rmul}[1]{*_{#1}}
+  \newcommand{\dual}[1]{{#1}^\ast}
+  
+\newcommand{\clot}[1]{\bar{#1}}  % clôture algèbrique
+\newcommand{\card}[1]{\# #1}  % cardinalité d'un ensemble
+\DeclareMathOperator{\car}{char}  % caractéristique d'un corps
+\DeclareMathOperator{\Frac}{Frac}  % corps des fractions
+\newcommand{\Z}{\mathbb{Z}}  % les entiers
+\newcommand{\K}{\mathbb{K}}  % un corps
+\newcommand{\LK}{\mathbb{L}}  % encore un corps
+\newcommand{\U}{\mathbb{U}}  % encore un corps
+\newcommand{\F}{\mathbb{F}}  % un corps fini
+\newcommand{\Q}{\mathbb{Q}}  % les rationnels
+\newcommand{\R}{\mathbb{R}}  % les réels
+\newcommand{\C}{\mathbb{C}}  % les complexes
+\newcommand{\isom}{\cong}  % isomorphisme de corps
+\newcommand{\frob}{\varphi}  % fröbenius
+\DeclareMathOperator{\Gal}{Gal}  % groupe de Galois
+\DeclareMathOperator{\Tr}{Tr}  % trace
+\DeclareMathOperator{\PTr}{PTr}  % pseudotrace
+\DeclareMathOperator{\Norm}{N} % norme
+\newcommand{\euler}{\phi}  % indicatrice d'Euler
+\DeclareMathOperator{\ord}{ord}  % l'ordre d'un élément
+\newcommand{\AS}[1]{\mathcal{#1}}  % la police des polynômes d'AS
+\DeclareMathOperator{\rev}{rev}  % le reverse d'un polynôme
+%% Courbes
+\DeclareMathOperator{\Jac}{Jac}  % la jacobienne
+\newcommand{\Proj}{\mathbb{P}}  % espace projectif
+\newcommand{\0}{\mathcal{O}}  % point de base d'une courbe
+\newcommand{\ecpoint}[3]{[#1:#2:#3]}  % un point d'une courbe
+\newcommand{\isog}[1]{\mathcal{#1}}  % la police des isogénies
+\newcommand{\I}{\isog{I}}  % une isogénie I
+\newcommand{\Hasse}{H}  % l'invariant de Hasse
+\newcommand{\divpol}{f}  % polynôme de division
+%% Autre
+\newcommand{\tildO}{\tilde{O}}  % la notation O~ qui oublie les log
+\newcommand{\Mint}{\mathrm{\sf M}_\text{int}}  % fonction de multiplication
+\newcommand{\Mpol}[1][]{\mathrm{\sf M}_\text{pol}^{#1}}  % fonction de multiplication
+\newcommand{\Mult}[1][]{\mathrm{\sf M}_{#1}}  % fonction de multiplication
+\newcommand{\Push}{\mathrm{\sf P}}  % fonction de push-down
+\newcommand{\Lift}{\mathrm{\sf L}}  % fonction de lift-up
+\newcommand{\Trace}{\mathrm{\sf T}}  % fonction de trace
+\newcommand{\Frob}{\mathrm{\sf F}}  % fonction de frobenius itéré
+\newcommand{\Ptr}{\mathrm{\sf PT}}  % fonction de pseudo-trace
+\newcommand{\ModComp}{\mathrm{\sf C}}  % fonction de composition modulaire
+\newcommand{\alg}[1]{\textsf{#1}}  % la police des algorithmes
+\newcommand{\wrt}{\dashv}  % appartenance forte, a\wrt A signifie que a est représenté comme un élément de A
+\DeclareMathOperator{\op}{op}  % une opération
+
+\newenvironment{algorithm}[3]{\begin{center}\begin{minipage}{0.85\textwidth}
+      \sf
+      \rule{\textwidth}{0.2pt}\\
+      \makebox[\textwidth][c]{\textbf{#1}}\\
+      \rule[0.5\baselineskip]{\textwidth}{0.2pt}\\
+      \textbf{Input~~} #2\\
+      \textbf{Output} #3
+      \smallskip
+      \begin{enumerate}
+}{\end{enumerate}
+      \rule{\textwidth}{0.2pt}
+\end{minipage}\end{center}}
+
+% beamer-specific
+%\setbeamertemplate{theorem begin}{
+%  \begin{\inserttheoremblockenv}{
+%      Théorème
+%      \ifthenelse{\equal{\inserttheoremaddition}{}}
+%		 {}
+%		 {(\inserttheoremaddition)}    
+		 %  \ifx\inserttheoremaddition\@empty\else\ (\inserttheoremaddition)\fi
+%    }
+%}
+
+\mode<presentation>{%
+  \usetheme[]{Madrid}
+  \usefonttheme[onlymath]{serif}
+  \usecolortheme{crane}
+% \usecolortheme{rose}
+}
+
+
+\title{Research interests}
+\author[L.~De~Feo]{L.~De~Feo}
+\institute[TANC, LIX]{INRIA Projet TANC \& LIX École Polytechnique}
+\date{\today}
+
+
+% \AtBeginSection[]
+% {
+%   \begin{frame}<beamer>
+%     \frametitle{Plan}
+%     \tableofcontents[currentsection]
+%   \end{frame}
+% }
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{My PhD}
+  
+  I worked at the interface between Computer Algebra and Algorithmic
+  Number Theory. My doctoral dissertation will be about:
+  \begin{itemize}
+  \item Duality (both in a classic and in a categorical sense) applied
+    to algebraic algorithms: the transposition principle;
+  \item Fast algorithms for tower of extensions over finite fields:
+    the Artin-Schreier case;
+  \item Fast algorithms to compute isogenies between elliptic curves.
+  \end{itemize}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{The transposition principle}
+  \begin{columns}
+    \begin{column}{0.6\textwidth}
+      \begin{center}
+        Arithmetic circuits behave like diagrams: flip the arrows and
+        obtain the dual (this can be made precise using
+        \emph{categorical semantics}).
+      \end{center}
+
+      \centering
+      \begin{tikzpicture}
+        \tikzstyle{node}=[circle,thick,draw=black,minimum size=4mm]
+        \tikzstyle{arg}=[rectangle,thin,draw=black,minimum size=4mm]
+        
+        \begin{scope} \node[arg](in1){$x_1$}; \node[arg,right
+          of=in1](in2){$x_2$}; \node[arg,right of=in2](in3){$x_3$};
+          
+          \node[node,below of=in1](plus1){$+$}; \node[node,right
+          of=plus1](H){$\hub$};
+          
+          \node[node,below of=plus1](plus2){$+$}; \node[node,right
+          of=plus2](times){$\rmul{2}$};
+          
+          \node[arg,below of=plus2,xshift=6mm](out1){$y_1$};
+          \node[arg,right of=out1](out2){$y_2$};
+          
+          \path[->] (in1) edge (plus1) (in2) edge (H) (in3) edge (out2)
+          (H) edge (plus1) (H) edge (times) (plus1) edge (plus2) (times) edge
+          (plus2) (plus2) edge (out1);
+        \end{scope}
+        
+        \begin{scope}[xshift=4cm]
+          \node[arg](in1){$\dual{x_1}$};
+          \node[arg,right of=in1](in2){$\dual{x_2}$};
+          \node[arg,right of=in2](in3){$\dual{x_3}$};
+          
+          \node[node,below of=in1](plus1){$\hub$};
+          \node[node,right of=plus1](H){$+$};
+          
+          \node[node,below of=plus1](plus2){$\hub$};
+          \node[node,right of=plus2](times){$\rmul{2}$};
+          
+          \node[arg,below of=plus2,xshift=6mm](out1){$\dual{y_1}$};
+          \node[arg,right of=out1](out2){$\dual{y_2}$};
+
+          \path[<-]
+          (in1) edge (plus1)
+          (in2) edge (H)
+          (in3) edge (out2)
+          (H) edge (plus1)
+          (H) edge (times) 
+          (plus1) edge (plus2)
+          (times) edge (plus2)
+          (plus2) edge (out1);
+        \end{scope}
+      \end{tikzpicture}
+
+      \begin{center}
+        In particular, in the case of morphisms of free modules this
+        corresponds to transposition of matrices.
+      \end{center}
+      
+    \end{column}    
+    \begin{column}{0.4\textwidth}
+      \begin{align*}
+        y_1 &= x_1 + 3x_2\\
+        y_2 &= x_3
+      \end{align*}
+      
+      \Large
+      \begin{gather*}
+        \begin{pmatrix}
+          1 & 3 & 0\\
+          0 & 0 & 1
+        \end{pmatrix}\\
+        \updownarrow\\
+        \begin{pmatrix}
+          1 & 0\\
+          3 & 0\\
+          0 & 1\\
+        \end{pmatrix}
+      \end{gather*}
+    \end{column}
+  \end{columns}
+
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{The transposition principle}
+
+  This carries over to algebraic algorithms:
+  \begin{itemize}
+  \item \emph{swap} the flow of the algorithm (read from top to bottom),
+  \item \emph{dualise} each instruction (swap algebraic input and outputs),
+  \item the result is an algorithm for the \emph{dual} problem,
+    \textbf{and the algebraic complexity is preserved!}
+  \end{itemize}
+
+  Examples:
+  \begin{itemize}
+  \item transposed multiplication = \emph{middle
+      product}~\cite{hanrot+quercia+zimmermann},
+  \item transposed Euclidean remainder = extension of linearly
+    recurring sequences~\cite{bostan+lecerf+schost:tellegen},
+  \item transposed polynomial evaluation = \emph{power
+      projection}~\cite{shoup94,shoup95,shoup99,bostan+salvy+schost03};
+  \item applications will come next\dots
+  \end{itemize}
+
+  \emph{Transposition of algorithms} is a recurring need, but doing it
+  by hand is difficult and error prone
+
+  \begin{center}
+    \large We applied the theory of functional languages and
+    implemented a compiler that performs \emph{automatic
+      transposition}~\cite{df+schost10}.
+  \end{center}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Artin-Schreier towers}
+  
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Isogenies between elliptic curves}
+  
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Perspectives on the transposition principle}
+  
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Perspectives on isogenies}
+  
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Perspectives on point counting}
+  
+\end{frame}
+
+%%
+
+\begin{frame}[allowframebreaks]
+  \frametitle{References}
+  
+  \bibliographystyle{plain}
+  \bibliography{../defeo}
+\end{frame}
+
+\end{document}
+
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"british"
+% mode:TeX-PDF
+% End:
+%
+
+% LocalWords:  Isogeny abelian isogenies hyperelliptic supersingular Frobenius
+% LocalWords:  isogenous
