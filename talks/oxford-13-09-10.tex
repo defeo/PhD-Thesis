@@ -98,7 +98,7 @@
 
 \title{Research interests}
 \author[L.~De~Feo]{L.~De~Feo}
-\institute[TANC, LIX]{INRIA Projet TANC \& LIX École Polytechnique}
+\institute[TANC, LIX]{INRIA Projet TANC \& LIX, École Polytechnique}
 \date{\today}
 
 
@@ -122,13 +122,13 @@
 \begin{frame}
   \frametitle{My PhD}
   
-  I worked at the interface between Computer Algebra and Algorithmic
-  Number Theory. My doctoral dissertation will be about:
+  I work at the interface between Computer Algebra and Algorithmic
+  Number Theory. My doctoral dissertation is about:
   \begin{itemize}
   \item Duality (both in a classic and in a categorical sense) applied
     to algebraic algorithms: the transposition principle;
-  \item Fast algorithms for tower of extensions over finite fields:
-    the Artin-Schreier case;
+  \item Fast algorithms for tower of extensions of finite fields: the
+    Artin-Schreier case;
   \item Fast algorithms to compute isogenies between elliptic curves.
   \end{itemize}
 \end{frame}
@@ -244,14 +244,13 @@
     recurring sequences~\cite{bostan+lecerf+schost:tellegen},
   \item transposed polynomial evaluation = \emph{power
       projection}~\cite{shoup94,shoup95,shoup99,bostan+salvy+schost03};
-  \item applications will come next\dots
   \end{itemize}
 
   \emph{Transposition of algorithms} is a recurring need, but doing it
   by hand is difficult and error prone
 
   \begin{center}
-    \large We applied the theory of functional languages and
+    \large Schost and I applied the theory of functional languages and
     implemented a compiler that performs \emph{automatic
       transposition}~\cite{df+schost10}.
   \end{center}
@@ -262,20 +261,101 @@
 \begin{frame}
   \frametitle{Artin-Schreier towers}
   
+  $\K$ of characteristic $p$, Artin-Schreier extension:\hspace{\stretch{1}}
+  $\K[X]/X^p-X-\alpha$\hspace{\stretch{1}}
+
+  \begin{itemize}
+  \item towers of Artin-Schreier extensions arise naturally when
+    computing $p^k$-torsion groups of abelian varieties;
+  \item ideally, one would like to do arithmetics in A-S towers of
+    height $k$ in $\tildO(p^k)$ time and space;
+  \end{itemize}
+
+  Schost and I~\cite{df+schost09} gave nearly optimal algorithms for
+  arithmetics\\ (multiplication, inversion, traces, embeddings,
+  Frobenius, etc.) in A-S towers of finite fields. We built upon:
+  \begin{itemize}
+  \item A construction by Cantor~\cite{cantor89} yielding a tower with
+    \emph{minimal} coefficients;
+  \item Couveignes' algorithm for isomorphisms between A-S
+    towers~\cite{couveignes00};
+  \item resolution of zero-dimensional ideals using rational
+    univariate representation and trace
+    formulae~\cite{alonso+becker+roy+wormann,diaz+gonzalez01,rouiller99};
+  \item transposed algorithms for \emph{power
+      projections}~\cite{shoup94,shoup95,shoup99,bostan+salvy+schost03};
+  \item (having transposed hundreds of lines of C code by hand, this
+    was the motivation for the work on \emph{automatic
+      transposition}).
+  \end{itemize}
 \end{frame}
 
 %%
 
 \begin{frame}
-  \frametitle{Isogenies between elliptic curves}
-  
+  \frametitle{Isogenies between elliptic curves} 
+
+  \begin{center}
+    Given $E$, $E'$, $\ell$-isogenous over $\F_q$, compute $\I:E\to
+    E'$ of degree $\ell$.
+  \end{center}
+
+  \begin{itemize}
+  \item If $\ker\I$ is known, use Vélu formulae;
+  \item if $\car\K\gg\ell$:
+    \begin{itemize}
+    \item Factoring the modular polynomial $\Phi_\ell(X,j(E))$ gives
+      an isogenous curve isomorphic to $E'$, \hfill\alert{costs
+        $\tildO(\ell^2)$, using \cite{sutherland10:modpol}}
+    \item then, use differential equation satisfied by
+      $\I$~\cite{elkies98,bostan+morain+salvy+schost08};
+      \hfill\alert{costs $\tildO(\ell)$}
+    \end{itemize}
+  \item otherwise:
+    \begin{itemize}
+    \item Couveignes' first algorithm using formal groups~\cite{couveignes94},
+      \hfill\alert{$O(\ell^3)$}
+    \item Lercier's algorithm for
+      $p=2$~\cite{lercier96},\hfill\alert{$O(\ell^3)$?}
+    \item Couveignes's second algorithm interpolating over the
+      $p^k$-torsion~\cite{couveignes96},\hfill\alert{$\tildO(\ell^3)$}
+    \item Lercier-Sirvent algorithm, lifting in the
+      $p$-adics~\cite{lercier+sirvent08}.\hfill 
+      \alert{$\tildO(\ell^2)$, using \cite{sutherland10:modpol}}
+    \end{itemize}
+  \end{itemize}
+
+  \begin{center}
+    I improved Couveignes second algorithm, applying the
+    Artin-Schreier machinery and other improvements~\cite{df10}.
+    Complexity is now \alert{$\tildO(\ell^2)$}.
+  \end{center}
 \end{frame}
 
 %%
 
 \begin{frame}
   \frametitle{Perspectives on the transposition principle}
-  
+
+  \begin{itemize}
+  \item Integration of our automatic transposition tool in
+    CAS\footnote{Computer Algebra Systems} (Sage?  Mathemagix?).
+  \item Categorical semantics give a powerful insight in the structure
+    of the transposition principle. Based on this, Boespflug and I
+    tried to implement a DSL\footnote{Domain Specific Language} in
+    Haskell, but we found obstacles.
+  \item We plan to implement a DSL in a language with
+    dependent types (Coq? Some extensions of Haskell?).
+  \item Using ATP's\footnote{Automated Theorem Provers} to ensure the
+    correct semantics of CAS is an emerging trend. We plan to write a
+    library to facilitate the use of the transposition principle in
+    ATP's (Coq? Isabelle?)
+  \item More broadly, I am interested in the interactions between
+    ATP's and Computer Algebra. This is the main interest of the
+    Calculemus
+    network\footnote{\protect\url{http://www.calculemus.net/}} and
+    conferences series.
+  \end{itemize}
 \end{frame}
 
 %%
@@ -283,20 +363,69 @@
 \begin{frame}
   \frametitle{Perspectives on isogenies}
   
+  \begin{itemize}
+  \item None of the algorithms to compute isogenies between elliptic
+    curves over finite fields reaches the optimal bound of $O(\ell)$
+    field operations.  Morain and I have some ideas to reach this
+    bound, that we are currently exploring.
+  \item Working on Couveignes' second algorithm, I discovered a
+    surprising generalisation that permits us to compute isogenies of
+    unknown degree at no additional cost. This result is optimal and
+    it is the first of its genre in the field. It may have
+    applications in
+    cryptography~\cite{teske06,rostovtsev+stolbunov06}.
+  \item Biasse and I are currently working on an implementation of
+    Teske's trapdoor cryptosystem~\cite{teske06} based on the GHS
+    attack~\cite{gaudry+hess+smart02,GHS}. This work will give answers
+    on the feasibility and the security of the system.
+  \end{itemize}
 \end{frame}
 
 %%
 
-\begin{frame}
-  \frametitle{Perspectives on point counting}
-  
-\end{frame}
+{
+  \setbeamertemplate{navigation symbols}{}
 
+\begin{frame}
+  \frametitle{Perspectives on point-counting}
+  
+  \begin{itemize}
+  \item Computing isogenies is the key to efficient point-counting
+    using the Schoof-Elkies-Atkin algorithm~\cite{schoof95};
+    algorithms for elliptic curves do not generalise well to Jacobians
+    of hyperelliptic curves or more general abelian varieties.
+  \item Some progress has recently been achieved through the use of
+    theta
+    functions~\cite{faugere+lubicz+robert10,lubicz+robert10,robert},
+    although these results do not permit us to improve Schoof-like
+    point-counting methods such as the Schoof-Pila
+    algorithm~\cite{pila90}.
+  \item I plan to adapt the known methods to compute isogenies between
+    elliptic curves to the setting of theta coordinates. This is
+    certainly doable, but it is not clear that it could improve the
+    complexity of the Schoof-Pila algorithm~\cite{pila90}, even for
+    genus $2$ curves. The fundamental part of this research will be on
+    improving the complexity of such algorithms, so that they can be
+    profitably applied to point counting.
+  \item More broadly, I am interested in point counting methods for
+    abelian varieties, both $\ell$-adic, like Schoof's algorithm, and
+    $p$-adic, like the
+    AGM/Satoh~\cite{satoh00,fouquet+gaudry+harley00,mestre00,gaudry02,mestre02,lercier+lubicz06},
+    Kedlaya's~\cite{kedlaya01,kedlaya04,denef+vercauteren06,castryck+denef+vercauteren07,harvey07}
+    and Lauder's~\cite{lauder04,lauder+wan06} algorithms. Working in
+    the number theory group of the Mathematical Institute would be an
+    excellent opportunity to study these problems, and I will
+    enthusiastically participate to the group's research.
+  \end{itemize}
+
+\end{frame}
+}
 %%
 
 \begin{frame}[allowframebreaks]
   \frametitle{References}
   
+  \setbeamertemplate{bibliography item}[text]
   \bibliographystyle{plain}
   \bibliography{../defeo}
 \end{frame}
