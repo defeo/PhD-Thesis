@@ -24,7 +24,7 @@ did in our experiments.
 All the algorithms of
 Sections~\ref{sec:fast-tower}--\ref{sec:pseudotrace-frobenius} are
 faithfully implemented in \texttt{FAAST}. The algorithms
-\alg{ApplyIsomorphism} and \alg{ApplyInverse} have slightly different
+\hyperref[alg:applyisomorphism]{\alg{ApplyIsomorphism}} and \hyperref[alg:applyinverse]{\alg{ApplyInverse}} have slightly different
 implementations \texttt{toUnivariate()} and \texttt{toBivariate()}
 that allow more flexibility. Instead of being recursive algorithms
 doing the change to and from the multivariate basis
@@ -38,8 +38,8 @@ switch between the representations
   \wrt\U_{i-1}[X_i']/(X_i'^p-X_i'-\gamma_{i-1}')
   \text{.}
 \end{equation}
-The same result as one call to \alg{ApplyIsomorphism} or
-\alg{ApplyInverse} can be obtained by $i$ calls to
+The same result as one call to \hyperref[alg:applyisomorphism]{\alg{ApplyIsomorphism}} or
+\hyperref[alg:applyinverse]{\alg{ApplyInverse}} can be obtained by $i$ calls to
 \texttt{toUnivariate()} and \texttt{toBivariate()}
 respectively. However, in the case where several generic Artin-Schreier
 towers, say $(\U_0',\ldots,\U_k')$ and $(\U_0'',\ldots,\U_k'')$, are

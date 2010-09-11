@@ -13,14 +13,14 @@ defined before.  Given $P$ and $R$ in $\F_p[X]$, we want to compute
 $P(R)$. For the cost analysis, it will be useful later on to consider
 both the degree $k$ and the number of terms $\ell$ of $R$.
 
-\alg{Compose} is a recursive process that cuts $P$ into $c+1$
+\hyperref[alg:compose]{\alg{Compose}} is a recursive process that cuts $P$ into $c+1$
 ``slices'' of degree less than $p^n$, recursively composes them with
 $R$, and concludes using Horner's scheme and the linearity of the
 $p$-power. At the leaves of the recursion tree, we use the following naive
 algorithm.
 
 \begin{algorithm}
-  \caption{NaiveCompose}
+  \caption{\label{alg:naivecompose}\alg{NaiveCompose}}
   \begin{algorithmic}[1]
     \REQUIRE $P,R\in\F_p[X]$.
     \ENSURE $P(R)$.
@@ -32,7 +32,7 @@ algorithm.
 \end{algorithm}
 
 \begin{lemma}
-  \alg{NaiveCompose} has cost $O(\deg(P)^2k\ell)$.  
+  \hyperref[alg:naivecompose]{\alg{NaiveCompose}} has cost $O(\deg(P)^2k\ell)$.  
 \end{lemma}
 \begin{proof} At step $i$, $\rho$ and $S$ have degree at most
 $ik$. Computing the sum $S + p_i \rho$ takes time $O(ik)$ and
@@ -43,14 +43,14 @@ whence a total cost of $O(\deg(P)^2 k\ell)$.
 
 
 \begin{algorithm}
-  \caption{Compose}
+  \caption{\label{alg:compose}\alg{Compose}}
   \begin{algorithmic}[1]
     \REQUIRE $P,R\in\F_p[X]$.
     \ENSURE $P(R)$.
-    \STATE\label{c:params} let $n=\lfloor \log_p(\deg(P)) \rfloor$ and $c=\deg(P) {\sf~div~} p^n$;
-    \STATE If $n=0$, return $\alg{NaiveCompose}(P,R)$;
+    \STATE\label{c:params} let $n=\lfloor \log_p(\deg(P)) \rfloor$ and $c=\deg(P) \text{ div } p^n$;
+    \STATE If $n=0$, return $\hyperref[alg:naivecompose]{\alg{NaiveCompose}}(P,R)$;
     \STATE write $P=\sum_{i=0}^{c} P_i X^{ip^n}$, with $P_i \in \F_p[X], \deg P_i<p^n$;
-    \STATE for $i\in [0,\dots,c]$, let $Q_i = \text{\alg{Compose}}(P_i,R)$;
+    \STATE for $i\in [0,\dots,c]$, let $Q_i = \text{\hyperref[alg:compose]{\alg{Compose}}}(P_i,R)$;
     \STATE let $Q=0$;
     \STATE\label{c:loop} for $i\in [c,\dots,0]$, let $Q = Q R(X^{p^n})  + Q_i$;
     \STATE return $Q$.
@@ -61,12 +61,12 @@ whence a total cost of $O(\deg(P)^2 k\ell)$.
 \begin{theorem}
   \label{theo:comp}
   If $R$ has degree $k$ and $\ell$ non-zero coefficients and if
-  $\deg(P)=s$, then \alg{Compose}$(P,R)$ outputs $P(R)$ in time $O(ps
+  $\deg(P)=s$, then \hyperref[alg:compose]{\alg{Compose}}$(P,R)$ outputs $P(R)$ in time $O(ps
   \log_p(s)k\ell)$.
 \end{theorem}
 \begin{proof}
   Correctness is clear, since $R^{p^n}=R(X^{p^n})$. To analyze the
-  cost, we let $\sC(c,n)$ be the cost of {\alg{Compose}} when
+  cost, we let $\sC(c,n)$ be the cost of {\hyperref[alg:compose]{\alg{Compose}}} when
   $\deg(P)\le (c+1)p^n$, with $c<p$. Then $\sC(c,0) \in O(c^2k\ell)$.
   For $n > 0$, at each pass in the loop at step~\ref{c:loop}, $\deg(Q)
   < cp^n k$, so that the multiplication (using the naive algorithm)
@@ -93,7 +93,7 @@ whence a total cost of $O(\deg(P)^2 k\ell)$.
     \text{.}  
   \end{equation}
   The values $c,n$ computed at step~\ref{c:params} of the top-level
-  call to \alg{Compose} satisfy $cp^n\le s$ and $n\le\log_p (s)$; this
+  call to \hyperref[alg:compose]{\alg{Compose}} satisfy $cp^n\le s$ and $n\le\log_p (s)$; this
   gives our conclusion.
 \end{proof}
 
@@ -121,7 +121,7 @@ Theorem~\ref{th:cantor}.
   \label{rk:comp-minim-polyn}
   If $\Tr_{\U_0/\F_p}(x_0)=0$, assuming $\gcd(d,p)=1$, we can replace
   $Q_0$ by $Q_0(X_0-1)$; this is done by taking $R=X_0-1$ in algorithm
-  \alg{Compose}, so by Theorem~\ref{theo:comp} the cost is $O(pd
+  \hyperref[alg:compose]{\alg{Compose}}, so by Theorem~\ref{theo:comp} the cost is $O(pd
   \log_p(d))$.
 
   So, the only case we cannot handle is when $p$ divides $d$ and the
@@ -134,7 +134,7 @@ Theorem~\ref{th:cantor}.
 For $i=1$, we know that $x_1^p-x_1=x_0$, so $x_1$ is a root of
 $Q_0(X_1^p-X_1)$. Since $Q_0(X_1^p-X_1)$ is monic of degree $pd$, we
 deduce that $Q_1=Q_0(X_1^p-X_1)$. To compute it, we use algorithm
-\alg{Compose} with arguments $Q_0$ and $R=X_1^p-X_1$; the cost is
+\hyperref[alg:compose]{\alg{Compose}} with arguments $Q_0$ and $R=X_1^p-X_1$; the cost is
 $O(p^2d \log_p(d))$ by Theorem~\ref{theo:comp}. The same arguments
 hold for $i=2$ when $p=2$ and $d$ is odd.
 
@@ -196,20 +196,20 @@ polynomial $Q_i$ of $x_i$ over $\F_p$, we compute $Q_{i+1}$ using the
 following algorithm.
 
 \begin{algorithm}
-  \caption{MinimalPolynomial}
+  \caption{\label{alg:minimalpolynomial}\alg{MinimalPolynomial}}
   \begin{algorithmic}[1]
     \REQUIRE $Q_i$, $\Phi$.
     \ENSURE $Q_{i+1}$.
     \STATE \label{alg:minpol-Qstar}$Q^\star = \prod_{i=0}^{2p-2}Q(x^iY) \bmod \Phi$;
     \STATE \label{alg:minpol-qstar}$q^\star(Y^{2p-1}) = Q^\star(Y)$;
-    \STATE \label{alg:minpol-Q}$Q_{i+1} = \alg{Compose}(q^\star,Y^p-Y)$.
+    \STATE \label{alg:minpol-Q}$Q_{i+1} = \hyperref[alg:compose]{\alg{Compose}}(q^\star,Y^p-Y)$.
   \end{algorithmic}
 \end{algorithm}
 
 
 \begin{theorem}
-  Algorithm \alg{MinimalPolynomial} is correct and computes its output
-  in time
+  Algorithm \hyperref[alg:minimalpolynomial]{\alg{MinimalPolynomial}}
+  is correct and computes its output in time
   \begin{equation}
     O( p^{i+2}d\log_p(p^id)+\Mult(p^{i+2}d)\log(p))
     \text{.}    

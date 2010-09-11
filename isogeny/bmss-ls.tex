@@ -102,8 +102,7 @@ for any $G\in\K[[x]]$ and $H\in\K[t]$.
 
 
 \begin{algorithm}
-  \label{alg:le-si-diff}
-  \caption{Diffeq}
+  \caption{\label{alg:le-si-diff} Solve differential equation}
   \begin{algorithmic}[1]
     \REQUIRE $\mu>1$, $\alpha\in\K$, $\beta\in\K^\ast$, $H\in\K[t]$, $G\in\K[[x]]$.
     \ENSURE $S\in\K[[x]]$, solution to ${S'}^2=(H\circ S)G$ modulo $x^{2^\mu}$.
@@ -216,7 +215,7 @@ Finally, the rational fraction is recovered by
 overall complexity is dominated by this last step.
 
 \begin{algorithm}
-  \caption{BMSS}
+  \caption{\label{alg:bmss}\alg{BMSS}}
   \begin{algorithmic}[1]
     \REQUIRE $\ell>1$, $\ell$-normalized models of $E$ and $E'$ .
     \ENSURE An isogeny $\I:E\ra E'$ of degree $\ell$.
@@ -274,21 +273,22 @@ overall complexity is dominated by this last step.
 \label{sec:lercier-sirvent}
 The integral at step~\ref{alg:le-si-diff:int} requires divisions by
 all the integers in the interval $[1,\ldots,2^\mu]$, thus, when
-$2^{\lceil\log_2(4\ell-1)\rceil}>p$,  BMSS encounters a division by
-$0$. A natural idea is to work in characteristic $0$ by lifting the
-curves in the $p$-adics. However, lifting the Weierstrass models of
-$E$ and $E'$, there is no guarantee of obtaining a pair of
-$\ell$-normalized models, thus BMSS cannot apply.
+$2^{\lceil\log_2(4\ell-1)\rceil}>p$, \hyperref[alg:bmss]{\alg{BMSS}}
+encounters a division by $0$. A natural idea is to work in
+characteristic $0$ by lifting the curves in the $p$-adics. However,
+lifting the Weierstrass models of $E$ and $E'$, there is no guarantee
+of obtaining a pair of $\ell$-normalized models, thus
+\hyperref[alg:bmss]{\alg{BMSS}} cannot apply.
 
 To circumvent this problem, Lercier and
 Sirvent~\cite{lercier+sirvent08} use Elkies formulas to obtain
-normalized models in the $p$-adic, and then apply BMSS. The algorithm
-is summarized below; it requires $p\ge5$ and it makes computations in
-an unramified extension of degree $d$ of $\Q_p$, denoted by $\Q_q$.
+normalized models in the $p$-adic, and then apply
+\hyperref[alg:bmss]{\alg{BMSS}}. The algorithm is summarized below; it
+requires $p\ge5$ and it makes computations in an unramified extension
+of degree $d$ of $\Q_p$, denoted by $\Q_q$.
 
-\begin{algorithm}
-  \label{alg:le-si}
-  \caption{Lercier-Sirvent}
+\begin{algorithm*}
+  \caption{\label{alg:le-si}\alg{Lercier-Sirvent}}
   \begin{algorithmic}[1]
     \REQUIRE $\ell>1$, $E,E'$ $\ell$-isogenous defined over $\F_q$.
     \ENSURE An isogeny $\I:E\ra E'$ of degree $\ell$.
@@ -303,7 +303,7 @@ an unramified extension of degree $d$ of $\Q_p$, denoted by $\Q_q$.
     \STATE \label{alg:le-si:elkies} Compute an $\ell$-normalized model
     $\bar{E}'':y^2=x^3+\bar{a}'x+\bar{b}$ for $\bar{j}'$;
     
-    \STATE \label{alg:le-si:bmss}Apply BMSS to $\bar{E}$ and
+    \STATE \label{alg:le-si:bmss}Apply \hyperref[alg:bmss]{\alg{BMSS}} to $\bar{E}$ and
     $\bar{E}''$ to obtain $\bar{\I}:\bar{E}\ra\bar{E''}$;
     
     \STATE \label{alg:le-si:reduce}Reduce $\bar{E}''$ and $\bar{\I}$
@@ -312,7 +312,7 @@ an unramified extension of degree $d$ of $\Q_p$, denoted by $\Q_q$.
     \STATE \label{alg:le-si:isom}Apply an isomorphism $E'\isom E''$ to
     recover $\I:E\ra E'$.
   \end{algorithmic}
-\end{algorithm}
+\end{algorithm*}
 
 Step~\ref{alg:le-si:elkies} uses Elkies formulas~\cite{elkies98} to
 find the $\ell$-normalized model of $\bar{j}'$; these formulas allow
@@ -340,11 +340,12 @@ large discriminant, as pointed out in~\cite[$\S7$]{schoof95}.
     sake of simplicity we prefer to omit the details here.''
   \end{quote}
   
-  \pdfmargincomment{More precise remark on what we were not able to do.}
-  However, in the cases $p=2,3$, Elkies formulas yield a curve over
-  $\Q_q$ that reduces badly in $\F_q$, thus it is not possible to
-  apply Algorithm~\ref{alg:le-si} as is, just by using the appropriate
-  differential equation in BMSS. We did not attempt to modify the
+  \pdfmargincomment{More precise remark on what we were not able to
+    do.}  However, in the cases $p=2,3$, Elkies formulas yield a curve
+  over $\Q_q$ that reduces badly in $\F_q$, thus it is not possible to
+  apply \hyperref[alg:le-si]{Lercier-Sirvent} as is, just by using the
+  appropriate differential equation in
+  \hyperref[alg:bmss]{\alg{BMSS}}. We did not attempt to modify the
   descent from $\Q_q$ to $\F_q$ to solve this problem.
 \end{nota}
 
@@ -362,8 +363,9 @@ Building on this, we now analyze the complexity of the algorithm.
 
 \begin{proposition}
   \label{th:lercier-sirvent}
-  Algorithm~\ref{alg:le-si} computes an $\ell$-degree isogeny in
-  $\tildO_{\ell,\log q}(\ell^2\log q)$ operations in $\F_p$.
+  Algorithm \hyperref[alg:le-si]{Lercier-Sirvent} computes an
+  $\ell$-degree isogeny in $\tildO_{\ell,\log q}(\ell^2\log q)$
+  operations in $\F_p$.
 \end{proposition}
 \begin{proof}
   We do not take into account the complexity of building the field
@@ -375,12 +377,12 @@ Building on this, we now analyze the complexity of the algorithm.
 
   Step~\ref{alg:le-si:modpol} can be done in $\tildO(\ell\log q)$
   using Hensel lifting. Step~\ref{alg:le-si:elkies} takes $O(\ell^2)$
-  operations in $\Q_q$, that is $\tildO(\ell^2\log q)$. BMSS takes
-  $O(\Mult(\ell)\log\ell)$ operations in $\Q_q$ at worse (better if
-  the sum of the abscissas of the kernel of the isogeny is computed by
-  Elkies formulas), that is $\tildO(\ell^2\log q)$. The rest of the
-  computation is negligible. Thus, the dominating step
-  is~\ref{alg:le-si:elkies}.
+  operations in $\Q_q$, that is $\tildO(\ell^2\log
+  q)$. \hyperref[alg:bmss]{\alg{BMSS}} takes $O(\Mult(\ell)\log\ell)$
+  operations in $\Q_q$ at worse (better if the sum of the abscissas of
+  the kernel of the isogeny is computed by Elkies formulas), that is
+  $\tildO(\ell^2\log q)$. The rest of the computation is
+  negligible. Thus, the dominating step is~\ref{alg:le-si:elkies}.
 \end{proof}
 
 \begin{remark}

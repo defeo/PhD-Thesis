@@ -991,8 +991,7 @@ representation, provided we know the coordinates of the linear form
 $\Tr$.
 
 \begin{algorithm}
-  \label{alg:rur}
-  \caption{RUR}
+  \caption{\label{alg:rur}\alg{RUR}}
   \begin{algorithmic}[1]
     \REQUIRE A basis $\basis{B}$ of
       $\algeb{A}$, $a_1,\ldots,a_n\in\algeb{A}^{\basis{B}}$, $t$
@@ -1081,7 +1080,7 @@ advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
 \section{From univariate to bivariate and back again}
 \label{sec:from-univ-bivar}
 
-Algorithm \alg{RUR} can be used as an efficient change of basis
+Algorithm \hyperref[alg:rur]{\alg{RUR}} can be used as an efficient change of basis
 algorithm. Let $\basis{B}$ be any basis for $\algeb{A}$, let $t$ be a
 separating element, and let the coordinates of $\Tr$ on
 $\dual{\basis{B}}$ be known.
@@ -1118,13 +1117,13 @@ map
     g &\mapsto g(t)\text{.}
   \end{aligned}
 \end{equation}
-Then algorithm \alg{RUR} on inputs $a\in\algeb{A}^{\basis{B}}$ and
+Then algorithm \hyperref[alg:rur]{\alg{RUR}} on inputs $a\in\algeb{A}^{\basis{B}}$ and
 $\Tr$, outputs the expression of $a$ on the basis $\basis{T}$. We now
 prove the complexity estimates~\eqref{eq:75} and~\eqref{eq:65}.
 
 \begin{proof}[Proof of Proposition~\ref{th:uni-multi-uni}]
   By Principle~\ref{th:tellegen-princip}, the call to $\proj_t$ at
-  step~\ref{alg:rur:1} of \alg{RUR} has the same cost as
+  step~\ref{alg:rur:1} of \hyperref[alg:rur]{\alg{RUR}} has the same cost as
   $\mathsf{E}_{\basis{B}}$. Then the cost of step~\ref{alg:rur:2} is
   $O(\Mult(d))$ using a Newton iteration. Both these steps can be done
   just once, thus they contribute to~\eqref{eq:65}.

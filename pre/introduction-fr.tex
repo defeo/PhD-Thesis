@@ -7,7 +7,7 @@ au point que la dernière génération de processeurs Intel Core possède
 une instruction matérielle (CLMUL) pour la multiplications dans
 $\F_{2^m}$~\cite{intel-carryless}. Cela tient au fait que les corps
 finis apparaissent partout dans le génie des télécommunications, en
-particulier en Codes Correcteurs d'Érreurs et Cryptographie. Cette
+particulier en Codes Correcteurs d'Erreurs et Cryptographie. Cette
 thèse applique des techniques algorithmiques et algébriques avancées
 aux calculs dans les tours d'extensions sur les corps finis, avec pour
 but des applications à la cryptographie à base de courbes elliptiques.
@@ -16,7 +16,7 @@ but des applications à la cryptographie à base de courbes elliptiques.
 En cryptographie à base de courbes elliptiques, afin de construire un
 système de chiffrement sûr, il faut sélectionner une courbe au nombre
 de points divisible par un grand nombre premier. La méthode préférée
-consiste à sélectionner une courbe au hasard et à applique un
+consiste à sélectionner une courbe au hasard et à appliquer un
 algorithme de comptage de points pour déterminer sa cardinalité. Le
 premier algorithme de comptage de points de courbes elliptiques de
 complexité polynomiale fut donné par Schoof~\cite{schoof85}, puis
@@ -79,7 +79,7 @@ d'ajouter à la liste des groupes de Galois effectifs, puisqu'il est
 relativement facile de calculer avec ces objets.
 
 L'arithmétique des tours de corps finis est une question de première
-importance pour tout système de calcul formel, pourtant elle a reçu
+importance pour tout système de calcul formel, pourtant elle n'a reçu
 aucune ou peu d'attentions. Il est connu que Magma permet de gérer des
 diagrammes quelconques de corps finis depuis
 longtemps~\cite{bosma+cannon+steel97}, mais il est difficile de dire
@@ -121,7 +121,7 @@ qu'il est devenu populaire en calcul formel. L'un des ses possibles
 \begin{quote}
   Soit $\pspace$ un ensemble quelconque. À tout algorithme
   $R$-algébrique, qui calcule une famille de fonctions linéaires
-  $(f_p:M\ra N)_{p\in\pspace}$, corresponds un algorithme
+  $(f_p:M\ra N)_{p\in\pspace}$, correspond un algorithme
   $R$-algébrique $\dual{A}$ qui calcule la \emph{famille duale}
   $(\dual{f}_p:\dual{N}\ra\dual{M})_{p\in\pspace}$. Les complexités
   algébriques en temps et espace de $\dual{A}$ sont bornées par la
@@ -161,11 +161,11 @@ automatique. En complément, dans
 l'Annexe~\ref{cha:basic-categ-theory}, nous donnons une nouvelle
 preuve du théorème de transposition, à base de sémantique catégorique,
 et étudions ses implications pour l'implantation d'un DSL en Haskell;
-ceci est un travail commun avec Boespflug.
+ceci est un travail commun avec Mathieu Boespflug.
 
 Le Chapitre~\ref{cha:autom-transp-code} est une collaboration avec
-Schost. Nous étudions les liens entre les circuits arithmétiques et
-les langages fonctionnels, puis montrons que la transposition peut
+Éric Schost. Nous étudions les liens entre les circuits arithmétiques
+et les langages fonctionnels, puis montrons que la transposition peut
 être appliquée algorithmiquement à un langage fonctionnel générique.
 
 La Partie~\ref{part:fast-arithm-using} est dédiée à l'arithmétique
@@ -177,7 +177,7 @@ obtenir des algorithmes asymptotiquement rapides. Les algorithmes de
 ce chapitre sont ensuite appliqués au
 Chapitre~\ref{cha:artin-schr-towers}, où nous fournissons des
 algorithmes asymptotiquement bons pour les tours d'Artin-Schreier
-(fruit d'une autre collaboration avec Schost).
+(fruit d'une autre collaboration avec Éric Schost).
 
 Enfin, la Partie~\ref{part:appl-isog-comp} applique les résultats des
 chapitres précédents au calcul d'isogénies. Après quelques rappels sur

@@ -277,18 +277,31 @@ Schost consider SLP's parameterized by integers and booleans.
   If the program is recursive, it must terminate on any valid input.
 \end{definition}
 
+\pdfmargincomment{Explained what the algorithm does.}
 By extension, we shall also call $R$-algebraic transform any algorithm
 that can be expressed in this model. This is equivalent to consider
 circuit families; for example, Algorithm~\ref{alg:r-algeb} corresponds
-to a circuit family with parameter space $\N$.
-
+to a circuit family with parameter space $\N$, computing the map
+\begin{equation}
+  \label{eq:277}
+  \begin{aligned}
+    \N &\ra\hom(R^2,R^2)\text{,}\\
+    n &\mapsto
+    \begin{cases}
+      \left(\begin{smallmatrix}1&0\\0&1\end{smallmatrix}\right) &\text{if $n=0$,}\\
+      \left(\begin{smallmatrix}f_n&f_{n+1}\\f_{n-1}&f_n\end{smallmatrix}\right) &\text{if $n>0$ is odd,}\\
+      \left(\begin{smallmatrix}f_{n-1}&f_n\\f_n&f_{n+1}\end{smallmatrix}\right) &\text{if $n>0$ is even,}
+    \end{cases}
+  \end{aligned}
+\end{equation}
+where $f_n$ is the $n$-th \index{Fibonacci~number}Fibonacci number.
 
 \begin{algorithm}
-  \caption{\label{alg:r-algeb}$R$-algebraic algorithm}
+  \caption{\label{alg:r-algeb}$R$-algebraic transform}
   \begin{algorithmic}
     \REQUIRE $a,b\in R$; $n\in\N$.
     \FOR{$i\in[1,\ldots,n]$}
-    \IF{$i$ is even}
+    \IF{$i$ is odd}
     \STATE $a \lap b$;
     \ELSE
     \STATE $b \lap a$;
@@ -298,13 +311,16 @@ to a circuit family with parameter space $\N$.
   \end{algorithmic}
 \end{algorithm}
 
- 
+
+\pdfmargincomment{Added exercise for the reader.}
 It is clear that, for any value of the non-algebraic parameters, an
 $R$-algebraic transform corresponds to a SLP, then the transposition
 theorem can be applied to it. In practice, one leaves conditionals
 untouched and reverses for loops; function calls (recursive or not)
 are substituted by their transpose. For example,
-Algorithm~\ref{alg:r-algeb} becomes Algorithm~\ref{alg:r-algeb-t}.
+Algorithm~\ref{alg:r-algeb} becomes Algorithm~\ref{alg:r-algeb-t}; we
+let to the reader the verification that the transposed algorithm
+computes the transpose of maps~\eqref{eq:277} for any $n$.
 
 \begin{algorithm}
   \caption{\label{alg:r-algeb-t}Transposition of
@@ -312,7 +328,7 @@ Algorithm~\ref{alg:r-algeb} becomes Algorithm~\ref{alg:r-algeb-t}.
   \begin{algorithmic}
     \REQUIRE $a,b\in R$; $n\in\N$.
     \FOR{$i\in[n,\ldots,1]$}
-    \IF{$i$ is even}
+    \IF{$i$ is odd}
     \STATE $b \lap a$;
     \ELSE
     \STATE $a \lap b$;

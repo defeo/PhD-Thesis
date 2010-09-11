@@ -90,8 +90,8 @@ of $A_0$ are its coordinates on the basis $\basis{B}$. In conclusion,
 computing $A_0$ is equivalent to find a \hyperref[eq:22]{rational
   univariate representation} of $x(P')$ with respect to $x(P)$.
 
-Unfortunately, applying algorithm RUR is not optimal: the bottleneck
-is the power projection $\proj_\zeta$ appearing in
+Unfortunately, applying algorithm \hyperref[alg:rur]{\alg{RUR}} is not optimal: the
+bottleneck is the power projection $\proj_\zeta$ appearing in
 step~\ref{alg:rur:1}. We have seen in
 Section~\ref{sec:shoups-algorithm} that the dual problem to power
 projection is polynomial evaluation, thus in particular
@@ -245,7 +245,7 @@ did not recognize the application to polynomial interpolation.
     \end{aligned}
   \end{equation}
   then $g_k=g(x)$. Transposing this algorithm gives a power projection
-  algorithm that can be used in \alg{RUR}. By the discussion in
+  algorithm that can be used in \hyperref[alg:rur]{\alg{RUR}}. By the discussion in
   Section~\ref{sec:transp-eucl-divis}, the
   \index{transposed~modular~reduction}transpose of this algorithm
   amounts to iteratively extend a linearly recurring
@@ -323,12 +323,12 @@ low.
     \STATE Let $T_k = (X - x(P))$;
     \FOR {$i=k-1$ \TO $0$}
     \FORALL {$\sigma \in \Gal(\U_{i+1}/\U_i)$}
-    \STATE\label{alg:T:gal} compute $T_{i+1}^\sigma$  using \alg{IterFrobenius};
+    \STATE\label{alg:T:gal} compute $T_{i+1}^\sigma$  using \hyperref[alg:iterfrobenius]{\alg{IterFrobenius}};
     \ENDFOR
     \STATE\label{alg:T:prod}  $T_i\la\prod_\sigma T_{i+1}^\sigma$ 
     via a binary \hyperref[sec:chin-rema-algor]{subproduct tree}.
     \STATE\label{alg:T:push} convert $T_i$  into an element of
-    $\U_i[X]$ using \alg{Push-down}.
+    $\U_i[X]$ using \hyperref[alg:push-down]{\alg{Push-down}}.
     \ENDFOR
   \end{algorithmic}
 \end{algorithm}
@@ -370,12 +370,12 @@ interpolation of $A_0$.
     \STATE\label{alg:A}  $P_k \la x(P')/T_0'(x(P))$;
     \FOR {$i = k-1$ \TO $0$}
     \FORALL {$\sigma \in \Gal(\U_{i+1}/\U_i)$}
-    \STATE\label{alg:A:gal} compute $P_{i+1}^\sigma$ using \alg{IterFrobenius};
+    \STATE\label{alg:A:gal} compute $P_{i+1}^\sigma$ using \hyperref[alg:iterfrobenius]{\alg{IterFrobenius}};
     \ENDFOR
-    \STATE\label{alg:T:lift} convert $T_i$ into an element of $\U_{i+1}[X]$ using \alg{Lift-up}.
+    \STATE\label{alg:T:lift} convert $T_i$ into an element of $\U_{i+1}[X]$ using \hyperref[alg:liftup]{\alg{Lift-up}}.
     \STATE\label{alg:A:CRA} $P_i\la \sum_{\sigma}P_{i+1}^\sigma T_i/T_{i+1}^\sigma$ using the binary subproduct tree computed previously;
     \STATE\label{alg:A:push} convert  $P_i$ into an element of
-    $\U_i[X]$ using \alg{Push-down}.
+    $\U_i[X]$ using \hyperref[alg:push-down]{\alg{Push-down}}.
     \ENDFOR return $P_0$.
   \end{algorithmic}
 \end{algorithm}
@@ -392,7 +392,7 @@ In conclusion, the total cost of computing the subproduct tree and the
 interpolation is
 \begin{multline*}
   %\label{eq:T:complexity}
-  O\biggl(\bigl(k-i_0\bigr)p{\sf L}(k-i_0) + \Mult\left(\frac{p^{k-i_0+1}d}{r}\right)\log \frac{p^{k-i_0}d}{r} +\\
+  O\biggl(\bigl(k-i_0\bigr)p\Lift(k-i_0) + \Mult\left(\frac{p^{k-i_0+1}d}{r}\right)\log \frac{p^{k-i_0}d}{r} +\\
     \frac{p^{k-i_0}}{r}\bigl(\ModComp(pd)\log d + r(pd)^2\bigr)\biggr)
   \text{.}
 \end{multline*}
@@ -405,13 +405,13 @@ $p^{i_0-1}r$ of them. We then recombine them through a
 of $O\bigl(\Mult(p^kd)\log p^kd\bigr)$. The total cost of the
 whole interpolation phase is then
 \begin{multline*}
-  O\left(\bigl(k-i_0\bigr) p{\sf L}(k) + p^{k-1}\ModComp(pd)\log d +
+  O\left(\bigl(k-i_0\bigr) p\Lift(k) + p^{k-1}\ModComp(pd)\log d +
     p^{k-1}r(pd)^2 + \Mult(p^kd)\log p^kd \right)\text{,}
 \end{multline*}
 that is
 \begin{equation}
   \label{eq:interp}
-  O\left(p{\sf L}(k)\log\left(\frac{\ell}{p^{i_0}}\right) + 
+  O\left(p\Lift(k)\log\left(\frac{\ell}{p^{i_0}}\right) + 
     \Mult(\ell d)\log\ell d +
     \frac{\ell}{p}\ModComp(pd)\log d +
     \ell (pd)^2

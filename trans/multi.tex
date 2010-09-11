@@ -18,15 +18,16 @@ straightforward (see also Appendix~\ref{cha:basic-categ-theory} for a
 clean way of defining arithmetic circuits that supports both linear
 and arbitrary circuits).
 
-Multilinear circuits are constructed using the
-\index{standard~multilinear~basis}\emph{standard multilinear basis}
-$\Sbasis$
+\pdfmargincomment{Added parentheses in the definition of the bases,
+  hope it helps reading.}  Multilinear circuits are constructed using
+the \index{standard~multilinear~basis}\emph{standard multilinear
+  basis} $\Sbasis$
 \begin{equation}
   \label{eq:sbasis}
   \tag{$\Sbasis$}
   \begin{aligned}
     + : R\times R &\ra R\text{,}    & * : R\times R &\ra R\text{,} &  \hub : R &\ra R\times R\text{,}\\
-        a, b &\mapsto a+b\text{,}   &     a, b &\mapsto ab\text{,} &         a &\mapsto a,a\text{,}\\ \\
+      (a, b) &\mapsto a+b\text{,}   &   (a, b) &\mapsto ab\text{,} &         a &\mapsto (a,a)\text{,}\\ \\
     \eta_a : \{\bom\} &\ra R\text{,}     &&& \omega : R &\ra \{\bom\}\text{,} \\
           \bom &\mapsto a\text{,} &&&          a &\mapsto \bom\text{.}
   \end{aligned}
@@ -34,7 +35,7 @@ $\Sbasis$
 
 
 We are going to define a transformation process that transforms a
-circuit over $(R,\Sbasis)$ in a (uniform) circuit family over
+circuit over $(R,\Sbasis)$ into a (uniform) circuit family over
 $(R,\Tbasis)$; the idea is to make any bilinear multiplication node
 linear by \emph{fixing} one of its inputs (see
 Figure~\ref{fig:linearization}). We call this process

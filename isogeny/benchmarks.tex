@@ -1,9 +1,10 @@
 \section{Benchmarks}
 \label{sec:benchmarks}
 We ran various experiments to compare the different variants of the
-algorithm C2 between themselves and to Lercier-Sirvent. All the
-experiments were run on four dual-core Intel Xeon E5430 (2.6GHz),
-eventually using the parallelized version of the algorithm.
+algorithm C2 between themselves and to
+\hyperref[alg:le-si]{\alg{Lercier-Sirvent}}. All the experiments were
+run on four dual-core Intel Xeon E5430 (2.6GHz), eventually using the
+parallelized version of the algorithm.
 
 \paragraph{Magma vs. \texttt{FAAST}}
 \label{sec:magma-vs.-textttf}
@@ -130,9 +131,10 @@ without the (surprising) discovery of C2-UD.
 
 
 \paragraph{Couveignes vs. Lercier-Sirvent}
-Finally, we ran experiments on Lercier-Sirvent. Table~\ref{tab:ls}
-shows timings for the different phases of the algorithm for some
-isogeny degrees. The first column is the time spent to find a root of
+Finally, we ran experiments on
+\hyperref[alg:le-si]{\alg{Lercier-Sirvent}}. Table~\ref{tab:ls} shows
+timings for the different phases of the algorithm for some isogeny
+degrees. The first column is the time spent to find a root of
 $\Phi_\ell(X,j_E)$ in $\F_q$, the second column summarizes the time
 spent to lift this root in $\Q_q$ and apply Elkies'
 formulas. DiffSolve is the time spent solving the differential
@@ -155,7 +157,7 @@ implemented it on top of a quadratic XGCD algorithm.
     397&101.04&176.23&1989.98&233.72&7.22\\
     \hline
   \end{tabular}
-  \caption{Comparative timings for the phases of Lercier-Sirvent for curves over $\F_{5^{43}}$.}
+  \caption{Comparative timings for the phases of \hyperref[alg:le-si]{\alg{Lercier-Sirvent}} for curves over $\F_{5^{43}}$.}
   \label{tab:ls}
 \end{table}
 
@@ -185,7 +187,8 @@ LS scales pretty well with the characteristic as shown in
 figure~\ref{fig:LSp}.
 
 Considering that the asymptotic dependency of Couveignes' algorithm in
-$\log q$ and in $p$ is worse than the one of Lercier-Sirvent (compare
+$\log q$ and in $p$ is worse than the one of
+\hyperref[alg:le-si]{\alg{Lercier-Sirvent}} (compare
 Eq.~\eqref{eq:interp} to Proposition~\ref{th:lercier-sirvent}), there
 are very few regions where Couveignes' algorithm stays of practical or
 theoretical interest.
@@ -199,8 +202,9 @@ is that other interesting applications may be found in the future.
 \begin{figure}
   \centering
   \includegraphics[width=0.9\textwidth]{isogeny/LSp}
-  \caption{Timings for LS for different fields. We increase $p$ while
-    keeping constant $d$ and the isogeny degree.}
+  \caption{Timings for \hyperref[alg:le-si]{\alg{Lercier-Sirvent}} for
+    different fields. We increase $p$ while keeping constant $d$ and
+    the isogeny degree.}
   \label{fig:LSp}
 \end{figure}
 

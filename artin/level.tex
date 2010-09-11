@@ -63,24 +63,24 @@ the following $\F_p$-bases of $\U_i$ to each system:
   \label{eq:bases}
   \basis{C}_i &= (1,\,x_i,\,\ldots,\,x_i^{p^id-1})\text{.}  
 \end{align}
-We describe an algorithm called \alg{Push-down} which takes $v$
+We describe an algorithm called \hyperref[alg:push-down]{\alg{Push-down}} which takes $v$
 written on the basis $\basis{C}_i$ and returns its coordinates on the
 basis $\basis{D}_i$. Then, using Proposition~\ref{th:uni-multi-uni},
 we will be able to describe the inverse operation, called
-\alg{Lift-up}.  In other words, \alg{Push-down} inputs $v\wrt\U_i$ and
+\hyperref[alg:liftup]{\alg{Lift-up}}.  In other words, \hyperref[alg:push-down]{\alg{Push-down}} inputs $v\wrt\U_i$ and
 outputs the representation of $v$ as
 \begin{equation}
   \label{eq:vectorspace}
   v = v_0 + v_1x_i + \cdots + v_{p-1}x_i^{p-1}, \quad\text{with all~} v_j \wrt \U_{i-1}
 \end{equation}
-and \alg{Lift-up} does the opposite.
+and \hyperref[alg:liftup]{\alg{Lift-up}} does the opposite.
 
 Then, the change from $\basis{C}_i$ to $\basis{B}_i$ is done by
-repeatedly applying \alg{Push-down}, and the opposite is obtained by
-repeatedly applying \alg{Lift-up}.
+repeatedly applying \hyperref[alg:push-down]{\alg{Push-down}}, and the opposite is obtained by
+repeatedly applying \hyperref[alg:liftup]{\alg{Lift-up}}.
 
 Hereafter, we let $\Lift:\N-\{0\} \to \N$ be such that both
-\alg{Push-down} and \alg{Lift-up} can be performed in time $\Lift(i)$; to
+\hyperref[alg:push-down]{\alg{Push-down}} and \hyperref[alg:liftup]{\alg{Lift-up}} can be performed in time $\Lift(i)$; to
 simplify some expressions appearing later on, we add the mild
 constraints that $p\,\Lift(i) \le \Lift(i+1)$ and $p\,\Mult(p^{i}d)
 \in O(\Lift(i))$.
@@ -94,10 +94,10 @@ the tower; further details are at the end of this section.
 Remark that the input and output have size $p^id$; using fast
 multiplication, the cost is linear in $p^{i+1}d$, up to logarithmic
 factors. The rest of this section is devoted to proving this theorem.
-\alg{Push-down} is a divide-and-conquer process, adapted to the shape
-of our tower; \alg{Lift-up} is a special case of
+\hyperref[alg:push-down]{\alg{Push-down}} is a divide-and-conquer process, adapted to the shape
+of our tower; \hyperref[alg:liftup]{\alg{Lift-up}} is a special case of
 Proposition~\ref{th:uni-multi-uni}, the power projection will be
-obtained using the transposed version of \alg{Push-down}.
+obtained using the transposed version of \hyperref[alg:push-down]{\alg{Push-down}}.
 
 As said before, the algorithms of this section (and of the following
 ones) use precomputed quantities. To keep the pseudo-code simple, we
@@ -128,12 +128,12 @@ with $A\in \F_p[Y,X_i]$, $\deg_Y(A) < k$ and $\deg_{X_i}(A) <p$.
 
 Since $R_n$ is sparse, it is advantageous to use the naive algorithm;
 besides, to make transposition easy, we explicitly give the matrix of
-$\alg{MulMod}_{k,n}$. Let $m_0$ be the $(k+p^{n-1})\times k$ matrix
-having $1$'s on the diagonal only, and for $\ell \le p^{n-1}$, let
-$m_\ell$ be the matrix obtained from $m_0$ by shifting the diagonal
-down by $\ell$ places. Let finally $m'$ be the sum $\Sigma_{j=0}^{n-1}
-m_{p^j}$. Then one verifies that the matrix of $\alg{MulMod}_{k,n}$
-is $$\left [
+$\hyperref[eq:89]{\alg{MulMod}_{k,n}}$. Let $m_0$ be the
+$(k+p^{n-1})\times k$ matrix having $1$'s on the diagonal only, and
+for $\ell \le p^{n-1}$, let $m_\ell$ be the matrix obtained from $m_0$
+by shifting the diagonal down by $\ell$ places. Let finally $m'$ be
+the sum $\Sigma_{j=0}^{n-1} m_{p^j}$. Then one verifies that the
+matrix of $\hyperref[eq:89]{\alg{MulMod}_{k,n}}$ is $$\left [
 \begin{matrix}
 m'  &     &        &        & m_1 \\
 m_0 & m'  &        &        & m_0 \\
@@ -149,16 +149,16 @@ with columns and rows indexed by
   \quad\text{and}\quad
   (X_i^j,\dots,Y^{k+p^{n-1}-1}X_i^j)_{j < p}  
 \end{equation}
-respectively.  Since this matrix
-has $O(pnk)$ non-zero entries,  we can compute both 
-$\alg{MulMod}_{k,n}$ and its dual $\dual{\alg{MulMod}_{k,n}}$ in time $O(pnk)$.
+respectively.  Since this matrix has $O(pnk)$ non-zero entries, we can
+compute both $\hyperref[eq:89]{\alg{MulMod}_{k,n}}$ and its dual
+$\dual{\hyperref[eq:89]{\alg{MulMod}_{k,n}}}$ in time $O(pnk)$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \subsection{Push-down}\label{sec:level-embedding:push-down}
 
-The input of \alg{Push-down} is $v \wrt \U_i$, that is, given on the
+The input of \hyperref[alg:push-down]{\alg{Push-down}} is $v \wrt \U_i$, that is, given on the
 basis $\basis{C}_i$; we see it as a polynomial $V \in \F_p[X_i]$ of degree
 less than $p^id$. The output is the normal form of $V$ modulo
 $X_i^p-X_i-X_{i-1}^{2p-1}$ and $Q_{i-1}(X_{i-1})$. We first use a
@@ -189,8 +189,8 @@ following estimate for $W$.
 \end{proof}
 
 
-We compute $W$ by a recursive subroutine \alg{Push-down-rec}, similar
-to \alg{Compose}. As before, we let $c,n$ be such that $1\le c<p$ and
+We compute $W$ by a recursive subroutine \hyperref[alg:push-down-rec]{\alg{Push-down-rec}}, similar
+to \hyperref[alg:compose]{\alg{Compose}}. As before, we let $c,n$ be such that $1\le c<p$ and
 $\deg(V) < (c+1)p^n$, so that we have
 $$V=V_0+ V_1X_i^{p^n}+\cdots+V_c X_i^{cp^n},$$ with all $V_j$ in
 $\F_p[X_i]$ of degree less than $p^n$. First, we recursively reduce
@@ -198,39 +198,39 @@ $V_0,\dots,V_c$ modulo $X_i^p-X_i-Y$, to obtain bivariate
 polynomials $W_0,\dots,W_{c}$. Let $R_n$ be the polynomial defined in
 Equation~\eqref{eq:Kn}. Then, we get $W$ by computing
 $\Sigma_{j=0}^c W_j(X_i+R_n)^j$ modulo $X_i^p-X_i-Y$,
-using Horner's scheme as in \alg{Compose}. Multiplications by
-$X_i+R_n$ modulo $X_i^p-X_i-Y$ are done using \alg{MulMod}.
+using Horner's scheme as in \hyperref[alg:compose]{\alg{Compose}}. Multiplications by
+$X_i+R_n$ modulo $X_i^p-X_i-Y$ are done using \hyperref[eq:89]{\alg{MulMod}}.
 
 \begin{algorithm}
-  \caption{Push-down-rec}
+  \caption{\label{alg:push-down-rec}\alg{Push-down-rec}}
   \begin{algorithmic}[1]
     \REQUIRE $V\in \F_p[X_i]$ and $c,n\in\N$.
     \ENSURE $W \in\F_p[Y,X_i]$.
     \STATE if $n=0$ return $V$;
     \STATE write $V=\sum_{j=0}^{c} V_j X_i^{jp^n}$, with $V_j \in \F_p[X_i], \deg V_j<p^n$;
-    \STATE for $j\in [0,\dots,c]$, let $W_j=\text{{\sf Push-down-rec}}(V_j,p-1,n-1)$;
+    \STATE for $j\in [0,\dots,c]$, let $W_j=\text{\alg{Push-down-rec}}(V_j,p-1,n-1)$;
     \STATE $W=0$;
-    \STATE\label{pd:loop} for $j\in [c,\dots,0]$, let $W = \alg{MulMod}_{(c+1)p^{n-1},n}(W) + W_j$;
+    \STATE\label{pd:loop} for $j\in [c,\dots,0]$, let $W = \hyperref[eq:89]{\alg{MulMod}_{(c+1)p^{n-1},n}}(W) + W_j$;
     \STATE return $W$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}
-  \caption{Push-down}
+  \caption{\label{alg:push-down}\alg{Push-down}}
   \begin{algorithmic}[1]
     \REQUIRE $v\wrt \U_i$.
     \ENSURE $v$ written as $v_0+\cdots+v_{p-1}x_i^{p-1}$ with $v_j \wrt \U_{i-1}$.
     \STATE let $V$ be the canonical preimage of $v$ in $\F_p[X_i]$;
-    \STATE let $n=\lfloor \log_p(p^id-1) \rfloor$ and $c=(p^id-1){\sf~div~} p^n$;
-    \STATE let $W = \text{\alg{Push-down-rec}}(V,c,n)$;
-    \STATE let $Z = \text{Evaluate}(W,[X_{i-1}^{2p-1},X_i])$;
-    \STATE \label{step:pd:mod} let $Z = Z {\sf~mod~} Q_{i-1}$;
-    \STATE \label{step:pd:return} return the residue class of $Z$ mod $(X_i^p - X_i - X_{i-1}^{2p-1},Q_{i-1})$.
+    \STATE let $n=\lfloor \log_p(p^id-1) \rfloor$ and $c=(p^id-1)\text{ div } p^n$;
+    \STATE let $W = \text{\hyperref[alg:push-down-rec]{\alg{Push-down-rec}}}(V,c,n)$;
+    \STATE let $Z = \alg{Evaluate}(W,[X_{i-1}^{2p-1},X_i])$;
+    \STATE \label{step:pd:mod} let $Z = Z \bmod Q_{i-1}$;
+    \STATE \label{step:pd:return} return the residue class of $Z \bmod (X_i^p - X_i - X_{i-1}^{2p-1},Q_{i-1})$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{proposition}\label{prop:pd}
-  Algorithm \alg{Push-down} is correct and takes time 
+  Algorithm \hyperref[alg:push-down]{\alg{Push-down}} is correct and takes time 
   \begin{equation}
     \label{eq:92}
     O(p^{i+1}d
@@ -240,14 +240,14 @@ $X_i+R_n$ modulo $X_i^p-X_i-Y$ are done using \alg{MulMod}.
 \end{proposition}
 \begin{proof}
   Correctness is straightforward; note that at step~\ref{pd:loop} of
-  \alg{Push-down-rec}, $\deg_Y(W) < (c+1)p^{n-1}$, so our call to
-  $\alg{MulMod}_{(c+1)p^{n-1},n}$ is justified. By the claim of
-  Subsection~\ref{ssec:mulmod} on the cost of $\alg{MulMod}$, the
-  total time spent in that loop is $O(nc^2p^n)$. As in
-  Theorem~\ref{theo:comp}, we deduce that the time spent in
-  \alg{Push-down-rec} is $O(n^2c^2p^n)$.
+  \hyperref[alg:push-down-rec]{\alg{Push-down-rec}}, $\deg_Y(W) < (c+1)p^{n-1}$, so our call to
+  $\hyperref[eq:89]{\alg{MulMod}_{(c+1)p^{n-1},n}}$ is justified. By
+  the claim of Subsection~\ref{ssec:mulmod} on the cost of
+  $\hyperref[eq:89]{\alg{MulMod}}$, the total time spent in that loop is
+  $O(nc^2p^n)$. As in Theorem~\ref{theo:comp}, we deduce that the time
+  spent in \hyperref[alg:push-down-rec]{\alg{Push-down-rec}} is $O(n^2c^2p^n)$.
 
-  In \alg{Push-down}, we have $cp^n< p^id$ and $n<\log_p (p^id)$, so
+  In \hyperref[alg:push-down]{\alg{Push-down}}, we have $cp^n< p^id$ and $n<\log_p (p^id)$, so
   the previous cost is seen to be $O(p^{i+1}d
   \log_p(p^id)^2)$. Reducing one coefficient of $Z$ modulo $Q_{i-1}$
   takes time $O(\Mult(p^id))$, so step~\ref{step:pd:mod} has cost
@@ -261,9 +261,9 @@ $X_i+R_n$ modulo $X_i^p-X_i-Y$ are done using \alg{MulMod}.
 
 \subsection{Transposed push-down}
 
-Before giving the details for \alg{Lift-up}, we discuss here the
-transpose of \alg{Push-down}.  As in
-Section~\ref{sec:from-univ-bivar}, \alg{Push-down} is the same thing
+Before giving the details for \hyperref[alg:liftup]{\alg{Lift-up}}, we discuss here the
+transpose of \hyperref[alg:push-down]{\alg{Push-down}}.  As in
+Section~\ref{sec:from-univ-bivar}, \hyperref[alg:push-down]{\alg{Push-down}} is the same thing
 as the map
 \begin{equation}
   \label{eq:81}
@@ -281,7 +281,7 @@ So its transpose is the map
   \end{aligned}
 \end{equation}
 
-\alg{Push-down} is an \hyperref[sec:r-algebraic-transforms]{algebraic
+\hyperref[alg:push-down]{\alg{Push-down}} is an \hyperref[sec:r-algebraic-transforms]{algebraic
   transform}, thus, applying Theorem~\ref{th:tellegen-R-algeb}, the
 transposed algorithm is obtained by reversing the initial algorithm
 step by step, and replacing subroutines by their transposes. The
@@ -300,11 +300,11 @@ We do the same for $\F_p[X_i]$ and $\F_p[X_{i-1},X_i]$.
 
 The initial loop at step~\ref{pd:loop} is a Horner scheme; the
 transposed loop is run backward, and its core becomes $L_j=L\bmod
-Y^{1-n}$ and $L=\dual{\alg{MulMod}_{(c+1)p^{n-1},n}}(L)$; a small
-simplification yields the pseudo-code we give.  In \alg{Push-down},
-after calling \alg{Push-down-rec}, we evaluate $W$ at
-$[X_{i-1}^{2p-1},X_i]$: the transposed operation $\dual{{\sf
-    Evaluate}}$ is the map
+Y^{1-n}$ and
+$L=\dual{\hyperref[eq:89]{\alg{MulMod}_{(c+1)p^{n-1},n}}}(L)$; a small
+simplification yields the pseudo-code we give.  In \hyperref[alg:push-down]{\alg{Push-down}},
+after calling \hyperref[alg:push-down-rec]{\alg{Push-down-rec}}, we evaluate $W$ at
+$[X_{i-1}^{2p-1},X_i]$: the transposed operation $\dual{{\alg{Evaluate}}}$ is the map
 \begin{equation}
   \label{eq:83}
   \sum_{a,b} \frac{\ell_{a,b}}{X_{i-1}^a X_i^b} \mapsto
@@ -313,34 +313,34 @@ $[X_{i-1}^{2p-1},X_i]$: the transposed operation $\dual{{\sf
 \end{equation}
 Then, originally, we perform a Euclidean division by $Q_{i-1}$ on
 $Z$. The \index{transposed~modular~reduction}transposed algorithm
-$\dual{\sf mod}$ amounts to compute the values of a sequence linearly
+$\dual{\bmod}$ amounts to compute the values of a sequence linearly
 generated by the polynomial $Q_{i-1}$ from its first $p^{i-1}d$ values
 (see Section~\ref{sec:transp-eucl-divis}).
 
 \begin{algorithm}
-  \caption{$\dual{\alg{\text{Push-down-rec}}}$}
+  \caption{\label{alg:push-down-rec-star}$\dual{\text{\alg{Push-down-rec}}}$}
   \begin{algorithmic}[1]
     \REQUIRE $L\in\F_p[[1/Y,1/X_i]]$ and $c,n\in\N$.
     \ENSURE $M\in \F_p[[1/X_i]]$.
     \STATE If $n=0$ return $L$;
     \FORALL{\label{pdt:loop} $j\in [c,\dots,0]$}
     \STATE let $L_j = L \bmod Y^{1-n}$;
-    \STATE let $M_j=\dual{\text{\sf Push-down-rec}}(L_j,p-1,n-1)$;
-    \STATE let $L = \dual{\alg{MulMod}_{(c+1)p^{n-1},n}}(L)$;
+    \STATE let $M_j=\dual{\text{\alg{Push-down-rec}}}(L_j,p-1,n-1)$;
+    \STATE let $L = \dual{\hyperref[eq:89]{\alg{MulMod}_{(c+1)p^{n-1},n}}}(L)$;
     \ENDFOR
     \STATE return $\sum_{j=0}^{c} \frac{M_j}{X_i^{jp^n}}$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}
-  \caption{$\dual{\alg{\text{Push-down}}}$}
+  \caption{\label{alg:push-down-star}$\dual{\text{\alg{Push-down}}}$}
   \begin{algorithmic}[1]
     \REQUIRE $L\in \F_p[[1/X_{i-1},1/X_i]]$.
     \ENSURE $M \in \F_p[[1/T]]$.
-    \STATE let $n=\lfloor \log_p(p^id-1) \rfloor$ and $c=(p^id-1) {\sf~div~} p^n$;
-    \STATE let $P=\dual{{\sf mod}}(L,Q_{i-1})$;
-    \STATE let $M = \dual{\text{Evaluate}}(P,[X_{i-1}^{2p-1},X_i])$;
-    \STATE return $\dual{\text{\alg{Push-down-rec}}}(M,c,n)$;
+    \STATE let $n=\lfloor \log_p(p^id-1) \rfloor$ and $c=(p^id-1) \text{ div } p^n$;
+    \STATE let $P=\dual{\bmod}(L,Q_{i-1})$;
+    \STATE let $M = \dual{\alg{Evaluate}}(P,[X_{i-1}^{2p-1},X_i])$;
+    \STATE return $\dual{\text{\hyperref[alg:push-down-rec-star]{\alg{Push-down-rec}}}}(M,c,n)$;
   \end{algorithmic}
 \end{algorithm}
 
@@ -368,25 +368,25 @@ the discussion below.
 \paragraph{Lift-up}
 We use Proposition~\ref{th:uni-multi-uni} to write $v$ as a
 polynomial in $x_i$. To do this we proceed as in steps~\ref{alg:rur:4}
-and~\ref{alg:rur:5} of \alg{RUR}.  To compute the power projection we
+and~\ref{alg:rur:5} of \hyperref[alg:rur]{\alg{RUR}}.  To compute the power projection we
 could use transposed bivariate modular composition as
 in~\cite{shoup99}; it is however more efficient to use
-\alg{Push-down$^\ast$}.
+\hyperref[alg:push-down-star]{$\dual{\alg{Push-down}}$}.
 
 \begin{algorithm}
-  \caption{Lift-up}
+  \caption{\label{alg:liftup}\alg{Lift-up}}
   \begin{algorithmic}[1]
     \REQUIRE $v$ written as $v_0+\cdots+v_{p-1}x_i^{p-1}$ with $v_j \wrt \U_{i-1}$.
     \ENSURE $v\wrt \U_i$.
     \STATE \label{alg:lift-up:transmul} let $\ell = \alg{TransposedMul}(v,\,\rho_i(1))$;
-    \STATE \label{alg:lift-up:pow} let $M=\frac{1}{T}\dual{{\text{\sf Push-down}}}(\ell)$;
+    \STATE \label{alg:lift-up:pow} let $M=\frac{1}{T}\hyperref[alg:push-down-star]{\dual{{\text{\alg{Push-down}}}}}(\ell)$;
     \STATE \label{alg:lift-up:mult} let $V = Q_iM \bmod T^{p^id}$;
     \STATE \label{alg:lift-up:mulmod} return $v=V(x_i)Q_i(x_i)^{-1} = V {Q_i'}^{-1} \bmod Q_i$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{proposition}\label{prop:lu}
-  Algorithm \alg{Lift-up} is correct and takes time
+  Algorithm \hyperref[alg:liftup]{\alg{Lift-up}} is correct and takes time
   \begin{equation}
     \label{eq:85}
     O(p^{i+1}d\log_p(p^id)^2+p\,\Mult(p^{i}d))
@@ -401,9 +401,9 @@ in~\cite{shoup99}; it is however more efficient to use
   \index{transposed~modular~multiplication}transposed bivariate
   modular multiplication; an algorithm of cost $O(\Mult(p^id))$ for
   this is in~\cite[Corollary~2]{pascal+schost06} (see also
-  Section~\ref{sec:transp-algor}.  The last subsection showed that
+  Section~\ref{sec:transp-algor}).  The last subsection showed that
   step~\ref{alg:lift-up:pow} has the same cost as
-  \alg{Push-down}. Then, the costs of steps~\ref{alg:lift-up:mult}
+  \hyperref[alg:push-down]{\alg{Push-down}}. Then, the costs of steps~\ref{alg:lift-up:mult}
   and~\ref{alg:lift-up:mulmod} are $O(\Mult(p^id))$.
 \end{proof}
 

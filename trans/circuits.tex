@@ -44,15 +44,16 @@ bilinear form that results by applying linear forms to elements.
   $\mathcal{S}_n$ over $R^n$ (i.e.\ under permutation of coordinates).
 \end{definition}
 
-The arithmetic basis we will work with is the
-\index{standard~left-linear~basis}\emph{standard left-linear basis},
-denoted by $\Tbasis$.  It is composed of
+\pdfmargincomment{Added parentheses in the definition of the bases,
+  hope it helps reading.}  The arithmetic basis we will work with is
+the \index{standard~left-linear~basis}\emph{standard left-linear
+  basis}, denoted by $\Tbasis$.  It is composed of
 \begin{equation}
   \label{eq:tbasis}
   \tag{$\Tbasis$}
   \begin{aligned}
     + : R\oplus R &\ra R\text{,}    & \rmul{a} : R &\ra R\text{,}     &  \hub : R &\ra R\oplus R\text{,}\\
-        a, b &\mapsto a+b\text{,}   &           b &\mapsto ba\text{,} &         a &\mapsto a,a\text{,}\\ \\
+      (a, b) &\mapsto a+b\text{,}   &           b &\mapsto ba\text{,} &         a &\mapsto (a,a)\text{,}\\ \\
     0 : 0 &\ra R\text{,}     &&& \omega : R &\ra 0\text{,} \\
      \bom &\mapsto 0\text{,} &&&          a &\mapsto \bom\text{.}
   \end{aligned}
@@ -666,16 +667,19 @@ transposition theorem.
   computes the dual morphism $\dual{f}$.
 \end{theorem}
 
-We give here a quite tedious proof that amounts, in a hidden way, to
-write down the matrices of $f$ and $\dual{f}$ and check that they are
-the same. A much simpler proof will be given in
-Appendix~\ref{cha:basic-categ-theory}.
+\pdfmargincomment{I explain why I postponed the elegant proof.}  In
+order to maintain this chapter at the level of elementary linear
+algebra, we give here a quite tedious proof: it amounts, in a hidden
+way, to write down the matrices of $f$ and $\dual{f}$ and check that
+they are the same. In Appendix~\ref{cha:basic-categ-theory} we will
+give a conceptually simpler proof, using category theory.
 
-\begin{definition}
-  Let $x$ and $y$ an be nodes of $C$ and let $p=(e_1,\ldots,e_k)$ be a
+\begin{definition}[Evaluation of a path]
+  Let $x$ and $y$ be nodes of $C$ and let $p=(e_1,\ldots,e_k)$ be a
   path from $x$ to $y$.
 
-  For any $1\le i<k$ let the node
+  If $k=1$, we define $\eval_p$ as the identity map $R\ra R$. If
+  $k>1$, for any $1\le i<k$ let the node
   \[\xymatrix{\cdots\ar[r]^{e_i}&v\ar[r]^{e_{i+1}}&\cdots}\]
   have $n_i$ inputs and $m_i$ outputs, and let $\iota:R\ra R^{n_i}$ be
   the injection corresponding to the position of $e_i$ in $\inp(v)$
@@ -709,25 +713,27 @@ Appendix~\ref{cha:basic-categ-theory}.
   where the sum ranges over all the distinct paths from $x_i$ to
   $y_j$.
 \end{lemma}
-%% this proof still needs a small fix
 \begin{proof}
-  We start by proving that for any node $v$ and any edge $e$ stemming
-  from $v$
+  \pdfmargincomment{Patched proof, now it is correct!}
+  We start by proving that for any node $v$ and any edge
+  $v\overset{e}{\ra}v'$
   \begin{equation}
     \label{eq:250}
-    \eval_{e} = \sum_{i=1}^n\sum_{p\in x_i\leadsto v}\eval_p\circ\pi_i
+    \eval_{e} = \sum_{i=1}^n\sum_{p\in x_i\leadsto v\overset{e}{\ra}v'}\eval_p\circ\pi_i
     \text{,}
   \end{equation}
-  where $\pi_i:R^n\ra R$ is the $i$-th projection. We do this by
-  induction on the length of the longest path to $v$. 
+  where $\pi_i:R^n\ra R$ is the $i$-th projection, and the second sum
+  ranges over all the distinct paths from $x_i$ to $v'$ passing
+  through $e$. We do this by induction on the length of the longest
+  path to $v$.
 
   If the longest path to $v$ has length $0$, then $v$ is one of the
   input nodes, say $x_i$. Then by \hyperref[def:eval]{definition}
-  $\eval_i=\pi_i$, and Eq.~\eqref{eq:250} is verified.
+  $\eval_e=\pi_i$, and Eq.~\eqref{eq:250} is verified.
 
   Then, let $v$ be an evaluation node, let $e_1\le_v\ldots\le_ve_k$ be
   the edges incident to $v$, and let $v_1,\ldots,v_k$ be the
-  corresponding nodes. Then, by definition
+  corresponding nodes. Then, by \hyperref[def:eval]{definition}
   \begin{equation}
     \label{eq:251}
     \eval_{e} = \pi_e\circ\beta(v)\circ(\eval_{e_1},\ldots,\eval_{e_k}) =
@@ -738,8 +744,8 @@ Appendix~\ref{cha:basic-categ-theory}.
   in $\outp(v)$. By induction, this is equivalent to
   \begin{equation}
     \label{eq:253}
-    \sum_{j=1}^k\sum_{i=1}^n\sum_{p\in x_i\leadsto v_j} \pi_e\circ\beta(v)\circ\iota_j\circ\eval_p\circ\pi_i =
-    \sum_{i=1}^n\sum_{p\in x_i\leadsto v}\eval_p\circ\pi_i
+    \sum_{j=1}^k\sum_{i=1}^n\sum_{p\in x_i\leadsto v_j\overset{e_j}{\ra}v} \pi_e\circ\beta(v)\circ\iota_j\circ\eval_p\circ\pi_i =
+    \sum_{i=1}^n\sum_{p\in x_i\leadsto v\overset{e}{\ra}v'}\eval_p\circ\pi_i
     \text{,}
   \end{equation}
   where the equality comes from Eq.~\eqref{eq:252}.
@@ -787,7 +793,7 @@ Appendix~\ref{cha:basic-categ-theory}.
   the theorem says that if $\eval_C$ is the map $x\mapsto xM$ for some
   matrix $M$, then $\eval_{\dual{C}}$ is the map $y\mapsto My$. If $R$
   is commutative, this is equivalent to transpose $M$, but in the
-  non-commutative case this is not anymore true. For this reason, we
+  non-commutative case this is not true anymore. For this reason, we
   shall always prefer the formulation in terms of bilinear forms
   instead of the one in terms of matrices.
 
