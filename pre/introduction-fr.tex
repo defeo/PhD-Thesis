@@ -2,9 +2,9 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction (Français)}
 
-Les corps finis sont au cœur de la technologie moderne. Ceci est vrai
-au point que la dernière génération de processeurs Intel Core possède
-une instruction matérielle (CLMUL) pour la multiplications dans
+Les corps finis sont au cœur de la technologie moderne, à tel point
+que la dernière génération de processeurs Intel Core possède une
+instruction matérielle (CLMUL) pour la multiplications dans
 $\F_{2^m}$~\cite{intel-carryless}. Cela tient au fait que les corps
 finis apparaissent partout dans le génie des télécommunications, en
 particulier en Codes Correcteurs d'Erreurs et Cryptographie. Cette
@@ -23,22 +23,22 @@ complexité polynomiale fut donné par Schoof~\cite{schoof85}, puis
 amélioré par Atkin et Elkies~\cite{atkin88,elkies98,schoof95}, et par
 la suite nommé SEA.
 
-L'algorithme SEA suscita intérêt pour l'utilisation effective des
-isogénies, ce sont des morphismes de groupes algébriques entre courbes
+L'algorithme SEA suscita de l'intérêt pour l'utilisation effective des
+isogénies: ce sont des morphismes de groupes algébriques entre courbes
 elliptiques. Lorsqu'on calcule des isogénies sur des corps finis, il
-faut distinguer parmi la caractéristique grande et quelconque. Dans le
-premier cas, on peut utiliser des algorithmes conçus pour la
-caractéristique $0$, et ensuite réduire le résultat; les méthodes de
-Elkies\cite{elkies98,morain95}, Atkin~\cite{schoof95} et Bostan,
-Morain, Salvy et Schost~\cite{bostan+morain+salvy+schost08}
+faut distinguer entre la caractéristique grande et la caractéristique
+quelconque. Dans le premier cas, on peut utiliser des algorithmes
+conçus pour la caractéristique $0$, et ensuite réduire le résultat;
+les méthodes de Elkies\cite{elkies98,morain95}, Atkin~\cite{schoof95}
+et Bostan, Morain, Salvy et Schost~\cite{bostan+morain+salvy+schost08}
 appartiennent à cette famille. Quand la réduction modulo la
 caractéristique introduit des divisions par $0$, ces algorithmes ne
 s'appliquent plus.
 
 Les deux premiers algorithmes pour calculer des isogénies en
-caractéristique quelconque, furent donnés par
+caractéristique quelconque furent donnés par
 Couveignes~\cite{couveignes94,couveignes96}; les deux ont complexité
-polynomiale en la caractéristique, ce qui les rend pas pratiques pour
+polynomiale en la caractéristique, ce qui les rend peu pratiques pour
 des valeurs supérieures à $2$ ou $3$. Un algorithme spécifique pour la
 caractéristique $2$ fut donné par Lercier~\cite{lercier96}: en
 pratique il est plus rapide que l'algorithme de Couveignes, mais sa
@@ -56,7 +56,7 @@ meilleure complexité dans le cas de la caractéristique quelconque, sa
 dépendance en la caractéristique est seulement logarithmique.
 
 Il est tout de même intéressant de remarquer qu'aucun algorithme pour
-le calcul d'isogénies a une complexité optimale ou quasi-optimale,
+le calcul d'isogénies n'a une complexité optimale ou quasi-optimale,
 avec la seule exception de~\cite{bostan+morain+salvy+schost08} dans un
 cas très spécifique.
 
@@ -75,34 +75,34 @@ Mis à part l'addition, la multiplication et l'inversion, les
 opérations arithmétiques importantes dans une tour d'extensions finies
 sont sans aucun doute les traces relatives, les polynômes minimaux et
 les inclusions de corps. Pour les corps finis, il est possible
-d'ajouter à la liste des groupes de Galois effectifs, puisqu'il est
+d'ajouter des groupes de Galois effectifs à la liste, puisqu'il est
 relativement facile de calculer avec ces objets.
 
 L'arithmétique des tours de corps finis est une question de première
-importance pour tout système de calcul formel, pourtant elle n'a reçu
-aucune ou peu d'attentions. Il est connu que Magma permet de gérer des
+importance pour tout système de calcul formel, pourtant elle a reçu
+peu ou pas d'attention. On sait que Magma permet de gérer des
 diagrammes quelconques de corps finis depuis
 longtemps~\cite{bosma+cannon+steel97}, mais il est difficile de dire
 quels algorithmes y sont implantés de nos jours et avec quelles
 complexités. Tous les autres résultats qui peuvent éventuellement
-s'appliquer aux tours de corps finis, ont été obtenus dans le contexte
+s'appliquer aux tours de corps finis ont été obtenus dans le contexte
 plus général de la résolution de systèmes polynomiaux et de la
 géométrie algébrique effective, en particulier pour la résolution des
 ensembles
 triangulaires~\cite{diaz+gonzalez01,giusti+lecerf+salvy01,bostan+salvy+schost03,pascal+schost06,li+moreno+schost07,dahan+jin+moreno+schost08,boulier+lemaire+moreno01,FGLM,rouiller99,alonso+becker+roy+wormann}.
 
-Dans le cas spécifique des tours d'Artin-Schreier, il n'y a as
+Dans le cas spécifique des tours d'Artin-Schreier, il n'y a pas
 énormément de littérature non plus. En s'appuyant sur des idées
 contenues dans~\cite{Conway:ONAG2000}, Cantor~\cite{cantor89}
 construisit une tour d'Artin-Schreier avec des propriétés spécifiques,
 qu'il appliqua à la multiplication par FFT dans
 $\F_2[X]$. In~\cite{couveignes00}, Couveignes donna un algorithme pour
 le calcul d'isomorphismes entre tours d'Artin-Schreier; néanmoins, son
-algorithme nécessite d'une multiplication rapide dans une tour,
-appelée ``tour de Cantor'' dans~\cite{couveignes00}, ayant la même
-forme que celle de~\cite{cantor89}. Un tel algorithme n'est
-malheureusement pas dans la littérature, ce qui rend les résultats
-de~\cite{couveignes00} difficiles à exploiter en pratique.
+algorithme nécessite une multiplication rapide dans une tour, appelée
+``tour de Cantor'' dans~\cite{couveignes00}, ayant la même forme que
+celle de~\cite{cantor89}. Un tel algorithme n'est malheureusement pas
+dans la littérature, ce qui rend les résultats de~\cite{couveignes00}
+difficiles à exploiter en pratique.
 
 \paragraph*{Le principe de transposition}
 Un des outils algorithmiques que nous allons étudier en détail et
@@ -116,8 +116,8 @@ dans sa forme générale par Fiduccia~\cite{fiduccia:phd}; mais ce n'est
 que bien plus tard, à travers les travaux de Kaltofen, Yagati, Shoup,
 von zur Gathen et
 autres~\cite{kaltofen+lakshman89,vzgathen+shoup92,shoup94,shoup95,shoup99,hanrot+quercia+zimmermann},
-qu'il est devenu populaire en calcul formel. L'un des ses possibles
-énoncés est le suivant:
+qu'il est devenu populaire en calcul formel. L'un des énoncés
+possibles est le suivant:
 \begin{quote}
   Soit $\pspace$ un ensemble quelconque. À tout algorithme
   $R$-algébrique, qui calcule une famille de fonctions linéaires
@@ -130,7 +130,7 @@ qu'il est devenu populaire en calcul formel. L'un des ses possibles
 
 Le principe de transposition est important en calcul formel car il
 permet d'obtenir des algorithmes asymptotiquement bons qui n'auraient
-pas paru évid\-ents autrement. Un grand pas en avant dans sa
+pas paru évi\-dents autrement. Un grand pas en avant dans sa
 compréhension fut fait par Bostan, Lecerf et
 Schost~\cite{bostan+lecerf+schost:tellegen} qui, en généralisant un
 travail de Shoup~\cite{shoup95}, remarquèrent que la transposition
@@ -140,17 +140,17 @@ principe de transposition a des liens importants avec la
 différentiation
 automatique~\cite{baur+strassen83,kaltofen+lakshman89,Ka2K,gashkov+gashkov05,sergeev08}.
 
-Dans ce document nous enquêtons plus en détail les rapports entre la
-transposition et les langages de programmation. Nous travaillons dans
-le cadre de la théorie des langages purement fonctionnels
+Dans ce document nous enquêtons plus en détail sur les rapports entre
+la transposition et les langages de programmation. Nous travaillons
+dans le cadre de la théorie des langages purement fonctionnels
 typés~\cite{pierce}, car sa structure mathématique élégante nous
 permet de raisonner sur les programmes à un niveau algébrique.
 
 \paragraph*{Organisation du document, résultats}
 Ce document est divisé en quatre parties. Dans la
-partie~\ref{part:prerequisites} nous faisons des rappels sur les
-notions fondamentales d'algèbre et calcul formel dont nous allons nous
-servir par la suite.
+partie~\ref{part:prerequisites} nous revenons sur les notions
+fondamentales d'algèbre et calcul formel dont nous allons nous servir
+par la suite.
 
 La partie~\ref{part:transp-princ} a pour objet le principe de
 transposition. Au Chapitre~\ref{cha:algebr-compl-dual} nous rappelons
@@ -161,7 +161,7 @@ automatique. En complément, dans
 l'Annexe~\ref{cha:basic-categ-theory}, nous donnons une nouvelle
 preuve du théorème de transposition, à base de sémantique catégorique,
 et étudions ses implications pour l'implantation d'un DSL en Haskell;
-ceci est un travail commun avec Mathieu Boespflug.
+il s'agit un travail commun avec Mathieu Boespflug.
 
 Le Chapitre~\ref{cha:autom-transp-code} est une collaboration avec
 Éric Schost. Nous étudions les liens entre les circuits arithmétiques
@@ -189,8 +189,8 @@ caractéristique~\cite{bostan+morain+salvy+schost08} et sa
 généralisation à la caractéristique quelconque de Lercier et
 Sirvent~\cite{lercier+sirvent08}; puis nous rappelons l'algorithme
 original de Couveignes~\cite{couveignes96} et présentons des variantes
-améliorées avec un meilleur comportement asymptotique: la clef pour
-ces résultats sont le Chapitre~\ref{cha:artin-schr-towers} et des
+améliorées avec un meilleur comportement asymptotique: les clefs pour
+ces résultats sont le Chapitre~\ref{cha:artin-schr-towers} et de
 nouvelles idées algorithmiques pour l'interpolation dans les tours
 d'extensions. Nous présentons aussi en Section~\ref{sec:bounded} une
 généralisation surprenante de l'algorithme de Couveignes, qui permet
@@ -200,6 +200,7 @@ d'isogénies de degré prescrit. Cette découverte éclaire davantage la
 applications en
 cryptologie~\cite{gaudry+hess+smart02,GHS,hess03,teske06}.
 
+\pdfmargincomment{Attention aux commerciaux!}
 La théorie ne serait rien sans pratique. De la même façon, ce
 manuscrit n'aurait pas d'intérêt s'il n'était pas accompagné par nos
 paquets logiciels. La grande majorité des algorithmes présentés ici a
