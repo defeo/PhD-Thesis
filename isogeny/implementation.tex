@@ -19,7 +19,7 @@ some tricks we implemented in order to speed up the computation.
 
 \paragraph{$p$-Torsion}
 For $p\ne2$, C2 and its variants require to build the extension
-$\F_q[c]$ where $c$ is a $p-1$-th root of $H_E$. In order to deal with
+$\F_q[c]$ where $c$ is a $(p-1)$-th root of $H_E$. In order to deal with
 the lowest possible extension degree, it is a good idea to modify the
 curve so that $[\F_q[c]:\F_q]$ is the smallest possible.
 
@@ -87,7 +87,7 @@ coordinates). After some substitutions this is equivalent to
 \end{equation*}
 Then a solution in $x$ to this system is given by the GCD of the two
 equations. Remark that proposition \ref{th:voloch} ensures there is
-one unique solution. This formulas are slightly more efficient than
+one unique solution. These formulas are slightly more efficient than
 the ones in \cite[$\S$6.2]{lercier-algorithmique}.
 
 For $p=2$ we use the library \texttt{FAAST} (for solving
@@ -209,7 +209,7 @@ compute an $\F_q$-isogenous curve, if it exists, by factoring the
 modular polynomial in $\F_q[X]$.
 
 Instead of the classical modular polynomials $\Phi_\ell$ we used
-Atkin's canonical polynomials $\Phi^\ast_\ell$ since they have smaller
+Atkin's canonical polynomials $\Modpol^c_\ell$ since they have smaller
 coefficients and degree; this does not change the other steps of the
 algorithm. 
 

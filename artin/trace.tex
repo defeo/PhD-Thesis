@@ -335,7 +335,7 @@ structure under an analogous law.
   $(\basis{e}_1,\ldots,\basis{e}_d)$ and
   $(\basis{1}_{\zeta_1},\ldots,\basis{1}_{\zeta_i})$.
 
-  On one hand
+  On the one hand
   \begin{equation}
     \label{eq:12}
     \rho(\basis{e}_i\basis{e}_j)=
@@ -824,10 +824,12 @@ Now we want to compute the Newton sums of $f$, i.e.\ the values
 \end{equation}
 $x$ is a root of $f$ in $\algeb{A}$ and it clearly separates $V(I)$,
 then by Lemma \ref{th:multi-newton-sums}
+\pdfmargincomment[color=red,subject=rev2]{One more equality.}
 \begin{equation}
   \label{eq:45}
   \frac{f'}{f} = \sum_{i\ge0}\frac{\braket{1}{x^i}}{T^{i+1}} =
-  \sum_{i\ge0}\frac{\sum_{j=1}^d\zeta_j^i}{T^{i+1}}
+  \sum_{i\ge0}\frac{\sum_{j=1}^d\zeta_j^i}{T^{i+1}} =
+  \sum_{i\ge0}\frac{p_i}{T^{i+1}}
   \text{.}
 \end{equation}
 \pdfmargincomment{Newton's identities do not work in characteristic <
@@ -917,7 +919,7 @@ the corresponding dual basis with respect to $\braket{}{}$. In order
 to give an explicit algorithm, we work with the form
 \begin{equation}
   \label{eq:52}
-  \braket{l}{a} = \ell(a)
+  \braket{\ell}{a} = \ell(a)
 \end{equation}
 on $\dual{\algeb{A}}\times\algeb{A}$, instead.
 

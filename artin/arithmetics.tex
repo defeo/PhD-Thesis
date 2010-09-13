@@ -12,6 +12,7 @@ be clear from the context) are in lower case.
 We let $Q_0$ be in $\F_p[X_0]$ and $\U_0=\F_p[X_0]/Q_0$.
 
 \begin{definition}
+  \label{def:primitive-tower}
   Let $(G_i)_{0 \le i < k}$ be a sequence of polynomials over $\F_p$,
   with $G_i$ in $\F_p[X_0,\dots,X_i]$.  The sequence $(G_i)_{0\le i
     <k}$ is said to {\em define the tower} $(\U_0,\dots,\U_k)$ if for
@@ -59,21 +60,23 @@ details.
 As a workaround, we introduce the notion of a {\em primitive tower}.
 
 \begin{definition}[Primitive tower]
-  A tower $(\U_0,\ldots,\U_k)$ defined by $(G_i)_{0 \le i < k}$ is
-  said to be \emph{primitive} if
+  With the same notation of Definition~\ref{def:primitive-tower}, a
+  tower $(\U_0,\ldots,\U_k)$ defined by $(G_i)_{0 \le i < k}$ is said
+  to be \emph{primitive} if
   \begin{equation}
     \label{eq:59}
     \U_i = \F_p[x_i]
   \end{equation}
-  for all $i$. In this case, we let $Q_i\in \F_p[X]$ be its minimal
-  polynomial, of degree $p^id$.
+  for all $i$. In this case, we let $Q_i\in \F_p[X]$ be the minimal
+  polynomial of $x_i$, of degree $p^id$.
 \end{definition}
 
 \begin{definition}[Univariate basis]
+  \pdfmargincomment[color=red,subject=rev2]{Explicit indices for the basis.}
   Let $(\U_0,\ldots,\U_k)$ be a primitive tower, the \emph{univariate
     basis} $\basis{C}_i$ of $\U_i$ is the $\F_p$-basis
   \begin{equation}
-    \basis{C}_i=(1,x_i,\dots,x_i^{p^id-1})
+    \basis{C}_i=\{x_i^a \;|\; 0\le a<p^id\}
     \text{.}  
   \end{equation}
   To stress the fact that $v\in\U_i$ is represented on the univariate
@@ -98,7 +101,7 @@ Section~\ref{sec:mult-polyn}).
 
 One can extend the fast Euclidean division algorithm to this context,
 as Newton iteration reduces Euclidean division to polynomial
-multiplication (see Section~\ref{sec:newtons-iteration}. This implies
+multiplication (see Section~\ref{sec:newtons-iteration}). This implies
 that Euclidean division of a degree $n$ polynomial $A \wrt \U_i[Y]$ by
 a monic degree $m$ polynomial $B \wrt \U_i[Y]$, with $m \le n$, can be
 done in time $O(\Mult(p^id n))$.
@@ -215,10 +218,11 @@ Section~\ref{sec:comp-frob-trace}.
 \end{definition}
 
 \begin{nota}
-  In our context, for $n=[\U_i:\U_j]=p^{i-j}$ and
+  \pdfmargincomment[color=red,subject=rev2]{Slightly more precise on
+    where v lives.}  In our context, for $n=[\U_i:\U_j]=p^{i-j}$ and
   $m=[\U_j:\F_p]=p^jd$, $\PTr_{(n,m)}(v)$ coincides with
   $\Tr_{\U_{i}/\U_j}(v)$ for $v$ in $\U_i$; however $\PTr_{(n,m)}(v)$
-  remains defined for $v$ not in $\U_i$, whereas
+  remains defined for $v$ in a field extension of $\U_i$, whereas
   $\Tr_{\U_{i}/\U_j}(v)$ is not.
 \end{nota}
 

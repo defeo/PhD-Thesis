@@ -7,13 +7,14 @@ for most further operations. We detail the main case where $P_i =
 X_i^p - X_i - X_{i-1}^{2p-1}$; the case $P_1= X_1^p - X_1 - X_0$ (and
 $P_2=X_2^2+X_2+X_1$ for $p=2$ and $d$ odd) is easier.
 
+\pdfmargincomment[color=red,subject=rev2]{Explicit indices for the basis.}
 Recall the two families of $\F_p$-bases we have defined so far:
 \begin{align}
   \basis{B}_i &=
   \{x_0^{e_0} \cdots x_i^{e_i} \;|\; 0 \le e_0 < d,\; 0\le e_j < p 
   \text{ for $j>0$}\}
   \text{,}\\
-  \basis{C}_i &=(1,x_i,\dots,x_i^{p^id-1})
+  \basis{C}_i&=\{x_i^a \;|\; 0\le a<p^id\}
   \text{.}  
 \end{align}
 The first one arises naturally when constructing the tower as a
@@ -53,15 +54,18 @@ $X_i>X_{i-1}$ and $X_{i-1}>X_i$:
 \end{equation}
 with $R_i$ in $\F_p[X_i]$. Both Gröbner bases are triangular and
 bivariate, one can go from one to the other using the algorithms of
-\cite{pascal+schost06}, in fact most of the ideas of this section are
-inspired by this paper.
+Pascal and Schost~\cite{pascal+schost06}, in fact most of the ideas of
+this section are inspired by their paper.
 
+\pdfmargincomment[color=red,subject=rev2]{Explicit indices for the basis.}
 Since $\deg(Q_{i-1})=p^{i-1}d$ and $\deg(Q_{i})=p^id$, we associate
 the following $\F_p$-bases of $\U_i$ to each system:
 \begin{align}
-  \basis{D}_i &= (x_i^j,\,x_{i-1}x_i^j,\,\ldots,\,x_{i-1}^{p^{i-1}d-1}x_i^j)_{0 \le j < p}\text{,}\\
+  \basis{D}_i &= \{x_{i-1}^ax_i^b \;|\; 0\le a<p^{i-1}d,\; 0\le b<p\}
+  \text{,}\\
   \label{eq:bases}
-  \basis{C}_i &= (1,\,x_i,\,\ldots,\,x_i^{p^id-1})\text{.}  
+ \basis{C}_i&=\{x_i^a \;|\; 0\le a<p^id\}
+ \text{.}  
 \end{align}
 We describe an algorithm called \hyperref[alg:push-down]{\alg{Push-down}} which takes $v$
 written on the basis $\basis{C}_i$ and returns its coordinates on the

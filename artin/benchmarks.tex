@@ -5,7 +5,7 @@ We discuss here the implementation of the algorithms of this Chapter
 and some experimental results.
 
 \paragraph{Implementation}
-We packaged the algorithms of this paper in a \texttt{C++} library
+We packaged the algorithms of this document in a \texttt{C++} library
 called \texttt{FAAST} and made it available under the terms of the
 \texttt{GNU GPL} software license from
 \url{http://www.lix.polytechnique.fr/Labo/Luca.De-Feo/FAAST/}.
@@ -66,11 +66,10 @@ Figure~\ref{fig:lattice}.
   \label{fig:lattice}
 \end{figure}
 
-Besides the algorithms presented in this paper, \texttt{FAAST} also
-implements some algorithms described in
-Chapter~\ref{cha:algor-small-char} for minimal polynomials, evaluation
-and interpolation, as they are required for the isogeny computation
-algorithm described there.
+Besides the algorithms of Chapter~\ref{cha:artin-schr-towers},
+\texttt{FAAST} also implements the algorithms described in
+Section~\ref{sec:C2-AS-FI} for minimal polynomials, evaluation and
+interpolation.
 
 \paragraph{Experimental results.} We compare our timings with
 those obtained in Mag\-ma~\cite{MAGMA} for similar questions.  All

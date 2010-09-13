@@ -8,7 +8,7 @@ used by Wiles~\cite{wiles95,wiles+taylor95} to prove of Fermat's last
 theorem. In computer science, they have applications in
 cryptography~\cite{koblitz87,miller86,blake+seroussi+smart},
 factorization~\cite{lenstra87,atkin+morain93,bernstein+birkner+lange+peters08-2}
-and primality proving~\cite{atkin+morain93:2}.
+and primality proving~\cite{atkin+morain93:2,morain07}.
 
 In this section we recall the basic definitions and properties of
 elliptic curves, the material is drawn from
@@ -118,11 +118,14 @@ where
 
 \subsection{Group law}
 \label{sec:group-law}
-Elliptic curves are endowed with a group structure via the
+\pdfmargincomment[color=red,subject=rev2]{I find both "chord-tangent"
+  and "chord and tangent" in the literature.}  Elliptic curves are
+endowed with a group structure via the
 \index{elliptic~curve!group~law}
 \index{chord-tangent~law}\emph{chord-tangent law}.
 
 \begin{definition}
+  \pdfmargincomment[color=red,subject=rev2]{Yes, P2 has been (quickly) defined in Chap 1.}
   Let $E$ be an elliptic curve and let $P,Q\in\Proj^2$ be two points
   on the curve. Let $L$ be the line passing through $P$ and $Q$, with
   multiplicity two if $P=Q$, and let $R$ be the third intersection
@@ -205,9 +208,9 @@ point $[-m](-P)$ if $m<0$, or $\0$ if $m=0$.
 \begin{remark}
   \label{rk:montgomery}
   The Kummer variety can be represented by taking the abscissas of the
-  points of $E$. It is not anymore a group, but we can still compute
-  scalar multiples of its points. In fact, from the addition formulas
-  we deduce for $P\ne-P$
+  points of $E$. It is not a group, but we can still compute scalar
+  multiples of its points. In fact, from the addition formulas we
+  deduce for $P\ne-P$
   \begin{equation}
     \label{eq:128}
     x([2]P) = \frac{x^4-b_4x^2-2b_6x-b_8}{4x^3+b_2x^2+2b_4x+b_6}
@@ -258,7 +261,7 @@ is a group endomorphisms of $E(\K)$.
   The $m$-th \emph{torsion subgroup} of $E$ is
   \begin{equation}
     \label{eq:123}
-    E[m] = \{P\in E(\clot{\K}) \,|\, [n]P=\0\}
+    E[m] = \{P\in E(\clot{\K}) \,|\, [m]P=\0\}
     \text{,}
   \end{equation}
   its points are called%
@@ -430,17 +433,18 @@ from~\cite{connell:elliptic}.
 
 \begin{definition}[Twist]
   Two non-isomorphic elliptic curves $E$ and $E'$ over $\K$ such that
-  $j_E=j_{E'}$ are called \index{twist}\emph{twists}.
+  $j_E=j_{E'}$ are called \index{twist}\emph{twists} (of one another).
 \end{definition}
 
-A twist is isomorphic over the algebraic closure $\clot{\K}$. The
-\index{twist!degree~of~a}degree of the twist is the degree of the
-smallest extension $\K'/\K$ such that the twist is isomorphic over
-$\K$.
+\pdfmargincomment[color=red,subject=rev2]{Not following Connell anymore: now a curve HAS a twist.}
+An elliptic curve and a twist are isomorphic over the algebraic
+closure $\clot{\K}$. The \index{twist!degree~of~a}degree of a twist is
+the degree of the smallest extension $\K'/\K$ such that the two curves
+are isomorphic over $\K$.
 
 \begin{proposition}
-  Any curve has a quadratic twist. Any twist of ordinary elliptic
-  curves is quadratic.
+  Any curve has a quadratic twist. Any twist of an ordinary elliptic
+  curve is quadratic.
 \end{proposition}
 
 
@@ -505,8 +509,8 @@ is a purely inseparable isogeny of degree $p$, called the
 inseparable isogeny is a power of $\frobisog$.
 
 \begin{theorem}
-  Any isogeny can be factored in a product of a separable and a purely
-  inseparable isogeny.
+  Any isogeny can be factored into a product of a separable and a
+  purely inseparable isogeny.
 \end{theorem}
 
 One important property about isogenies is that they factor the
@@ -741,7 +745,7 @@ The modular polynomial has $O(\ell^2)$ coefficients, and the
 coefficients themselves have logarithmic height $O(\ell\log\ell)$. For
 this reason minimal polynomials associated to other modular functions
 are often preferred to $\Modpol_\ell$, as for example Atkin's
-\emph{canonical polynomial} $\Modpol_\ell^\ast$~\cite{atkin88}.
+\emph{canonical polynomial} $\Modpol_\ell^c$~\cite{atkin88}.
 
 Algorithms to compute the modular polynomial and its variants are
 described in~\cite{morain95,sutherland10:modpol}.

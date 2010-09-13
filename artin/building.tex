@@ -13,10 +13,13 @@ defined before.  Given $P$ and $R$ in $\F_p[X]$, we want to compute
 $P(R)$. For the cost analysis, it will be useful later on to consider
 both the degree $k$ and the number of terms $\ell$ of $R$.
 
-\hyperref[alg:compose]{\alg{Compose}} is a recursive process that cuts $P$ into $c+1$
-``slices'' of degree less than $p^n$, recursively composes them with
-$R$, and concludes using Horner's scheme and the linearity of the
-$p$-power. At the leaves of the recursion tree, we use the following naive
+\pdfmargincomment[color=red,subject=rev2]{Cited Bernstein.}
+\hyperref[alg:compose]{\alg{Compose}} is a recursive process that cuts
+$P$ into $c+1$ ``slices'' of degree less than $p^n$, recursively
+composes them with $R$, and concludes using Horner's scheme and the
+linearity of the $p$-power; a similar recursive step was used
+in~\cite{bernstein98} to compose power series in small characteristic.
+At the leaves of the recursion tree, we use the following naive
 algorithm.
 
 \begin{algorithm}

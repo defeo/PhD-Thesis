@@ -3,13 +3,19 @@ an \emph{explicit isogeny} we mean to find an ($\F_q$-rational)
 rational function from $E(\clot{\K})$ to $E'(\clot{\K})$ such that the
 map it defines is an isogeny. 
 
-In this chapter we are interested in finding explicit isogeny of
+In this chapter we are interested in finding explicit isogenies of
 ordinary elliptic curves over finite fields. In what follows $\F_q$
 will be a finite field of characteristic $p$, and $d$ the positive
 integer such that $q=p^d$.
 
+\pdfmargincomment[color=red,subject=rev2]{Let's be less misterious.}
 Parts of this chapter and of the following have been published
-in~\cite{df10}, however, something has changed since then!
+in~\cite{df10}. However, the complexity analysis we give in
+Proposition~\ref{th:lercier-sirvent} benefits from recent advances on
+the computation of modular polynomials~\cite{sutherland10:modpol};
+this in turn changes the relative ranking of the algorithms of this
+chapter in terms of complexity. We also present a new algorithm in
+Section~\ref{sec:bounded}.
 
 
 \section{Overview}
@@ -30,11 +36,11 @@ formal groups. The complexity of his method is $\tildO(\ell^3\log q)$ operations
 $\F_p$ assuming $p$ is constant, however it has an exponential
 complexity in $\log p$.
 
-Later, Lercier \cite{lercier96} gave an algorithm specific the
+Later, Lercier \cite{lercier96} gave an algorithm specific to
 characteristic $2$, that uses some linear properties of the problem to
-build a linear system from whose solution the isogeny can be
-deduced. Its complexity is conjectured to be $\tildO(\ell^3\log q)$
-operations in $\F_p$, but it has a much better constant factor than
+build a linear system from whose solution the isogeny can be deduced.
+Its complexity is conjectured to be $\tildO(\ell^3\log q)$ operations
+in $\F_p$, but it has a much better constant factor than
 \cite{couveignes94}. At the moment we write, this is by many orders of
 magnitude the fastest algorithm to solve practical instances of the
 problem when $p=2$, thus being the \emph{de facto} standard for
@@ -112,7 +118,7 @@ For any finite subgroup $G \subset E(\clot{\K})$, Vélu formulas
 \cite{velu71} give in a canonical way an elliptic curve $\bar{E}$ and
 an explicit separable isogeny $\I:E\rightarrow \bar{E}$ such that
 $\ker\I=G$. The isogeny is $\K$-rational if and only if the polynomial
-vanishing on the abscissae of $G$ belongs to $\K[X]$.
+vanishing on the abscissas of $G$ belongs to $\K[X]$.
 
 The isogeny computed by Vélu formulas is the map
 \begin{multline}
@@ -185,15 +191,16 @@ and the isogenous curve has equation
   \bar{E}\;:\;y^2 = x^3 + a_2x^2 + (a_4-5t)x + a_6 - 4a_2t - 7w
   \text{.}
 \end{equation}
-Thus, from the knowledge of $h(x)$ one can deduce an the isogeny and
-the isogenous curve in $O(\Mult(\deg\I))$ operations in $\K$.
+Thus, from the knowledge of $h(x)$ one can deduce the isogeny and the
+isogenous curve in $O(\Mult(\deg\I))$ operations in $\K$.
 
 \begin{remark}
   Traditionally, Eqs.~\eqref{eq:164} and~\eqref{eq:159} are used to
   deduce the isogeny and the curve from $h(x)$ and its three first
   power sums.
 
-  When the isogenous curve is of no interest, it is sometimes more
+  \pdfmargincomment[color=red,subject=rev2]{"When the isogenous curve
+    is of no interest" was really unuseful.}  It is sometimes more
   convenient to use the reformulation given by Elkies~\cite{elkies98}
   \begin{equation}
     \label{eq:157}

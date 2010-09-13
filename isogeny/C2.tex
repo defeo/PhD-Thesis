@@ -256,14 +256,17 @@ amounts to solve
 and this can be turned in an Artin-Schreier equation through the
 change of variables $x \rightarrow x'\tilde{x}_P$.
 
-From the descent on the Kummer varieties one could deduce a full
-$2$-descent on the curves by solving a quadratic equation at each step
-in order recover the $y$ coordinate, but this would be too
-expensive. Fortunately, the $y$ coordinates are not needed by the
-subsequent steps of the algorithm, thus one may simply ignore
-them. Observe in fact that even if $K_E$ does not have a group law,
-the restriction of scalar multiplication is well defined and can be
-computed through Montgomery formulas as described in
+\pdfmargincomment[color=red,subject=rev2]{y coordinates are not needed
+  in the second phase, but they are so badly needed in the descent
+  using Voloch formulas. Thus the case p=2 is the only one where we can
+  ignore the y coordinate.} From the descent on the Kummer varieties
+one could deduce a full $2$-descent on the curves by solving a
+quadratic equation at each step in order recover the $y$ coordinate,
+but this would be too expensive. Fortunately, the $y$ coordinates are
+not needed by the subsequent steps of the algorithm, thus one may
+simply ignore them. Observe in fact that even if $K_E$ does not have a
+group law, the restriction of scalar multiplication is well defined
+and can be computed through Montgomery formulas as described in
 Remark~\ref{rk:montgomery}. This is enough to compute all the
 abscissas of the points in $E[p^k]$ once a generator is known.
 
@@ -279,7 +282,7 @@ of C2, since a much more accurate complexity analysis will be carried
 out in Section \ref{sec:C2-AS}.
 
 \paragraph{$p$-Torsion}
-Applying Gunji formulas first requires to find $c$ and $c'$, $p-1$-th
+Applying Gunji formulas first requires to find $c$ and $c'$, $(p-1)$-th
 roots of $H_E$ and $H_{E'}$, and build the field extension $\F_q[c] =
 \F_q[c']$. Independently of the actual algorithm used, observe that in
 the worst case $\F_q[c]$ is a degree $p-1$ extension of $\F_q$, thus

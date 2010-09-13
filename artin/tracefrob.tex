@@ -46,7 +46,7 @@ v^{p^n}
 \end{array}
 \end{equation}
 Then, we compute all $v_h^{p^n}$ recursively; the final sum is
-computed using Horner's scheme. Remark that this equations are not
+computed using Horner's scheme. Remark that these equations are not
 limited to the case where $n<d$ or of the form $p^jd$: an arbitrary
 $n$ would do as well. However, we impose this limitation since these
 are the only values we need to compute $\PTr_{p^jd}$.
@@ -54,8 +54,9 @@ are the only values we need to compute $\PTr_{p^jd}$.
 In the case $n=p^jd$, any $v \in \U_j$ is left invariant by this
 Frobenius map, thus we stop the recursion when $i=j$, as there is
 nothing left to do. In the case $n<d$, we stop the recursion when
-$i=0$ and apply (see Section~\ref{sec:modular-composition}). We
-summarize the two variants in one unique algorithm
+$i=0$ and apply the algorithm of
+Section~\ref{sec:modular-composition}. We summarize the two variants
+in one unique algorithm
 \hyperref[alg:iterfrobenius]{\alg{IterFrobenius}}.
 
 \begin{algorithm}
