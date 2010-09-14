@@ -21,10 +21,16 @@ requirements of Theorem~\ref{th:cantor}
   $F_p[X]/Q_1(X)$ for some irreducible polynomial $Q_1$,
 \item that either $(d,p)=1$ or $\deg Q_1' + 2 = \deg Q_1$.
 \end{enumerate}
-Selecting a random polynomial $Q_1$ and testing for irreducibility is
-usually enough to meet these conditions, as we saw in
-Remark~\ref{rk:comp-minim-polyn}. This costs $O\bigl(pd\Mult(pd)\log
-(pd)\log(p^2d)\bigr)$ according to \cite[Th. 14.42]{vzGG}.
+\pdfmargincomment[color=red,subject=rev2]{Yes, there are deterministic
+  algorithms to generate irreducible polynomials, and it would be
+  easier to compute with if Q1 was sparse. But if I want to have a
+  good chance of meeting condition 2 when p divides d, I must take a
+  random polynomial and certainly not a sparse one! This was already
+  said in the remark.} Selecting a random polynomial $Q_1$ and testing
+for irreducibility is usually enough to meet these conditions, as we
+saw in Remark~\ref{rk:comp-minim-polyn}.  This costs
+$O\bigl(pd\Mult(pd)\log (pd)\log(p^2d)\bigr)$ according to \cite[Th.
+14.42]{vzGG}.
 
 Now we need to compute the embedding $\F_q\subset\F_q[c]$. Supposing
 $\F_q$ is represented as $\F_p[X]/Q_0(X)$, we factor $Q_0$ in
@@ -79,16 +85,18 @@ factors is
   \frac{\ell}{p}\ModComp(pd)\right)
   \;\text{.}  
 \end{equation}
-Also notice that there is no more need to store a $p^{k-1}d\times
-p^{k-1}d$ matrix to solve the Artin-Schreier equation, thus the space
+Also notice that there is no need to store a $p^{k-1}d\times p^{k-1}d$
+matrix to solve the Artin-Schreier equation, thus the space
 requirements are not anymore quadratic in $\ell$.
 
 
 \paragraph{Interpolation}
-The interpolation phase is not essentially changed: one needs first to
-interpolate a degree $p^k-1$ polynomial with coefficients in $\U_k$,
-then use \hyperref[alg:push-down]{\alg{Push-down}} to obtain the corresponding polynomial in
-$\F_q[X]$ and finally do a rational fraction reconstruction.
+The interpolation phase does not change in a significant way: one
+needs first to interpolate a degree $p^k-1$ polynomial with
+coefficients in $\U_k$, then use
+\hyperref[alg:push-down]{\alg{Push-down}} to obtain the corresponding
+polynomial in $\F_q[X]$ and finally do a rational fraction
+reconstruction.
 
 The first step costs $O\bigl(\Mult(p^{2k}d)\log p^k\bigr)$ using fast
 techniques as in Section~\ref{sec:chin-rema-algor}, then converting to

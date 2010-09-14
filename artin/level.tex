@@ -118,18 +118,19 @@ in $\F_p[Y,X_i]/(X_i^p-X_i-Y)$, and its transpose. We start by
 remarking that 
 \begin{equation}
   \label{eq:Kn}
-  X_i^{p^n}=X_i+R_n \bmod X_i^p-X_i-Y \qquad\text{with }
+  X_i^{p^n}=X_i+R_n \mod (X_i^p-X_i-Y) \qquad\text{with }
   R_n = \sum_{j=0}^{n-1} Y^{p^j}
   \text{.}
 \end{equation}
 Then, precisely, for $k$ in $\N$, we are interested in the operation
 \begin{equation}
   \label{eq:89}
-  \alg{MulMod}_{k,n}: A \mapsto (X_i+R_n)A \bmod X_i^p-X_i-Y
+  \alg{MulMod}_{k,n}: A \mapsto (X_i+R_n)A \mod (X_i^p-X_i-Y)
   \text{,}  
 \end{equation}
 with $A\in \F_p[Y,X_i]$, $\deg_Y(A) < k$ and $\deg_{X_i}(A) <p$.
 
+\pdfmargincomment[color=red,subject=rev2]{Detailed last column of the matrix.}
 Since $R_n$ is sparse, it is advantageous to use the naive algorithm;
 besides, to make transposition easy, we explicitly give the matrix of
 $\hyperref[eq:89]{\alg{MulMod}_{k,n}}$. Let $m_0$ be the
@@ -137,15 +138,18 @@ $(k+p^{n-1})\times k$ matrix having $1$'s on the diagonal only, and
 for $\ell \le p^{n-1}$, let $m_\ell$ be the matrix obtained from $m_0$
 by shifting the diagonal down by $\ell$ places. Let finally $m'$ be
 the sum $\Sigma_{j=0}^{n-1} m_{p^j}$. Then one verifies that the
-matrix of $\hyperref[eq:89]{\alg{MulMod}_{k,n}}$ is $$\left [
-\begin{matrix}
-m'  &     &        &        & m_1 \\
-m_0 & m'  &        &        & m_0 \\
-    & m_0 & m'     &        &     \\
-    &     & \ddots & \ddots &     \\
-    &     &        & m_0    & m'
-\end{matrix}
-\right ],$$ 
+matrix of $\hyperref[eq:89]{\alg{MulMod}_{k,n}}$ is
+\begin{equation}
+  \begin{bmatrix}
+    m'  &     &        &        &        & m_1 \\
+    m_0 & m'  &        &        &        & m_0 \\
+        & m_0 & m'     &        &        & 0   \\
+        &     & \ddots & \ddots &        & \vdots\\
+        &     &        & \ddots & \ddots & 0\\
+        &     &        &        & m_0    & m'
+  \end{bmatrix}
+  \text{,}
+\end{equation}
 with columns and rows indexed by 
 \begin{equation}
   \label{eq:90}
@@ -173,7 +177,7 @@ $Q_{i-1}(X_{i-1})$ coefficient-wise.
 To reduce $V$ modulo $X_i^p-X_i-X_{i-1}^{2p-1}$, we first compute 
 \begin{equation}
   \label{eq:91}
-  W=V \bmod X_i^p-X_i-Y
+  W=V \bmod (X_i^p-X_i-Y)
   \text{,} 
 \end{equation}
 then we replace $Y$ by $X_{i-1}^{2p-1}$ in $W$.  Because our algorithm
@@ -361,7 +365,7 @@ preimage in $\F_p[X_{i-1},X_i]$.  The lift-up algorithm finds $V$ in
 $\F_p[X_i]$ such that
 \begin{equation}
   \label{eq:93}
-  W=V \bmod
+  W=V \mod
   (X_i^p-X_i-X_{i-1}^{2p-1},Q_{i-1})
 \end{equation}
 and outputs the residue class of $V$ modulo $Q_i$. Hereafter, we

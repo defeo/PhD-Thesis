@@ -358,9 +358,8 @@ $\Theta\bigl(p^{k-i_0}(pd)^2\bigr)$.
 
 Now, we have $T_0$ at the root of the tree. We compute its derivative
 $T_0'$ and we evaluate it at $x(P)$ by reducing modulo
-$T_1,\ldots,T_k$. The cost is complexity is strictly smaller than the
-complexity of computing the subproduct tree.  We finally do the
-interpolation of $A_0$.
+$T_1,\ldots,T_k$. This costs strictly less than computing the
+subproduct tree.  We finally do the interpolation of $A_0$.
 
 \begin{algorithm}
   \caption{Truncated fast interpolation}
@@ -399,11 +398,11 @@ interpolation is
 
 
 \paragraph{The complete interpolation}
-We compute all the $A^{(j)}$'s using this algorithm; there's
+We compute all the $A^{(j)}$'s using this algorithm; there are
 $p^{i_0-1}r$ of them. We then recombine them through a
 \hyperref[sec:chin-rema-algor]{Chinese remainder algorithm} at a cost
-of $O\bigl(\Mult(p^kd)\log p^kd\bigr)$. The total cost of the
-whole interpolation phase is then
+of $O\bigl(\Mult(p^kd)\log p^kd\bigr)$. The total cost of the whole
+interpolation phase is then
 \begin{multline*}
   O\left(\bigl(k-i_0\bigr) p\Lift(k) + p^{k-1}\ModComp(pd)\log d +
     p^{k-1}r(pd)^2 + \Mult(p^kd)\log p^kd \right)\text{,}
