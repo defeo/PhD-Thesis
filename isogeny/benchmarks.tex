@@ -69,7 +69,7 @@ except for a degree $2$ symmetry verified in characteristic $2$,
 polynomials not associated to an isogeny very rarely gave a degree
 sequence with a gap around the middle.
 
-\pdfmargincomment{Added some blabla on Teske's cryptosystem.}
+\pdfmcone{Added some blabla on Teske's cryptosystem.}
 Looking for isogenies of unknown degree may be of some cryptographic
 significance. For example, Teske's trapdoor cryptosystem selects a
 binary field of composite degree ($\F_{2^{7\cdot 23}}$, in the
@@ -135,7 +135,7 @@ Finally, we ran experiments on
 \hyperref[alg:le-si]{\alg{Lercier-Sirvent}}. Table~\ref{tab:ls} shows
 timings for the different phases of the algorithm for some isogeny
 degrees. The first column is the time spent to find a root of
-$\Phi_\ell(X,j_E)$ in $\F_q$, the second column summarizes the time
+$\Modpol_\ell(X,j_E)$ in $\F_q$, the second column summarizes the time
 spent to lift this root in $\Q_q$ and apply Elkies'
 formulas. DiffSolve is the time spent solving the differential
 equation, it is clearly the most expensive phase, although not the
@@ -193,7 +193,7 @@ Eq.~\eqref{eq:interp} to Proposition~\ref{th:lercier-sirvent}), there
 are very few regions where Couveignes' algorithm stays of practical or
 theoretical interest.
 
-\pdfmargincomment{People don't like pessimism.}  Ironically, the
+\pdfmcone{People don't like pessimism.}  Ironically, the
 techniques presented in this document were developed in view of an
 efficient implementation of Couveignes' algorithm, but, for the
 moment, their only practical application seems to be C2-UD. Our hope

@@ -4,10 +4,10 @@
 We now present an extension to Couveignes algorithm that could be
 useful in cryptographic application. Recall that two curves having the
 same number of points over a finite field are isogenous; however this
-doesn't say anything on the degree of the isogeny connecting
-them. Given two elliptic curves $E$ and $E'$ defined over $\F_q$ and
-having the same number of points, we want to find an $\F_q$-rational
-isogeny between them.
+says nothing on the degree of the isogeny connecting them. Given two
+elliptic curves $E$ and $E'$ defined over $\F_q$ and having the same
+number of points, we want to find an $\F_q$-rational isogeny between
+them.
 
 The simplest solution is to take any algorithm computing an isogeny of
 given degree, and try all the degrees until an isogeny is found. If
@@ -60,8 +60,8 @@ such that $\deg R_{h+1} < m \le \deg R_h$ without computing the
 intermediate lines.
 
 In Couveignes' algorithm, when looking for an $\ell$-isogeny, one
-simply sets $m=\ell+1$. Observe that if the algorithm doesn't return a
-rational fraction $\frac{R}{V}$ with $\deg R = \ell$ and $\deg V =
+simply sets $m=\ell+1$. Observe that if the algorithm does not return
+a rational fraction $\frac{R}{V}$ with $\deg R = \ell$ and $\deg V =
 \ell -1 $, then no such fraction congruent to $A$ modulo $T$ exists.
 
 If $\ell$ is not \emph{a priori} known, we can still use the fact that
@@ -148,10 +148,11 @@ Degree sequences associated to isogenies are in general not normal, in
 fact if $\ell\le\left\lfloor\frac{\deg T}{2}\right\rfloor-t$, equation
 \eqref{eq:degseq} shows that there must be at least a gap of degree
 $2t$ in the degree sequence. Heuristically, we can expect that if the
-polynomial $A$ doesn't correspond to an isogeny, then $A$ and $T$ act
+polynomial $A$ does not correspond to an isogeny, then $A$ and $T$ act
 like random polynomials, thus, by the proposition above, the
 probability that $A$ looks like an isogeny of degree
-$\ell\le\left\lfloor\frac{\deg T}{2}\right\rfloor-t$ is less than $\frac{1}{q^{2t}}$.
+$\ell\le\left\lfloor\frac{\deg T}{2}\right\rfloor-t$ is less than
+$\frac{1}{q^{2t}}$.
 
 Therefore, by choosing an appropriate $t\in O(\log_q p^k)$, C2-UD can
 find any isogeny of degree less than $\frac{p^k-1}{4}-t$ at the same
@@ -159,18 +160,24 @@ cost of one run of C2. Also notice that C2-UD is not restricted to
 isogenies of degree prime to $p$ as was already mentioned in Section
 \ref{sec:C2:non-prime}.
 
-This variant makes Couveignes' algorithm quite unique for various
-reasons. First of all, it is the first algorithm, other than trivial
-ones, to compute isogenies of unknown degree. Besides, no other
-algorithm to compute isogenies of fixed degree seems to have a similar
-variant (for example, BMSS requires $\ell$-normalized models, and
-Lercier-Sirvent uses $\Phi_\ell$). It is also interesting to notice
-that, while for computing isogenies of degree $\ell$ there is still a
-complexity gap between the large and small characteristic cases, C2-UD
-closes this gap in the unknown degree case. Finally, this variant
-explains somehow why Couveignes' algorithm is not optimal: because it
-solves another problem.
+\begin{nota}
+  \pdfmctwo{Some remarks on Couveignes 1.}
+  This variant makes Couveignes' algorithm quite unique for various
+  reasons. First of all, it is the first algorithm, other than trivial
+  ones, to compute isogenies of unknown degree. Besides, most
+  algorithms to compute isogenies of fixed degree do not seem to have
+  a similar variant: for example, BMSS requires $\ell$-normalized
+  models, and Lercier-Sirvent uses $\Modpol_\ell$. We think that
+  Couveignes' first algorithm~\cite{couveignes94} could also be
+  generalized to compute isogenies of unknown degree, thanks to its
+  similarity to C2.
 
+  It is also interesting to notice that, while for computing isogenies
+  of degree $\ell$ there is still a complexity gap between the large
+  and small characteristic cases, C2-UD closes this gap in the unknown
+  degree case. Finally, this variant explains somehow why Couveignes'
+  algorithm is not optimal: because it solves another problem.
+\end{nota}
 
 
 

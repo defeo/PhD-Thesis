@@ -16,7 +16,7 @@ programs that are only made of a sequence of assignments (no
 branchings, no loops).  See~\cite{burgisser+clausen-shokrollahi} for
 formal definitions and proofs.
 
-\pdfmargincomment{More precisions on the algebraic RAM.}
+\pdfmcone{More precisions on the algebraic RAM.}
 We work in the algebraic \index{RAM~model}RAM model
 of~\cite{kaltofen88:gcd}; this is to the classic RAM model what the
 BSS model~\cite{BSS} is to the Turing machine. In a slightly
@@ -70,7 +70,7 @@ the two operations
 \end{align}
 where $R_i,R_j$ are registers and $a\in R$. 
 
-\pdfmargincomment{Slightly rephrased.}
+\pdfmcone{Slightly rephrased.}
 Such SLP's can compute the same morphisms as linear circuits
 over the basis $\mathsf{BLS}$:
 \begin{equation}
@@ -125,7 +125,7 @@ clear that any straight line program using only
 instructions~\eqref{eq:269} and~\eqref{eq:272} can be represented by a
 circuit over \ref{eq:246} having $n$ inputs (and outputs).
 
-\pdfmargincomment{Added precision on the one-to-many correspondence.}  Thus,
+\pdfmcone{Added precision on the one-to-many correspondence.}  Thus,
 we identify circuits over~\ref{eq:246} with such SLP's (note that the
 identification is not one-to-one as different topological orders yield
 different SLP's), and define the space complexity in the algebraic RAM
@@ -153,7 +153,7 @@ algebraic RAM model.
 
 \subsection{Linear straight line programs}
 \label{sec:gener-stra-line}
-\pdfmargincomment{"generic" -> "classic"}
+\pdfmcone{"generic" -> "classic"}
 The step from the SLP's we just defined to classic linear SLP's is
 very small. In fact, all one has to do is simulate the instructions
 \begin{align}
@@ -227,7 +227,7 @@ if $R_j$ and $R_k$ are not doubly used; this transposes to
 \end{equation}
 (notice that a double use is introduced by this transposition).
 
-\pdfmargincomment{Removed undefined "self-increment".}
+\pdfmcone{Removed undefined "self-increment".}
 By comparing this to equations~\eqref{eq:259} and~\eqref{eq:260}, one
 sees that each double use of a register introduces a
 $\overset{+}{\la}$ in the transposed code, and each addition
@@ -277,7 +277,7 @@ Schost consider SLP's parameterized by integers and booleans.
   If the program is recursive, it must terminate on any valid input.
 \end{definition}
 
-\pdfmargincomment{Explained what the algorithm does.}
+\pdfmcone{Explained what the algorithm does.}
 By extension, we shall also call $R$-algebraic transform any algorithm
 that can be expressed in this model. This is equivalent to consider
 circuit families; for example, Algorithm~\ref{alg:r-algeb} corresponds
@@ -312,7 +312,7 @@ where $f_n$ is the $n$-th \index{Fibonacci~number}Fibonacci number.
 \end{algorithm}
 
 
-\pdfmargincomment{Added exercise for the reader.}
+\pdfmcone{Added exercise for the reader.}
 It is clear that, for any value of the non-algebraic parameters, an
 $R$-algebraic transform corresponds to a SLP, then the transposition
 theorem can be applied to it. In practice, one leaves conditionals

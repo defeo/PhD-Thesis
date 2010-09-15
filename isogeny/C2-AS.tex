@@ -21,16 +21,15 @@ requirements of Theorem~\ref{th:cantor}
   $F_p[X]/Q_1(X)$ for some irreducible polynomial $Q_1$,
 \item that either $(d,p)=1$ or $\deg Q_1' + 2 = \deg Q_1$.
 \end{enumerate}
-\pdfmargincomment[color=red,subject=rev2]{Yes, there are deterministic
-  algorithms to generate irreducible polynomials, and it would be
-  easier to compute with if Q1 was sparse. But if I want to have a
-  good chance of meeting condition 2 when p divides d, I must take a
-  random polynomial and certainly not a sparse one! This was already
-  said in the remark.} Selecting a random polynomial $Q_1$ and testing
-for irreducibility is usually enough to meet these conditions, as we
-saw in Remark~\ref{rk:comp-minim-polyn}.  This costs
-$O\bigl(pd\Mult(pd)\log (pd)\log(p^2d)\bigr)$ according to \cite[Th.
-14.42]{vzGG}.
+\pdfmctwo{Yes, there are deterministic algorithms to generate
+  irreducible polynomials, and it would be easier to compute with Q1,
+  if it were sparse. But if I want to have a good chance of meeting
+  condition 2 when p divides d, I must take a random polynomial and
+  certainly not a sparse one! This was already said in the remark.}
+Selecting a random polynomial $Q_1$ and testing for irreducibility is
+usually enough to meet these conditions, as we saw in
+Remark~\ref{rk:comp-minim-polyn}.  This costs $O\bigl(pd\Mult(pd)\log
+(pd)\log(p^2d)\bigr)$ according to \cite[Th.  14.42]{vzGG}.
 
 Now we need to compute the embedding $\F_q\subset\F_q[c]$. Supposing
 $\F_q$ is represented as $\F_p[X]/Q_0(X)$, we factor $Q_0$ in

@@ -135,7 +135,7 @@ of $\widetilde{E}$. Voloch shows the following proposition.
     \label{th:voloch:cover}
     C:\; \tilde{z}^p - \tilde{z} = \frac{\tilde{y}\beta(\tilde{x})}{\tilde{c}^p}
   \end{equation}
-  \pdfmargincomment{The "étale" property is from the original
+  \pdfmcone{The "étale" property is from the original
     statement in Voloch's paper, I guess it is necessary to guarantee
     that the cover is a group morphism.  Not that I really understand
     what it means exactly, but is this a reason to change the
@@ -216,28 +216,28 @@ since in both cases $p^k \in O(\ell)$.
 \paragraph{Recognising the isogeny}
 Once the rational fraction $\frac{g(X)}{h(X)}$ has been computed, one
 has to verify that it is indeed an isogeny. The first test is to check
-that the degrees of $g$ and $h$ match equation \eqref{eq:velu-deg}, if
-they don't, the equation can be discarded right away and the algorithm
-can go on with the next trial. Next, one can check that $h$ is indeed
-the square of a polynomial (or, if $\ell$ is even, the product of one
-factor of the $2$-division polynomial and a square polynomial). These
-two tests are usually enough to detect an isogeny. In case a higher
-confidence is needed, one can evaluate the rational fraction on some
-random points of $E$ and check that it is indeed a group
-morphism. Finally, if a deterministic proof is needed, one can compute
-the $\ell$-division polynomial modulo $h$ and verify that it is equal
-to $0$.
+that the degrees of $g$ and $h$ match equation \eqref{eq:velu-deg}: if
+this is not the case, the equation can be discarded right away and the
+algorithm can go on with the next trial. Next, one can check that $h$
+is indeed the square of a polynomial (or, if $\ell$ is even, the
+product of one factor of the $2$-division polynomial and a square
+polynomial). These two tests are usually enough to detect an
+isogeny. In case a higher confidence is needed, one can evaluate the
+rational fraction on some random points of $E$ and check that it is
+indeed a group morphism. Finally, if a deterministic proof is needed,
+one can compute the $\ell$-division polynomial modulo $h$ and verify
+that it is equal to $0$.
 
 
 \subsection{The case \texorpdfstring{$p=2$}{p=2}}
 \label{sec:p=2}
 The algorithm, as we presented it, only works when $p\ne2$, it is
-however an easy matter to generalise it. The only phase that doesn't
+however an easy matter to generalise it. The only phase that does not
 work is the computation of the $p^k$-torsion points. For curves in the
 simplified Weierstrass form \eqref{eq:weierstrass=2} the only
 $2$-torsion point is $(0,\sqrt{b})$.
 
-\pdfmargincomment{"Kummer surface" -> "Kummer variety".}
+\pdfmcone{"Kummer surface" -> "Kummer variety".}
 Voloch formulas are hard to adapt, nevertheless a $2$-descent on the
 \hyperref[def:kummer]{Kummer variety} of $E$ can easily be performed
 since the doubling formula reads
@@ -256,7 +256,7 @@ amounts to solve
 and this can be turned in an Artin-Schreier equation through the
 change of variables $x \rightarrow x'\tilde{x}_P$.
 
-\pdfmargincomment[color=red,subject=rev2]{y coordinates are not needed
+\pdfmctwo{y coordinates are not needed
   in the second phase, but they are so badly needed in the descent
   using Voloch formulas. Thus the case p=2 is the only one where we can
   ignore the y coordinate.} From the descent on the Kummer varieties

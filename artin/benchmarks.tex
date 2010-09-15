@@ -30,24 +30,36 @@ that allow more flexibility. Instead of being recursive algorithms
 doing the change to and from the multivariate basis
 $\basis{B}'_i=\{{x_0'}^{e_0}\cdots {x_i'}^{e_i}\}$, they only
 implement the change to and from the bivariate basis
-$\basis{D}'_i=\{{x_{i-1}}^{e_{i-1}}{x_i'}^{e_i}\}$ with $0\le
-e_{i-1}<p^{i-1}d$ and $0\le e_i<p$. Equivalently, this amounts to
+\begin{equation}
+  \label{eq:278}
+  \basis{D}'_i=\{{x_{i-1}}^{e_{i-1}}{x_i'}^{e_i} \;|\;0\le
+  e_{i-1}<p^{i-1}d,\; 0\le e_i<p\}
+  \text{.}
+\end{equation}
+Equivalently, this amounts to
 switch between the representations
 \begin{equation}
   \wrt\U_i \quad\text{and}\quad
-  \wrt\U_{i-1}[X_i']/(X_i'^p-X_i'-\gamma_{i-1}')
+  \wrt\U_{i-1}[X_i']/({X_i'}^p-X_i'-\gamma_{i-1}')
   \text{.}
 \end{equation}
 The same result as one call to \hyperref[alg:applyisomorphism]{\alg{ApplyIsomorphism}} or
 \hyperref[alg:applyinverse]{\alg{ApplyInverse}} can be obtained by $i$ calls to
 \texttt{toUnivariate()} and \texttt{toBivariate()}
-respectively. However, in the case where several generic Artin-Schreier
-towers, say $(\U_0',\ldots,\U_k')$ and $(\U_0'',\ldots,\U_k'')$, are
-built using the algorithms of Section \ref{sec:couveignes-algorithm},
-this allows to \emph{mix} the representations by letting the user
-chose to switch to any of the bases $\{y_0^{e_0}\cdots y_i^{e_i}\}$
-where $y_i$ is either $x_i'$ or $x_i''$. In other words this allows
-the user to \emph{zig-zag} in the lattice of finite fields as in
+respectively. 
+
+\pdfmctwo{I tried to be more clear on this. I do not know if I
+  succeeded.}  However, more freedom is allowed in the case where
+several generic Artin-Schreier towers, say $(\U_0',\ldots,\U_k')$ and
+$(\U_0'',\ldots,\U_k'')$, are built using the algorithms of Section
+\ref{sec:couveignes-algorithm}. In fact it is possible, for example,
+to see $\U_k''$ as an extension field of $\U'_k$ by first converting
+to the basis $\basis{D}''_k$ and then recursively to
+$\basis{D}'_{k-1},\ldots,\basis{D}'_1$. More generally, this allows
+the user to build a new Artin-Schreier tower
+$(\U_0''',\ldots,\U_k''')$ by taking at each level either
+$\U_i'''=\U_i'$ or $\U_i'''=\U_i''$.  In other words this allows the
+user to \emph{zig-zag} in the lattice of finite fields as in
 Figure~\ref{fig:lattice}.
 
 \begin{figure}
@@ -58,11 +70,11 @@ Figure~\ref{fig:lattice}.
       \U_k'\ar@{-}[r]^{\sigma'} & \U_k\ar@{-}[d] & \U_k''\ar@{-}[l]_{\sigma''} \ar@{--}@(d,u)[dll]\\
       \U_{k-1}'\ar@{-}[r]^{\sigma'} \ar@{--}@(d,u)[drr] & \U_{k-1}\ar@{.}[d] & \U_{k-1}''\ar@{-}[l]_{\sigma''}\\
       \U_1'\ar@{-}[r]^{\sigma'} & \U_1\ar@{-}[d] & \U_1''\ar@{-}[l]_{\sigma''}\ar@{-->}[d]\\
-      & \U_0 & *[r]{v\wrt\{{x_0}^{e_0}{x_1''}^{e_1}\cdots {x_{k-1}'}^{e_{k-1}}{x_k''}^{e_k}\}}
+      & \U_0 & *[r]{v\wrt\U_0[x_1'',\ldots,x_{k-1}',x_k'']}
     }
   \end{equation*}
-  \caption{An example of conversion from the univariate basis to a
-    mixed multivariate basis.}
+  \caption{An example of conversion from the univariate basis to the
+    multivariate basis of the tower $(\U_0,\U_1'',\ldots,\U_{k-1}',\U_k'')$.}
   \label{fig:lattice}
 \end{figure}
 
@@ -152,7 +164,7 @@ build one level of the primitive tower (this includes the
 precomputation of the data as described in
 Subsection~\ref{sec:level-embedding:lift-up}); the other entries are
 self-explanatory. Product and inversion are just wrappers around
-\texttt{NTL} routines: in these operations we didn't observe any
+\texttt{NTL} routines: in these operations we did not observe any
 overhead compared to the native \texttt{NTL} code. All the operations
 stay within a factor of $30$ of the cost of multiplication, which is
 satisfactory.

@@ -41,7 +41,7 @@ the abscissas of $E[p^k]$, this is enough to complete the
 algorithm. Scalar multiples of $P$ can be computed without knowledge
 of $y(P)$ using \hyperref[rk:montgomery]{Montgomery formulas}.
 
-\pdfmargincomment{"Kummer surface" -> "Kummer variety".}  Remark that
+\pdfmcone{"Kummer surface" -> "Kummer variety".}  Remark that
 for $p=2$ we use the same construction in an implicit way since we do
 a $p$-descent on the Kummer variety.
 
@@ -208,10 +208,11 @@ only take the degree $\ell$ and the equation of $E$ as input, and
 compute an $\F_q$-isogenous curve, if it exists, by factoring the
 modular polynomial in $\F_q[X]$.
 
-Instead of the classical modular polynomials $\Phi_\ell$ we used
-Atkin's canonical polynomials $\Modpol^c_\ell$ since they have smaller
-coefficients and degree; this does not change the other steps of the
-algorithm. 
+\pdfmctwo{Atkin's MODULAR polynomial. Not "canonical".}
+Instead of the classical modular polynomials $\Modpol_\ell$ we used
+Atkin's modular polynomials $\Modpol^\ast_\ell$ since they have
+smaller coefficients and degree; this does not change the other steps
+of the algorithm.
 
 The modular polynomials were not computed on the fly as suggested in
 Section~\ref{sec:lercier-sirvent}, instead they were taken from the

@@ -2,6 +2,7 @@ The techniques we have developed to perform fast computations in some
 finite-dimensional algebras, find an application in some
 number-theoretic computations on elliptic curves.
 
+\pdfmctwo{Added François' paper}
 Elliptic curves are a central object of study in number theory and
 algebraic geometry. They are probably most famous for having being
 used by Wiles~\cite{wiles95,wiles+taylor95} to prove of Fermat's last
@@ -118,14 +119,14 @@ where
 
 \subsection{Group law}
 \label{sec:group-law}
-\pdfmargincomment[color=red,subject=rev2]{I find both "chord-tangent"
+\pdfmctwo{I find both "chord-tangent"
   and "chord and tangent" in the literature.}  Elliptic curves are
 endowed with a group structure via the
 \index{elliptic~curve!group~law}
 \index{chord-tangent~law}\emph{chord-tangent law}.
 
 \begin{definition}
-  \pdfmargincomment[color=red,subject=rev2]{Yes, P2 has been (quickly) defined in Chap 1.}
+  \pdfmctwo{Yes, P2 has been (quickly) defined in Chap 1.}
   Let $E$ be an elliptic curve and let $P,Q\in\Proj^2$ be two points
   on the curve. Let $L$ be the line passing through $P$ and $Q$, with
   multiplicity two if $P=Q$, and let $R$ be the third intersection
@@ -195,7 +196,7 @@ For $m\in\Z$, we denote by $[m]P$ the point%
   curve} $\overbrace{P+P+\cdots+P}^{m\text{ times}}$ if $m>0$, or the
 point $[-m](-P)$ if $m<0$, or $\0$ if $m=0$. 
 
-\pdfmargincomment{Oups! Changed "Kummer surface" to "Kummer variety"
+\pdfmcone{Oups! Changed "Kummer surface" to "Kummer variety"
   (it is called "surface" only for two-dimensional abelian varieties).}
 \begin{definition}[Kummer variety]
   \label{def:kummer}
@@ -436,11 +437,12 @@ from~\cite{connell:elliptic}.
   $j_E=j_{E'}$ are called \index{twist}\emph{twists} (of one another).
 \end{definition}
 
-\pdfmargincomment[color=red,subject=rev2]{Not following Connell anymore: now a curve HAS a twist.}
-An elliptic curve and a twist are isomorphic over the algebraic
-closure $\clot{\K}$. The \index{twist!degree~of~a}degree of a twist is
-the degree of the smallest extension $\K'/\K$ such that the two curves
-are isomorphic over $\K$.
+\pdfmctwo{I was following Connell on the terminology about twists. I
+  changed the terminology, hope that it is more standard now.}  An
+elliptic curve and a twist are isomorphic over the algebraic closure
+$\clot{\K}$. The \index{twist!degree~of~a}degree of a twist is the
+degree of the smallest extension $\K'/\K$ such that the two curves are
+isomorphic over $\K$.
 
 \begin{proposition}
   Any curve has a quadratic twist. Any twist of an ordinary elliptic
@@ -657,7 +659,7 @@ corresponding to it as in Eq.~\eqref{eq:146}.
 
 The correspondences we just defined are actually equivalences.
 
-\pdfmargincomment{Repetita iuvant: elliptic curves "over C".}
+\pdfmcone{Repetita iuvant: elliptic curves "over C".}
 \begin{theorem}
   The category of elliptic curves over $\C$ with isogenies as maps is
   equivalent to the category of lattices up to homothety with maps
@@ -727,7 +729,7 @@ scale $\Lambda$ so that $(1,\tau)$ is a basis for it. Then
 $\C/\Lambda$ is $\ell$-isogenous to $\C/(\Z+\ell\tau\Z)$ via the map
 $z\mapsto\ell z$.
 
-\pdfmargincomment{It is the minimal polynomial "over C".}
+\pdfmcone{It is the minimal polynomial "over C".}
 For any prime $\ell$, the minimal polynomial over $\C$ of the modular
 function $j(\ell\tau)$ is called the \index{th modular
   polynomial}\emph{$\ell$-th modular polynomial}, it is denoted by
@@ -741,14 +743,17 @@ elliptic curves $\ell$-isogenous to $E$. From the knowledge of a pair
 of $\ell$-isogenous $j$ invariants, one can compute an isogeny using
 the algorithms of the next chapter.
 
-The modular polynomial has $O(\ell^2)$ coefficients, and the
-coefficients themselves have logarithmic height $O(\ell\log\ell)$. For
-this reason minimal polynomials associated to other modular functions
-are often preferred to $\Modpol_\ell$, as for example Atkin's
-\emph{canonical polynomial} $\Modpol_\ell^c$~\cite{atkin88}.
+\pdfmctwo{Atkin's MODULAR polynomial. Not "canonical". Also Cited
+  Enge-Sutherland.}  The modular polynomial has $O(\ell^2)$
+coefficients, and the coefficients themselves have logarithmic height
+$O(\ell\log\ell)$. For this reason minimal polynomials associated to
+other modular functions are often preferred to
+$\Modpol_\ell$~\cite{atkin88,enge+sutherland10}; for example, our
+implementations make use of \emph{Atkin's modular polynomials}
+$\Modpol_\ell^\ast$~\cite{atkin88}.
 
 Algorithms to compute the modular polynomial and its variants are
-described in~\cite{morain95,sutherland10:modpol}.
+described in~\cite{morain95,sutherland10:modpol,enge+sutherland10}.
 
 
 

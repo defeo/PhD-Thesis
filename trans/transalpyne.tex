@@ -17,7 +17,7 @@ features that we have discussed until now, in particular:
 \item it is able to transpose any linearization of an algebraic
   program (see Section~\ref{sec:r-algebr-algor};
 \item its code can be compiled to python code, or interpreted inside
-  python's interpreter.
+  python interpreter.
 \end{itemize}
 
 At the moment we write, the first stable release of \tALpy{} is not
@@ -55,7 +55,7 @@ type of the input and output parameters of a function, while all the
 other variables can be left untyped. \tALpy{} supports two sorts of
 algebraic types: ring elements and module elements; we plan to support
 more complex algebraic types, such as algebras, in the
-future. \tALpy{} relies on python's operator overloading to represent
+future. \tALpy{} relies on python operator overloading to represent
 ring operations.
 
 \tALpy{} type checker also performs a linearity inference as described
@@ -70,7 +70,7 @@ a function call, it raises a compile time error.
 \label{sec:syntax}
 We only describe \tALpy{} syntax informally. Indentation has a
 syntactic value (it delimits blocks) and keywords are pretty much the
-same as python's. A \tALpy{} file contains a \emph{type declaration}
+same as in python. A \tALpy{} file contains a \emph{type declaration}
 section followed by a \emph{name definition} section.
 
 \subsubsection{Type declarations}
@@ -106,7 +106,7 @@ the left.
 Inside function definitions, there are four types of statements:
 \lstinline+pass+ statements (the statement that does nothing),
 assignments (including augmented assignments), \lstinline+for+ loops
-and \lstinline+if+s. The syntax is identical to python's.
+and \lstinline+if+s. The syntax is identical to python.
 
 On the left hand side of assignments, may only appear variable names
 and subscripts. On the right hand side of assignments, the following
@@ -125,7 +125,7 @@ types of expressions may appear:
 \item Variable evaluations;
 \item Function calls.
 \end{itemize}
-The syntax for all of these is identical to python's. The only notable
+The syntax for all of these is identical to python. The only notable
 exception are function calls where a keyword \lstinline+trans+ is
 added to let the user call a transposition of a function. In case a
 function has more than one linearization (and thus more than one
@@ -160,7 +160,7 @@ r_product = trans {linear R}product{const R, linear R}
 
 \subsection{Semantics}
 We only give here the points were \tALpy{} semantics differ from
-python's.
+python.
 
 \subsubsection{Types}
 \tALpy{} is statically typed for algebraic types. The type of each
@@ -292,7 +292,7 @@ future.
 \label{sec:linearization}
 
 After a first type checking to determine which variables are
-algebraic, \tALpy{}'s compiler/interpreter runs the linearization
+algebraic, \tALpy{} compiler/interpreter runs the linearization
 inference algorithm of Section~\ref{sec:inference}. 
 
 Since a function may have more than one linearization, \tALpy{} allows

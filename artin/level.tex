@@ -7,9 +7,9 @@ for most further operations. We detail the main case where $P_i =
 X_i^p - X_i - X_{i-1}^{2p-1}$; the case $P_1= X_1^p - X_1 - X_0$ (and
 $P_2=X_2^2+X_2+X_1$ for $p=2$ and $d$ odd) is easier.
 
-\pdfmargincomment[color=red,subject=rev2]{Explicit indices for the basis.}
 Recall the two families of $\F_p$-bases we have defined so far:
 \begin{align}
+  \pdfmctwo{Explicit indices for the basis.}
   \basis{B}_i &=
   \{x_0^{e_0} \cdots x_i^{e_i} \;|\; 0 \le e_0 < d,\; 0\le e_j < p 
   \text{ for $j>0$}\}
@@ -57,10 +57,10 @@ bivariate, one can go from one to the other using the algorithms of
 Pascal and Schost~\cite{pascal+schost06}, in fact most of the ideas of
 this section are inspired by their paper.
 
-\pdfmargincomment[color=red,subject=rev2]{Explicit indices for the basis.}
 Since $\deg(Q_{i-1})=p^{i-1}d$ and $\deg(Q_{i})=p^id$, we associate
 the following $\F_p$-bases of $\U_i$ to each system:
 \begin{align}
+  \pdfmctwo{Explicit indices for the basis.}
   \basis{D}_i &= \{x_{i-1}^ax_i^b \;|\; 0\le a<p^{i-1}d,\; 0\le b<p\}
   \text{,}\\
   \label{eq:bases}
@@ -84,13 +84,14 @@ repeatedly applying \hyperref[alg:push-down]{\alg{Push-down}}, and the opposite 
 repeatedly applying \hyperref[alg:liftup]{\alg{Lift-up}}.
 
 Hereafter, we let $\Lift:\N-\{0\} \to \N$ be such that both
-\hyperref[alg:push-down]{\alg{Push-down}} and \hyperref[alg:liftup]{\alg{Lift-up}} can be performed in time $\Lift(i)$; to
-simplify some expressions appearing later on, we add the mild
-constraints that $p\,\Lift(i) \le \Lift(i+1)$ and $p\,\Mult(p^{i}d)
-\in O(\Lift(i))$.
-To reflect the implementation's behavior, we also allow
-precomputations. These precomputations are performed when we build
-the tower; further details are at the end of this section.
+\hyperref[alg:push-down]{\alg{Push-down}} and
+\hyperref[alg:liftup]{\alg{Lift-up}} can be performed in time
+$\Lift(i)$; to simplify some expressions appearing later on, we add
+the mild constraints that $p\,\Lift(i) \le \Lift(i+1)$ and
+$p\,\Mult(p^{i}d) \in O(\Lift(i))$.  To reflect the behavior of the
+implementation, we also allow precomputations. These precomputations
+are performed when we build the tower; further details are at the end
+of this section.
 \begin{theorem}\label{theo:L}
   One can take $\Lift(i)$ in $O( p^{i+1}d\log_p(p^id)^2 \ + \
 \,p\,\Mult(p^{i}d))$.
@@ -130,7 +131,6 @@ Then, precisely, for $k$ in $\N$, we are interested in the operation
 \end{equation}
 with $A\in \F_p[Y,X_i]$, $\deg_Y(A) < k$ and $\deg_{X_i}(A) <p$.
 
-\pdfmargincomment[color=red,subject=rev2]{Detailed last column of the matrix.}
 Since $R_n$ is sparse, it is advantageous to use the naive algorithm;
 besides, to make transposition easy, we explicitly give the matrix of
 $\hyperref[eq:89]{\alg{MulMod}_{k,n}}$. Let $m_0$ be the
@@ -140,6 +140,7 @@ by shifting the diagonal down by $\ell$ places. Let finally $m'$ be
 the sum $\Sigma_{j=0}^{n-1} m_{p^j}$. Then one verifies that the
 matrix of $\hyperref[eq:89]{\alg{MulMod}_{k,n}}$ is
 \begin{equation}
+  \pdfmctwo{Detailed last column of the matrix.}
   \begin{bmatrix}
     m'  &     &        &        &        & m_1 \\
     m_0 & m'  &        &        &        & m_0 \\

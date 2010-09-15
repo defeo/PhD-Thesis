@@ -8,7 +8,7 @@ ordinary elliptic curves over finite fields. In what follows $\F_q$
 will be a finite field of characteristic $p$, and $d$ the positive
 integer such that $q=p^d$.
 
-\pdfmargincomment[color=red,subject=rev2]{Let's be less misterious.}
+\pdfmctwo{Given more details on "what's changed".}
 Parts of this chapter and of the following have been published
 in~\cite{df10}. However, the complexity analysis we give in
 Proposition~\ref{th:lercier-sirvent} benefits from recent advances on
@@ -54,7 +54,7 @@ quadratic complexity in $\ell$. We review the original algorithm as
 well as its improved variants in Sections~\ref{sec:C2}
 to~\ref{sec:bounded}.
 
-\pdfmargincomment{A little more crypto here.}
+\pdfmcone{A little more crypto here.}
 After the discovery of $p$-adic alternatives to Schoof's
 algorithm\cite{satoh00,fouquet+gaudry+harley00}, interest in computing
 isogenies in small characteristic was lost for some time. However,
@@ -199,14 +199,15 @@ isogenous curve in $O(\Mult(\deg\I))$ operations in $\K$.
   deduce the isogeny and the curve from $h(x)$ and its three first
   power sums.
 
-  \pdfmargincomment[color=red,subject=rev2]{"When the isogenous curve
-    is of no interest" was really unuseful.}  It is sometimes more
+  \pdfmctwo{The sentence "When the isogenous curve is of no interest"
+    wasn't really useful. I stripped it.}  It is sometimes more
   convenient to use the reformulation given by Elkies~\cite{elkies98}
   \begin{equation}
     \label{eq:157}
     \frac{g(x)}{h(x)} = x + \sum_{Q\in G^\ast}x - x(Q) - \frac{f'(x)}{x-x(Q)} + \frac{2f(x)}{(x-x(Q))^2}
   \end{equation}
-  (this equality is shown in Appendix, too). This implies
+  (this equality is shown in Appendix~\ref{cha:proof-velus-formulas},
+  too). This implies
   \begin{equation}
     \label{eq:165}
     \frac{g(x)}{h(x)} = \ell x - p_1 - f'(x)\frac{h'(x)}{h(x)} -

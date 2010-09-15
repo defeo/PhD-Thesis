@@ -180,7 +180,7 @@ tree of $T$, we have only computed one branching as shown in figure
     \begin{scope}
       [level distance=1cm,
       level/.style={sibling distance=5cm/#1},
-      nc/.style={gray}]
+      nc/.style={gray,nodes={circle,draw=red,solid,inner sep=0pt,minimum size=22pt}}]
       \node{$T$}[grow'=up]
       child {node {$T_1$}
         child {node {$T_2$}
@@ -202,10 +202,11 @@ tree of $T$, we have only computed one branching as shown in figure
     \end{scope}
   \end{tikzpicture}
   
+  \pdfmctwo{Circled nodes.}
   \caption{The subproduct tree of $T$, in the case of a tower of
     quadratic extensions. Any generator of $\Gal(\U_3/\U_0)$ can be
-    taken as $\sigma$. We gray out the nodes that the algorithm does
-    not compute.}
+    taken as $\sigma$. We gray out and circle the nodes that the
+    algorithm does not compute.}
   \label{fig:tree}
 \end{figure}
 
@@ -225,11 +226,15 @@ It is clear that $P$ is invariant under $\Gal(\U_{i+1}/\U_i)$, hence
 $P\in\U_i[X]/T_i(X)$ and by \eqref{eq:crt} it is evident that
 $P(x)=A_{i+1}(x)=y$, thus $P=A_i$.
 
-\pdfmargincomment{More details on Enge-Morain.} We have thus succeeded
-in interpolating $A=A_0$, without having to build the whole subproduct
-tree. A similar algorithm was applied by Enge and Morain to the
-solution of equations by radicals~\cite{enge+morain03}, although they
-did not recognize the application to polynomial interpolation.
+\pdfmctwo{Éric asked for the difference between Enge-Morain and this
+  section. There is none in the algorithm, so I must at least say
+  something about what is new in this section. Btw, the "Hecke
+  representation" is just an instance of rational univariate
+  representation.} We have thus succeeded in interpolating $A=A_0$,
+without having to build the whole subproduct tree. A similar algorithm
+was applied by Enge and Morain to the solution of equations by
+radicals~\cite{enge+morain03}, although they did not recognize the
+application to polynomial interpolation.
 
 \begin{remark}
   Observe that, once the polynomials $T_i$ for $0\le i\le k$ are
@@ -421,7 +426,7 @@ that is
 Alternatively, once $A^{(0)}$ is known, one could compute the other
 $A^{(j)}$'s using modular composition with the multiplication maps of
 $E$ and $E'$ as suggested in \cite{couveignes96}. However this
-approach doesn't give a better asymptotic complexity because in the
+approach does not give a better asymptotic complexity because in the
 worst case $A^{(0)}=A$. From a practical point of view, though,
 Brent's and Kung's algorithm for modular
 composition~\cite{brent+kung}, despite having a worse asymptotic
@@ -433,7 +438,7 @@ $\frac{p-1}{2}$, one can use the previous algorithm to interpolate
 over the primitive $p^i$-torsion points for each $i=1,\ldots,k$. The
 interpolating polynomials can then be recombined through a
 \hyperref[sec:chin-rema-algor]{Chinese remainder algorithm} at a cost
-of $O\bigl(\Mult(p^kd)\log p^k\bigr)$, which doesn't change the
+of $O\bigl(\Mult(p^kd)\log p^k\bigr)$, which does not change the
 overall complexity of C2-AS-FI.
 
 

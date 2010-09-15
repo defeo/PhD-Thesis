@@ -16,8 +16,12 @@
 \usepackage{float}
 \usepackage{hyperref}
 \hypersetup{pdfborderstyle={/S/U/W 0.5},citebordercolor={0 0.4 1}}
-%\usepackage[author={Luca De Feo}]{pdfcomment}
-\newcommand{\pdfmargincomment}[1][1]{}
+\usepackage[author={Luca De Feo}]{pdfcomment}
+%\newcommand{\pdfmargincomment}[1][1]{}
+% First revisoion
+\newcommand{\pdfmcone}[1]{\pdfmargincomment[color=blue,subject=rev1,author=rev1]{#1}}
+% Second revision
+\newcommand{\pdfmctwo}[1]{\pdfmargincomment[color=red,subject=rev2,author=rev2]{#1}}
 \usepackage{url}
 \usepackage{color}
 \usepackage[all]{xypic}
@@ -218,6 +222,7 @@
 \include{trans/category}
 \include{trans/haskatsuba}
 \include{isogeny/veluproof}
+\input{pre/conclusion}
 
 \renewcommand{\nomname}{List of Symbols}
 \printnomenclature
@@ -227,6 +232,8 @@
 \printindex
 \bibliographystyle{amsalpha}
 \bibliography{defeo}
+
+\include{pre/summary}
 
 \end{document}
 

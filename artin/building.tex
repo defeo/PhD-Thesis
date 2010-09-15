@@ -13,7 +13,7 @@ defined before.  Given $P$ and $R$ in $\F_p[X]$, we want to compute
 $P(R)$. For the cost analysis, it will be useful later on to consider
 both the degree $k$ and the number of terms $\ell$ of $R$.
 
-\pdfmargincomment[color=red,subject=rev2]{Cited Bernstein.}
+\pdfmctwo{Cited Bernstein.}
 \hyperref[alg:compose]{\alg{Compose}} is a recursive process that cuts
 $P$ into $c+1$ ``slices'' of degree less than $p^n$, recursively
 composes them with $R$, and concludes using Horner's scheme and the
@@ -201,9 +201,9 @@ following algorithm.
 \begin{algorithm}
   \caption{\label{alg:minimalpolynomial}\alg{MinimalPolynomial}}
   \begin{algorithmic}[1]
-    \REQUIRE $Q_i$, $\Phi$.
+    \REQUIRE $Q_i$, $\Cyclo$.
     \ENSURE $Q_{i+1}$.
-    \STATE \label{alg:minpol-Qstar}$Q^\star = \prod_{i=0}^{2p-2}Q(x^iY) \bmod \Phi$;
+    \STATE \label{alg:minpol-Qstar}$Q^\star = \prod_{i=0}^{2p-2}Q(x^iY) \bmod \Cyclo$;
     \STATE \label{alg:minpol-qstar}$q^\star(Y^{2p-1}) = Q^\star(Y)$;
     \STATE \label{alg:minpol-Q}$Q_{i+1} = \hyperref[alg:compose]{\alg{Compose}}(q^\star,Y^p-Y)$.
   \end{algorithmic}
