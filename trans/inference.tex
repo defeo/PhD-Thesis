@@ -330,7 +330,7 @@ allowing multiplication on the left by a scalar
   class Ring r => CommRing r where
     (>*<) :: S -> r -> r 
 \end{lstlisting}
-but this would force the user to chose between the two operators any
+but this would force the user to choose between the two operators any
 time he multiplies two elements of $R$. To avoid this we need to
 overload the operator \lstinline{(<*>)} with both type signatures, a
 technique sometimes called \emph{ad-hoc} polymorphism

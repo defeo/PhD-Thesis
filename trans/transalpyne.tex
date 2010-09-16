@@ -431,7 +431,7 @@ recursive calls: one in the scalar part and one in the linear part. A
 better solution would be to evaluate \lstinline+fS(d)+ only once and
 save all its stack, so that all the scalar values needed in the
 partial evaluation can be retrieved from it. When we interpret code we
-chose an intermediate solution: we save the return value of any call
+choose an intermediate solution: we save the return value of any call
 to \lstinline+fS+ in a memoization table, then retrieve the values
 from the table when they are needed in the linear part. This is a sort
 of lazy evaluation of functions in the scalar part.

@@ -220,7 +220,7 @@ figure \ref{fig:coffee}.
 
 In some cases, howevever, evaluation and coevaluation coincide. Recall
 that an \emph{additive category} is a category if every hom-set is an
-abelian group, composition of morphisms is bilinear, and every finite
+Abelian group, composition of morphisms is bilinear, and every finite
 biproduct exists~\cite[VIII.2]{mclane}. In particular, in an additive
 category finite products and coproducts are isomorphic.
 
@@ -239,7 +239,7 @@ We just sketch the proof.
   Then, we proceed by induction on the size of the circuit. First, it
   is obvious that for circuits with one unique evaluation node $v$ we
   have $\eval_C\isom\beta(v)\isom\lave_C$. Now if $C$ has $n$
-  evaluation nodes, we chose any topological order on $C$ and remove
+  evaluation nodes, we choose any topological order on $C$ and remove
   the last evaluation node $v$ and the output nodes connected to
   it. This new circuit satisfies the lemma by induction. The claim
   follows by connecting $v$ back to the circuit.
@@ -368,7 +368,7 @@ a monoid for the operation \lstinline+(.)+, with \lstinline+id+ being
 the identity element. Now this class can be extended to model additive
 categories: we first define a class that mimics \emph{Ab-categories},
 or \emph{preadditive} categories, that is categories whose hom-sets
-are abelian groups, then we define additive categories.
+are Abelian groups, then we define additive categories.
 
 \begin{lstlisting}
   class Category (~>) => AbCategory (~>) where
