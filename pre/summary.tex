@@ -1,0 +1,85 @@
+\subsection*{Abstract}
+In this thesis we apply techniques from computer algebra and language
+theory to speed up the elementary operations in some specific towers
+of finite fields. We apply our construction to the problem of
+computing isogenies between elliptic curves and obtain faster (both
+asymptotically and in practice) variants of Couveignes' algorithm.
+
+After some preliminaries, we introduce in Part II one of our main
+tools: transposition of linear programs. Previously, Bostan, Schost
+and Lecerf had shown that transposition of programs is possible,
+without losses in time and space complexity, in a slightly generalized
+straight-line-program model. We generalize their construction and
+devise a fully featured functional language together with an algorithm
+to transpose programs written in it. Our new transposition is as
+efficient as theirs on programs that fit into their model, but it also
+permits to treat more generic programs with a minor loss in space
+complexity. We also describe the implementation of a compiler
+materializing our ideas.
+
+In Part III, we combine our transposition method with well known
+techniques coming from computer algebra and elimination theory, then
+we show some new results on towers of Artin-Schreier extensions over
+finite fields. This allows us to design a complete set of algorithms
+to perform the most common arithmetic operations on Artin-Schreier
+towers in quasi-optimal time. We implemented all our algorithms in a
+software package that we describe at the end of this part.
+
+Finally, Part IV discusses the problem of isogeny computation. We
+apply our techniques to a fast variant of Couveignes' algorithm that
+we had obtained in our Masters thesis, and make comparisons to other
+algorithms to compute isogenies.
+
+
+
+\selectlanguage{french}
+\subsection*{Résumé}
+
+Dans cette thèse nous appliquons des techniques provenant du calcul
+formel et de la théorie des langages afin d'améliorer les operations
+élémentaires dans certaines tours de corps finis. Nous appliquons
+notre constructions au problème du calcul d'isogénies entre courbes
+elliptiques et obtenons une variante plus rapide (à la fois en théorie
+et en pratique) de l'algorithme de Couveignes.
+
+Après avoir introduit les notions de base, nous présentons dans la
+Partie II un de nos outils principaux: la transposition de programmes
+linéaires. Précédemment, Bostan, Schost et Lecerf avaient prouvé qu'il
+est possible transposer des programmes, sans pertes en complexité
+temps ou espace, dans un modèle qui est une modeste généralisation des
+programmes sans branchements. Nous généralisons leur construction en
+concevant un langage fonctionnel standard pour lequel nous donnons un
+algorithme de transposition. Notre nouvelle transposition est aussi
+efficace que la leur sur des programmes qui font partie de leur
+modèle, mais elle permet aussi de traiter des programmes plus généraux
+avec des pertes mineures en complexité espace. Nous décrivons
+l'implantation d'un compilateur réalisant nos idées.
+
+Dans la Partie III, nous combinons notre transposition avec des
+techniques classiques de calcul formel et théorie de l'élimination,
+puis nous montrons des nouveaux résultats sur les tours
+d'Artin-Schreier sur des corps finis. Ceci nous permet de concevoir
+une gamme d'algorithmes qui calculent en temps quasi-optimal les
+opérations arithmetiques les plus communes sur les tours
+d'Artin-Schreier. Nous avons implanté ces algorithmes dans une
+bibliothèque logicielle que nous décrivons à la fin de cette partie.
+
+Enfin, la Partie IV traite le problème du calcul d'isogénies. Nous
+appliques nos techniques à une variante rapide de l'algorithme de
+Couveignes que nous avions proposée dans notre mémoire de Master, puis
+nous comparons les résultats avec d'autres algorithmes pour le calcul
+d'isogénies.
+
+\selectlanguage{american}
+
+% Local Variables:
+% mode:flyspell
+% ispell-local-dictionary:"american"
+% mode:TeX-PDF
+% mode:reftex
+% TeX-master: "../these"
+% End:
+%
+% LocalWords:  Schreier Artin pseudotrace frobenius bivariate Joux Sirvent FFT
+% LocalWords:  Couveignes isogenies Schoof isogeny cryptosystems Lercier
+% LocalWords:  precomputation arithmetics polylogarithmic Karatsuba
