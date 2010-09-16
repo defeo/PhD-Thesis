@@ -1,0 +1,69 @@
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+
+\pdfmctwo{Conclusion.}
+We have presented our contributions to the study of efficient
+algorithms for towers of finite fields and isogenies between elliptic
+curves. In view of these applications, we have employed advanced
+algebraic and algorithmic techniques, and developed new tools that
+have an interest of their own.
+
+Before this work, the transposition principle used to be regarded
+merely as an existential result about algebraic algorithms.
+Following~\cite{bostan+lecerf+schost:tellegen}, it could be applied in
+an automatic fashion to a very special class of algebraic algorithms,
+that we call \emph{algebraic transforms} in
+Section~\ref{sec:stra-line-progr}. In this document we have shown
+that, using partial evaluation and typed functional languages, it is
+possible to automatically infer the linear algebraic structure of an
+algebraic algorithm, and produce its transposition.  It would be
+interesting to explore new ways of implementing the transposition
+principle in higher order languages such as Haskell or Coq, as this
+could have applications to the formal verification of computer algebra
+systems by automated theorem provers.  We have sketched some relevant
+ideas in Appendix~\ref{cha:basic-categ-theory}.
+
+With the help of transposed algorithms, we have constructed a family
+of Artin-Schreier towers of finite fields with quasi-optimal
+arithmetic operations. Thanks to Couveignes'
+algorithm~\cite{couveignes00}, such fast arithmetics generalize to any
+Artin-Schreier tower. Since any separable extension of degree equal to
+the characteristic is Artin-Schreier, our construction provides --at
+least in theory-- fast arithmetics for all these tower of extensions.
+This can be applied, for example, to the computation of torsion points
+of Abelian varieties, as we did in this document. It would be
+interesting to generalize this construction to the case of function
+fields, as this could have applications to coding
+theory~\cite{garcia+stichtenoth96,shum-et-al01}.
+
+Using our construction for Artin-Schreier towers, we were able to
+implement and improve Couveignes' second algorithm for isogeny
+computation~\cite{couveignes96}. The comparison of our implementation
+with Lercier and Sirvent's algorithm~\cite{lercier+sirvent08}
+concludes in favor of the latter, however our improvements to
+Couveignes' algorithm stay of theoretical interest for several
+reasons. First, Couveignes' algorithm can be easily generalized to
+Jacobians of hyperelliptic curves, although with a much worse
+complexity. Improving such generalization, at least for the case of
+genus $2$ hyperelliptic curves, would be of some relevance for point
+counting~\cite{schoof95,pila90,gaudry+schost04}, although $p$-adic
+methods are likely to remain the best algorithms for the small
+characteristic case~\cite{kedlaya01,denef+vercauteren06}. Second, our
+generalization of Couveignes' algorithm to compute isogenies of
+unknown degree sheds new light on Couveignes' algorithm and on the
+complexity of the isogeny computation problem; and could have
+applications in cryptography~\cite{teske06,rostovtsev+stolbunov06}.
+Looking for similar generalizations of other algorithms, such as
+Couveignes' first algorithm~\cite{couveignes94}, is a first step
+towards a better understanding of the problem, and could ultimately
+lead to an optimal algorithm to compute isogenies of given degree
+between elliptic curves, a result that is still out of reach today.
+
+
+%%% Local Variables: 
+%%% mode:flyspell
+%%% ispell-local-dictionary:"american"
+%%% mode:reftex
+%%% TeX-master: "../these"
+%%% mode: PDFLaTex
+%%% End: 
