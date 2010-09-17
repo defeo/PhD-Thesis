@@ -227,17 +227,17 @@ linear algebra, written $\alg{NaiveSolve}$.
 \end{theorem}
 \begin{proof} 
   Correctness follows from the previous discussion.  For the
-  complexity, let ${\sf AS}(i)$ be the cost for $\alpha\wrt\U_i$. The
-  cost ${\sf AS}(0)$ of the naive algorithm is $O(\Mult(d)\log(p) +
+  complexity, let $\mathsf{AS}(i)$ be the cost for $\alpha\wrt\U_i$. The
+  cost $\mathsf{AS}(0)$ of the naive algorithm is $O(\Mult(d)\log(p) +
   d^\omega)$, where the first term is the cost of computing $x_0^p$
   and the second one the cost of linear algebra.
 
   When $i\ge1$, step \ref{alg:cou:pseudo} has cost $\Ptr(i)$, steps
   \ref{alg:cou:push-beta}, \ref{alg:cou:push-alpha} and
   \ref{alg:cou:lift} all contribute $O(\Lift(i))$ and step
-  \ref{alg:cou:rec} contributes ${\sf AS}(i-1)$. The most important
-  contribution is at step \ref{alg:cou:pseudo}, hence ${\sf AS}(i) =
-  {\sf AS}(i-1) + O(\Ptr(i))$. The assumptions on $\Lift$ imply that
+  \ref{alg:cou:rec} contributes $\mathsf{AS}(i-1)$. The most important
+  contribution is at step \ref{alg:cou:pseudo}, hence $\mathsf{AS}(i) =
+  \mathsf{AS}(i-1) + O(\Ptr(i))$. The assumptions on $\Lift$ imply that
   the sum $\Ptr(1) + \cdots + \Ptr(i)$ is $O(\Ptr(i))$.
 \end{proof}
 

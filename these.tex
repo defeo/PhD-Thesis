@@ -1,4 +1,13 @@
-\documentclass[a4paper]{report}
+\documentclass[a4paper,twoside,openany]{memoir}
+
+\settypeblocksize{*}{30pc}{1.75}
+\setbinding{0.8cm}
+\setulmargins{*}{*}{1.2}
+\setlrmargins{*}{*}{2}
+%\setmarginnotes{17pt}{51pt}{\onelineskip}
+\setheadfoot{\onelineskip}{2\onelineskip}
+\setheaderspaces{*}{2\onelineskip}{*}
+\checkandfixthelayout
 
 \usepackage[french,american]{babel}
 \usepackage[utf8]{inputenc}
@@ -114,8 +123,6 @@
 \newcommand{\Tbasis}{\mathcal{L}}  % linear basis
 \newcommand{\lmul}[1]{{}_{#1}*}  % left multiplication node
 \newcommand{\rmul}[1]{*_{#1}}  % right multiplication node
-%\newcommand{\RMod}[1]{#1\text{\sf-Mod}}  % The category of left R-modules
-%\newcommand{\ModR}[1]{\text{\sf Mod-}#1}  % The category of right R-modules
 \newcommand{\pspace}{\mathcal{P}}  % the parameter space
 \newcommand{\lap}{\overset{+}{\leftarrow}}
 \newcommand{\lat}{\overset{*}{\leftarrow}}  % self-increments
@@ -140,7 +147,7 @@
 \newcommand{\basis}{\mathbf}  % la police des bases
 \newcommand{\lst}{\mathbf}  % lists of coordinates
 \newcommand{\algeb}{\mathcal}  % la police des algèbres
-\newcommand{\alg}[1]{{\sf #1}}  % la police des algorithmes
+\newcommand{\alg}[1]{#1}%\sffamily{#1}}  % la police des algorithmes
 
 %% Opérateurs
 \DeclareMathOperator{\im}{im}  % image
@@ -195,14 +202,18 @@
 \makenomenclature
 
 %% PDF metadata
-\hypersetup{pdftitle={Fast Algorithms for Towers of Finite Fields and Isogenies},pdfauthor={Luca De Feo}}
+\hypersetup{pdftitle={\thetitle},pdfauthor={\theauthor}}
 
 \begin{document}
 %\frontmatter
-
+\begin{titlingpage}
 \maketitle
+\end{titlingpage}
+
 \input{pre/introduction-fr}
 \input{pre/introduction}
+
+\pagebreak
 \tableofcontents
 %\listoffigures
 %\listoftables
@@ -226,13 +237,11 @@
 \renewcommand{\nomname}{List of Symbols}
 \printnomenclature
 \clearpage
-\phantomsection
-\addcontentsline{toc}{chapter}{\indexname}
 \printindex
 \bibliographystyle{amsalpha}
 \bibliography{defeo}
 
-%\include{pre/summary}
+\include{pre/summary}
 
 \end{document}
 

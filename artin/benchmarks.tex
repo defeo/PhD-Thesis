@@ -13,8 +13,8 @@ called \texttt{FAAST} and made it available under the terms of the
 \texttt{FAAST} is implemented on top of the \texttt{NTL}
 library~\cite{shoup2003ntl} which provides the basic univariate
 polynomial arithmetic needed here. Our library handles three NTL
-classes of finite fields: {\tt GF2} for $p=2$, {\tt zz\_p} for
-word-size $p$ and {\tt ZZ\_p} for arbitrary $p$; this choice is made
+classes of finite fields: \texttt{GF2} for $p=2$, \texttt{zz\_p} for
+word-size $p$ and \texttt{ZZ\_p} for arbitrary $p$; this choice is made
 by the user at compile-time through the use of \texttt{C++} templates
 and the resulting code is thus quite efficient.  Optionally,
 \texttt{NTL} can be combined with the \texttt{gf2x}
@@ -94,12 +94,12 @@ left out because all the primes that can be reasonably handled by our
 library fit in one machine-word. In Magma, there exist several ways to
 build field extensions:
 \begin{description*}
-\item [$\bullet$ {\tt quo<U|P>}] builds the quotient of the
+\item [$\bullet$ \texttt{quo<U|P>}] builds the quotient of the
   univariate polynomial ring $U$ by  $P \in U$
   (written magma(1) hereafter);
-\item [$\bullet$ {\tt ext<k|P>}] builds the extension of the field $k$ by $P \in
+\item [$\bullet$ \texttt{ext<k|P>}] builds the extension of the field $k$ by $P \in
   k[X]$ (written magma(2));
-\item [$\bullet$ {\tt ext<k|p>}] builds an extension of degree $p$ of $k$
+\item [$\bullet$ \texttt{ext<k|p>}] builds an extension of degree $p$ of $k$
   (written magma(3)).
 \end{description*}
 We made experiments for each of these choices where this makes sense.
@@ -151,7 +151,7 @@ describe the following situations:
 
 The timings of our code are significantly better for increasing height
 or increasing $d$. Not surprisingly, for increasing $p$, the magma(1)
-approach performs better than any other: the {\tt quo} operation
+approach performs better than any other: the \texttt{quo} operation
 simply creates a residue class ring, regardless of the
 (ir)reducibility of the modulus, so the timing for building two levels
 barely depend on $p$. Yet, we notice that \texttt{FAAST} has
