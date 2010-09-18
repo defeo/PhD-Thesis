@@ -1,7 +1,7 @@
 \documentclass[a4paper,twoside,openany]{memoir}
 
 \settypeblocksize{*}{30pc}{1.75}
-\setbinding{0.8cm}
+\setbinding{1cm}
 \setulmargins{*}{*}{1.2}
 \setlrmargins{*}{*}{2}
 %\setmarginnotes{17pt}{51pt}{\onelineskip}
@@ -176,18 +176,57 @@
 \DeclareMathOperator{\proj}{proj}  % evaluation
 \DeclareMathOperator{\flip}{flip}  % flipper
 
+%% Divisions styles
+\setsecnumdepth{subsection}
+\makechapterstyle{defeo}{%  needs graphicx package
+  \chapterstyle{default}
+  \setlength{\beforechapskip}{1.5cm}
+  \setlength{\afterchapskip}{1cm}
+  \setlength{\midchapskip}{2cm}
+  \renewcommand*{\chapnamefont}{\normalfont\normalsize\scshape}
+  \renewcommand*{\chapnumfont}{\chapnamefont\bfseries}
+  \renewcommand*{\chaptitlefont}{\normalfont\large\scshape\bfseries\ifthenelse{\isodd{\thepage}}{\raggedright}{\raggedleft}}
+  \renewcommand*{\chapternamenum}{}
+  \renewcommand*{\printchaptername}{\ifthenelse{\isodd{\thepage}}{\flushright}{\flushleft}%
+    \ifthenelse{\isodd{\thepage}}{\def\side{r}}{\def\side{l}}%
+    \makebox[0pt][\side]{\color{gray}{\chapnamefont Chapter}}}
+  \newcommand*{\chapnumsep}{\hspace{0.5em}}
+  \newcommand*{\chapnummargin}{}
+  \renewcommand*{\printchapternum}{\ifthenelse{\isodd{\thepage}}%
+    {\def\side{l}\def\pleft{\chapnumsep}\def\pright{\chapnummargin}}%
+    {\def\side{r}\def\pleft{\chapnummargin}\def\pright{\chapnumsep}}%
+    \makebox[0pt][\side]{\resizebox{!}{3ex}{\pleft\chapnumfont\thechapter\pright}}}
+  \renewcommand*{\afterchapternum}{\par\hspace{1.5cm}\hrule\vspace{0.2cm}}
+  \renewcommand*{\printchapternonum}{\vphantom{\chapnamefont 1}\afterchapternum}
+  \renewcommand*{\afterchaptertitle}{\vskip 0.2cm \hrule\vskip\afterchapskip}}
+\makeheadstyles{defeo}{%
+  \headstyles{bringhurst}%
+  \chapterstyle{defeo}%
+  %\setsubsecheadstyle{\sethangfrom{\noindent ####1}\normalfont\slshape\memRTLraggedright}%
+  %\setparaheadstyle{\normalfont\normalsize\slshape\addperiod}%
+}
+\headstyles{defeo}
+
+\makeoddhead{Ruled}{}{}{\itshape\rightmark}
+\pagestyle{Ruled}
+
 
 %% Théorèmes
-\theoremstyle{plain}
+\newtheoremstyle{mythstyle}{0.5\onelineskip}{0.5\onelineskip}{\itshape}{}{\scshape}{}{1em}{}
+\newtheoremstyle{mydefstyle}{0.5\onelineskip}{0.5\onelineskip}{}{}{\scshape}{}{1ex}{}
+\newtheoremstyle{myrkstyle}{0.5\onelineskip}{0.5\onelineskip}{}{}{\itshape}{\addperiod}{1em}{}
+
+
+\theoremstyle{mythstyle}
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{principle}[theorem]{Principle}
-\theoremstyle{definition}
+\theoremstyle{mydefstyle}
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
-\theoremstyle{remark}
+\theoremstyle{myrkstyle}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem*{nota}{Note}
 
@@ -205,7 +244,7 @@
 \hypersetup{pdftitle={\thetitle},pdfauthor={\theauthor}}
 
 \begin{document}
-%\frontmatter
+\frontmatter*
 \begin{titlingpage}
 \maketitle
 \end{titlingpage}
@@ -213,27 +252,27 @@
 \input{pre/introduction-fr}
 \input{pre/introduction}
 
-\pagebreak
-\tableofcontents
+\clearpage
+\tableofcontents*
 %\listoffigures
 %\listoftables
 \listofalgorithms
 
-%\mainmatter
+\mainmatter*
 \include{pre/pre}
 \include{trans/trans}
 \include{artin/artin}
 \include{isogeny/isogeny}
 
-%\backmatter
 \appendix
-\pdfbookmark[-1]{Appendices}{part:appendices}
-\part*{Appendices}
+\pdfbookmark[-1]{\appendixpagename}{part:appendices}
+\appendixpage*
 \include{trans/category}
 \include{trans/haskatsuba}
 \include{isogeny/veluproof}
-\input{pre/conclusion}
 
+\backmatter
+\input{pre/conclusion}
 \renewcommand{\nomname}{List of Symbols}
 \printnomenclature
 \clearpage
@@ -241,6 +280,18 @@
 \bibliographystyle{amsalpha}
 \bibliography{defeo}
 
+
+%% Quatrième de couverture
+\cleardoublepage
+\pagestyle{empty}
+
+\settypeblocksize{*}{33pc}{1.618}
+\setbinding{0cm}
+\setulmargins{*}{*}{1.2}
+\setlrmargins{*}{*}{1}
+\checkandfixthelayout
+
+~\newpage
 \include{pre/summary}
 
 \end{document}
