@@ -439,7 +439,7 @@ to construct the \index{subproduct~tree}\textit{subproduct tree}.
   \end{algorithmic}
 \end{algorithm}
 
-Computing the subproduct tree takes $O(M(n)\log n)$ operations and
+Computing the subproduct tree takes $O(\Mult(n)\log n)$ operations and
 requires an equivalent storage. Having precomputed it, it is immediate
 to evaluate a polynomial at the points $x_1,\ldots,x_n$.
 
@@ -763,7 +763,7 @@ The generalization to the multivariate case is straightforward.
 Observe, however, that this algorithm has nothing to do with the
 transposition principle: it is just a property of
 multiplication. Applying the transposition principle, one obtains a
-tighter bound of $M(\max(m,n))$. The univariate case is treated
+tighter bound of $\Mult(\max(m,n))$. The univariate case is treated
 in~\cite{hanrot+quercia+zimmermann,bostan+lecerf+schost:tellegen}, it
 is applied to speed up some Newton iterations on power series; the
 bivariate case appears in the proof

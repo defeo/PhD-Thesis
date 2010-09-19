@@ -93,15 +93,14 @@ classes \texttt{GF2} and \texttt{zz\_p}. The class \texttt{ZZ\_p} was
 left out because all the primes that can be reasonably handled by our
 library fit in one machine-word. In Magma, there exist several ways to
 build field extensions:
-\begin{description*}
-\item [$\bullet$ \texttt{quo<U|P>}] builds the quotient of the
-  univariate polynomial ring $U$ by  $P \in U$
-  (written magma(1) hereafter);
-\item [$\bullet$ \texttt{ext<k|P>}] builds the extension of the field $k$ by $P \in
-  k[X]$ (written magma(2));
-\item [$\bullet$ \texttt{ext<k|p>}] builds an extension of degree $p$ of $k$
+\begin{itemize}
+\item \texttt{quo<U|P>} builds the quotient of the univariate
+  polynomial ring $U$ by $P \in U$ (written magma(1) hereafter);
+\item \texttt{ext<k|P>} builds the extension of the field $k$ by $P
+  \in k[X]$ (written magma(2));
+\item \texttt{ext<k|p>} builds an extension of degree $p$ of $k$
   (written magma(3)).
-\end{description*}
+\end{itemize}
 We made experiments for each of these choices where this makes sense.
 
 The parameters to our algorithms are $(p,d,k)$. Thus, our experiments
