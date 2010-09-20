@@ -8,18 +8,6 @@ algebraic and algorithmic techniques, and developed new tools that
 have an interest of their own. Our contributions span three directions.
 
 \paragraph{Transposition principle}
-We recall the statement of the transposition theorem, as given in
-Section~\ref{sec:r-algebr-algor}:
-\begin{quote}
-  Let $\pspace$ be an arbitrary set. Any $R$-algebraic algorithm $A$
-  computing a family of linear functions $(f_p:M\ra N)_{p\in\pspace}$
-  can be transformed in an $R$-algebraic algorithm $\dual{A}$
-  computing the \emph{dual family}
-  $(\dual{f}_p:\dual{N}\ra\dual{M})_{p\in\pspace}$. The algebraic time
-  and space complexities of $\dual{A}$ are bounded by the time
-  complexity of $A$.
-\end{quote}
-
 Before this work, the transposition principle used to be regarded
 merely as an existential result about algebraic algorithms.
 Following~\cite{bostan+lecerf+schost:tellegen}, it could be applied in
@@ -32,35 +20,19 @@ previously treated case-by-case.
 In this document we have shown that typed functional languages allow
 to automatically infer the linear algebraic structure of any algebraic
 algorithm. Once this structure is known, the transposition of the
-algebraic algorithm is automatically produced by partial
-evaluation. We implemented these ideas in \tALpy{}, a scripting
-language supporting automatic transposition.
-
-It would be interesting to explore new programming paradigms
-supporting the transposition principle. Domain specific languages
-implemented in higher order languages, such as Haskell or Coq, are
-especially relevant; as they could have applications to the formal
-verification of computer algebra systems by automated theorem provers.
-We have sketched some related ideas in
-Appendix~\ref{cha:basic-categ-theory}.
-
+algebraic algorithm is automatically produced by partial evaluation.
+It would be interesting to explore new ways of implementing the
+transposition principle in higher order languages such as Haskell or
+Coq, as this could have applications to the formal verification of
+computer algebra systems by automated theorem provers.  We have
+sketched some relevant ideas in Appendix~\ref{cha:basic-categ-theory}.
 
 \paragraph{Towers of finite fields}
-With the help of transposed algorithms, we have given quasi-optimal
-algorithms for all the basic arithmetic operations in Artin-Schreier
-towers of finite fields. Our strategy follows an idea by
-Couveignes~\cite{couveignes00}: build a special tower with fast
-arithmetics, then use a fast algorithm to compute isomorphisms between
-Artin-Schreier towers in order to bring fast arithmetics to any tower.
-
-We have generalized a construction by Cantor~\cite{cantor89} to build
-a family of Artin-Schreier towers that is \emph{optimal} in a sense
-that is made precise in Section~\ref{sec:fast-tower}. By using
-algebraic geometric techniques coming from the resolution of
-zero-dimensional ideals, we have provided fast algorithms for the
-change of basis in such towers. Then, we have adapted the algorithms
-proposed by Couveignes~\cite{couveignes00} for fast computations of
-Frobenius and trace maps.
+With the help of transposed algorithms, we have constructed a family
+of Artin-Schreier towers of finite fields with quasi-optimal
+arithmetic operations. Thanks to Couveignes'
+algorithm~\cite{couveignes00}, such fast arithmetics generalize to any
+Artin-Schreier tower.
 
 Since any separable extension of degree equal to the characteristic is
 Artin-Schreier, our construction provides --at least in theory-- fast
@@ -76,26 +48,19 @@ Using our construction for Artin-Schreier towers, we were able to give
 the first complete implementation of Couveignes' second algorithm for
 isogeny computation~\cite{couveignes96}. This, together with a further
 improvement we have presented in Section~\ref{sec:C2-AS-FI}, yields an
-algorithm whose complexity is quadratic in the degree of the
-isogeny. Finally, in Section~\ref{sec:bounded} we have described a
-generalization of Couveignes' algorithm that computes isogenies of
-unknown degree at no additional cost.
+algorithm whose complexity is quadratic in the degree of the isogeny.
 
-To compare our implementation with the most efficient algorithms for
-isogeny computation, we have implemented prototypes of Bostan, Morain,
-Salvy and Schost's algorithm~\cite{bostan+morain+salvy+schost08} and
-of Lercier and Sirvent's algorithm~\cite{lercier+sirvent08}. Our
-comparison concludes in favor of the latter, however our improvements
-to Couveignes' algorithm stay of theoretical interest for several
-reasons.
-
-First, Couveignes' algorithm can be easily generalized to Jacobians of
-hyperelliptic curves, although with a much worse complexity. Improving
-such generalization, at least for the case of genus $2$ hyperelliptic
-curves, would be of some relevance for point
-counting~\cite{schoof95,pila90,gaudry+schost04}; although $p$-adic
-methods are likely to remain the best algorithms for the small
-characteristic case~\cite{kedlaya01,denef+vercauteren06}. 
+The comparison of our implementation with Lercier and Sirvent's
+algorithm~\cite{lercier+sirvent08} concludes in favor of the latter,
+however our improvements to Couveignes' algorithm stay of theoretical
+interest for several reasons. First, Couveignes' algorithm can be
+easily generalized to Jacobians of hyperelliptic curves, although with
+a much worse complexity. Improving such generalization, at least for
+the case of genus $2$ hyperelliptic curves, would be of some relevance
+for point counting~\cite{schoof95,pila90,gaudry+schost04}; although
+$p$-adic methods are likely to remain the best algorithms for the
+small characteristic
+case~\cite{kedlaya01,denef+vercauteren06}. 
 
 Second, our generalization of Couveignes' algorithm to compute
 isogenies of unknown degree sheds new light on Couveignes' algorithm
