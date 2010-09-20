@@ -171,10 +171,11 @@ algorithm \hyperref[alg:approximateas]{\alg{ApproximateAS}} finds the required s
 \begin{proof}
   Correctness is clear by Gaussian elimination.  For the cost
   analysis, remark that $\beta_{i-1,p^{i-1}d}$ has already been
-  precomputed to permit iterated Frobenius and pseudotrace
-  computations. Step~\ref{alg:AAS:loop} takes $O(p^2)$ additions and
-  scalar operations in $\U_{i-1}$; the overall cost is dominated by
-  that of the push-down and lift-up by assumptions on $\Lift$.
+  precomputed as a prerequisite for the iterated Frobenius and
+  pseudotrace algorithms. Step~\ref{alg:AAS:loop} takes $O(p^2)$
+  additions and scalar operations in $\U_{i-1}$; the overall cost is
+  dominated by that of the push-down and lift-up by assumptions on
+  $\Lift$.
 \end{proof}
 
 %% \begin{proof} Write $\mu=\Sigma_{j=0}^{p-1}\mu_j x_i^j$ and
