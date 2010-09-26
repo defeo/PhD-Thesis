@@ -16,11 +16,12 @@
 \usepackage{float}
 \usepackage{hyperref}
 \hypersetup{pdfborderstyle={/S/U/W 0.5},citebordercolor={0 0.4 1}}
-\usepackage[author={Luca De Feo}]{pdfcomment}
+%\usepackage[author={Luca De Feo}]{pdfcomment}
 % First revisoion
-\newcommand{\pdfmcone}[1]{\pdfmargincomment[color=blue,subject=rev1,author=rev1]{#1}}
+\newcommand{\pdfmcone}[1]{}%\pdfmargincomment[color=blue,subject=rev1,author=rev1]{#1}}
 % Second revision
-\newcommand{\pdfmctwo}[1]{\pdfmargincomment[color=red,subject=rev2,author=rev2]{#1}}
+\newcommand{\pdfmctwo}[1]{}%\pdfmargincomment[color=red,subject=rev2,author=rev2]{#1}}
+\usepackage{bookmark}
 \usepackage{url}
 \usepackage{color}
 \usepackage[all]{xypic}
@@ -81,6 +82,9 @@
   %\setsubsecheadstyle{\sethangfrom{\noindent ####1}\normalfont\itshape\memRTLraggedright}%
   \setsubsubsecheadstyle{\normalfont\normalsize\scshape}%
   %\setparaheadstyle{\normalfont\normalsize\itshape\addperiod}%
+  \renewcommand*{\partnamefont}{\normalfont\scshape\huge}
+  \renewcommand*{\partnumfont}{\normalfont\scshape\huge}
+  \renewcommand*{\parttitlefont}{\normalfont\scshape\Huge}
 }
 \headstyles{defeo}
 
@@ -137,6 +141,15 @@
   showstringspaces=false     % no special string spaces
 }
 
+%% ToC
+
+\newcommand{\leader}{\hspace{2em}}
+\renewcommand*{\cftpartfont}{\scshape\Large}
+\renewcommand*{\cftpartpagefont}{}
+\renewcommand*{\cftchapterfont}{\scshape}
+\renewcommand*{\cftchapterpagefont}{}
+\renewcommand*{\cftsectionpagefont}{}
+%\settowidth{\cftpartnumwidth}{\cftpartfont III~}
 
 %%%%%%%%%%%%%% Aliases
 
@@ -297,6 +310,7 @@
 \include{trans/haskatsuba}
 \include{isogeny/veluproof}
 
+\bookmarksetup{startatroot}
 \backmatter
 \input{pre/conclusion}
 \renewcommand{\nomname}{List of Symbols}
