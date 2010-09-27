@@ -398,17 +398,17 @@ $R^m$.
 
 After some unsuccessful experiments with GADT's, we succeeded in
 implementing additive circuits in the category of $\Z$-modules and
-transposable Karatsuba multiplication in $\Z[X]$ using type level
-arithmetics from the package \lstinline+Data.TypeLevel+. We thank
-Jacques Carette for having suggested this solution to us.
+transposable multiplication in $\Z[X]$ using type level arithmetics
+from the package \lstinline+Data.TypeLevel+. We thank Jacques Carette
+for having suggested this solution to us.
 
 The source code is presented in the next section. Notice, however that
 our implementation needs to suggest some trivialities to the type
 checker (for example, $a\le a+b$ for any $b\in\N$) in order for the
 compilation to succeed. 
 
-Another problem is that the implementation of Karatsuba multiplication
-is far from being self-evident. In fact, we had to follow Kiselyov and
+Another problem is that the implementation of multiplication is far
+from being self-evident. In fact, we had to follow Kiselyov and
 Peyton-Jones~\cite{jones+kiselyov:advanced+overlap08} to implement
 \emph{advanced overlapping instances}.
 
@@ -424,8 +424,8 @@ to use library for automated theorem provers, to prove the correctness
 of programs based on the transposition principle.
 
 
-\section[\emph{Self-transposing} Karatsuba
-multiplication]{Implementation of \emph{self-transposing} Karatsuba
+\section[\emph{Self-transposing} polynomial
+multiplication]{Implementation of \emph{self-transposing} polynomial
   multiplication in Haskell}
 \label{sec:impl-emphs-transp}
 
