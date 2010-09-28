@@ -1,156 +1,54 @@
-\documentclass{these}
+\documentclass[oldfontcommands]{these}
 
+%%%%%%%%%%%%%% Packages
+%% Some standard ones
 \usepackage[french,american]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage{extarrows}
-%\usepackage{mdwlist}
 \usepackage{graphicx}
+\usepackage{url}
+\usepackage{color}
+%% Some extra symbols
+\usepackage{extarrows}
+\usepackage{eurosym}
+\usepackage{mysymbols}
+%% Some graphical math tools
+\usepackage[all]{xypic}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,automata}
+%% Index, glossaries, etc.
+\usepackage{makeidx}
+\usepackage[refpage,intoc]{nomencl}
+%% Dirty trick to embed source code
+\usepackage{xcomment}
+
+%%%%%%%%%%%%%% Pdf comments (for reviews)
 %\usepackage[author={Luca De Feo}]{pdfcomment}
 % First revisoion
 \newcommand{\pdfmcone}[1]{}%\pdfmargincomment[color=blue,subject=rev1,author=rev1]{#1}}
 % Second revision
 \newcommand{\pdfmctwo}[1]{}%\pdfmargincomment[color=red,subject=rev2,author=rev2]{#1}}
-\usepackage{url}
-\usepackage{color}
-\usepackage[all]{xypic}
-\usepackage{tikz}
-\usetikzlibrary{arrows,shapes,automata}
-\usepackage{eurosym}
-%\usepackage[chapter]{algorithm}
-\usepackage{makeidx}
-\usepackage[refpage,intoc]{nomencl}
-\usepackage{xcomment}
 
-%%%%%%%%%%%%%% Aliases
+%%%%%%%%%%%%%% Code listings
+\usepackage[final]{listings}
+\lstset{
+  upquote=true,
+  basicstyle=\ttfamily,          % print whole listing in typewriter
+  keywordstyle=\color{blue}, % bold blue keywords
+  %identifierstyle=,           % nothing happens
+  commentstyle=\color{green}, % green comments
+  stringstyle=\color{red},      % typewriter type for strings
+  showstringspaces=false     % no special string spaces
+}
 
-%% Typographie
-%\renewcommand{\le}{\leqslant}
-%\renewcommand{\ge}{\geqslant}  % comme François le demande...
-\newcommand{\todo}{\dots}  % un marqueur pour un trou
+%%%%%%%%%%%%% Some aliases
+\newcommand{\todo}{\dots}  % to denote a place to be completed
 
-%% Bases
-\newcommand{\card}[1]{\# #1}  % cardinalité 
-\newcommand{\diffset}{\,\backslash\,}  % difference ensembliste
-\newcommand{\ndiv}{\nmid}  % ne divise pas
-\newcommand{\wrt}{\dashv}  % appartenance forte, a\wrt A signifie que a est représenté comme un élément de A
-\newcommand{\isom}{\cong}
-\newcommand{\eqdef}{\overset{\mathrm{def}}{\equiv}}
-
-%% Nombres, corps
-\newcommand{\N}{\mathbb{N}}  % les naturels
-\newcommand{\Z}{\mathbb{Z}}  % les entiers
-\newcommand{\K}{\mathbb{K}}  % un corps
-\newcommand{\F}{\mathbb{F}}  % un corps fini
-\newcommand{\Q}{\mathbb{Q}}  % les rationnels
-\newcommand{\R}{\mathbb{R}}  % les réels
-\newcommand{\C}{\mathbb{C}}  % les complexes
-\newcommand{\LK}{\mathbb{L}}  % encore un corps
-\newcommand{\U}{\mathbb{U}}  % encore un corps
-
-%% Algèbre
-\newcommand{\trans}[1]{#1^\top}  % transposé
-\newcommand{\dual}[1]{#1^\ast}  % dual
-\newcommand{\clot}[1]{\bar{#1}}  % clôture algèbrique
-\newcommand{\frob}{\varphi}  % l'isomorphisme de frobenius
-\newcommand{\res}{\rho}  % the residue form
-\newcommand{\euler}{\varphi}  % indicatrice d'Euler
-\newcommand{\Cyclo}{\Phi}  % le polynome cyclotomique
-\newcommand{\Proj}{\mathbb{P}}  % espace projectif
-\newcommand{\op}{\mathrm{op}}  % opposite
-\newcommand{\bra}[1]{\left\langle #1 \right\rvert}
-\newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
-\newcommand{\braket}[2]{\left\langle #1 \middle| #2 \right\rangle}
-\newcommand{\braketop}[3]{\left\langle #1 \middle| #2 \middle| #3 \right\rangle}  % notation braket
-\newcommand{\poinc}{\mathcal{H}}  % the Poincaré half plane
-
-%% Courbes
-\newcommand{\0}{\mathcal{O}}  % point de base d'une courbe
-\newcommand{\ecpoint}[3]{[#1:#2:#3]}  % un point d'une courbe
-\newcommand{\isog}[1]{\mathcal{#1}}  % la police des isogénies
-\newcommand{\I}{\isog{I}}  % une isogénie I
-\newcommand{\frobisog}{\phi}  % l'isogénie de frobenius
-\newcommand{\Hasse}{H}  % l'invariant de Hasse
-\newcommand{\divpol}{f}  % polynôme de division
-\newcommand{\Modpol}{\Phi}  % modular polynomial
-
-%% Diagrammes
-\newcommand{\la}{\leftarrow}
-\newcommand{\ra}{\rightarrow}
-\newcommand{\La}{\Leftarrow}
-\newcommand{\Ra}{\Rightarrow}
-
-%% Langages
-\newcommand{\bom}{\perp}  % bottom _|_
-\newcommand{\al}{\prec}  % Haskell's -<
-\newcommand{\tAL}{\textsf{transAL}}
-\newcommand{\tALpy}{\texttt{transalpyne}}
-\newcommand{\Sbasis}{\mathcal{S}}  % standard basis
-\newcommand{\Tbasis}{\mathcal{L}}  % linear basis
-\newcommand{\lmul}[1]{{}_{#1}*}  % left multiplication node
-\newcommand{\rmul}[1]{*_{#1}}  % right multiplication node
-\newcommand{\pspace}{\mathcal{P}}  % the parameter space
-\newcommand{\lap}{\overset{+}{\leftarrow}}
-\newcommand{\lat}{\overset{*}{\leftarrow}}  % self-increments
-
-
-%% Complexité
-\newcommand{\tildO}{\tilde{O}}  % la notation O~ qui oublie les log
-\newcommand{\Mint}{\mathsf{M}_\text{int}}  % fonction de multiplication
-\newcommand{\Mpol}[1][]{\mathsf{M}_\text{pol}^{#1}}  % fonction de multiplication
-\newcommand{\Mult}{\mathsf{M}}  % fonction de multiplication
-\newcommand{\MulM}{\mathsf{Mul}}  % multiplication
-\newcommand{\Inv}{\mathsf{Inv}}  % inversion
-\newcommand{\Push}{\mathsf{P}}  % fonction de push-down
-\newcommand{\Lift}{\mathsf{L}}  % fonction de lift-up
-\newcommand{\Trace}{\mathsf{T}}  % fonction de trace
-\newcommand{\Frob}{\mathsf{F}}  % fonction de frobenius itéré
-\newcommand{\Ptr}{\mathsf{PT}}  % fonction de pseudo-trace
-\newcommand{\ModComp}{\mathsf{C}}  % fonction de composition modulaire
-\newcommand{\sC}{\mathsf{K}}  % fonction de composition polynomiale
-
-%% Polices
-\newcommand{\basis}{\mathbold}  % la police des bases
-\newcommand{\lst}{\mathbold}  % lists of coordinates
-\newcommand{\algeb}{\mathcal}  % la police des algèbres
-\newcommand{\alg}[1]{{\sf #1}}  % la police des algorithmes
-
-%% Opérateurs
-\DeclareMathOperator{\im}{im}  % image
-\DeclareMathOperator{\End}{End}  % Endomorphism ring
-\DeclareMathOperator{\Aut}{Aut}  % Automorphism group
-\DeclareMathOperator{\Mat}{\mathcal{M}}  % Matrices
-\DeclareMathOperator{\GL}{GL}  % General linear group
-\DeclareMathOperator{\SL}{SL}  % Special linear group
-\DeclareMathOperator{\inp}{in}
-\DeclareMathOperator{\outp}{out}  % input and output ports/nodes in circuits
-\DeclareMathOperator{\eval}{eval}
-\DeclareMathOperator{\lave}{coeval}  % (co)evaluation of an arithmetic circuit
-\DeclareMathOperator{\size}{size}
-\DeclareMathOperator{\depth}{depth}  
-\DeclareMathOperator{\hub}{\&}  % a hub node
-\DeclareMathOperator{\id}{id}  % identity
-\DeclareMathOperator{\diff}{d}  % differential operator
-\DeclareMathOperator{\car}{char}  % caractéristique d'un corps
-\DeclareMathOperator{\Frac}{Frac}  % corps des fractions
-\DeclareMathOperator{\Gal}{Gal}  % groupe de Galois
-\DeclareMathOperator{\Tr}{Tr}  % trace
-\DeclareMathOperator{\PTr}{T}  % pseudotrace
-\DeclareMathOperator{\Norm}{N} % norme
-\DeclareMathOperator{\ord}{ord}  % l'ordre d'un élément
-\DeclareMathOperator{\ev}{ev}  % evaluation
-\DeclareMathOperator{\proj}{proj}  % evaluation
-\DeclareMathOperator{\flip}{flip}  % flipper
-
-
-%%%%%%%%%%%%%
+%%%%%%%%%%%%% The document
 
 \title{Fast Algorithms for Towers of Finite Fields and Isogenies}
 \author{Luca De Feo}
 \makeindex
 \makenomenclature
-
-%% PDF metadata
-\hypersetup{pdftitle={\thetitle},pdfauthor={\theauthor}}
 
 \begin{document}
 \frontmatter*
@@ -180,7 +78,6 @@
 \include{trans/haskatsuba}
 \include{isogeny/veluproof}
 
-\bookmarksetup{startatroot}
 \backmatter
 \input{pre/conclusion}
 \renewcommand{\nomname}{List of Symbols}
@@ -190,19 +87,9 @@
 \bibliographystyle{amsalpha}
 \bibliography{defeo}
 
-
-%% Quatrième de couverture
-% \cleardoublepage
-% \pagestyle{empty}
-
-% \settypeblocksize{*}{33pc}{1.618}
-% \setbinding{0cm}
-% \setulmargins{*}{*}{1.2}
-% \setlrmargins{*}{*}{1}
-% \checkandfixthelayout
-
-% ~\newpage
-% \include{pre/summary}
+\thirdcover
+\fourthcover
+\include{pre/summary}
 
 \end{document}
 

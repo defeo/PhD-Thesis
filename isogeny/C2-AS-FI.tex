@@ -380,7 +380,8 @@ subproduct tree.  We finally do the interpolation of $A_0$.
     \STATE\label{alg:A:CRA} $P_i\la \sum_{\sigma}P_{i+1}^\sigma T_i/T_{i+1}^\sigma$ using the binary subproduct tree computed previously;
     \STATE\label{alg:A:push} convert  $P_i$ into an element of
     $\U_i[X]$ using \hyperref[alg:push-down]{\alg{Push-down}}.
-    \ENDFOR return $P_0$.
+    \ENDFOR
+    \STATE return $P_0$.
   \end{algorithmic}
 \end{algorithm}
 

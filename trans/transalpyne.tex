@@ -143,7 +143,7 @@ signature specifiers).
 
 \begin{figure}[!h]
   \centering
-\begin{lstlisting}[frame=single,frameround=tttt]
+\begin{lstlisting}
 type Ring R
 
 def (R c)product(R a, R b):
@@ -342,10 +342,8 @@ After the type checking and linearity inference phase, any discovered
 linearization of any function is partially evaluated and transposed as
 in Section~\ref{sec:r-algebr-algor}.
 
-
 \begin{figure}[b]
-  \centering
-\begin{lstlisting}[frame=single,frameround=tttt]
+\begin{lstlisting}
 def (R a, R b)f(R c, R d):
   if d > R.zero():
     x, y = f(c, d - R.one())
@@ -406,7 +404,7 @@ Figure~\ref{fig:bad-ref}.
 
 \begin{figure}[t]
   \centering
-\begin{lstlisting}[frame=single,frameround=tttt]
+\begin{lstlisting}
 def (R a, R b)f(R c, R d):
   # Scalar part
   if d > R.zero():
@@ -461,7 +459,7 @@ mode.
 
 \begin{figure}[hb]
   \centering
-\begin{lstlisting}[frame=single,frameround=tttt]
+\begin{lstlisting}
 def (R c, R b)fT(R a, R d):
   # Forward sweep
   if (d > R.zero()):
@@ -479,7 +477,6 @@ def (R c, R b)fT(R a, R d):
   \caption{Transposition of Figure~\ref{fig:bad}.}
   \label{fig:mechant}
 \end{figure}
-
 
 
 
