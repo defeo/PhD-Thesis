@@ -3,6 +3,9 @@
 
 \renewcommand{\C}{\mathcal{C}}
 \newcommand{\D}{\mathcal{D}}
+\newcommand{\Set}{\mathbold{S\kern-0.2ex e\kern-0.2ex t}}
+\newcommand{\Hask}{\mathbold{H\kern-0.2ex a\kern-0.2ex s\kern-0.2ex k}}
+\newcommand{\RMod}[1]{#1\mathbold{-M\kern-0.2ex o\kern-0.2ex d}}
 
 The aim of this chapter is to give a simpler proof of the
 \hyperref[th:tellegen]{transposition theorem for arithmetic circuits}
@@ -99,7 +102,7 @@ As the reader will have noticed, we have simply taken
 Definition~\ref{def:eval} and changed direct sums with categorical
 products. Hence, the fact that the evaluation of a circuit in the
 category of left modules is a left module morphism is now tautology;
-but we can also consider circuits valued in $\mathsf{Set}$, then all
+but we can also consider circuits valued in $\Set$, then all
 the theory of Section~\ref{sec:multi} can be carried out on those
 circuits.
   
@@ -166,10 +169,10 @@ $\D^\op$. For completeness, we give the detailed definitions.
 \end{definition}
 
 The coevaluation in general does not attach the same semantics to a
-circuit as the evaluation. For example in the case of $\mathsf{Set}$
+circuit as the evaluation. For example in the case of $\Set$
 the coevaluation is a function from the disjoint union of $i$ copies
 of $A$ to the disjoint union of $o$ copies of $A$. We can regard
-circuits over cobases in $\mathsf{Set}$ as objects that are fed one
+circuits over cobases in $\Set$ as objects that are fed one
 single element of $A$ on one out of their $n$ inputs and then take
 decisions depending on which input was fed. An example is given in
 figure \ref{fig:coffee}.
@@ -317,9 +320,9 @@ with the corresponding node in $F(\mathcal{B})$.
 \end{corollary}
 
 The transposition theorem of Section~\ref{sec:tellegen}, then follows
-by considering the transposition functor $\dual{()}:R\mathsf{-Mod}\ra
-R^\op\mathsf{-Mod}$ (note that the transposition functor is naturally
-written in a contravariant fashion).
+by considering the transposition functor
+$\dual{()}:\RMod{R}\ra\RMod{R}$ (note that the transposition
+functor is traditionally written in a contravariant fashion).
 
 
 \section{From circuits to function-level programming}
@@ -327,7 +330,7 @@ written in a contravariant fashion).
 \index{arrow}
 \lstset{language=haskell} People who think that categories are just
 abstract nonsense, may be surprised discovering that arithmetic
-circuits valued in $\mathsf{Hask}$ (the category of Haskell types) are
+circuits valued in $\Hask$ (the category of Haskell types) are
 already implemented in Haskell. Alternatively, they might think that
 Haskell is concrete nonsense.
 
@@ -341,9 +344,9 @@ realize the relationship between circuits and arrows, and to propose a
 DSL for arrows that is amazingly similar to straight line programs.
 
 The standard library class \lstinline+Arrow+ is roughly equivalent to
-arithmetic circuits valued in $\mathsf{Hask}$ (or $\mathsf{Set}$),
+arithmetic circuits valued in $\Hask$ (or $\Set$),
 while \lstinline+ArrowChoice+ is roughly equivalent to arithmetic
-circuits valued in $\mathsf{Hask}^\op$. So we asked ourselves the
+circuits valued in $\Hask^\op$. So we asked ourselves the
 question of whether it is possible to write a type class
 \lstinline+AdditiveArrow+ that has the same properties of circuits
 valued in additive categories. A desirable feature of \emph{additive
@@ -429,7 +432,7 @@ of programs based on the transposition principle.
 multiplication]{Implementation of \emph{self-transposing} polynomial
   multiplication in Haskell}
 \label{sec:impl-emphs-transp}
-
+\pdfmcthree{What a gaffe! This code implements naive multiplication, not Karatsuba's.}
 
 \begin{xcomment}{lstlisting}
 \input{trans/transkara.hs}

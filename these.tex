@@ -27,6 +27,8 @@
 \newcommand{\pdfmcone}[1]{}%\pdfmargincomment[color=blue,subject=rev1,author=rev1]{#1}}
 % Second revision
 \newcommand{\pdfmctwo}[1]{}%\pdfmargincomment[color=red,subject=rev2,author=rev2]{#1}}
+% Third revision (reviewers' remarks)
+\newcommand{\pdfmcthree}[1]{}%\pdfmargincomment[color=yellow,subject=rev3,author=rev3]{#1}}
 
 %%%%%%%%%%%%%% Code listings
 \usepackage[final]{listings}
@@ -60,6 +62,7 @@
 \input{pre/introduction}
 
 \clearpage
+\renewcommand{\cftchapterbreak}{\addpenalty{-1000}}  % Fix this horrible table
 \tableofcontents*
 %\listoffigures
 %\listoftables
@@ -72,13 +75,13 @@
 \include{isogeny/isogeny}
 
 \appendix
-\pdfbookmark[-1]{\appendixpagename}{part:appendices}
 \appendixpage*
 \include{trans/category}
 \include{trans/haskatsuba}
 \include{isogeny/veluproof}
 
 \backmatter
+\addtocontents{toc}{\clearpage}  % Fix this horrible table
 \input{pre/conclusion}
 \renewcommand{\nomname}{List of Symbols}
 \printnomenclature
