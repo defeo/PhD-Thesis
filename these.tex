@@ -15,9 +15,6 @@
 \usepackage[all]{xypic}
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,automata}
-%% Index, glossaries, etc.
-\usepackage{makeidx}
-\usepackage[refpage,intoc]{nomencl}
 %% Dirty trick to embed source code
 \usepackage{xcomment}
 
@@ -50,7 +47,7 @@
 \title{Fast Algorithms for Towers of Finite Fields and Isogenies}
 \author{Luca De Feo}
 \makeindex
-\makenomenclature
+\makelistofsymbols
 
 \begin{document}
 \frontmatter*
@@ -83,9 +80,7 @@
 \backmatter
 \addtocontents{toc}{\clearpage}  % Fix this horrible table
 \input{pre/conclusion}
-\renewcommand{\nomname}{List of Symbols}
-\printnomenclature
-\clearpage
+\listofsymbols
 \printindex
 \bibliographystyle{amsalpha}
 \bibliography{defeo}
