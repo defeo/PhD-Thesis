@@ -401,7 +401,7 @@ It will be convenient to (ab)use Dirac's
 modules. If $(M,+,\cdot)$ is a left $R$-module and $x\in (M,+)$ is an
 element of its underlying group, by $\ket{x}_R$ we mean the element
 obtained by lifting $x$ in $(M,+,\cdot)$. We call
-$\ket{x}$\nomenclature[braket-1]{$\ket{x}$}{Ket, element of a left module} a
+$\ket{x}$\symb[braket-1]{$\ket{x}$}{Ket, element of a left module} a
 \index{ket}\textit{ket} and read it as ``ket x''.
 
 The external multiplication by an element $a\in R$ will be written
@@ -409,7 +409,7 @@ $a\ket{x}_R$; if $f:M\ra N$ is a left module morphism, we write
 $f\ket{x}_R$ for $f(\ket{x}_R)$. By a slight abuse of notation we may
 write $\ket{a x}_R$ and $\ket{f(x)}_R$ for $a\ket{x}_R$ and
 $f\ket{x}_R$ respectively. When $R$ is clear from the context, a ket
-can be simply written as $\ket{x}$\nomenclature[braket-2]{$\bra{x}$}{Bra,
+can be simply written as $\ket{x}$\symb[braket-2]{$\bra{x}$}{Bra,
   element of a right module}.
 
 In a symmetric way, elements of right $R$-modules will be written
@@ -419,7 +419,7 @@ and application of a right module morphism as ${}_R\bra{x}f$.
 
 Let $M$ be a right module and $N$ a left module. A
 \index{bilinear~form}\textit{bilinear
-  form}\nomenclature[braket-3]{$\braket{x}{y}_f$}{Bilinear form} on
+  form}\symb[braket-3]{$\braket{x}{y}_f$}{Bilinear form} on
 $M\times N$ is a map $f:M\times N\ra R$ such that for any $x\in M$,
 the map
 \[\ket{y}\mapsto f(x, y)\]
@@ -434,7 +434,7 @@ for example $\braket{xa}{y}\ne\braket{x}{ay}$.
 
 If $M$ is a left (right) module, we denote by $\dual{M}=\hom(M,R)$ the
 \index{dual~module}\textit{dual
-  module}\nomenclature[dual]{$\dual{M}$}{Dual of a module or vector
+  module}\symb[dual]{$\dual{M}$}{Dual of a module or vector
   space: $\dual{M}=\hom(M,R)$} of $M$, it is a right (left) module.
 Any bilinear form $f$ gives rise to a morphism $ \phi_f : M \ra
 \dual{N}$ of right modules where $\bra{x}\phi_f$ is the linear form $y
@@ -485,10 +485,10 @@ automorphism of $\Mat_n(R)$ that sends $M_{\basis{B}}(f)$ over
 $M_{\basis{B'}}(f)$. Hence, any property of matrices that is invariant
 by similarity, can be defined for linear operators. We define the
 \index{trace!of~an~operator} \index{trace}\textit{trace} of a linear
-operator as $\Tr f = \Tr M(f)$\nomenclature[Tr]{$\Tr$}{Trace of a
+operator as $\Tr f = \Tr M(f)$\symb[Tr]{$\Tr$}{Trace of a
   matrix, of a linear operator}, and its
 \index{determinant}\textit{determinant} as $\det f = \det
-M(f)$\nomenclature[det]{$\det$}{Determinant of a matrix, of a linear
+M(f)$\symb[det]{$\det$}{Determinant of a matrix, of a linear
   operator}.
 
 
@@ -514,11 +514,11 @@ there is an operator $\dual{g}\in\End(N)$ such that
 for any $x\in M$ and $y\in N$. We define similarly $\dual{h}$ when
 $h\in\End(N)$, obviously $\dual{(\dual{g})} = g$. The operator
 $\dual{g}$ is called the
-\index{dual~operator}\textit{dual}\nomenclature[dual]{$\dual{g}$}{Dual
+\index{dual~operator}\textit{dual}\symb[dual]{$\dual{g}$}{Dual
   operator: $\braket{g(x)}{y}=\braket{x}{\dual{g}(y)}$} of $g$ with
 respect to $f$. In general, whenever it is clear from the context that
 $g$ belongs to $\End(M)$ (or to $\End(N)$), we simply
-write\nomenclature[braket-4]{$\braketop{x}{g}{y}$}{Bilinear form with linear operator}
+write\symb[braket-4]{$\braketop{x}{g}{y}$}{Bilinear form with linear operator}
 \[\braketop{x}{g}{y} \eqdef \braket{g(x)}{y} = \braket{x}{\dual{g}(y)}\text{.}\]
 
 More generally, Let $f:M\times M'\ra R$ and $g:N'\times N\ra R$ be two
@@ -615,9 +615,9 @@ separable and normal.
 Let $\LK/\K$ be a Galois extension, the group of automorphisms of
 $\LK$ that fix $\K$ is called the \index{Galois~group}\textit{Galois
   group} of $\LK/\K$ and is denoted by
-$\Gal(\LK/\K)$\nomenclature[Gal]{$\Gal(\LK/\K)$}{Galois group}.  Let
+$\Gal(\LK/\K)$\symb[Gal]{$\Gal(\LK/\K)$}{Galois group}.  Let
 $G$ be a group of automorphisms of a field $\K$, by
-$\K^G$\nomenclature[KG]{$\K^G$}{Fixed field, the subfield of $\K$
+$\K^G$\symb[KG]{$\K^G$}{Fixed field, the subfield of $\K$
   fixed by the action of $G$} we denote the subfield of $\K$
 consisting in the elements such that $\sigma(x)=x$ for any $\sigma\in
 G$. Obviously, $\K=\LK^{\Gal(\LK/\K)}$.
@@ -647,7 +647,7 @@ roots of unity.  If $\K$ has characteristic $p>0$, then $X^{p^m}-1$
 has only one root, namely $1$, thus $\mu_{p^m}$ is the trivial group.
 
 The \index{Euler~function}\textit{Euler function}
-$\euler:\N\ra\N$\nomenclature[f]{$\euler$}{Euler totient function} is
+$\euler:\N\ra\N$\symb[f]{$\euler$}{Euler totient function} is
 defined as
 \begin{align*}
   \euler(1) &= 1\text{,}\\
@@ -667,7 +667,7 @@ divide $n$, the number of primitive roots of unity is equal to $\euler(n)$.
 If $x$ is an $n$-th root of unity, its minimal polynomial over $\Q$ is
 called the $n$-th \index{cyclotomic~polynomial}\textit{cyclotomic
   polynomial} and is denoted by
-$\Cyclo_n$\nomenclature[f]{$\Cyclo_n$}{$n$-th Cyclotomic polynomial};
+$\Cyclo_n$\symb[f]{$\Cyclo_n$}{$n$-th Cyclotomic polynomial};
 it is a monic polynomial with coefficients in $\Z$. $\Cyclo_n$ is an
 irreducible factor of $X^n-1$ over $\Q$, its roots are all the
 primitive $n$-th roots of unity, hence $\deg\Cyclo_n=\euler(n)$.
@@ -679,10 +679,10 @@ $\LK$. The minimal polynomial of its matrix with respect to any basis
 is equal to the minimal polynomial of $x$ over $\K$.  The trace of
 $M_x$ is called the \index{trace!of~an~element}\textit{trace} of $x$
 and is denoted by
-$\Tr_{\LK/\K}(x)$\nomenclature[Tr]{$\Tr_{\LK/\K}$}{Trace of a field
+$\Tr_{\LK/\K}(x)$\symb[Tr]{$\Tr_{\LK/\K}$}{Trace of a field
   extension}; its determinant is called the \index{norm}\textit{norm}
 of $x$ and is denoted by
-$\Norm_{\LK/\K}(x)$\nomenclature[Norm]{$\Norm_{\LK/\K}$}{Norm of a
+$\Norm_{\LK/\K}(x)$\symb[Norm]{$\Norm_{\LK/\K}$}{Norm of a
   field extension}.
 
 \begin{proposition}
@@ -716,13 +716,13 @@ polynomial $X^{q-1}-1$. The fact that $p$ does not divide $q-1$
 implies that $\K$ is the field of $\F_p[\zeta]$ where $\zeta$ is a
 primitive $(q-1)$-th root of unity in $\clot{\F}_p$. This implies that,
 up to isomorphism, there is an unique finite field containing $q$
-elements, we denote by $\F_q$\nomenclature[FiniteField]{$\F_q$}{Finite
+elements, we denote by $\F_q$\symb[FiniteField]{$\F_q$}{Finite
   field of cardinality $q$} this field.
 
 Using the same arguments, it is easy to show that for any $m\ge 1$,
 $\F_{q^m}$ contains a subfield isomorphic to $\F_q$.  For any element
 of $\F_q^m$, the mapping $\frob_q:x\mapsto
-x^q$\nomenclature[f]{$\frob_q$, $\frob$}{Frobenius automorphism} is a
+x^q$\symb[f]{$\frob_q$, $\frob$}{Frobenius automorphism} is a
 morphism of fields that fixes $\F_q$, it is called the
 \index{Frobenius!automorphism}\textit{Frobenius automorphism} of
 $\F_{q^m}/\F_q$. We now give the main result about the Galois theory
@@ -754,7 +754,7 @@ $R/I$ being a field. A proper ideal is
 \index{ideal!primary}\textit{primary} if $ab\in I$ implies that $a\in
 I$ or $b^n\in I$ for some $n$. The
 \index{ideal!radical}\textit{radical} of an ideal $I$ is the
-ideal\nomenclature[I]{$\sqrt{I}$}{Radical of an ideal}
+ideal\symb[I]{$\sqrt{I}$}{Radical of an ideal}
 \begin{equation}
   \label{eq:212}
   \sqrt{I} = \{f \,|\, f^r\in I \text{ for some $r\ge0$.}\}
@@ -876,7 +876,7 @@ definitions/theorems are identical.
 \pdfmcone{Made more explicit that V must be a variety.}
 If $V$ is a variety defined over $\K$, its
 \index{coordinate~ring}\textit{coordinate
-  ring}\nomenclature[KV]{$\K[V]$}{Coordinate ring of an algebraic
+  ring}\symb[KV]{$\K[V]$}{Coordinate ring of an algebraic
   variety} is
 \begin{equation}
   \label{eq:218}
@@ -884,7 +884,7 @@ If $V$ is a variety defined over $\K$, its
   \text{;}
 \end{equation}
 the \index{function~field}\textit{function field}
-$\K(V)$\nomenclature[KV]{$\K(V)$}{Function field of an algebraic
+$\K(V)$\symb[KV]{$\K(V)$}{Function field of an algebraic
   variety} is its field of fractions. 
 
 The \index{dimension~of~a~variety}\textit{dimension} of a variety $V$
