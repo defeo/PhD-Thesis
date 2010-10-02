@@ -7,7 +7,7 @@ This subsection introduces the basic algorithms required to build the
 primitive tower of Theorem~\ref{th:cantor}, that is, compute the
 required minimal polynomials $Q_i$.
 
-\paragraph{Composition.} We give first an algorithm for sparse
+\paragraph{Composition} We give first an algorithm for sparse
 polynomial composition, to be used in the construction of the tower
 defined before.  Given $P$ and $R$ in $\F_p[X]$, we want to compute
 $P(R)$. For the cost analysis, it will be useful later on to consider
@@ -23,7 +23,8 @@ At the leaves of the recursion tree, we use the following naive
 algorithm.
 
 \begin{algorithm}
-  \caption{\label{alg:naivecompose}\alg{NaiveCompose}}
+  \caption{\alg{NaiveCompose}}
+  \label{alg:naivecompose}
   \begin{algorithmic}[1]
     \REQUIRE $P,R\in\F_p[X]$.
     \ENSURE $P(R)$.
@@ -35,7 +36,7 @@ algorithm.
 \end{algorithm}
 
 \begin{lemma}
-  \hyperref[alg:naivecompose]{\alg{NaiveCompose}} has cost $O(\deg(P)^2k\ell)$.  
+  \titleref{alg:naivecompose} has cost $O(\deg(P)^2k\ell)$.  
 \end{lemma}
 \begin{proof} At step $i$, $\rho$ and $S$ have degree at most
 $ik$. Computing the sum $S + p_i \rho$ takes time $O(ik)$ and
@@ -46,7 +47,8 @@ whence a total cost of $O(\deg(P)^2 k\ell)$.
 
 
 \begin{algorithm}
-  \caption{\label{alg:compose}\alg{Compose}}
+  \caption{\alg{Compose}}
+  \label{alg:compose}
   \begin{algorithmic}[1]
     \REQUIRE $P,R\in\F_p[X]$.
     \ENSURE $P(R)$.
@@ -64,8 +66,8 @@ whence a total cost of $O(\deg(P)^2 k\ell)$.
 \begin{theorem}
   \label{theo:comp}
   If $R$ has degree $k$ and $\ell$ non-zero coefficients and if
-  $\deg(P)=s$, then \hyperref[alg:compose]{\alg{Compose}}$(P,R)$ outputs $P(R)$ in time $O(ps
-  \log_p(s)k\ell)$.
+  $\deg(P)=s$, then $\titleref{alg:compose}(P,R)$ outputs $P(R)$ in
+  time $O(ps \log_p(s)k\ell)$.
 \end{theorem}
 \begin{proof}
   Correctness is clear, since $R^{p^n}=R(X^{p^n})$. To analyze the
@@ -109,7 +111,7 @@ whence a total cost of $O(\deg(P)^2 k\ell)$.
   where the latter solution is advantageous.
 \end{nota}
 
-\paragraph{Computing the minimal polynomials.}
+\paragraph{Computing the minimal polynomials}
 Theorem~\ref{th:cantor} shows that we have defined a primitive
 tower. To be able to work with it, we explain now how to compute the
 minimal polynomial $Q_i$ of $x_i$ over $\F_p$. This is done by
