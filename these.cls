@@ -1,6 +1,11 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{these}[2010/09/27 PhD thesis, V1.0]
-\LoadClass[a4paper,twoside,openany,oldfontcommands]{memoir}
+\PassOptionsToClass{twoside}{memoir}
+\PassOptionsToClass{openany}{memoir}
+\PassOptionsToClass{a4paper}{memoir}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{memoir}}
+\ProcessOptions
+\LoadClass{memoir}
 
 %% Maths/CS
 \RequirePackage{bbm}
@@ -11,14 +16,14 @@
 \RequirePackage{amssymb}
 \RequirePackage{mathrsfs}
 \RequirePackage[noend]{algorithmic}
-\RequirePackage[final]{listings}
 
 %% Fonts
 \RequirePackage[T1]{fontenc}
 \RequirePackage{textcomp}
-\RequirePackage{tgheros}
 \renewcommand{\rmdefault}{pplx}
+\renewcommand{\sfdefault}{uop}  % Warning: Optima is not in texlive !
 \RequirePackage{eulervm}
+\RequirePackage[tracking=true]{microtype}
 
 %% Hypertext
 \RequirePackage{hyperref}
@@ -51,7 +56,7 @@
   \renewcommand*{\chapternamenum}{}
   \renewcommand*{\printchaptername}{\ifthenelse{\isodd{\thepage}}{\flushright}{\flushleft}%
     \ifthenelse{\isodd{\thepage}}{\def\side{r}}{\def\side{l}}%
-    \makebox[0pt][\side]{\color{gray}{\chapnamefont Chapter}}}
+    \makebox[0pt][\side]{\color{gray}{\chapnamefont\@chapapp}}}
   \newcommand*{\chapnumsep}{\hspace{0.5em}}
   \newcommand*{\chapnummargin}{}
   \renewcommand*{\printchapternum}{\ifthenelse{\isodd{\thepage}}%
@@ -95,7 +100,52 @@
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem*{nota}{Note}
 
+%% Floats
+\RequirePackage{float}
+
+% hacking back caption to make it work with titleref
+\let\@oldcapt\float@caption
+\long\def\float@caption#1[#2]#3{\M@gettitle{#2}\@oldcapt{#1}[#1]{#3}}
+
+% Define two float styles: one with caption on top and one with caption on the bottom
+\newcommand\floatc@top[2]{{\@fs@cfont #1:} #2\par}
+\newcommand\fs@top{\def\@fs@cfont{\scshape}\let\@fs@capt\floatc@top
+  \def\@fs@pre{\hrule height.8pt depth0pt \smallskip}%
+  \def\@fs@post{}%
+  \def\@fs@mid{\smallskip\hrule\smallskip}%
+  \let\@fs@iftopcapt\iftrue%
+  \global\let\these@iftop\iftrue}
+
+\newcommand\floatc@bottom[2]{{\@fs@cfont #1:} #2\par}
+\newcommand\fs@bottom{\def\@fs@cfont{\scshape}\let\@fs@capt\floatc@bottom
+  \def\@fs@pre{}%
+  \def\@fs@post{\smallskip\hrule height.8pt depth0pt}%
+  \def\@fs@mid{\smallskip\hrule\smallskip}%
+  \let\@fs@iftopcapt\iffalse%
+  \global\let\these@iftop\iffalse}
+
+% Warning ! This does not work perfectly !
+% \these@iftop is redefined when the float is read, rather than when the float
+% is typeset. Thus in pages where there's a mixture of top and bottom floats,
+% some floats may be inherit it from the next float on the same page.
+\newcommand{\topfigrule}{\these@iftop \smallskip\hrule \else \fi}
+\newcommand{\botfigrule}{\these@iftop \else \hrule\smallskip \fi}
+
+\floatstyle{bottom}
+\restylefloat{figure}
+\restylefloat{table}
+
 %% Algorithms
+\newcommand*{\algorithmname}{Algorithm}
+\newcommand*{\listalgorithmname}{List of Algorithms}
+\floatstyle{top}
+\newfloat{algorithm}{tbp}{loa}[chapter]
+\floatname{algorithm}{\algorithmname}
+%\newfloat[chapter]{algorithm}{loa}{\algorithmname}
+\newlistof{listofalgorithms}{loa}{\listalgorithmname}
+\newlistentry{algorithm}{loa}{0}
+
+
 \renewcommand{\algorithmicrequire}{\textsc{Input~~~:}}
 \renewcommand{\algorithmicensure}{\textsc{Output~:}}
 \renewcommand{\algorithmicend}{\textsc{end}}
@@ -114,31 +164,60 @@
 \renewcommand{\algorithmictrue}{\textsc{true}}
 \renewcommand{\algorithmicfalse}{\textsc{false}}
 
-\newcommand*{\algorithmname}{Algorithm}
-\newcommand*{\listalgorithmname}{List of Algorithms}
-\newlistof{listofalgorithms}{loa}{\listalgorithname}
-\newfloat[chapter]{algorithm}{loa}{\algorithmname}
-
-%% Floats
-\captionnamefont{\normalfont\scshape}
-
-
-%% Code listings
-\lstset{
-  upquote=true,
-  basicstyle=\ttfamily,          % print whole listing in typewriter
-  keywordstyle=\color{blue}, % bold blue keywords
-  %identifierstyle=,           % nothing happens
-  commentstyle=\color{green}, % green comments
-  stringstyle=\color{red},      % typewriter type for strings
-  showstringspaces=false     % no special string spaces
-}
-
 %% ToC
-\newcommand{\leader}{\hspace{2em}}
 \renewcommand*{\cftpartfont}{\scshape\Large}
 \renewcommand*{\cftpartpagefont}{}
 \renewcommand*{\cftchapterfont}{\scshape}
 \renewcommand*{\cftchapterpagefont}{}
 \renewcommand*{\cftsectionpagefont}{}
-%\settowidth{\cftpartnumwidth}{\cftpartfont III~}
+% Add some space before appendices (only if appendix* is used) and the backmatter
+\addtodef{\@sapppage}{\addtocontents{toc}{\vspace{\cftbeforepartskip}}}{}
+\addtodef{\backmatter}{\addtocontents{toc}{\vspace{\cftbeforepartskip}}}{}
+
+%% Tracking rules for small capitals
+\DeclareMicrotypeSet*[tracking]{hugesc}{
+  encoding={OT1, T1, T2A, LY1, OT4, QX, T5},
+  shape=sc*,
+  size={Large-}}
+\SetTracking{size={Large}}{50}
+\SetTracking[context=romannum]{encoding={OT1, T1, T2A, LY1, OT4, QX, T5}}{0}
+\addtoiargdef{\@Roman}{\begingroup\microtypecontext{tracking=romannum}}{\endgroup}
+
+%%%%%%%%%%%%%% Making the class work better with hyperref
+%% Modify title and author so that they add the information to the pdf metadata
+\addtoiargdef{\title}{}{\hypersetup{pdftitle={#1}}}
+\addtoiargdef{\author}{}{\hypersetup{pdfauthor={#1}}}
+%% modify appendixpage and backmatter to handle the bookmarks correctly
+\addtodef{\@sapppage}{\pdfbookmark[-1]{\appendixpagename}{part:appendices}}{}
+\addtodef{\backmatter}{\bookmarksetup{startatroot}}{}
+
+
+%%%%%%%%%%%%%% Useful commands
+
+%% To move to the third and fourth cover
+\newcommand{\thirdcover}{%
+  \cleartooddpage\pagestyle{empty}%
+  \settypeblocksize{*}{33pc}{1.618}%
+  \setbinding{0cm}%
+  \setulmargins{*}{*}{1.2}%
+  \setlrmargins{*}{*}{1}%
+  \checkandfixthelayout%
+}
+\newcommand{\fourthcover}{\cleartoevenpage\pagestyle{empty}}
+
+%% The list of symbols
+\newcommand*{\listsymbname}{List of symbols}
+\newcommand*{\listsymbfile}{\jobname.symb}
+\newcommand*{\makelistofsymbols}{%
+  \makeglossary[\listsymbfile]
+  \changeglossnumformat[\listsymbfile]{|hyperpage}}
+\newcommand*{\symb}[3][]{%
+  \def\@math@protect{\expandafter\strip@prefix\meaning}%
+  \def\@tempa{#2}\def\@tempb{#3}%
+  \glossary[\listsymbfile](#1){\@math@protect\@tempa}{\@math@protect\@tempb}}
+\newcommand{\listofsymbols}[1][]{{
+    \ifthenelse{\equal{#1}{}}{\def\@tmpbox{\makebox}\def\@sep{: }}{\def\@tmpbox{\makebox[#1][l]}\def\@sep{}}
+    \renewcommand{\glossaryname}{\listsymbname}%
+    \renewcommand{\glossarymark}{\markboth{\listsymbname}{\listsymbname}}%
+    \renewcommand{\glossitem}[4]{\@tmpbox{##1}\@sep{}##2\cftdotfill{\cftdotsep}##4\\}%
+    \printglossary[\listsymbfile]}}
