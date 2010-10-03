@@ -24,11 +24,11 @@ did in our experiments.
 All the algorithms of
 Sections~\ref{sec:fast-tower}--\ref{sec:pseudotrace-frobenius} are
 faithfully implemented in \texttt{FAAST}. The algorithms
-\hyperref[alg:applyisomorphism]{\alg{ApplyIsomorphism}} and \hyperref[alg:applyinverse]{\alg{ApplyInverse}} have slightly different
-implementations \texttt{toUnivariate()} and \texttt{toBivariate()}
-that allow more flexibility. Instead of being recursive algorithms
-doing the change to and from the multivariate basis
-$\basis{B}'_i=\{{x_0'}^{e_0}\cdots {x_i'}^{e_i}\}$, they only
+\titleref{alg:applyisomorphism} and \titleref{alg:applyinverse} have
+slightly different implementations \texttt{toUnivariate()} and
+\texttt{toBivariate()} that allow more flexibility. Instead of being
+recursive algorithms doing the change to and from the multivariate
+basis $\basis{B}'_i=\{{x_0'}^{e_0}\cdots {x_i'}^{e_i}\}$, they only
 implement the change to and from the bivariate basis
 \begin{equation}
   \label{eq:278}
@@ -43,10 +43,9 @@ switch between the representations
   \wrt\U_{i-1}[X_i']/({X_i'}^p-X_i'-\gamma_{i-1}')
   \text{.}
 \end{equation}
-The same result as one call to \hyperref[alg:applyisomorphism]{\alg{ApplyIsomorphism}} or
-\hyperref[alg:applyinverse]{\alg{ApplyInverse}} can be obtained by $i$ calls to
-\texttt{toUnivariate()} and \texttt{toBivariate()}
-respectively. 
+The same result as one call to \titleref{alg:applyisomorphism} or
+\titleref{alg:applyinverse} can be obtained by $i$ calls to
+\texttt{toUnivariate()} and \texttt{toBivariate()} respectively.
 
 \pdfmctwo{I tried to be more clear on this. I do not know if I
   succeeded.}  However, more freedom is allowed in the case where

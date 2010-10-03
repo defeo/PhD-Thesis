@@ -124,7 +124,7 @@ matrix on the basis $(1,\ldots,x_i^{p-1})$ is
   \end{bmatrix}
 \end{equation}
 (we recall that $\beta_{i-1,n}=\PTr_{n}(\gamma_{i-1})$).  Then,
-algorithm \hyperref[alg:approximateas]{\alg{ApproximateAS}} finds the required solution.
+algorithm \titleref{alg:approximateas} finds the required solution.
 
 
 %% We use an algorithm called \alg{Summation}; given $E$ in
@@ -138,17 +138,18 @@ algorithm \hyperref[alg:approximateas]{\alg{ApproximateAS}} finds the required s
 
 
 \begin{algorithm}
-  \caption{\label{alg:approximateas}\alg{ApproximateAS}} 
+  \caption{\alg{ApproximateAS}} 
+  \label{alg:approximateas}
   \begin{algorithmic}[1]
     \REQUIRE $\eta\wrt\U_i$ such that~\eqref{eq:approximateAS} has a solution.
     \ENSURE $\mu\wrt\U_i$ solution of~\eqref{eq:approximateAS}.
-    \STATE let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\hyperref[alg:push-down]{\alg{Push-down}}}(\eta)$;
+    \STATE let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=$ \titleref{alg:push-down}$(\eta)$;
     \FORALL {\label{alg:AAS:loop} $j\in[p-1,\ldots,1]$}
     \STATE let $\mu_j =
    \frac{1}{jT}\left(\eta_{j-1} -
      \sum_{h=j+1}^{p-1}\binom{h}{j-1}\beta_{i-1,p^{i-1}d}^{h-j+1}\mu_h\right)$;
    \ENDFOR
-   \STATE return $\text{\hyperref[alg:liftup]{\alg{Lift-up}}}(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$;
+   \STATE return \titleref{alg:liftup}$(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$;
 \end{algorithmic}
 \end{algorithm}
 
@@ -156,16 +157,16 @@ algorithm \hyperref[alg:approximateas]{\alg{ApproximateAS}} finds the required s
 %%   {ApproximateAS} 
 %%   {$\eta\wrt\U_i$ such that~\eqref{eq:approximateAS} has a solution.}
 %%   {$\mu\wrt\U_i$ solution of~\eqref{eq:approximateAS}.}
-%% \STATE let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\hyperref[alg:push-down]{\alg{Push-down}}}(\eta)$
+%% \STATE let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\titleref{alg:push-down}(\eta)$
 %% \STATE \label{alg:AAS:loop}for $j\in[p-1,\ldots,1]$,\\ let $\mu_j =
 %%    \frac{1}{jT}\left(\eta_{j-1} -
 %%   \sum_{h=j+1}^{p-1}\binom{h}{j-1}\beta_{i-1,p^{i-1}d}^{h-j+1}\mu_h\right)$
-%% \STATE return $\text{\hyperref[alg:liftup]{\alg{Lift-up}}}(\mu_1 x_i + \ldots + \mu_{p-1} x_i^{p-1})$
+%% \STATE return $\text{\titleref{alg:liftup})$
 %% \end{itemize}
 
 \begin{theorem}
   \label{th:approximateAS}
-  Algorithm \hyperref[alg:approximateas]{\alg{ApproximateAS}} is correct and takes time $O(\Lift(i))$.
+  Algorithm \titleref{alg:approximateas} is correct and takes time $O(\Lift(i))$.
 \end{theorem}
 
 \begin{proof}
@@ -201,24 +202,25 @@ algorithm \hyperref[alg:approximateas]{\alg{ApproximateAS}} finds the required s
 
 Writing the recursive algorithm is now straightforward. To solve
 Artin-Schreier equations in $\U_0$, we use a naive algorithm based on
-linear algebra, written $\alg{NaiveSolve}$.
+linear algebra, written \alg{NaiveSolve}.
 
 \begin{algorithm}
-  \caption{\label{alg:artin-schreier}\alg{Artin-Schreier}}
+  \caption{\alg{Artin-Schreier}}
+  \label{alg:artin-schreier}
   \begin{algorithmic}[1]
     \REQUIRE $\alpha,i$ such that $\alpha\wrt\U_i$ and $\Tr_{\U_i/\F_p}(\alpha)=0$.
     \ENSURE $\delta\wrt\U_i$ such that $\delta^p-\delta=\alpha$.
-    \STATE \label{alg:cou:base}if $i=0$, return $\alg{NaiveSolve}(X^p-X-\alpha)$;
-    \STATE \label{alg:cou:pseudo} let $\eta = \hyperref[alg:pseudotrace]{\alg{Pseudotrace}}(\alpha, i,i-1)$;
-    \STATE \label{alg:cou:push-beta} let $\mu= \hyperref[alg:approximateas]{\alg{ApproximateAS}}(\eta)$;
-    \STATE \label{alg:cou:push-alpha} let $\alpha_0=\text{\hyperref[alg:push-down]{\alg{Push-down}}}(\alpha-\mu^p+\mu)$;
-    \STATE \label{alg:cou:rec} let $\Delta =\text{\alg{Artin-Schreier}}(\alpha_0,i-1)$;
-    \STATE \label{alg:cou:lift} return $\mu+\text{\hyperref[alg:liftup]{\alg{Lift-up}}}(\Delta)$.
+    \STATE \label{alg:cou:base}if $i=0$, return \alg{NaiveSolve}$(X^p-X-\alpha)$;
+    \STATE \label{alg:cou:pseudo} let $\eta =$ \titleref{alg:pseudotrace}$(\alpha, i,i-1)$;
+    \STATE \label{alg:cou:push-beta} let $\mu=$ \titleref{alg:approximateas}$(\eta)$;
+    \STATE \label{alg:cou:push-alpha} let $\alpha_0=$ \titleref{alg:push-down}$(\alpha-\mu^p+\mu)$;
+    \STATE \label{alg:cou:rec} let $\Delta =$ \titleref{alg:artin-schreier}$(\alpha_0,i-1)$;
+    \STATE \label{alg:cou:lift} return $\mu+$ \titleref{alg:liftup}$(\Delta)$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{theorem}\label{theo:AS}
-  Algorithm \hyperref[alg:artin-schreier]{\alg{Artin-Schreier}} is
+  Algorithm \titleref{alg:artin-schreier} is
   correct and takes time
   \begin{equation}
     \label{eq:109}
@@ -267,17 +269,18 @@ through a push-down and a lift-up.
 
 
 \begin{algorithm}
-  \caption{\label{alg:applyisomorphism}\alg{ApplyIsomorphism}} 
+  \caption{\alg{ApplyIsomorphism}} 
+  \label{alg:applyisomorphism}
   \begin{algorithmic}[1]
     \REQUIRE $v,i$ with $v\in \U'_i$ written on the basis $\basis{B}'_i$.
     \ENSURE $\sigma_{\lst{s}_i}(v) \wrt \U_i$.
     \STATE if $i=0$ then return $v$;
     \STATE write $v=\Sigma_{j <p} v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$;
-    \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\hyperref[alg:push-down]{\alg{Push-down}}}(s_i)$;
-    \STATE for $j \in [0,\dots,p-1]$ let $t_j=\hyperref[alg:applyisomorphism]{\alg{ApplyIsomorphism}}(v_j,i-1)$;
+    \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=$ \titleref{alg:push-down}$(s_i)$;
+    \STATE for $j \in [0,\dots,p-1]$ let $t_j=$ \titleref{alg:applyisomorphism}$(v_j,i-1)$;
     \STATE let $t=0$;
     \STATE  for $j \in [p-1,\dots,0]$ let $t=(s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})t+t_j$;
-    \STATE return $\text{\hyperref[alg:liftup]{\alg{Lift-up}}}(t)$.
+    \STATE return \titleref{alg:liftup}$(t)$.
   \end{algorithmic}
 \end{algorithm}
 
@@ -289,44 +292,46 @@ t'_{p-1}s_i^{p-1}$, with all $t'_j \wrt \U_{i-1}$, and it suffices to
 apply $\sigma_{\lst{s}_i}^{-1}$ (or equivalently
 $\sigma_{\lst{s}_{i-1}}^{-1}$) to each $t'_i$. The non-trivial part is
 the computation of the $t'_j$'s: this is done by another application
-of \hyperref[alg:rur]{\alg{RUR}} in the extension $\U_i= \U_{i-1}[X_i]/(P_i)$, that we
-shall call \hyperref[alg:RUR-si]{$\alg{RUR}_{\lst{s}_i}$}. We shall
-discuss \hyperref[alg:RUR-si]{$\alg{RUR}_{\lst{s}_i}$} later, for the
+of \titleref{alg:rur} in the extension
+ $\U_i= \U_{i-1}[X_i]/(P_i)$, that we
+shall call \titleref{alg:RUR-si}. We shall
+discuss \titleref{alg:RUR-si} later, for the
 moment we just state a result about its complexity.
 
 \begin{lemma}
   \label{th:rur-s}
-  Algorithm \hyperref[alg:RUR-si]{$\alg{RUR}_{\lst{s}_i}$} computes
+  Algorithm \titleref{alg:RUR-si} computes
   its output in time $O(p\Mult(p^id))$.
 \end{lemma}
 
 \begin{algorithm}
-  \caption{\label{alg:applyinverse}\alg{ApplyInverse}} 
+  \caption{\alg{ApplyInverse}} 
+  \label{alg:applyinverse}
   \begin{algorithmic}[1]
     \REQUIRE $t,i$ with $t \wrt \U_i$.
     \ENSURE $\sigma_{\lst{s}_i}^{-1}(t)\in \U'_i$ written on the basis $\basis{B}'_i$.
     \STATE if $i=0$ then return $t$;
-    \STATE let $t_0 + \cdots + t_{p-1}x_i^{p-1} = \text{\hyperref[alg:push-down]{\alg{Push-down}}}(t)$;
-    \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=\text{\hyperref[alg:push-down]{\alg{Push-down}}}(s_i)$;
-    \STATE let $t'_0 + \cdots + t'_{p-1}X^{p-1} = \hyperref[alg:RUR-si]{\alg{RUR}_{\lst{s}_i}}
-  (t_0 + \cdots + t_{p-1}x_i^{p-1}, s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})$;
-  \STATE return $\Sigma_{j < p} \hyperref[alg:applyinverse]{\alg{ApplyInverse}}(t'_j, i-1) {x'_i}^j$;
+    \STATE let $t_0 + \cdots + t_{p-1}x_i^{p-1} =$ \titleref{alg:push-down}$(t)$;
+    \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=$ \titleref{alg:push-down}$(s_i)$;
+    \STATE let $t'_0 + \cdots + t'_{p-1}X^{p-1} =$ \titleref{alg:RUR-si}$(t_0 + \cdots + t_{p-1}x_i^{p-1}, s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1})$;
+  \STATE return $\Sigma_{j < p}$ \titleref{alg:applyinverse}$(t'_j, i-1) {x'_i}^j$;
 \end{algorithmic}
 \end{algorithm}
 
 \begin{proposition}\label{Prop:apply}
-  Algorithms \hyperref[alg:applyisomorphism]{\alg{ApplyIsomorphism}} and \hyperref[alg:applyinverse]{\alg{ApplyInverse}} are correct
+  Algorithms \titleref{alg:applyisomorphism} and
+ \titleref{alg:applyinverse} are correct
   and both take time $O(i\Lift(i))$.
 \end{proposition}
 \begin{proof}
   In both cases, correctness is clear, since the algorithms translate
   the former discussion. As to complexity, in both cases, we do $p$
   recursive calls, $O(1)$ push-downs and lift-ups, and a few extra
-  operations: for \hyperref[alg:applyisomorphism]{\alg{ApplyIsomorphism}}, these are $p$
+  operations: for \titleref{alg:applyisomorphism}, these are $p$
   multiplications / additions in the bivariate basis $\basis{D}_i$ of
-  Section~\ref{sec:level-embedding}; for \hyperref[alg:applyinverse]{\alg{ApplyInverse}}, this is
+  Section~\ref{sec:level-embedding}; for \titleref{alg:applyinverse}, this is
   calling the algorithm
-  \hyperref[alg:RUR-si]{$\alg{RUR}_{\lst{s}_i}$}.  The costs is
+  \titleref{alg:RUR-si}.  The costs is
   $O(p\Mult(p^id))$ in both cases, which is in $O(\Lift(i))$ by
   assumptions on $\Lift$. We conclude as in Theorem~\ref{th:b-ifrob}.
 \end{proof}
@@ -335,7 +340,7 @@ moment we just state a result about its complexity.
 \paragraph{Rational univariate representation}
 We describe now the algorithm to change from the basis $\basis{D}_i$
 to the basis $\basis{D}_i'$, based on the rational univariate
-representation. Unlike \hyperref[alg:liftup]{\alg{Lift-up}}, this algorithm will not make use
+representation. Unlike \titleref{alg:liftup}, this algorithm will not make use
 of transposed subroutines.
 
 We consider the algebra $\U_i[X_i]/(P_i)$. We have an element $s_i$,
@@ -350,7 +355,7 @@ basis $1,x_i,\ldots,x_i^{p-1}$ are
   \rho(1) = (0,\ldots,0,-1)
 \end{equation}
 by~\eqref{eq:pd}. Now, as in step~\ref{alg:rur:4} of
-\hyperref[alg:rur]{\alg{RUR}}, we need to compute $t\cdot\rho(1)$. By
+\titleref{alg:rur}, we need to compute $t\cdot\rho(1)$. By
 writing down the multiplication matrix of $t$, we verify that
 \begin{equation}
   \label{eq:111}
@@ -359,12 +364,13 @@ writing down the multiplication matrix of $t$, we verify that
 \end{equation}
 
 Also observe that we need the inverse of the derivative of $P'_i$, as
-in step~\ref{alg:rur:5} of \hyperref[alg:rur]{\alg{RUR}}. Since $P'_i$ is Artin-Schreier,
+in step~\ref{alg:rur:5} of \titleref{alg:rur}. Since $P'_i$ is Artin-Schreier,
 this value is just $-1$. Finally, the algorithm
-\hyperref[alg:RUR-si]{$\alg{RUR}_{\lst{s}_i}$} is as follows.
+\titleref{alg:RUR-si} is as follows.
 
 \begin{algorithm}
-  \caption{\label{alg:RUR-si}RUR$_{\lst{s}_i}$}
+  \caption{\alg{RUR}$_{\lst{s}_i}$}
+  \label{alg:RUR-si}
   \begin{algorithmic}[1]
     \REQUIRE $t_0,\ldots,t_{p-1}\wrt\U_{i-1}$.
     \ENSURE $t_0',\ldots,t_{p-1}'\wrt\U_{i-1}$ such that $t_0+\cdots+t_{p-1}x_i^{p-1}=t_0'+\cdots+t_{p-1}'s_i^{p-1}$.
@@ -390,7 +396,7 @@ this value is just $-1$. Finally, the algorithm
 \begin{nota}
   We could have done better in step~\ref{alg:rur-s:2} by using
   transposed modular composition, but this would not influence the
-  overall complexity of \hyperref[alg:applyinverse]{\alg{ApplyInverse}}.
+  overall complexity of \titleref{alg:applyinverse}.
 \end{nota}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

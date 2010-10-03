@@ -57,20 +57,21 @@ nothing left to do. In the case $n<d$, we stop the recursion when
 $i=0$ and apply the algorithm of
 Section~\ref{sec:modular-composition}. We summarize the two variants
 in one unique algorithm
-\hyperref[alg:iterfrobenius]{\alg{IterFrobenius}}.
+\titleref{alg:iterfrobenius}.
 
 \begin{algorithm}
-  \caption{\label{alg:iterfrobenius}\alg{IterFrobenius}} 
+  \caption{\alg{IterFrobenius}}
+  \label{alg:iterfrobenius}
   \begin{algorithmic}[1]
     \REQUIRE $v$, $i$, $n$ with $v\wrt\U_i$ and $n<d$ or $n=p^jd$.
     \ENSURE $v^{p^n} \wrt \U_i$.
     \STATE \label{alg:frob:base} if $n=p^jd$ and $i \le j$, return $v$;
     \STATE \label{alg:frob:base2} if $i=0$, return $v^{p^n}$;
-    \STATE \label{alg:frob:push} let $v_0 + v_1 x_i + \dots + v_{p-1} x_i^{p-1}=\text{\hyperref[alg:push-down]{\alg{Push-down}}}(v)$;
-    \STATE \label{alg:frob:rec} for $h \in [0,\dots,p-1]$, let $t_h = \alg{IterFrobenius}(v_h, i-1, n)$;
+    \STATE \label{alg:frob:push} let $v_0 + v_1 x_i + \dots + v_{p-1} x_i^{p-1}=$ \titleref{alg:push-down}$(v)$;
+    \STATE \label{alg:frob:rec} for $h \in [0,\dots,p-1]$, let $t_h =$ \titleref{alg:iterfrobenius}$(v_h, i-1, n)$;
     \STATE let $F=0$;
     \STATE\label{alg:frob:T} for $h \in [p-1,\dots,0]$, let $F = t_h +  (x_i+\beta_{i-1,n})F$;
-    \STATE \label{alg:frob:lift} return $\text{\hyperref[alg:liftup]{\alg{Lift-up}}}(F)$.
+    \STATE \label{alg:frob:lift} return \titleref{alg:liftup}$(F)$.
   \end{algorithmic}
 \end{algorithm}
 
@@ -80,7 +81,7 @@ how we precompute them follows).  To analyze costs, we use the
 function $\Lift$ of Section~\ref{sec:level-embedding}.
 \begin{theorem}
   \label{th:b-ifrob}
-  On input $v\wrt\U_i$ and $n=p^jd$, algorithm \hyperref[alg:iterfrobenius]{\alg{IterFrobenius}}
+  On input $v\wrt\U_i$ and $n=p^jd$, algorithm \titleref{alg:iterfrobenius}
   correctly computes $v^{p^n}$ and takes time
   \begin{equation}
     \label{eq:95}
@@ -108,7 +109,7 @@ function $\Lift$ of Section~\ref{sec:level-embedding}.
 
 \begin{theorem}
   \label{th:l-ifrob}
-  On input $v\wrt\U_i$ and $n<d$, algorithm \hyperref[alg:iterfrobenius]{\alg{IterFrobenius}}
+  On input $v\wrt\U_i$ and $n<d$, algorithm \titleref{alg:iterfrobenius}
   correctly computes $v^{p^n}$ and takes time 
   \begin{equation}
     \label{eq:94}
@@ -137,44 +138,46 @@ verification is straightforward:
 \end{equation}
 We give two \emph{divide-and-conquer} algorithms that do a slightly
 different \emph{divide} step; each of them is based on one of the
-previous formulas. The first one, \hyperref[alg:littlepseudotrace]{\alg{LittlePseudotrace}}, is meant to
+previous formulas. The first one, \titleref{alg:littlepseudotrace}, is meant to
 compute $\PTr_d$. It follows a binary divide-and-conquer scheme
 similar to the algorithm in Section~\ref{sec:modular-composition}. The
-second one, \hyperref[alg:pseudotrace]{\alg{Pseudotrace}}, computes $\PTr_{p^jd}$ for $j>0$. It
+second one, \titleref{alg:pseudotrace}, 
+computes $\PTr_{p^jd}$ for $j>0$. It
 uses the previous formula with $n=p^{j-1}d$ and $m=p$, computing
 Frobenius-es for such $n$; when $j=0$, it invokes the first algorithm.
 
 
 \begin{algorithm}
-  \caption{\label{alg:littlepseudotrace}\alg{LittlePseudotrace}}
+  \caption{\alg{LittlePseudotrace}}
+  \label{alg:littlepseudotrace}
   \begin{algorithmic}[1]
     \REQUIRE $v$, $i$, $n$ with $v\wrt\U_i$ and $0<n\le d$.
     \ENSURE $T_{n}(v) \wrt \U_i$.
     \STATE \label{alg:lpseudo:base} if $n = 1$ return $v$;
     \STATE \label{alg:lpseudo:half} let $m = \lfloor n/2 \rfloor$;
-    \STATE \label{alg:lpseudo:rec} let $t=$ \alg{LittlePseudotrace}($v$,
-    $i$, $m$);
-    \STATE \label{alg:lpseudo:frob} let $t=t+$ \hyperref[alg:iterfrobenius]{\alg{IterFrobenius}}($t$, $i$, $m$);
-    \STATE \label{alg:lpseudo:odd} if $n$ is odd, let $t=t+$ \hyperref[alg:iterfrobenius]{\alg{IterFrobenius}}($v$, $i$, $n$);
+    \STATE \label{alg:lpseudo:rec} let $t=$ \titleref{alg:littlepseudotrace}$(v,i,m)$;
+    \STATE \label{alg:lpseudo:frob} let $t=t+$ \titleref{alg:iterfrobenius}$(t, i, m)$;
+    \STATE \label{alg:lpseudo:odd} if $n$ is odd, let $t=t+$ \titleref{alg:iterfrobenius}$(v, i, n)$;
     \STATE return $t$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}
-  \caption{\label{alg:pseudotrace}\alg{Pseudotrace}}
+  \caption{\alg{Pseudotrace}}
+  \label{alg:pseudotrace}
   \begin{algorithmic}[1]
     \REQUIRE $v$, $i$, $j$ with $v\wrt\U_i$.
     \ENSURE $T_{p^jd}(v) \wrt \U_i$.
-    \STATE \label{alg:pseudo:base} if $j = 0$ return \hyperref[alg:littlepseudotrace]{\alg{LittlePseudotrace}}($v$, $d$);
-    \STATE \label{alg:pseudo:rec} $t_0=$\alg{Pseudotrace}($v, i, j-1$);
-    \STATE \label{alg:pseudo:frob}for $h\in [1,\dots,p-1]$, let $t_h=\text{\hyperref[alg:iterfrobenius]{\alg{IterFrobenius}}}(t_{h-1}, i, j-1)$;
+    \STATE \label{alg:pseudo:base} if $j = 0$ return \titleref{alg:littlepseudotrace}$(v, d)$;
+    \STATE \label{alg:pseudo:rec} $t_0=$ \titleref{alg:pseudotrace}$(v, i, j-1)$;
+    \STATE \label{alg:pseudo:frob}for $h\in [1,\dots,p-1]$, let $t_h=$ \titleref{alg:iterfrobenius}$(t_{h-1}, i, j-1)$;
     \STATE \label{alg:pseudo:sum}return $t_0 + t_1 + \cdots + t_{p-1}$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{theorem}
   \label{th:l-pseudo}
-  Algorithm \hyperref[alg:littlepseudotrace]{\alg{LittlePseudotrace}} is correct and takes time
+  Algorithm \titleref{alg:littlepseudotrace} is correct and takes time
   \begin{equation}
     \label{eq:96}
     O(p^i\ModComp(d)\log^2 (n) + i \Lift(i)\log (n))
@@ -208,7 +211,7 @@ Frobenius-es for such $n$; when $j=0$, it invokes the first algorithm.
 
 \begin{theorem}
   \label{th:b-pseudo}
-  Algorithm \hyperref[alg:pseudotrace]{\alg{Pseudotrace}} is correct and takes time
+  Algorithm \titleref{alg:pseudotrace} is correct and takes time
   \begin{equation}
     \label{eq:97}
     \Ptr(i)=O((pi+\log (d))i\Lift(i)+p^i\ModComp(d)\log^2 (d))    
@@ -247,17 +250,17 @@ factors, for an input and output size of $p^id$: this time, due to
 modular compositions in $\U_0$, the cost is not linear in $d$.
 
 Finally, let us discuss precomputations. On input $v$, $i$, $d$, the
-algorithm \hyperref[alg:littlepseudotrace]{\alg{LittlePseudotrace}}
+algorithm \titleref{alg:littlepseudotrace}
 makes less than $2\log d$ calls to
-\alg{\hyperref[alg:iterfrobenius]{IterFrobenius}($x$,$i$,$n$)} for
+\titleref{alg:iterfrobenius}$(x,i,n)$ for
 some value $x\in\U_i$ and for $n\in N$ where the set $N$ only depends
 on $d$. When we construct $\U_{i+1}$, we compute (only) all
 $\beta_{i,n}=\PTr_{n}(\gamma_i) \wrt\U_i$, for increasing $n\in N$,
-using the \hyperref[alg:littlepseudotrace]{\alg{LittlePseudotrace}}
+using the \titleref{alg:littlepseudotrace}
 algorithm. The inner calls to
-\hyperref[alg:iterfrobenius]{\alg{IterFrobenius}} only use
+\titleref{alg:iterfrobenius} only use
 pseudotraces that are already known. Besides, a single call to
-\hyperref[alg:littlepseudotrace]{\alg{LittlePseudotrace}}$(\gamma_i,i,d)$
+\titleref{alg:littlepseudotrace}$(\gamma_i,i,d)$
 actually computes {\em all} $\PTr_{n}(\gamma_i)$ in time
 \begin{equation}
   \label{eq:104}
@@ -267,12 +270,12 @@ actually computes {\em all} $\PTr_{n}(\gamma_i)$ in time
 \end{equation}
 Same goes for the precomputation of all
 $\beta_{i,p^jd}=\PTr_{p^jd}(\gamma_i) \wrt\U_i$, for $j\le i$, using
-the \hyperref[alg:pseudotrace]{\alg{Pseudotrace}} algorithm: this costs $\Ptr(i)$. Observe that in
+the \titleref{alg:pseudotrace} algorithm: this costs $\Ptr(i)$. Observe that in
 total we only store $O(k^2 + k\log d)$ elements of the tower, thus the
 space requirements are quasi-linear.
 
 \begin{remark}
-  A dynamic programming version of~\hyperref[alg:littlepseudotrace]{\alg{LittlePseudotrace}} as
+  A dynamic programming version of \titleref{alg:littlepseudotrace} as
   in Section~\ref{sec:modular-composition} would only precompute
   $\beta_{i,2^e}$ for $2^e<d$, thus reducing the storage from $2\log
   d$ to $\lfloor\log d\rfloor$ elements. This would also allow to

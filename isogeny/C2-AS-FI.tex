@@ -90,7 +90,7 @@ of $A_0$ are its coordinates on the basis $\basis{B}$. In conclusion,
 computing $A_0$ is equivalent to find a \hyperref[eq:22]{rational
   univariate representation} of $x(P')$ with respect to $x(P)$.
 
-Unfortunately, applying algorithm \hyperref[alg:rur]{\alg{RUR}} is not optimal: the
+Unfortunately, applying algorithm \titleref{alg:rur} is not optimal: the
 bottleneck is the power projection $\proj_\zeta$ appearing in
 step~\ref{alg:rur:1}. We have seen in
 Section~\ref{sec:shoups-algorithm} that the dual problem to power
@@ -250,7 +250,7 @@ application to polynomial interpolation.
     \end{aligned}
   \end{equation}
   then $g_k=g(x)$. Transposing this algorithm gives a power projection
-  algorithm that can be used in \hyperref[alg:rur]{\alg{RUR}}. By the discussion in
+  algorithm that can be used in \titleref{alg:rur}. By the discussion in
   Section~\ref{sec:transp-eucl-divis}, the
   \index{transposed~modular~reduction}transpose of this algorithm
   amounts to iteratively extend a linearly recurring
@@ -328,12 +328,12 @@ low.
     \STATE Let $T_k = (X - x(P))$;
     \FOR {$i=k-1$ \TO $0$}
     \FORALL {$\sigma \in \Gal(\U_{i+1}/\U_i)$}
-    \STATE\label{alg:T:gal} compute $T_{i+1}^\sigma$  using \hyperref[alg:iterfrobenius]{\alg{IterFrobenius}};
+    \STATE\label{alg:T:gal} compute $T_{i+1}^\sigma$  using \titleref{alg:iterfrobenius};
     \ENDFOR
     \STATE\label{alg:T:prod}  $T_i\la\prod_\sigma T_{i+1}^\sigma$ 
     via a binary \hyperref[sec:chin-rema-algor]{subproduct tree}.
     \STATE\label{alg:T:push} convert $T_i$  into an element of
-    $\U_i[X]$ using \hyperref[alg:push-down]{\alg{Push-down}}.
+    $\U_i[X]$ using \titleref{alg:push-down}.
     \ENDFOR
   \end{algorithmic}
 \end{algorithm}
@@ -374,12 +374,12 @@ subproduct tree.  We finally do the interpolation of $A_0$.
     \STATE\label{alg:A}  $P_k \la x(P')/T_0'(x(P))$;
     \FOR {$i = k-1$ \TO $0$}
     \FORALL {$\sigma \in \Gal(\U_{i+1}/\U_i)$}
-    \STATE\label{alg:A:gal} compute $P_{i+1}^\sigma$ using \hyperref[alg:iterfrobenius]{\alg{IterFrobenius}};
+    \STATE\label{alg:A:gal} compute $P_{i+1}^\sigma$ using \titleref{alg:iterfrobenius};
     \ENDFOR
-    \STATE\label{alg:T:lift} convert $T_i$ into an element of $\U_{i+1}[X]$ using \hyperref[alg:liftup]{\alg{Lift-up}}.
+    \STATE\label{alg:T:lift} convert $T_i$ into an element of $\U_{i+1}[X]$ using \titleref{alg:liftup}.
     \STATE\label{alg:A:CRA} $P_i\la \sum_{\sigma}P_{i+1}^\sigma T_i/T_{i+1}^\sigma$ using the binary subproduct tree computed previously;
     \STATE\label{alg:A:push} convert  $P_i$ into an element of
-    $\U_i[X]$ using \hyperref[alg:push-down]{\alg{Push-down}}.
+    $\U_i[X]$ using \titleref{alg:push-down}.
     \ENDFOR
     \STATE return $P_0$.
   \end{algorithmic}
