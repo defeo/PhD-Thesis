@@ -83,6 +83,10 @@
 \pagestyle{Ruled}
 
 %% Theorems
+% Hack for titleref
+\let\old@thm\@begintheorem
+\def\@begintheorem#1#2[#3]{\@ifempty{#3}{\M@gettitle{#1~#2}}{\M@gettitle{#3}}\old@thm{#1}{#2}[{#3}]}
+
 \newtheoremstyle{mythstyle}{0.5\onelineskip}{0.5\onelineskip}{\itshape}{}{\scshape}{}{1em}{}
 \newtheoremstyle{mydefstyle}{0.5\onelineskip}{0.5\onelineskip}{}{}{\scshape}{}{1ex}{}
 \newtheoremstyle{myrkstyle}{0.5\onelineskip}{0.5\onelineskip}{}{}{\itshape}{\addperiod}{1em}{}
@@ -105,7 +109,7 @@
 
 % hacking back caption to make it work with titleref
 \let\@oldcapt\float@caption
-\long\def\float@caption#1[#2]#3{\M@gettitle{#2}\@oldcapt{#1}[#1]{#3}}
+\long\def\float@caption#1[#2]#3{\M@gettitle{#2}\@oldcapt{#1}[{#2}]{#3}}
 
 % Define two float styles: one with caption on top and one with caption on the bottom
 \newcommand\floatc@top[2]{{\@fs@cfont #1:} #2\par}
@@ -138,13 +142,11 @@
 %% Algorithms
 \newcommand*{\algorithmname}{Algorithm}
 \newcommand*{\listalgorithmname}{List of Algorithms}
+\newlistof{listofalgorithms}{loa}{\listalgorithmname}
+\newlistentry{algorithm}{loa}{0}
 \floatstyle{top}
 \newfloat{algorithm}{tbp}{loa}[chapter]
 \floatname{algorithm}{\algorithmname}
-%\newfloat[chapter]{algorithm}{loa}{\algorithmname}
-\newlistof{listofalgorithms}{loa}{\listalgorithmname}
-\newlistentry{algorithm}{loa}{0}
-
 
 \renewcommand{\algorithmicrequire}{\textsc{Input~~~:}}
 \renewcommand{\algorithmicensure}{\textsc{Output~:}}
@@ -216,7 +218,7 @@
   \def\@tempa{#2}\def\@tempb{#3}%
   \glossary[\listsymbfile](#1){\@math@protect\@tempa}{\@math@protect\@tempb}}
 \newcommand{\listofsymbols}[1][]{{
-    \ifthenelse{\equal{#1}{}}{\def\@tmpbox{\makebox}\def\@sep{: }}{\def\@tmpbox{\makebox[#1][l]}\def\@sep{}}
+    \ifthenelse{\equal{#1}{}}{\def\@tmpbox{\makebox}\def\@sep{: }}{\def\@tmpbox{\makebox[{#1}][l]}\def\@sep{}}
     \renewcommand{\glossaryname}{\listsymbname}%
     \renewcommand{\glossarymark}{\markboth{\listsymbname}{\listsymbname}}%
     \renewcommand{\glossitem}[4]{\@tmpbox{##1}\@sep{}##2\cftdotfill{\cftdotsep}##4\\}%

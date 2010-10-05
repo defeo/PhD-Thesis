@@ -14,12 +14,11 @@ In this section we give an algorithm that reaches this bound up to
 some logarithmic factors. It realizes the polynomial interpolation on
 the primitive points of $E[p^k]$, thus its output is a degree
 $\euler(p^k)/2-1$ polynomial in $\F_q[X]$. Using the
-\hyperref[th:chinese-remainder]{Chinese remainder theorem} it is
-straightforward to generalize this to an algorithm, having the same
-asymptotic complexity, that realizes the polynomial interpolation on
-all the points of $E[p^k]$. We call C2-AS-FI (FI for Fast
-Interpolation) the variant of C2-AS resulting from applying this new
-algorithm.
+\titleref{th:chinese-remainder} it is straightforward to generalize
+this to an algorithm, having the same asymptotic complexity, that
+realizes the polynomial interpolation on all the points of
+$E[p^k]$. We call C2-AS-FI (FI for Fast Interpolation) the variant of
+C2-AS resulting from applying this new algorithm.
 
 
 \subsection{The algorithm}
@@ -38,8 +37,8 @@ points
 \end{equation}
 Thus we look for the canonical representative of $A$ in $\F_q[X]/T(X)$.
 
-We start by applying the \hyperref[th:chinese-remainder]{Chinese
-  remainder theorem} to $\F_q[X]/T(X)$: let
+We start by applying the \titleref{th:chinese-remainder} to
+$\F_q[X]/T(X)$: let
 \begin{equation}
   \label{eq:T}
   T = \prod T^{(j)}
@@ -142,11 +141,10 @@ construct $A$ by interpolation.
 
 A \hyperref[sec:chin-rema-algor]{fast interpolation algorithm} would
 compute $T$ via a binary subproduct tree, and then interpolate $A$
-recursively applying the \hyperref[th:chinese-remainder]{Chinese
-  remainder theorem} along the branches of the tree. However this is
-too expensive. We can do better by using a non-binary subproduct tree
-on which the tower of Galois groups associated to $(\U_0,\ldots,\U_k)$
-acts.
+recursively applying the \titleref{th:chinese-remainder} along the
+branches of the tree. However this is too expensive. We can do better
+by using a non-binary subproduct tree on which the tower of Galois
+groups associated to $(\U_0,\ldots,\U_k)$ acts.
 
 First we need to compute $T$. Let $T_i$ be the minimal polynomial of
 $x$ over $\U_i$, we compute it recursively as
@@ -214,9 +212,8 @@ tree of $T$, we have only computed one branching as shown in figure
 Now the we have something like a subproduct tree for $T$, we proceed
 as for interpolation. We compute recursively the polynomials in
 $A_i\in\U_i[X]$ such that $A_i(x)=y$. We start from $A_k=y$. Suppose
-$A_{i+1}$ is known, then we use the
-\hyperref[th:chinese-remainder]{Chinese remainder theorem} to obtain
-the polynomial $P\in\U_{i+1}[X]/T_i(X)$ such that
+$A_{i+1}$ is known, then we use the \titleref{th:chinese-remainder} to
+obtain the polynomial $P\in\U_{i+1}[X]/T_i(X)$ such that
 \begin{equation}
   \label{eq:crt}
   P \equiv A_{i+1}^\sigma \bmod T_{i+1}^\sigma

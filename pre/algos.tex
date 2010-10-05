@@ -410,7 +410,7 @@ technique to keep the complexity into this bound. The key equation is
 \label{sec:chin-rema-algor}
 Let $\K$ be a field, and let $x_1,\ldots,x_n\in\K$ be distinct
 points. Let $f$ be the polynomial that vanishes on $x_1,\ldots,x_n$,
-by the \hyperref[th:chinese-remainder]{Chinese remainder theorem}
+by the \titleref{th:chinese-remainder}
 we know that
 \begin{equation}
   \label{eq:221}
@@ -516,7 +516,7 @@ algorithm. Then we reconstruct $a$ using the subproduct tree.
   \end{algorithmic}
 \end{algorithm}
 
-Thus, interpolation too can be compute with $O(\Mult(n)\log n)$
+Thus, interpolation too can be computed with $O(\Mult(n)\log n)$
 operations in $\K$. These algorithms can be generalized to compute the
 Chinese remainder isomorphism and its inverse for arbitrary moduli
 $f_1,\ldots,f_r\in\K[X]$ such that $\gcd(f_i,f_j)=1$ for $i\ne j$. The
