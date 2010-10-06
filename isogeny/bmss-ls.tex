@@ -212,7 +212,7 @@ series expansion of $S$ is computed to precision $4\ell$, then we set
   \text{,}\quad
   R(x) = \frac{1}{T(x)^2}
   \text{,}\quad\text{so that}\quad
-  \frac{g(x)}{h(x)} = xU(1/x)
+  \frac{g(x)}{h(x)} = xR(1/x)
   \text{.}
 \end{equation}
 Finally, the rational fraction is recovered by rational fraction
@@ -228,7 +228,7 @@ complexity is dominated by this last step.
     \STATE Compute $G(x) = 1/(1 + ax^4 + bx^6) \mod x^{4\ell-1}$;
     \STATE find $S(x)\bmod x^{4\ell-1}$ using Algorithm~\ref{alg:le-si-diff};
     \STATE let $T(x) = \sum_{i=0}^{2\ell-1}s_{2i+1}x^i$;
-    \STATE compute $U(x) = 1/T(x)^2 \mod x^{2\ell-1}$;
+    \STATE compute $R(x) = 1/T(x)^2 \mod x^{2\ell-1}$;
     \STATE compute $\frac{g(x)}{h(x)}$ by \hyperref[sec:eucl-algor-rati]{rational fraction reconstruction}.
   \end{algorithmic}
 \end{algorithm}
