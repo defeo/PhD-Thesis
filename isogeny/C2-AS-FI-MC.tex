@@ -1,11 +1,11 @@
-\section{The algorithm C2-AS-FI-MC}
+\section{The algorithm \alg{C2-AS-FI-MC}}
 \label{sec:C2-AS-FI-MC}
 
 However asymptotically fast, the polynomial interpolation step is
 quite expensive for reasonably sized data. Instead of repeating it
 $\frac{\euler(p^k)}{2}$ times, one can use composition with the
 Frobenius endomorphism $\frobisog_E$ in order to reduce the number of
-interpolations in the final loop. We call this variant C2-AS-FI-MC (MC
+interpolations in the final loop. We call this variant \ctwoasfimc{} (MC
 for Modular Composition).
 
 \subsection{The algorithm}
@@ -34,9 +34,9 @@ $\F_q$-rational. Hence
 \end{equation*}
 $A_1$ has no poles at $E[p^k]$, thus it is a polynomial map; and since
 $\frobisog_{E'}(P')$ is a generator of $E'[p^k]$, $A_1$ is one of the
-polynomials that the algorithm C2 tries to identify to an isogeny. By
+polynomials that the algorithm \ctwo{} tries to identify to an isogeny. By
 iterating this construction we obtain $[\U_k:\F_q]/2$ different
-polynomials $A_i$ for the algorithm C2 with only one interpolation.
+polynomials $A_i$ for the algorithm \ctwo{} with only one interpolation.
 
 To compute the $A_i$'s, we first compute $F\in\F_q[X]$
 \begin{equation}
@@ -52,7 +52,7 @@ then for any $1\le i<[\U_k:\F_q]/2$
 
 If $\frac{\euler(p^k)}{[\U_k:\F_q]} = p^{i_0-1}r$, we must compute
 $p^{i_0-1}r$ polynomial interpolations and apply this algorithm to
-each of them in order to deduce all the polynomials needed by C2.
+each of them in order to deduce all the polynomials needed by \ctwo{}.
 
 
 \subsection{Complexity analysis}
@@ -63,8 +63,8 @@ $\Theta(d\Mult(p^kd)\log p)$ operations. Each application of
 thus $O(\ModComp(p^k))$ operations in $\F_q$, that is
 $O(\ModComp(p^k)\Mult(d))$ operations in $\F_p$. Using the algorithm
 of~\cite{kedlaya+umans08} for modular composition, the complexity of
-C2-AS-FI-MC would not be essentially different from the one of
-C2-AS-FI. However, in practice the fastest algorithm for modular
+\ctwoasfimc{} would not be essentially different from the one of
+\ctwoasfi{}. However, in practice the fastest algorithm for modular
 composition is~\cite{brent+kung}, and in particular the variant
 in~\cite[Lemma~3]{kaltofen+shoup98}: these have worse asymptotic
 complexity, but perform better on the instances we treat in

@@ -1,11 +1,11 @@
-\section{The algorithm C2-AS}
+\section{The algorithm \alg{C2-AS}}
 \label{sec:C2-AS}
 
-One of the most expensive steps of C2 is the resolution of an
-Artin-Schreier equation in an extension field $\U_i$. We call C2-AS
+One of the most expensive steps of \ctwo{} is the resolution of an
+Artin-Schreier equation in an extension field $\U_i$. We call \ctwoas{}
 the variant of Couveignes' algorithm that uses the fast Artin-Schreier
 towers of Chapter~\ref{cha:artin-schr-towers}; in this section we
-analyze the complexity of C2-AS
+analyze the complexity of \ctwoas{}
 
 \subsection{Complexity analysis}
 \label{sec:C2-AS:complexity}
@@ -111,7 +111,7 @@ The overall complexity of one interpolation is then
   \;\text{.}
 \end{equation}
 Remember that this step has to be repeated an average number of
-$\euler(p^k)/4$ times, thus the dependency of C2-AS in $\ell$ is still cubic.
+$\euler(p^k)/4$ times, thus the dependency of \ctwoas{} in $\ell$ is still cubic.
 
 
 

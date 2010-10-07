@@ -15,9 +15,9 @@ $\ell$ is the degree of the smallest isogeny, this of course adds a
 factor $\ell$ to the complexity of any polynomial time algorithm.
 
 Couveignes' algorithm can be easily adapted to solve this problem at
-no additional cost. We call this algorithm C2-UD (UD for Unknown
-Degree), all the variants of C2 presented until now also apply to
-C2-UD.
+no additional cost. We call this algorithm \ctwoud{} (UD for Unknown
+Degree), all the variants of \ctwo{} presented until now also apply to
+\ctwoud{}.
 
 Observe that, apart for the choice of $k$, the computation of $E[p^k]$
 and the polynomial interpolation step do not depend at all on
@@ -154,9 +154,9 @@ probability that $A$ looks like an isogeny of degree
 $\ell\le\left\lfloor\frac{\deg T}{2}\right\rfloor-t$ is less than
 $\frac{1}{q^{2t}}$.
 
-Therefore, by choosing an appropriate $t\in O(\log_q p^k)$, C2-UD can
+Therefore, by choosing an appropriate $t\in O(\log_q p^k)$, \ctwoud{} can
 find any isogeny of degree less than $\frac{p^k-1}{4}-t$ at the same
-cost of one run of C2. Also notice that C2-UD is not restricted to
+cost of one run of \ctwo{}. Also notice that \ctwoud{} is not restricted to
 isogenies of degree prime to $p$ as was already mentioned in Section
 \ref{sec:C2:non-prime}.
 
@@ -170,11 +170,11 @@ isogenies of degree prime to $p$ as was already mentioned in Section
   models, and Lercier-Sirvent uses $\Modpol_\ell$. We think that
   Couveignes' first algorithm~\cite{couveignes94} could also be
   generalized to compute isogenies of unknown degree, thanks to its
-  similarity to C2.
+  similarity to \ctwo{}.
 
   It is also interesting to notice that, while for computing isogenies
   of degree $\ell$ there is still a complexity gap between the large
-  and small characteristic cases, C2-UD closes this gap in the unknown
+  and small characteristic cases, \ctwoud{} closes this gap in the unknown
   degree case. Finally, this variant explains somehow why Couveignes'
   algorithm is not optimal: because it solves another problem.
 \end{nota}

@@ -1,7 +1,7 @@
 \section{Benchmarks}
 \label{sec:benchmarks}
 We ran various experiments to compare the different variants of the
-algorithm C2 between themselves and to
+algorithm \ctwo{} between themselves and to
 \titleref{alg:le-si}. All the experiments were
 run on four dual-core Intel Xeon E5430 (2.6GHz), using the
 parallelized version of the algorithm in some cases. Magma 2.11 was
@@ -14,14 +14,14 @@ the algorithms of Chapter~\ref{cha:artin-schr-towers}. We selected
 pairs of isogenous curves over $\F_{2^{101}}$ such that the height of
 the tower is maximal (observe that this is always the case for
 cryptographic curves).  We compared the Magma prototype to the
-\texttt{FAAST}-based implementation of C2-AS-FI-MC using the
+\texttt{FAAST}-based implementation of \ctwoasfimc{} using the
 \texttt{zz\_p} and \texttt{GF2} data types (see
 Section~\ref{sec:artin-benchmarks}).
 
 \begin{figure}
   \centering
   \includegraphics[width=0.9\textwidth]{isogeny/p2}
-  \caption{Comparative timings for different implementations of C2-AS-FI-MC with curves defined over $\F_{2^{101}}$. Plot in logarithmic scale.}
+  \caption{Comparative timings for different implementations of \ctwoasfimc{} with curves defined over $\F_{2^{101}}$. Plot in logarithmic scale.}
   \label{fig:2-101}
 \end{figure}
 
@@ -44,14 +44,14 @@ even \texttt{zz\_p} is one order of magnitude faster.
     251	& 23.7984 & 23.7984 & 12.7251 & 0.12415 & 0.14519 & 512 & 137.902 \\
     397 & 59.7439 & 59.7579 & 28.3387 & 0.36822 & 0.58027 & 1024 & 971.254 \\
   \end{tabular}
-  \caption{Comparative timings for the phases of C2-AS-FI-MC for curves over $\F_{2^{101}}$.}
+  \caption{Comparative timings for the phases of \ctwoasfimc{} for curves over $\F_{2^{101}}$.}
   \label{tab:C2}
 \end{table}
 
 Table~\ref{tab:C2} shows detailed timings for each phase of
-C2-AS-FI-MC. The column FI reports the time for one interpolation, the
+\ctwoasfimc{}. The column FI reports the time for one interpolation, the
 column MC the time for one modular composition; comparing these two
-columns the gain from passing from C2-AS-FI to C2-AS-FI-MC is
+columns the gain from passing from \ctwoasfi{} to \ctwoasfimc{} is
 evident. Columns RFR (rational fraction reconstruction) and MC
 constitute the Cauchy interpolation step that is repeated in the final
 loop. The last column reports the average time spent in the loop: it
@@ -60,9 +60,9 @@ paid to FI and MC; only on some huge examples we approached the
 crosspoint between these two algorithms.
 
 
-\paragraph{C2-UD}
+\paragraph{\ctwoud{}}
 \label{sec:c2-ud}
-Next we ran experiments on C2-UD. The first observation was that the
+Next we ran experiments on \ctwoud{}. The first observation was that the
 heuristic argument --on the probability that a degree sequence not
 associated to an isogeny is not normal-- is well verified in practice:
 except for a degree $2$ symmetry verified in characteristic $2$,
@@ -118,7 +118,7 @@ z^{57} + z^{55} + z^{50} + z^{48} + z^{45} + z^{41} + z^{38} + z^{37}
 +z^{22} +z^{21} +z^{20} +z^{19} +z^{17} +z^{16} +z^{14} +z^{13}
 +z^{10} +z^{8} +z^{7} +z^{4} +z^{3} +z$.
 
-We ran our two variants of C2-UD on the two curves to certify the
+We ran our two variants of \ctwoud{} on the two curves to certify the
 conjectured property that no unexpected isogeny of low degree exists
 between the two curves.
 
@@ -127,7 +127,7 @@ $p^c\ell$ for $\ell<2^{11}$ and $c$ arbitrary exists between the two
 curves; in 1195 cpu-hours we were able to prove that no isogeny of
 degree less than $2^{12}$ exists either. We stress the fact that,
 albeit of little interest, this computation would have been impossible
-without the (surprising) discovery of C2-UD.
+without the (surprising) discovery of \ctwoud{}.
 
 
 \paragraph{Couveignes vs. Lercier-Sirvent}
@@ -144,7 +144,7 @@ most important asymptotically. RFR is the time for rational fraction
 reconstruction, its rapid growth is justified by the fact that we
 implemented it on top of a quadratic XGCD algorithm.
 
-\begin{table}[ht]
+\begin{table}
   \centering
   \begin{tabular}{r r r r r r}
     \hline
@@ -167,24 +167,24 @@ implemented it on top of a quadratic XGCD algorithm.
   \centering
   \includegraphics[height=0.45\textwidth]{isogeny/C2-LS}
   \includegraphics[height=0.45\textwidth]{isogeny/C2-LS2}
-  \caption{Comparative timings for C2-AS-FI-MC (C2) and
+  \caption{Comparative timings for \ctwoasfimc{} (C2) and
     \titleref{alg:le-si} (LS) over different curves. Plot in
     logarithmic scale.}
   \label{fig:comp}
 \end{figure}
 
-We also compared the running times of C2-AS-FI-MC and
+We also compared the running times of \ctwoasfimc{} and
 \titleref{alg:le-si} over curves of half the cryptographic size in
-figure~\ref{fig:comp} (left). We only plot average times for C2, in
+figure~\ref{fig:comp} (left). We only plot average times for \ctwo{}, in
 characteristic $2$ we only plot the timings for \texttt{GF2}. From the
-plot it is clear that C2-AS-FI-MC only performs better than
+plot it is clear that \ctwoasfimc{} only performs better than
 \titleref{alg:le-si} for $p=2$, but in this case Lercier's
 algorithm~\cite{lercier96} is much faster.  Figure~\ref{fig:comp}
 (right) shows that our implementation of \titleref{alg:le-si} slowly
-gets worse than C2, however, comparing a Magma prototype to our highly
-optimized implementation of C2-AS-FI-MC is somewhat unfair.
+gets worse than \ctwo{}, however, comparing a Magma prototype to our highly
+optimized implementation of \ctwoasfimc{} is somewhat unfair.
 
-Furthermore, it is unlikely that C2-AS-FI-MC could be practical for
+Furthermore, it is unlikely that \ctwoasfimc{} could be practical for
 any $p>3$ because of its high dependence on $p$, while
 \titleref{alg:le-si} scales pretty well with the characteristic as
 shown in figure~\ref{fig:LSp}.
@@ -199,7 +199,7 @@ interest.
 \pdfmcone{People don't like pessimism.}  Ironically, the
 techniques presented in this document were developed in view of an
 efficient implementation of Couveignes' algorithm, but, for the
-moment, their only practical application seems to be C2-UD. Our hope
+moment, their only practical application seems to be \ctwoud{}. Our hope
 is that other interesting applications may be found in the future.
 
 \begin{figure}

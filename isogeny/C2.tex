@@ -6,14 +6,14 @@ In this section we describe Couveignes' algorithm to compute isogenies
 between ordinary elliptic curves in arbitrary characteristic, as it
 was originally presented in~\cite{couveignes96}. In the next sections
 we will discuss more efficient variants of this algorithm; to
-distinguish between the variants, we call C2 this original version (it
-is to be understood that C1 would be the code-name of the other
-algorithm by Couveignes, appeared in\cite{couveignes94}, that we will
-not present in this document).
+distinguish between the variants, we call \ctwo{} this original
+version (it is to be understood that \alg{C1} would be the code-name
+of the other algorithm by Couveignes, appeared in\cite{couveignes94},
+that we will not present in this document).
 
-C2 takes as input two elliptic curves $E, E'$ and an integer $\ell$
-prime to $p$, and it returns, if it exists, an $\F_q$-rational isogeny
-of degree $\ell$ between $E$ and $E'$. It only works in odd
+\ctwo{} takes as input two elliptic curves $E, E'$ and an integer
+$\ell$ prime to $p$, and it returns, if it exists, an $\F_q$-rational
+isogeny of degree $\ell$ between $E$ and $E'$. It only works in odd
 characteristic.
 
 \subsection{The original algorithm}
@@ -21,9 +21,9 @@ Suppose there exists an $\F_q$-rational isogeny
 $\I:E\rightarrow E'$ of degree $\ell$. Since $\ell$ is prime to $p$
 one has $\I(E[p^k]) = E'[p^k]$ for any $k$.
 
-Recall that $E[p^k]$ and $E'[p^k]$ are cyclic groups. C2 iteratively
+Recall that $E[p^k]$ and $E'[p^k]$ are cyclic groups. \ctwo{} iteratively
 computes generators $P_k,P_k'$ of $E[p^k]$ and $E'[p^k]$
-respectively. Now C2 makes the guess $\I(P_k) = P_k'$; then, if $\I$
+respectively. Now \ctwo{} makes the guess $\I(P_k) = P_k'$; then, if $\I$
 is given by rational fractions as in~\eqref{eq:159},
 \begin{equation}
   \label{eq:C2:I}
@@ -40,12 +40,12 @@ and \titleref{sec:velu-formulas} imply that
 
 Using \eqref{eq:C2:I} one can compute the rational fraction
 $\frac{g(X)}{h(X)}$ through \hyperref[sec:eucl-algor-rati]{Cauchy
-  interpolation} over the points of $E[p^k]$ for $k$ large enough. C2
+  interpolation} over the points of $E[p^k]$ for $k$ large enough. \ctwo{}
 takes $p^k \ge 4\ell +1$, interpolates the rational fraction and then
 checks that it corresponds to the restriction of an isogeny to the
 $x$-axis. If this is the case, the whole isogeny is computed through
 Vélu formulas and the algorithm terminates. Otherwise the guess
-$\I(P_k) = P_k'$ was wrong, then C2 computes a new generator for
+$\I(P_k) = P_k'$ was wrong, then \ctwo{} computes a new generator for
 $E'[p^k]$ and starts over again.
 
 We now go through the details of the algorithm.
@@ -208,7 +208,7 @@ vanishing on the points.
 Cauchy interpolation needs $n+1$ points to reconstruct a degree
 $(k,n-k)$ rational fraction. This, together with \eqref{eq:velu-deg},
 justifies the choice of $k$ such that $p^k \ge 4\ell+1$. Some of our
-variants of C2 will interpolate only on the primitive $p^k$-torsion
+variants of \ctwo{} will interpolate only on the primitive $p^k$-torsion
 points, thus requiring the slightly larger bound $\euler(p^k) \ge
 4\ell+1$. This is not very important to our asymptotical analysis
 since in both cases $p^k \in O(\ell)$.
@@ -273,12 +273,12 @@ abscissas of the points in $E[p^k]$ once a generator is known.
 
 \subsection{Complexity analysis}
 \label{sec:C2:complexity}
-Analyzing the complexity of C2 is a delicate matter since the
+Analyzing the complexity of \ctwo{} is a delicate matter since the
 algorithm relies on some black-box computer algebra algorithms in
 order to deal with finite extensions of $\F_q$. The choice of the
-actual algorithms may strongly influence the overall complexity of C2.
+actual algorithms may strongly influence the overall complexity of \ctwo{}.
 In this section we will only give some lower bounds on the complexity
-of C2, since a much more accurate complexity analysis will be carried
+of \ctwo{}, since a much more accurate complexity analysis will be carried
 out in Section \ref{sec:C2-AS}.
 
 \paragraph{$p$-Torsion}
@@ -357,7 +357,7 @@ average case coincide since for any fixed curve $[\U_k:\U_1] \in
 $\Theta(p^kd)$ elements of $\F_p$ to store an element of $\U_k$.
 
 Now the last iteration of the $p$-descent needs to solve an
-Artin-Schreier equation in $\U_k$. To do this C2 precomputes the
+Artin-Schreier equation in $\U_k$. To do this \ctwo{} precomputes the
 matrix of the $\F_q$-linear application $(x^q-x):\U_k\rightarrow\U_k$
 and its inverse, plus the matrix of the $\F_p$-linear application
 $(x^p-x):\F_q\rightarrow\F_q$ and its inverse. The former is the most
@@ -367,7 +367,7 @@ $\F_p$, plus a storage of $\Theta(\ell^2d)$ elements of
 $\F_p$. Observe that this precomputation may be used to compute any
 other isogeny with domain $E$.
 
-After the precomputation has been done, C2 successively applies the
+After the precomputation has been done, \ctwo{} successively applies the
 two inverse matrices; details can be found in
 \cite[$\S$2.4]{couveignes96}. This costs at least $\Omega(\ell^2d)$.
 
@@ -417,7 +417,7 @@ such that $E = \widetilde{E}^{(p)}$, then compute an isogeny of degree
 $\ell/p$ between $\widetilde{E}$ and $E'$ and finally compose it with
 the separable $p$-isogeny $V$ from $E$ to $\widetilde{E}$.
 
-Observe however that C2 can be easily adapted to directly compute such
+Observe however that \ctwo{} can be easily adapted to directly compute such
 an isogeny. In fact let $v=v_p(\ell)$, then $\I(E[p^k]) =
 E'[p^{k-v}]$. All one needs to do in this case is to modify the Cauchy
 interpolation so that it interpolates the rational function that sends

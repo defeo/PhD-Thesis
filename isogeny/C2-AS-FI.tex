@@ -1,7 +1,7 @@
-\section{The algorithm C2-AS-FI}
+\section{The algorithm \alg{C2-AS-FI}}
 \label{sec:C2-AS-FI}
 
-The most expensive step of C2-AS is the polynomial interpolation step
+The most expensive step of \ctwoas{} is the polynomial interpolation step
 which is part of the Cauchy interpolation. If we use a standard
 interpolation algorithm, its input consists in a list of $\Theta(p^k)$
 pairs $\bigl(P, \I(P)\bigr)$, with $P$ having coordinates in $\U_k$,
@@ -17,8 +17,8 @@ $\euler(p^k)/2-1$ polynomial in $\F_q[X]$. Using the
 \titleref{th:chinese-remainder} it is straightforward to generalize
 this to an algorithm, having the same asymptotic complexity, that
 realizes the polynomial interpolation on all the points of
-$E[p^k]$. We call C2-AS-FI (FI for Fast Interpolation) the variant of
-C2-AS resulting from applying this new algorithm.
+$E[p^k]$. We call \ctwoasfi{} (FI for Fast Interpolation) the variant of
+\ctwoas{} resulting from applying this new algorithm.
 
 
 \subsection{The algorithm}
@@ -437,15 +437,15 @@ over the primitive $p^i$-torsion points for each $i=1,\ldots,k$. The
 interpolating polynomials can then be recombined through a
 \hyperref[sec:chin-rema-algor]{Chinese remainder algorithm} at a cost
 of $O\bigl(\Mult(p^kd)\log p^k\bigr)$, which does not change the
-overall complexity of C2-AS-FI.
+overall complexity of \ctwoasfi{}.
 
 
-Putting together the complexity estimates of C2-AS and C2-AS-FI, we
+Putting together the complexity estimates of \ctwoas{} and \ctwoasfi{}, we
 have the following theorem.
 
 \begin{theorem}
   \label{th:complexity}
-  Assuming $\Mult(n) = n\log n\log\log n$, the algorithm C2-AS-FI has
+  Assuming $\Mult(n) = n\log n\log\log n$, the algorithm \ctwoasfi{} has
   worst case complexity
   \begin{equation*}
     \tildO_{p,d,\log\ell}\left(

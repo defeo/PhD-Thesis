@@ -4,7 +4,7 @@ algorithms of the previous chapter and some experimental results.
 \section{Implementation of Couveignes' algorithm}
 \label{sec:implementation}
 
-We implemented C2-AS-FI-MC as \texttt{C++} programs using the
+We implemented \ctwoasfimc{} as \texttt{C++} programs using the
 libraries \texttt{NTL}~\cite{shoup2003ntl} for finite field
 arithmetics, \texttt{gf2x}~\cite{gf2x} for fast arithmetics in
 characteristic $2$ and \texttt{FAAST} (see
@@ -18,7 +18,7 @@ some tricks we implemented in order to speed up the computation.
 \label{sec:impl:torsion}
 
 \paragraph{$p$-Torsion}
-For $p\ne2$, C2 and its variants require to build the extension
+For $p\ne2$, \ctwo{} and its variants require to build the extension
 $\F_q[c]$ where $c$ is a $(p-1)$-th root of $H_E$. In order to deal with
 the lowest possible extension degree, it is a good idea to modify the
 curve so that $[\F_q[c]:\F_q]$ is the smallest possible.
@@ -119,7 +119,7 @@ negligible amount of time compared to the rest of the algorithm.
 \subsection{Parallelisation of the loop}
 \label{parallel}
 
-The most expensive step of C2-AS-FI-MC, in theory as well as in
+The most expensive step of \ctwoasfimc{}, in theory as well as in
 practice, is the final loop over the points of $E'[p^k]$. Fortunately,
 this phase is very easy to parallelise with very little overhead.
 
@@ -148,10 +148,10 @@ separate slice of the $A_i$'s. The only overhead is $\Theta(\log
 (\ell/n))$ modular compositions with coefficients in $\F_q$, this is
 acceptable in most cases.
 
-\section{Implementation of C2-UD}
+\section{Implementation of \ctwoud{}}
 \label{sec:implementation-c2-ud}
-We modified our \texttt{C++} implementation of C2-AS-FI-MC to obtain
-two variants of C2-UD.
+We modified our \texttt{C++} implementation of \ctwoasfimc{} to obtain
+two variants of \ctwoud{}.
 
 The first one takes an integer $k$ and looks for all isogenies of
 degree $p^c\ell$ with $\ell$ prime to $p$, $\ell<\euler(p^k)/4$
@@ -189,7 +189,7 @@ When $\log_pq$ is large, the previous variant becomes unpractical. We
 implemented a second variant using the algorithm described in
 Section~\ref{sec:C2:non-prime}, this allows to compute any isogeny of
 degree $\ell\le\euler(p^k)/4$, even if $p$ divides $\ell$. The
-asymptotic cost of this variant is the same as one run of C2-AS-FI-MC,
+asymptotic cost of this variant is the same as one run of \ctwoasfimc{},
 because the search for $\ell$ prime to $p$ dominates.
 
 
