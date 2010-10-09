@@ -20,13 +20,14 @@
 
 %%%%%%%%%%%%%% Pdf comments (for reviews)
 %\usepackage[author={Luca De Feo}]{pdfcomment}
+\makeatletter
 % First revisoion
-\newcommand{\pdfmcone}[1]{}%\pdfmargincomment[color=blue,subject=rev1,author=rev1]{#1}}
+\newcommand{\pdfmcone}[1]{\@bsphack\@esphack}%\leavevmode\@bsphack\pdfmargincomment[color=blue,subject=rev1,author=rev1]{#1}\@esphack}
 % Second revision
-\newcommand{\pdfmctwo}[1]{}%\pdfmargincomment[color=red,subject=rev2,author=rev2]{#1}}
+\newcommand{\pdfmctwo}[1]{\@bsphack\@esphack}%\pdfmargincomment[color=red,subject=rev2,author=rev2]{#1}\@esphack}
 % Third revision (reviewers' remarks)
-\newcommand{\pdfmcthree}[1]{}%\pdfmargincomment[color=yellow,subject=rev3,author=rev3]{#1}}
-
+\newcommand{\pdfmcthree}[1]{\@bsphack\@esphack}%\pdfmargincomment[color=yellow,subject=rev3,author=rev3]{#1}}
+\makeatother
 %%%%%%%%%%%%%% Code listings
 \usepackage[final]{listings}
 \lstset{
@@ -54,6 +55,7 @@
 \author{Luca De Feo}
 \makeindex
 \makelistofsymbols
+\showindexmarks
 
 \begin{document}
 \frontmatter*

@@ -10,12 +10,14 @@
 %% Maths/CS
 \RequirePackage{bbm}
 \RequirePackage{amsmath}
-\let\equation\gather
-\let\endequation\endgather
 \RequirePackage{amsthm}
 \RequirePackage{amssymb}
 \RequirePackage{mathrsfs}
 \RequirePackage[noend]{algorithmic}
+\let\equation\gather
+\let\endequation\endgather
+\displaywidowpenalty=150
+\postdisplaypenalty=10
 
 %% Fonts
 \RequirePackage[T1]{fontenc}
@@ -214,6 +216,7 @@
   \makeglossary[\listsymbfile]
   \changeglossnumformat[\listsymbfile]{|hyperpage}}
 \newcommand*{\symb}[3][]{%
+  \ifshowindexmark\@showidx{#2}\fi
   \def\@math@protect{\expandafter\strip@prefix\meaning}%
   \def\@tempa{#2}\def\@tempb{#3}%
   \glossary[\listsymbfile](#1){\@math@protect\@tempa}{\@math@protect\@tempb}}
