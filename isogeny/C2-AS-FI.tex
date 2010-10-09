@@ -177,7 +177,7 @@ tree of $T$, we have only computed one branching as shown in figure
   \begin{tikzpicture}
     \begin{scope}
       [level distance=1cm,
-      level/.style={sibling distance=6cm/#1},
+      level/.style={sibling distance=\textwidth/(2.2*#1)},
       nc/.style={gray,nodes={circle,draw=red,solid,inner sep=0pt,minimum size=22pt}}]
       \node{$T$}[grow'=up]
       child {node {$T_1$}

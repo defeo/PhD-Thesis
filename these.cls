@@ -1,8 +1,12 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{these}[2010/09/27 PhD thesis, V1.0]
+
+\DeclareOption{a4layout}{\PassOptionsToClass{a4paper}{memoir}\def\@layout{a4}}
+\DeclareOption{a4papersaver}{\PassOptionsToClass{a4paper}{memoir}\def\@layout{a4ps}}
+\DeclareOption{a5layout}{\PassOptionsToClass{a5paper}{memoir}\def\@layout{a5}}
+\DeclareOption{b5layout}{\PassOptionsToClass{b5paper}{memoir}\def\@layout{b5}}
 \PassOptionsToClass{twoside}{memoir}
 \PassOptionsToClass{openany}{memoir}
-\PassOptionsToClass{a4paper}{memoir}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{memoir}}
 \ProcessOptions
 \LoadClass{memoir}
@@ -36,14 +40,69 @@
 %%%%%%%%%%%%%% Style
 
 %% Layout
-\settypeblocksize{*}{31pc}{1.75}
-\setbinding{1cm}
-\setulmargins{*}{*}{1.2}
-\setlrmargins{*}{*}{2}
-%\setmarginnotes{17pt}{51pt}{\onelineskip}
-\setheadfoot{\onelineskip}{2\onelineskip}
-\setheaderspaces{*}{2\onelineskip}{*}
-\checkandfixthelayout
+\def\@temp{a4}
+\ifx \@temp \@layout
+  \settypeblocksize{*}{31pc}{1.75}
+  \setulmargins{*}{*}{1.2}
+  \setlrmargins{*}{*}{1.7}
+  % \setmarginnotes{17pt}{51pt}{\onelineskip}
+  \setheadfoot{\onelineskip}{2\onelineskip}
+  \setheaderspaces{*}{2\onelineskip}{*}
+  \checkandfixthelayout
+
+  \def\back@cover@layout{
+    \settypeblocksize{*}{33pc}{1.618}%
+    \setulmargins{*}{*}{1.2}%
+    \setlrmargins{*}{*}{1}%
+    \checkandfixthelayout%
+  }
+\else \fi
+\def\@temp{a4ps}
+\ifx \@temp \@layout
+  \settypeblocksize{714pt}{448.13pt}{*}
+  \setulmargins{*}{*}{1.2}
+  \setlrmargins{*}{*}{1.5}
+  % \setmarginnotes{17pt}{51pt}{\onelineskip}
+  \setheadfoot{\onelineskip}{2\onelineskip}
+  \setheaderspaces{*}{2\onelineskip}{*}
+  \checkandfixthelayout
+
+  \def\back@cover@layout{
+    \setlrmargins{*}{*}{1}%
+    \checkandfixthelayout%
+  }
+\else \fi
+\def\@temp{a5}
+\ifx \@temp \@layout
+  \settypeblocksize{*}{27pc}{1.5}
+  \setulmargins{*}{*}{1.2}
+  \setlrmargins{*}{*}{2}
+  % \setmarginnotes{17pt}{51pt}{\onelineskip}
+  \setheadfoot{\onelineskip}{2\onelineskip}
+  \setheaderspaces{*}{2\onelineskip}{*}
+  \checkandfixthelayout
+
+  \def\back@cover@layout{
+    \setlrmargins{*}{*}{1}%
+    \checkandfixthelayout%
+  }
+\else \fi
+\def\@temp{b5}
+\ifx \@temp \@layout
+  \settypeblocksize{215mm}{30pc}{*}
+  \setulmargins{*}{*}{1.2}
+  \setlrmargins{*}{*}{1.7}
+  % \setmarginnotes{17pt}{51pt}{\onelineskip}
+  \setheadfoot{\onelineskip}{2\onelineskip}
+  \setheaderspaces{*}{2\onelineskip}{*}
+  \checkandfixthelayout
+
+  \def\back@cover@layout{
+    \setlrmargins{*}{*}{1}%
+    \checkandfixthelayout%
+  }
+\else \fi
+
 
 %% Divisions style
 \setsecnumdepth{subsection}
@@ -144,11 +203,11 @@
 %% Algorithms
 \newcommand*{\algorithmname}{Algorithm}
 \newcommand*{\listalgorithmname}{List of Algorithms}
-\newlistof{listofalgorithms}{loa}{\listalgorithmname}
-\newlistentry{algorithm}{loa}{0}
 \floatstyle{top}
 \newfloat{algorithm}{tbp}{loa}[chapter]
 \floatname{algorithm}{\algorithmname}
+\newlistof{listofalgorithms}{loa}{\listalgorithmname}
+\newlistentry{algorithm}{loa}{0}
 
 \renewcommand{\algorithmicrequire}{\textsc{Input~~~:}}
 \renewcommand{\algorithmicensure}{\textsc{Output~:}}
@@ -183,7 +242,7 @@
   encoding={OT1, T1, T2A, LY1, OT4, QX, T5},
   shape=sc*,
   size={Large-}}
-\SetTracking{size={Large}}{50}
+\SetTracking{encoding={OT1, T1, T2A, LY1, OT4, QX, T5},size={Large}}{50}
 \SetTracking[context=romannum]{encoding={OT1, T1, T2A, LY1, OT4, QX, T5}}{0}
 \addtoiargdef{\@Roman}{\begingroup\microtypecontext{tracking=romannum}}{\endgroup}
 
@@ -201,11 +260,8 @@
 %% To move to the third and fourth cover
 \newcommand{\thirdcover}{%
   \cleartooddpage\pagestyle{empty}%
-  \settypeblocksize{*}{33pc}{1.618}%
-  \setbinding{0cm}%
-  \setulmargins{*}{*}{1.2}%
-  \setlrmargins{*}{*}{1}%
-  \checkandfixthelayout%
+  \ifx \back@cover@layout \undefined%
+  \else \back@cover@layout \fi%
 }
 \newcommand{\fourthcover}{\cleartoevenpage\pagestyle{empty}}
 
