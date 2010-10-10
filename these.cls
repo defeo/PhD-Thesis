@@ -28,7 +28,7 @@
 \RequirePackage{textcomp}
 \renewcommand{\rmdefault}{pplx}
 \renewcommand{\sfdefault}{uop}  % Warning: Optima is not in texlive !
-\RequirePackage{eulervm}
+\RequirePackage[T1]{eulervm}
 \RequirePackage[tracking=true]{microtype}
 
 %% Hypertext
@@ -89,7 +89,7 @@
 \else \fi
 \def\@temp{b5}
 \ifx \@temp \@layout
-  \settypeblocksize{215mm}{30pc}{*}
+  \settypeblocksize{210mm}{30pc}{*}
   \setulmargins{*}{*}{1.2}
   \setlrmargins{*}{*}{1.7}
   % \setmarginnotes{17pt}{51pt}{\onelineskip}

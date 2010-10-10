@@ -422,6 +422,7 @@ next chapters.
 
 \begin{lemma}[Chinese remainder theorem]
   \label{th:chinese-remainder}
+  \index{Chinese~remainder~theorem}
   Let $I_1,\ldots,I_n$ be pairwise coprime ideals (i.e.\ $I_i+I_j=R$ if
   $i\ne j$).  Then the canonical morphism $A\ra\prod_j A/I_j$ gives an
   isomorphism of rings
@@ -437,37 +438,42 @@ next chapters.
 
 \subsection{Algebraic varieties}
 \label{sec:algebraic-varieties}
-\pdfmcone{Substituted the ambiguous use of "variety" with "set
-  of zeros".}  We now consider the polynomial ring
-$\K[x_1,\ldots,x_n]$, where $\K$ is a perfect field with algebraic
-closure $\clot{\K}$. To any ideal $I$, we associate its \emph{set of
-  zeros}
+\pdfmcone{Substituted the ambiguous use of "variety" with "set of
+  zeros".}  We now consider the polynomial ring $\K[x_1,\ldots,x_n]$,
+where $\K$ is a perfect field with algebraic closure $\clot{\K}$. To
+any ideal $I$, we associate its
+\index{set~of~zeros}\symb[ideal]{$V(I)$}{Set of zeros of the ideal
+  $I$}\emph{set of zeros}
 \begin{equation}
   \label{eq:215}
   V(I) = \{x\in\clot{\K}^n \,|\, f(x) = 0 \text{ for any } f\in I\}
   \text{.}
 \end{equation}
-\pdfmcone{Detailed definition of I(V), so that it is
-  compatible with the version of the Nullstellensatz given later. }
-Reciprocally, to any $V\subset\clot{\K}^n$ we associate the ideal
+\pdfmcone{Detailed definition of I(V), so that it is compatible with
+  the version of the Nullstellensatz given later.} Reciprocally, to
+any $V\subset\clot{\K}^n$ we associate the ideal
+\index{ideal!vanishing}\symb[ideal]{$I(V)$}{Ideal vanishing at the
+  algebraic set $V$}\emph{vanishing at $V$}
 \begin{equation}
   \label{eq:216}
   I(V) = \{f\in\clot{\K}[x_1,\ldots,x_n] \,|\, f(x) = 0 \text{ for any } x\in V\}
   \text{.}
 \end{equation}
 
-\pdfmcone{Defined the affine space (and the projective space
-  three paragraphs later).} A subset of $\clot{\K}^n$ is called an
+\pdfmcone{Defined the affine space (and the projective space three
+  paragraphs later).} A subset of $\clot{\K}^n$ is called an
 \index{algebraic~set!affine}\emph{affine algebraic set} if it is the
 set of zeros of an ideal of $\clot{\K}[x_1,\cdots,x_n]$.  The
 \index{affine~space}\emph{affine space} of dimension $n$, denoted by
-$\mathbb{A}^n$, is the affine algebraic set associated to the zero
-ideal.
+\symb[affspace]{$\mathbb{A}^n$}{$n$-dimensional affine
+  space}$\mathbb{A}^n$, is the affine algebraic set associated to the
+zero ideal.
 
 An algebraic set $V$ is
-\index{algebraic~set!defined~over~a~field}\emph{defined over} $\K$
-if $I(V)$ has a set of generators in $\K[x_1,\ldots,x_n]$; in this
-case we denote by $V(\K)$ the subset $V\cap\K^n$.
+\index{algebraic~set!defined~over~a~field}\emph{defined over} $\K$ if
+$I(V)$ has a set of generators in $\K[x_1,\ldots,x_n]$; in this case
+we denote by \symb[ideal]{$V(\K)$}{$\K$-rational points of an
+  algebraic set}$V(\K)$ the subset $V\cap\K^n$.
 
 An algebraic set is
 \index{algebraic~set!irreducible}\emph{irreducible} if it cannot be
@@ -476,10 +482,11 @@ irreducible if $I(V)$ is prime. An irreducible affine algebraic set is
 called an \index{variety!affine}\emph{affine variety}.
 
 There is also an equivalent notion of
-\index{variety!projective}\emph{projective variety} for homogeneous
-ideals. The projective variety associate to the zero ideal is called
-the \index{projective~space}\emph{projective space} of dimension $n$,
-and is denoted by $\Proj^n$.
+\index{algebraic~set!projective}\index{variety!projective}\emph{projective
+  variety} for homogeneous ideals. The projective variety associated to
+the zero ideal is called the \index{projective~space}\emph{projective
+  space} of dimension $n$, and is denoted by
+\symb[affspace]{$\Proj^n$}{$n$-dimensional projective space}$\Proj^n$.
 
 In the sequel we shall drop the qualificatives ``affine'' or
 ``projective'', and simply speak of
@@ -522,10 +529,10 @@ subvarieties of $V$
   \text{.}
 \end{equation}
 Equivalently, it is the length of the longest strictly decreasing
-chain of prime ideals in $\K[V]$. Still another way of defining it, is
+chain of prime ideals in $\K[V]$. Yet another way of defining it, is
 the degree of transcendence of $\K(V)$ over $\K$.
 
-If $V_1$ and $V_2$ are two varieties, a
+If $V_1$ and $V_2$ are two varieties, an
 \index{rational~map}\emph{affine rational map} is a map
 \begin{equation}
   \label{eq:220}
@@ -541,7 +548,7 @@ definition exists for \emph{projective rational maps}.
 A rational map that is defined at any point of $V_1$ is called a
 \index{morphism~of~varieties}\emph{morphism}. A rational map (a
 morphism) is
-\index{rational~map!defined~over~a~field}\index{morphism!defined~over~a~field}\emph{defined
+\index{rational~map!defined~over~a~field}\index{morphism~of~varieties!defined~over~a~field}\emph{defined
   over} $\K$ if $f_1,\ldots,f_n\in\K(V)$.
 
 

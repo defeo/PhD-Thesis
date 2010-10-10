@@ -1,32 +1,39 @@
 \section{Asymptotic complexity}
 \label{sec:asympt-compl}
-We shall measure the complexity of the algorithms that appear in this
-document using the classical \index{big~O} big $O$ notation. Given two
-functions $f,g:\N\ra\N$, by $f\in O(g)$ we mean that there are an
-$x_0$ and a constant $M$ such that
+\index{complexity~notation} We shall measure the complexity of the
+algorithms that appear in this document using the classical
+\index{big-Oh|see{complexity~notation}} \symb[complex]{$O$}{big-Oh
+  complexity notation}$O$ (big-Oh) notation. Given two functions
+$f,g:\N\ra\N$, by $f\in O(g)$ we mean that there are an $x_0$ and a
+constant $M$ such that
 \begin{equation}
   \label{eq:239}
   f(x)<Mg(x) \quad\text{for any $x>x_0$.}  
 \end{equation}
-Similarly, we shall use the $\Omega$ and $\Theta$ notations to state
-lower bounds and tight bounds: the definition of $\Omega$ is the same
-as $O$, with the inequality in~\eqref{eq:239} turned the other way;
-the definition of $\Theta$ is $f\in\Theta(g)$ if and only if $f\in
-O(g)$ and $f\in\Omega(g)$.
+Similarly, we shall use the
+\index{big-Omega|see{complexity~notation}}\symb[complex]{$\Omega$}{big-Omega
+  complexity notation}$\Omega$ and
+\index{big-Theta|see{complexity~notation}}\symb[complex]{$\Theta$}{big-Theta
+  complexity notation}$\Theta$ notations to state lower bounds and
+tight bounds: the definition of $f\in\Omega(g)$ is like
+Eq.~\eqref{eq:239}, but with the inequality turned the other way. The
+definition of $\Theta$ is $f\in\Theta(g)$ if and only if $f\in O(g)$
+and $f\in\Omega(g)$.
 
-We shall also make use of the notation $\tildO_x$
-(\index{soft~O}soft-$O$ of $x$) that forgets polylogarithmic factors
-in the variable $x$, thus $O(xy\log x \log y)\subset\tildO_x(xy\log
-y)\subset\tildO_{x,y}(xy)$. We simply write $\tildO$ when the
-variables are clear from the context.
+We shall also make use of the notation \symb[complex]{$\tildO$}{soft-Oh
+  complexity notation}$\tildO_x$
+(\index{soft~Oh|see{complexity~notation}}soft-Oh of $x$) that forgets
+polylogarithmic factors in the variable $x$, thus $O(xy\log x \log
+y)\subset\tildO_x(xy\log y)\subset\tildO_{x,y}(xy)$. We simply write
+$\tildO$ when the variables are clear from the context.
 
 Many algorithms below rely on fast multiplication; thus, we let
 $\Mult_R : \N \rightarrow \N$ be a
 \index{multiplication~function}\emph{multiplication
-  function}\symb[Mn]{$\Mult(n)$}{Multiplication function},
+  function}\symb[complex]{$\Mult(n)$}{Multiplication function},
 such that polynomials in $R[X]$ of degree less than $n$ can be
 multiplied in $\Mult_R(n)$ operations. We drop the index $R$ when the
-ring is clear from the context. To simplify expression, following
+ring is clear from the context. To simplify expressions, following
 \cite[$\S$8.3]{vzGG}, we shall assume that $\Mult(n)$ is
 \begin{itemize}
 \item superlinear: $\Mult(n)/n \ge \Mult(m)/m$ if $n\ge m$,
@@ -34,10 +41,10 @@ ring is clear from the context. To simplify expression, following
 \end{itemize}
 We shall see soon that this assumptions are reasonable ones.
 
-The cost of \index{modular~composition}\emph{modular composition},
-that is, of computing $f\circ g \bmod h$, for $f,g,h\in R[X]$ of
-degrees at most $n$ with $h$ monic, will be written
-$\ModComp(n)$\symb[Cn]{$\ModComp(n)$}{Modular composition
+The cost of \index{modular~composition}\emph{modular composition}
+--that is computing $f\circ g \bmod h$, for $f,g,h\in R[X]$ of degrees
+at most $n$, and $h$ monic-- will be written
+$\ModComp(n)$\symb[complex]{$\ModComp(n)$}{Modular composition
   function}. We shall make the assumption that
 $\ModComp(n)\ge\Mult(n)$ for any $n$; the next section will review
 algorithms for modular composition.
