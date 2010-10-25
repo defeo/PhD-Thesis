@@ -1007,6 +1007,179 @@
 
 %%
 
+{
+\setbeamertemplate{navigation symbols}{}
+\begin{frame}
+  \frametitle{Couveignes' algorithms}
+  
+  \begin{center}
+    \textbf{Idea:} Send $E[p^k]$ over $E'[p^k]$
+  \end{center}
+
+  \begin{columns}[t]
+    \begin{column}{0.5\textwidth}
+      \centering\cite{couveignes94}
+
+      \begin{uncoverenv}<2->
+        \begin{itemize}
+        \item Work in the formal group $\mathcal{E}$ of $E$: a
+          \emph{formal point} is a series in a formal parameter
+          $\;\tau$;
+        \item Fix a precision \emph{large enough} for
+          $\;\F_q[[\tau]]$ ($\sim 4\ell$);
+        \item Compute a morphism $\mathcal{U}(\tau) : \mathcal{E}
+          \to \mathcal{E}'$;
+        \item Reconstruct a rational fraction $\;\frac{g(X)}{h(X)} =
+          \frac{1}{\mathcal{U}(1/X)}$;
+        \item If $\frac{g}{h}$ is an isogeny, done; otherwise pick
+          another $\mathcal{U}$.
+        \item<3> $\mathcal{U}$ is uniquely determined by it action on
+          $\;\mathcal{E}[p^k]\;$ for every $\;k$.
+        \end{itemize}
+      \end{uncoverenv}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \centering\cite{couveignes96}
+      
+      \begin{itemize}
+      \item Compute the extensions $\U_i/\F_q$
+        such that $E[p^i]$ is defined in $\U_i$;
+      \item Pick $\;k\;$ \emph{large enough} ($k\sim 4\ell$);
+      \item Compute $\;P$, a generator of $\;E[p^k]$;
+      \item Compute $\;P'$, a generator of $\;E'[p^k]$;
+      \item Compute the polynomial $\;T\;$ vanishing $\;E[p^k]$;
+      \item Interpolate $\;A : x(P) \mapsto x(P')$;
+      \item Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$;
+      \item If $\frac{g}{h}$ is an isogeny, done; otherwise pick another $P'$.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+}
+
+%%
+
+\begin{frame}
+  \frametitle{Fast \cite{couveignes96}}
+
+  \begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}
+    $\bullet$ Compute the extensions $\U_i/\F_q$
+    such that $E[p^i]$ is defined in $\U_i$; & \uncover<2->{An Artin-Schreir tower: $\tildO(\ell)$}\\
+    $\bullet$ Pick $\;k\;$ \emph{large enough} ($k\sim 4\ell$); & \\
+    $\bullet$ Compute $\;P$, a generator of $\;E[p^k]$; & \uncover<3->{An isomorphism of Artin-Schreier towers: $\tildO(\ell)$}\\
+    $\bullet$ Compute $\;P'$, a generator of $\;E'[p^k]$; & \uncover<3->{An isomorphism of Artin-Schreier towers: $\tildO(\ell)$}\\
+    $\bullet$ Compute the polynomial $\;T\;$ vanishing $\;E[p^k]$; & \\
+    $\bullet$ Interpolate $\;A : x(P) \mapsto x(P')$; & \uncover<4->{Fast interpolation in towers of extensions: $\tildO(\ell)$}\\
+    $\bullet$ Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$; & \uncover<5->{XGCD: $\tildO(\ell)$}\\
+    $\bullet$ If $\frac{g}{h}$ is an isogeny, done; otherwise pick another $P'$. & \uncover<6->{Repeat $O(\ell)$ times} \\
+  \end{tabular}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{How to recognize an isogeny?}
+
+  \begin{itemize}
+  \item \textbf{Degree}: $\frac{g}{h}$ with $\deg g=\ell$, $\deg h = \ell-1$;\hfill\alert{$O(1)$}
+  \item \textbf{Square factor:} $h = \prod_{Q\in H^\ast}(X- x(Q)) = f^2\;$ if $\ell$ odd;\hfill$\tildO(\ell)$
+  \item \textbf{Group action:} Test with random points;\hfill$O(\ell)$
+  \item \textbf{Factor of the $\ell$-division polynomial:} Compute $\phi_\ell\bmod h$.\hfill$\tildO(\ell)$
+  \end{itemize}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{How to recognize an isogeny?}
+  
+  \[AU_i + TV_i = R_i  \qquad\Leftrightarrow\qquad  A\equiv \frac{R_i}{U_i} \bmod T\]
+  \[\ell = 11\]
+  \pause
+  \begin{center}
+  \begin{tabular}{c | c}
+    $\deg R_i$ & $\deg U_i$ \\
+    \pause
+    $3141592653589793238462643$ & 0 \\
+    \pause
+    \alt<7>{\textcolor{blue}{$3141592653589793238462642$}}{$3141592653589793238462642$} & 1 \\
+    \pause
+    $3141592653589793238462641$ & \alt<7>{\textcolor{blue}{$2$}}{$2$} \\
+    \pause
+    \vdots & \vdots\\
+    $3141592653589793238462634$ & $9$ \\
+    \pause\pause
+    \Huge\alert{$11$} & \Huge\alert{$10$}\\
+    \pause
+    $10$ & $3141592653589793238462633$\\
+    \vdots & \vdots
+  \end{tabular}
+  \end{center}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Isogenies of unknown degree}
+  
+  \begin{itemize}
+  \item This pattern is extremely rare.
+  \item This is the only phase of Couveignes' algorithms that depends on $\ell$.
+  \item<2-> \large Actually, this does not really depend on $\ell$,
+    just on the existence of a \emph{gap}.
+  \item<2-> \large If $\ell$ is not known in advance, it is enough to
+    look for a \emph{gap}.
+  \item<2-> \large Thus, any isogeny of degree $\ll p^k$ can be
+    obtained with one single run of Couveignes' algorithms.
+  \end{itemize}  
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Perspectives}
+  
+  \begin{block}{Looking for the quasi-linear complexity}
+    \begin{itemize}
+    \item The Weierstrass model has a canonicity defect: use other parameterizations? Formal groups?
+    \item How to obtain \emph{local} information on the behavior of
+      the isogeny? (for example, its action on $E[p]$)
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Isogenies of unknown degree}
+    \begin{itemize}
+    \item This variant of \cite{couveignes96} is at the moment the
+      fastest (both in theory and in practice) algorithm for this
+      task.
+    \item We tested two curves over $\F_{2^{161}}$, isogenous of
+      unknown degree, taken from \cite{teske06};
+    \item Certified in 258 cpu-hours that no isogeny of degree
+      $2^c\ell$ for any $c$ and $\ell<2^{11}$ exists;
+    \item Certified in 1195 cpu-hours that no isogeny of
+      degree les then $2^{12}$ exists.
+    \item The two curves have an isogeny of (very smooth) degree $\sim
+      2^{1050}$. Proving that no isogeny of smaller degree  exists
+      is momentarily out of reach.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Z'en voulez plus?}
+  
+  \begin{center}
+    \Large Fast Algorithms for Towers of Finite Fields and Isogenies
+
+    \bigskip
+
+    \large 13 décembre, École Polytechnique
+
+    \normalsize heure et amphi à préciser
+  \end{center}
+\end{frame}
 
 %%
 %%
