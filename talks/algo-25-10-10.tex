@@ -23,12 +23,13 @@
 \usepackage[bibstyle=beamer,citestyle=authoryear-comp,doi=false,isbn=false,eprint=false,maxnames=10]{biblatex}
 \bibliography{../defeo}
 \usepackage{../mysymbols}
+\usepackage{array}
 
-\RequirePackage[T1]{fontenc}
-\RequirePackage{textcomp}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
 \renewcommand{\rmdefault}{pplx}
 \renewcommand{\sfdefault}{uop}
-\RequirePackage[T1]{eulervm}
+\usepackage[T1]{eulervm}
 
 
 \mode<presentation>{%
@@ -99,7 +100,7 @@
     \end{column}
   \end{columns}
 
-  \begin{block}{What do you do with an isogeny?}
+  \begin{block}{What do you do with an isogeny over a finite field?}
     \begin{itemize}
     \item Point counting (\cite{schoof95});
     \item Speed up point multiplication (\cite{gallant+lambert+vanstone01});
@@ -1026,7 +1027,7 @@
           \emph{formal point} is a series in a formal parameter
           $\;\tau$;
         \item Fix a precision \emph{large enough} for
-          $\;\F_q[[\tau]]$ ($\sim 4\ell$);
+          $\;\F_q[[\tau]]$ ($\sim\log_p4\ell$);
         \item Compute a morphism $\mathcal{U}(\tau) : \mathcal{E}
           \to \mathcal{E}'$;
         \item Reconstruct a rational fraction $\;\frac{g(X)}{h(X)} =
@@ -1044,7 +1045,7 @@
       \begin{itemize}
       \item Compute the extensions $\U_i/\F_q$
         such that $E[p^i]$ is defined in $\U_i$;
-      \item Pick $\;k\;$ \emph{large enough} ($k\sim 4\ell$);
+      \item Pick $\;k\;$ \emph{large enough} ($k\sim\log_p4\ell$);
       \item Compute $\;P$, a generator of $\;E[p^k]$;
       \item Compute $\;P'$, a generator of $\;E'[p^k]$;
       \item Compute the polynomial $\;T\;$ vanishing $\;E[p^k]$;
@@ -1058,23 +1059,23 @@
 }
 
 %%
-
+{\setbeamertemplate{navigation symbols}{}
 \begin{frame}
-  \frametitle{Fast \cite{couveignes96}}
+  \frametitle{Fast \cite{couveignes96}\footfullcite{df10}}
 
-  \begin{tabular}{p{0.45\textwidth} p{0.45\textwidth}}
+  \begin{tabular}{m{0.45\textwidth} m{0.45\textwidth}}
     $\bullet$ Compute the extensions $\U_i/\F_q$
     such that $E[p^i]$ is defined in $\U_i$; & \uncover<2->{An Artin-Schreir tower: $\tildO(\ell)$}\\
     $\bullet$ Pick $\;k\;$ \emph{large enough} ($k\sim 4\ell$); & \\
     $\bullet$ Compute $\;P$, a generator of $\;E[p^k]$; & \uncover<3->{An isomorphism of Artin-Schreier towers: $\tildO(\ell)$}\\
-    $\bullet$ Compute $\;P'$, a generator of $\;E'[p^k]$; & \uncover<3->{An isomorphism of Artin-Schreier towers: $\tildO(\ell)$}\\
+    $\bullet$ Compute $P'$, a generator of $\;E'[p^k]$; & \uncover<3->{An isomorphism of Artin-Schreier towers: $\tildO(\ell)$}\\
     $\bullet$ Compute the polynomial $\;T\;$ vanishing $\;E[p^k]$; & \\
     $\bullet$ Interpolate $\;A : x(P) \mapsto x(P')$; & \uncover<4->{Fast interpolation in towers of extensions: $\tildO(\ell)$}\\
     $\bullet$ Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$; & \uncover<5->{XGCD: $\tildO(\ell)$}\\
     $\bullet$ If $\frac{g}{h}$ is an isogeny, done; otherwise pick another $P'$. & \uncover<6->{Repeat $O(\ell)$ times} \\
   \end{tabular}
 \end{frame}
-
+}
 %%
 
 \begin{frame}
@@ -1099,7 +1100,6 @@
   \begin{center}
   \begin{tabular}{c | c}
     $\deg R_i$ & $\deg U_i$ \\
-    \pause
     $3141592653589793238462643$ & 0 \\
     \pause
     \alt<7>{\textcolor{blue}{$3141592653589793238462642$}}{$3141592653589793238462642$} & 1 \\
