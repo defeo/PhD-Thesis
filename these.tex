@@ -86,7 +86,7 @@
 \include{isogeny/veluproof}
 
 \backmatter
-\addtocontents{toc}{\clearpage}  % Fix this horrible table
+\ifafour \addtocontents{toc}{\clearpage} \fi  % Fix this horrible table
 \input{pre/conclusion}
 \listofsymbols[5em]
 \printindex

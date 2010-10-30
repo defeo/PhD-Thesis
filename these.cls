@@ -1,10 +1,18 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{these}[2010/09/27 PhD thesis, V1.0]
 
+\newif\if@rtwork
+\newif\if@bw
+\@rtworktrue
+\@bwfalse
 \DeclareOption{a4layout}{\PassOptionsToClass{a4paper}{memoir}\def\@layout{a4}}
 \DeclareOption{a4papersaver}{\PassOptionsToClass{a4paper}{memoir}\def\@layout{a4ps}}
 \DeclareOption{a5layout}{\PassOptionsToClass{a5paper}{memoir}\def\@layout{a5}}
 \DeclareOption{b5layout}{\PassOptionsToClass{b5paper}{memoir}\def\@layout{b5}}
+\DeclareOption{artwork}{\@rtworktrue}
+\DeclareOption{noartwork}{\@rtworkfalse}
+\DeclareOption{bw}{\@bwtrue}
+\DeclareOption{color}{\@bwfalse}
 \PassOptionsToClass{twoside}{memoir}
 \PassOptionsToClass{openany}{memoir}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{memoir}}
@@ -40,8 +48,14 @@
 %%%%%%%%%%%%%% Style
 
 %% Layout
+\newif\ifafour
+\newif\ifafive
+\newif\ifbfive
+\newif\ifafourps
+
 \def\@temp{a4}
 \ifx \@temp \@layout
+  \afourtrue
   \settypeblocksize{*}{31pc}{1.75}
   \setulmargins{*}{*}{1.2}
   \setlrmargins{*}{*}{1.7}
@@ -59,6 +73,7 @@
 \else \fi
 \def\@temp{a4ps}
 \ifx \@temp \@layout
+  \afourpstrue
   \settypeblocksize{714pt}{448.13pt}{*}
   \setulmargins{*}{*}{1.2}
   \setlrmargins{*}{*}{1.5}
@@ -74,6 +89,7 @@
 \else \fi
 \def\@temp{a5}
 \ifx \@temp \@layout
+  \afivetrue
   \settypeblocksize{*}{27pc}{1.5}
   \setulmargins{*}{*}{1.2}
   \setlrmargins{*}{*}{2}
@@ -89,6 +105,7 @@
 \else \fi
 \def\@temp{b5}
 \ifx \@temp \@layout
+  \bfivetrue
   \settypeblocksize{210mm}{30pc}{*}
   \setulmargins{*}{*}{1.2}
   \setlrmargins{*}{*}{1.7}
@@ -124,9 +141,22 @@
     {\def\side{l}\def\pleft{\chapnumsep}\def\pright{\chapnummargin}}%
     {\def\side{r}\def\pleft{\chapnummargin}\def\pright{\chapnumsep}}%
     \makebox[0pt][\side]{\resizebox{!}{3ex}{\pleft\chapnumfont\thechapter\pright}}}
-  \renewcommand*{\afterchapternum}{\par\hspace{1.5cm}\hrule\vspace{0.2cm}}
+  \newlength{\titleboxwidth}
+  \if@rtwork
+    \def\potiron{\raisebox{-0.8\onelineskip}[0pt][0pt]{%
+        \makebox[0pt][\side]{\includegraphics[width=0.25\textwidth]{artwork/potiron-\side.pdf}}}}
+    \setlength{\titleboxwidth}{0.77\textwidth}
+  \else
+    \def\potiron{}
+    \setlength{\titleboxwidth}{\textwidth}
+  \fi
+  \renewcommand*{\afterchapternum}{\par\vspace{\onelineskip}%
+    \ifthenelse{\isodd{\thepage}}{\def\side{l}\potiron\hfill}{}
+    \begin{minipage}{\titleboxwidth}\hrule\vspace{0.2cm}}
   \renewcommand*{\printchapternonum}{\vphantom{\chapnamefont 1}\afterchapternum}
-  \renewcommand*{\afterchaptertitle}{\vskip 0.2cm \hrule\vskip\afterchapskip}}
+  \renewcommand*{\afterchaptertitle}{\end{minipage}%
+    \ifthenelse{\isodd{\thepage}}{}{\hfill\def\side{r}\potiron}%
+    \vskip 0.2cm \hrule\vskip\afterchapskip}}
 \makeheadstyles{these}{%
   \headstyles{bringhurst}%
   \chapterstyle{these}%
@@ -164,6 +194,11 @@
 \theoremstyle{myrkstyle}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem*{nota}{Note}
+
+% Halmos' snail
+\if@rtwork
+\renewcommand{\qedsymbol}{\raisebox{-0.2ex}{\includegraphics[height=2ex]{artwork/escargot}}}
+\fi
 
 %% Floats
 \RequirePackage{float}
