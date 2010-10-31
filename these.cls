@@ -1,18 +1,18 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{these}[2010/09/27 PhD thesis, V1.0]
 
-\newif\if@rtwork
-\newif\if@bw
-\@rtworktrue
-\@bwfalse
+\newif\ifartwork
+\newif\ifbw
+\artworktrue
+\bwfalse
 \DeclareOption{a4layout}{\PassOptionsToClass{a4paper}{memoir}\def\@layout{a4}}
 \DeclareOption{a4papersaver}{\PassOptionsToClass{a4paper}{memoir}\def\@layout{a4ps}}
 \DeclareOption{a5layout}{\PassOptionsToClass{a5paper}{memoir}\def\@layout{a5}}
 \DeclareOption{b5layout}{\PassOptionsToClass{b5paper}{memoir}\def\@layout{b5}}
-\DeclareOption{noartwork}{\@rtworkfalse}
-\DeclareOption{artwork}{\@rtworktrue}
-\DeclareOption{bw}{\@bwtrue}
-\DeclareOption{color}{\@bwfalse}
+\DeclareOption{noartwork}{\artworkfalse}
+\DeclareOption{artwork}{\artworktrue}
+\DeclareOption{bw}{\bwtrue}
+\DeclareOption{color}{\bwfalse}
 \PassOptionsToClass{twoside}{memoir}
 \PassOptionsToClass{openany}{memoir}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{memoir}}
@@ -45,7 +45,7 @@
 \RequirePackage{bookmark}
 
 %% Others
-\if@rtwork \RequirePackage{graphicx} \fi
+\ifartwork \RequirePackage{graphicx} \fi
 \RequirePackage{xstring}
 
 %%%%%%%%%%%%%% Style
@@ -170,7 +170,7 @@
 
 %% Artwork
 \newlength{\titleboxwidth}
-\if@rtwork
+\ifartwork
   % The directory containing artworks
   \def\artdir{artwork}
 
@@ -185,7 +185,7 @@
   % Part illustration
   \renewcommand{\printparttitle}[1]{\parttitlefont #1%
     \StrSubstitute{#1}{ }{_}[\@filename]%
-    \if@bw\def\suffix{-bw}\else\def\@suffix{}\fi%
+    \ifbw\def\suffix{-bw}\else\def\@suffix{}\fi%
     \def\p@th{\artdir/\@filename\@suffix}%
     \newif\if@ext
     \@for\@ext:=\Gin@extensions\do{%
