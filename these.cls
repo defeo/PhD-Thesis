@@ -9,8 +9,8 @@
 \DeclareOption{a4papersaver}{\PassOptionsToClass{a4paper}{memoir}\def\@layout{a4ps}}
 \DeclareOption{a5layout}{\PassOptionsToClass{a5paper}{memoir}\def\@layout{a5}}
 \DeclareOption{b5layout}{\PassOptionsToClass{b5paper}{memoir}\def\@layout{b5}}
-\DeclareOption{artwork}{\@rtworktrue}
 \DeclareOption{noartwork}{\@rtworkfalse}
+\DeclareOption{artwork}{\@rtworktrue}
 \DeclareOption{bw}{\@bwtrue}
 \DeclareOption{color}{\@bwfalse}
 \PassOptionsToClass{twoside}{memoir}
@@ -44,6 +44,9 @@
 \hypersetup{pdfborderstyle={/S/U/W 0.5},citebordercolor={0 0.4 1}}
 \RequirePackage{bookmark}
 
+%% Others
+\if@rtwork \RequirePackage{graphicx} \fi
+\RequirePackage{xstring}
 
 %%%%%%%%%%%%%% Style
 
@@ -141,15 +144,6 @@
     {\def\side{l}\def\pleft{\chapnumsep}\def\pright{\chapnummargin}}%
     {\def\side{r}\def\pleft{\chapnummargin}\def\pright{\chapnumsep}}%
     \makebox[0pt][\side]{\resizebox{!}{3ex}{\pleft\chapnumfont\thechapter\pright}}}
-  \newlength{\titleboxwidth}
-  \if@rtwork
-    \def\potiron{\raisebox{-0.8\onelineskip}[0pt][0pt]{%
-        \makebox[0pt][\side]{\includegraphics[width=0.25\textwidth]{artwork/potiron-\side.pdf}}}}
-    \setlength{\titleboxwidth}{0.77\textwidth}
-  \else
-    \def\potiron{}
-    \setlength{\titleboxwidth}{\textwidth}
-  \fi
   \renewcommand*{\afterchapternum}{\par\vspace{\onelineskip}%
     \ifthenelse{\isodd{\thepage}}{\def\side{l}\potiron\hfill}{}
     \begin{minipage}{\titleboxwidth}\hrule\vspace{0.2cm}}
@@ -173,6 +167,41 @@
 \makeoddhead{Ruled}{}{}{\itshape\rightmark}
 \pagestyle{Ruled}
 
+
+%% Artwork
+\newlength{\titleboxwidth}
+\if@rtwork
+  % The directory containing artworks
+  \def\artdir{artwork}
+
+  % The chapter pumpkin
+  \def\potiron{\raisebox{-0.8\onelineskip}[0pt][0pt]{%
+      \makebox[0pt][\side]{\includegraphics[width=0.25\textwidth]{\artdir/potiron-\side.pdf}}}}
+  \setlength{\titleboxwidth}{0.77\textwidth}
+
+  % Halmos' snail
+  \renewcommand{\qedsymbol}{\raisebox{-0.2ex}{\includegraphics[height=2ex]{\artdir/escargot}}}
+
+  % Part illustration
+  \renewcommand{\printparttitle}[1]{\parttitlefont #1%
+    \StrSubstitute{#1}{ }{_}[\@filename]%
+    \if@bw\def\suffix{-bw}\else\def\@suffix{}\fi%
+    \def\p@th{\artdir/\@filename\@suffix}%
+    \newif\if@ext
+    \@for\@ext:=\Gin@extensions\do{%
+      \if@ext\else\IfFileExists{\p@th\@ext}{\@exttrue}{}\fi}%
+    \if@ext%
+      \par\vfil%
+      \includegraphics[width=\textwidth,height=0.5\textheight,keepaspectratio=true]{\p@th}%
+    \else%
+      \ClassWarning{these}{Artwork file \p@th\space not found. Skipping it.}%
+    \fi}
+\else
+  \def\potiron{}
+  \setlength{\titleboxwidth}{\textwidth}
+\fi
+
+
 %% Theorems
 % Hack for titleref
 \let\old@thm\@begintheorem
@@ -194,11 +223,6 @@
 \theoremstyle{myrkstyle}
 \newtheorem{remark}[theorem]{Remark}
 \newtheorem*{nota}{Note}
-
-% Halmos' snail
-\if@rtwork
-\renewcommand{\qedsymbol}{\raisebox{-0.2ex}{\includegraphics[height=2ex]{artwork/escargot}}}
-\fi
 
 %% Floats
 \RequirePackage{float}
