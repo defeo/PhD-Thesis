@@ -169,11 +169,11 @@
 
 
 %% Artwork
+% The directory containing artworks
+\def\artdir{artwork}
 \newlength{\titleboxwidth}
-\ifartwork
-  % The directory containing artworks
-  \def\artdir{artwork}
 
+\ifartwork
   % The chapter pumpkin
   \def\potiron{\raisebox{-0.8\onelineskip}[0pt][0pt]{%
       \makebox[0pt][\side]{\includegraphics[width=0.25\textwidth]{\artdir/potiron-\side.pdf}}}}
@@ -187,15 +187,10 @@
     \StrSubstitute{#1}{ }{_}[\@filename]%
     \ifbw\def\suffix{-bw}\else\def\@suffix{}\fi%
     \def\p@th{\artdir/\@filename\@suffix}%
-    \newif\if@ext
-    \@for\@ext:=\Gin@extensions\do{%
-      \if@ext\else\IfFileExists{\p@th\@ext}{\@exttrue}{}\fi}%
-    \if@ext%
+    \IfGraphicsExists{\p@th}{%
       \par\vfil%
       \includegraphics[width=\textwidth,height=0.5\textheight,keepaspectratio=true]{\p@th}%
-    \else%
-      \ClassWarning{these}{Artwork file \p@th\space not found. Skipping it.}%
-    \fi}
+    }{\ClassWarning{these}{Artwork file \p@th\space not found. Skipping it.}}}
 \else
   \def\potiron{}
   \setlength{\titleboxwidth}{\textwidth}
@@ -341,3 +336,12 @@
     \renewcommand{\glossarymark}{\markboth{\listsymbname}{\listsymbname}}%
     \renewcommand{\glossitem}[4]{\@tmpbox{##1}\@sep{}##2\cftdotfill{\cftdotsep}##4\\}%
     \printglossary[\listsymbfile]}}
+
+%% Conditionally executes #2 or #3, depending on whether #1 is an existing
+%% filename (with or without extension) for the graphicx pacakge
+\newcommand{\IfGraphicsExists}[3]{
+  \newif\if@ext%
+  \IfFileExists{#1}{\@exttrue}{}%
+  \@for\@ext:=\Gin@extensions\do{%
+    \if@ext\else\IfFileExists{#1\@ext}{\@exttrue}{}\fi}%
+  \if@ext #2 \else #3 \fi}

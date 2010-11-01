@@ -1,36 +1,66 @@
 \begin{titlingpage}
-  \maketitle
+  \setlength{\parindent}{0pt}
+
+  % Author and title
+  \raisebox{0pt}[0pt][0pt]{\makebox[\textwidth][r]{\rule[-\textheight]{0.5pt}{\textheight}}}
+  \parbox{0.9\textwidth}{
+    \begin{flushright}
+      \vspace{\onelineskip}
+      \huge
+      $Luc\kern-0.2ex a\;D\kern-0.2ex e\;Feo$
+      \par\smallskip
+      \scshape
+      \definecolor{titlecolor}{gray}{0.5}
+      \Huge
+      \ifartwork
+      \raisebox{-0.2ex}{\includegraphics[height=1em]{\artdir/bigescargot-excl}}~~
+      \fi
+      \textcolor{titlecolor}{Fast Algorithms}
+      \par\bigskip\huge
+      for Towers of Finite Fields\\
+      and Isogenies
+    \end{flushright}}
+  \par\smallskip
+  \rule{1.1\textwidth}{0.5pt}
+  
+  % Other info
+  \vfill
+  \parbox{0.9\textwidth}{
+    \begin{flushright}
+      \huge
+      \ifartwork
+      \raisebox{-0.2ex}{\includegraphics[height=1em]{\artdir/bigescargot}}~~
+      \fi
+      Thèse de doctorat
+      \par\bigskip\Large
+      présentée à l'École Polytechnique,\\
+      le 13 décembre 2010.
+    \end{flushright}}
+  \vfill
 \end{titlingpage}
 
 \begin{titlingpage}
   \setlength{\parindent}{0pt}
   
-  \raisebox{-11\onelineskip}[0pt][0pt]{\rule{1.1\textwidth}{0.5pt}}
-  \raisebox{0pt}[0pt][0pt]{\makebox[\textwidth][r]{\rule[-\textheight]{0.5pt}{\textheight}}}
-  \parbox{0.6\textwidth}{
-    \begin{flushright}
-      \vspace{2\onelineskip}
-      \huge
-      \scshape{\thetitle}
-    \end{flushright}}
-  \hfill
-  \parbox{0.25\textwidth}{
-      \ifartwork
-    \includegraphics[width=0.25\textwidth]{artwork/corbeau}
-    \fi
-  }
-  \hfill~
+  % The institutional page
+  \begin{center}
+    \scshape\huge\thetitle
+  \end{center}
+
   \clearpage
+
+  %% Copyright notices
   ~\vfill
   \footnotesize
-
-  This work was typeset using \LaTeX{}, bibtex, makeindex, the class
-  Memoir and many \LaTeX{} packages. The source code is available for
-  download at \url{http://www.lix.polytechnique.fr/~defeo}.
+  This document was typeset using \LaTeX{}, bibtex, makeindex, the
+  class Memoir and many \LaTeX{} packages. The source code is
+  available for download at
+  \url{http://www.lix.polytechnique.fr/~defeo}.
 
   \bigskip
 
-  Parts of this work are based on earlier work by the author:
+  \copyright{} 2010 Luca De Feo.  Part of this document is based on
+  earlier work:
   \begin{itemize}
   \item \textit{Fast arithmetics in Artin-Schreir towers}, in ISSAC
     '09: Proceedings of the 2009 International Symposium on Symbolic
@@ -48,14 +78,14 @@
 
   \bigskip
 
-  \copyright{} 2010 Luca De Feo.  \ifartwork Artwork, except figures:
-  \copyright{} 2010 Rachel Deyts.\fi
-
-  \smallskip
+  \ifartwork 
+  \includegraphics[width=0.2\textwidth]{\artdir/corbeau}
+  Drawings by Rachel Deyts, \copyright{} 2010 Rachel Deyts.
+  \bigskip\fi
 
   \href{http://creativecommons.org/licenses/by-sa/3.0}{\raisebox{-0.3ex}{\includegraphics[height=1em]{logos/by-sa}}}
-  This work is licensed by the author \ifartwork and artwork designer
-  \fi under a Creative Commons Attribution-ShareAlike 3.0 Unported
+  This document is licensed by the copyright holder\ifartwork s\fi{}
+  under a Creative Commons Attribution-ShareAlike 3.0 Unported
   License. This means that you are free to copy, adapt and distribute
   it, even for commercial purposes, provided that you attribute it to
   the author\ifartwork s\fi.  If you alter, transform, or build upon
