@@ -39,13 +39,65 @@
   \vfill
 \end{titlingpage}
 
+%% Institutional title page style (header and footer)
+\makepagestyle{insttitle}
+\makerunningwidth{insttitle}{\textwidth}
+\makefootrule{insttitle}{\textwidth}{\normalrulethickness}{\footruleskip}
+\makeoddfoot{insttitle}{
+  \includegraphics[height=1.5\onelineskip]{logos/lix}}{
+  \footnotesize Laboratoire d'Informatique de l'X\\INRIA Scaclay -- Équipe-projet TANC}{
+  \includegraphics[height=1.5\onelineskip]{logos/inria}}
+\makeheadrule{insttitle}{\textwidth}{\normalrulethickness}
+\makeoddhead{insttitle}{\includegraphics[height=1.5\onelineskip]{logos/edx.png}}{
+  \footnotesize École Doctorale de l'École Polytechnique}{}
+
 \begin{titlingpage}
   \setlength{\parindent}{0pt}
   
+  \thispagestyle{insttitle}
+  
   % The institutional page
   \begin{center}
-    \scshape\huge\thetitle
+    ~\vfill
+    \huge{\scshape\thetitle}
+    \par\vspace{\onelineskip}
+    \selectlanguage{french}
+    \Large{\scshape Algorithmes Rapides pour les Tours de\\Corps Finis et les Isogénies}
+    \par\vspace{2\onelineskip}
+    \Huge{\scshape Thèse}
+    \par\vspace{1.5\onelineskip}
+    \normalsize présentée et soutenue publiquement le 13 décembre 2010
+    \par
+    pour obtenir le grade de
+    \par
+    \LARGE{\scshape Docteur de l'École Polytechnique}
+    \par\vspace{\onelineskip}
+    \normalsize spécialité
+    \par
+    \LARGE{\scshape Informatique}
+    \par\vspace{2\onelineskip}
+    \normalsize par
+    \par
+    \LARGE Luca {\scshape De Feo}
+    \par\vfill
+    \large
+    \begin{tabular}{r >{\scshape}l @{\hspace{2em}} >{\normalsize}l}
+      \multicolumn{3}{c}{\normalsize Rapporteurs:}\\[0.3\onelineskip]
+      Erich & Kaltofen\\
+      Christophe & Ritzenthaler\\[\onelineskip]
+      \multicolumn{3}{c}{\normalsize Composition du jury:}\\[0.3\onelineskip]
+      Jean-Marc & Couveignes & (président)\\[0.3\onelineskip]
+      Frédéric & Chyzak\\
+      Erich & Kaltofen & (rapporteur)\\
+      François & Morain & (directeur)\\
+      Renaud & Rioboo\\
+      Éric & Schost &(co-directeur)\\
+      Franz & Winkler
+    \end{tabular}
+    \vfill
+    \selectlanguage{american}
   \end{center}
+
 
   \clearpage
 
