@@ -1,3 +1,11 @@
+\ifbw
+  \definecolor{titlecolor}{gray}{0.5}
+  \def\suffix{}
+\else
+  \definecolor{titlecolor}{rgb}{0.56,0.3,0}
+  \def\suffix{-color}
+\fi
+
 \begin{titlingpage}
   \setlength{\parindent}{0pt}
 
@@ -10,10 +18,9 @@
       $Luc\kern-0.2ex a\;D\kern-0.2ex e\;Feo$
       \par\smallskip
       \scshape
-      \definecolor{titlecolor}{gray}{0.5}
       \Huge
       \ifartwork
-      \raisebox{-0.2ex}{\includegraphics[height=1em]{\artdir/bigescargot-excl}}~~
+      \raisebox{-0.2ex}{\includegraphics[height=1em]{\artdir/bigescargot-excl\suffix}}~~
       \fi
       \textcolor{titlecolor}{Fast Algorithms}
       \par\bigskip\huge
@@ -29,7 +36,7 @@
     \begin{flushright}
       \huge
       \ifartwork
-      \raisebox{-0.2ex}{\includegraphics[height=1em]{\artdir/bigescargot}}~~
+      \raisebox{-0.2ex}{\includegraphics[height=1em]{\artdir/bigescargot\suffix}}~~
       \fi
       Thèse de doctorat
       \par\bigskip\Large
@@ -44,9 +51,9 @@
 \makerunningwidth{insttitle}{\textwidth}
 \makefootrule{insttitle}{\textwidth}{\normalrulethickness}{\footruleskip}
 \makeoddfoot{insttitle}{
-  \includegraphics[height=1.5\onelineskip]{logos/lix}}{
+  \includegraphics[height=1.5\onelineskip]{logos/lix\suffix}}{
   \footnotesize Laboratoire d'Informatique de l'X\\INRIA Scaclay -- Équipe-projet TANC}{
-  \includegraphics[height=1.5\onelineskip]{logos/inria}}
+  \includegraphics[height=1.5\onelineskip]{logos/inria\suffix}}
 \makeheadrule{insttitle}{\textwidth}{\normalrulethickness}
 \makeoddhead{insttitle}{\includegraphics[height=1.5\onelineskip]{logos/edx.png}}{
   \footnotesize École Doctorale de l'École Polytechnique}{}
@@ -131,7 +138,7 @@
   \bigskip
 
   \ifartwork 
-  \includegraphics[width=0.2\textwidth]{\artdir/corbeau}
+  \includegraphics[width=0.2\textwidth]{\artdir/corbeau\ifbw\else -color\fi}
   Drawings by Rachel Deyts, \copyright{} 2010 Rachel Deyts.
   \bigskip\fi
 

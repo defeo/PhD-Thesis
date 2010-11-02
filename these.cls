@@ -38,6 +38,7 @@
 \renewcommand{\sfdefault}{uop}  % Warning: Optima is not in texlive !
 \RequirePackage[T1]{eulervm}
 \RequirePackage[tracking=true]{microtype}
+\RequirePackage{color}
 
 %% Hypertext
 \RequirePackage{hyperref}
@@ -123,6 +124,13 @@
   }
 \else \fi
 
+%% Colors
+\ifbw
+  \definecolor{chaptercolor}{gray}{0.5}
+\else
+  \definecolor{chaptercolor}{rgb}{0.83,0.3,0.15}
+\fi
+
 
 %% Divisions style
 \setsecnumdepth{subsection}
@@ -131,13 +139,13 @@
   \setlength{\beforechapskip}{1.5cm}
   \setlength{\afterchapskip}{1cm}
   \setlength{\midchapskip}{2cm}
-  \renewcommand*{\chapnamefont}{\normalfont\normalsize\scshape}
-  \renewcommand*{\chapnumfont}{\normalfont\normalsize\bfseries}
+  \renewcommand*{\chapnamefont}{\normalfont\normalsize\scshape\color{chaptercolor}}
+  \renewcommand*{\chapnumfont}{\normalfont\normalsize\bfseries\color{chaptercolor}}
   \renewcommand*{\chaptitlefont}{\normalfont\Large\scshape\ifthenelse{\isodd{\thepage}}{\raggedright}{\raggedleft}}
   \renewcommand*{\chapternamenum}{}
   \renewcommand*{\printchaptername}{\ifthenelse{\isodd{\thepage}}{\flushright}{\flushleft}%
     \ifthenelse{\isodd{\thepage}}{\def\side{r}}{\def\side{l}}%
-    \makebox[0pt][\side]{\color{gray}{\chapnamefont\@chapapp}}}
+    \makebox[0pt][\side]{\chapnamefont\@chapapp}}
   \newcommand*{\chapnumsep}{\hspace{0.5em}}
   \newcommand*{\chapnummargin}{}
   \renewcommand*{\printchapternum}{\ifthenelse{\isodd{\thepage}}%
@@ -174,9 +182,11 @@
 \newlength{\titleboxwidth}
 
 \ifartwork
+  \def\bw@suffix{\ifbw\else-color\fi}
+
   % The chapter pumpkin
   \def\potiron{\raisebox{-0.8\onelineskip}[0pt][0pt]{%
-      \makebox[0pt][\side]{\includegraphics[width=0.25\textwidth]{\artdir/potiron-\side.pdf}}}}
+      \makebox[0pt][\side]{\includegraphics[width=0.25\textwidth]{\artdir/potiron-\side\bw@suffix}}}}
   \setlength{\titleboxwidth}{0.77\textwidth}
 
   % Halmos' snail
@@ -185,8 +195,7 @@
   % Part illustration
   \renewcommand{\printparttitle}[1]{\parttitlefont #1%
     \StrSubstitute{#1}{ }{_}[\@filename]%
-    \ifbw\def\suffix{-bw}\else\def\@suffix{}\fi%
-    \def\p@th{\artdir/\@filename\@suffix}%
+    \def\p@th{\artdir/\@filename\bw@suffix}%
     \IfGraphicsExists{\p@th}{%
       \par\vfil%
       \includegraphics[width=\textwidth,height=0.5\textheight,keepaspectratio=true]{\p@th}%
