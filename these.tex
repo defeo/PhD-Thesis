@@ -1,4 +1,4 @@
-\documentclass[b5layout,bw]{these}
+\documentclass[b5layout]{these}
 
 %%%%%%%%%%%%%% Packages
 %% Some standard ones
@@ -14,8 +14,6 @@
 \usepackage[all]{xypic}
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,automata}
-%% For the jury members table
-%\usepackage{array}
 %% Dirty trick to embed source code
 \usepackage{xcomment}
 
@@ -34,10 +32,10 @@
 \lstset{
   upquote=true,
   basicstyle=\ttfamily,          % print whole listing in typewriter
-  keywordstyle=\color{blue}, % bold blue keywords
+  keywordstyle=\ifbw\color{gray}\else\color{blue}\fi, % bold blue keywords
   %identifierstyle=,           % nothing happens
-  commentstyle=\color{green}, % green comments
-  stringstyle=\color{red},      % typewriter type for strings
+  commentstyle=\ifbw\itshape\else\color{green}\fi, % green comments
+  stringstyle=\ifbw\else\color{red}\fi,      % typewriter type for strings
   showstringspaces=false     % no special string spaces
 }
 
