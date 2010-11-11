@@ -22,10 +22,6 @@ Subsection~\ref{ssec:rep}: we write elements of $\U'_i$ on the basis
   \text{,}
 \end{equation}
 where $x_0=x'_0$.
-%% We assume that all
-%% polynomials $G'_i$ satisfy $\deg_{X_0}(G'_i)< d$ and $\deg_{X_j}(G'_i)< p$
-%% for $j \le i$, so that writing $\gamma'_i$ on the basis $\bB'_i$
-%% requires no operation.
 
 To compute in $\U'_i$, we will use an isomorphism $\U'_i \ra \U_i$.
 Such an isomorphism is determined by the images
@@ -127,15 +123,6 @@ matrix on the basis $(1,\ldots,x_i^{p-1})$ is
 algorithm \titleref{alg:approximateas} finds the required solution.
 
 
-%% We use an algorithm called \alg{Summation}; given $E$ in
-%% $\U_{i-1}[X]$ of degree less than $p-1$ and $\beta$ in $\F_p$, it
-%% returns the unique $D$ in $\U_{i-1}[X]$ of degree less than $p$ such
-%% that $D(X+\beta)-D(X)=E(X)$ and $D(0)=0.$ Rescaling by $\beta$, we
-%% can assume that $\beta=1$. Then, the algorithm converts to the falling
-%% factorial basis, sums and converts back~\cite[Ch.~21]{vzGG}, using
-%% $O(p^2)$ operations $(+,\times)$ in $\U_{i-1}$ (better solutions are
-%% known, but do not improve the overall runtime in Theorem~\ref{th:approximateAS}).
-
 
 \begin{algorithm}
   \caption{\alg{ApproximateAS}} 
@@ -153,16 +140,6 @@ algorithm \titleref{alg:approximateas} finds the required solution.
 \end{algorithmic}
 \end{algorithm}
 
-%% \begin{itemize}
-%%   {ApproximateAS} 
-%%   {$\eta\wrt\U_i$ such that~\eqref{eq:approximateAS} has a solution.}
-%%   {$\mu\wrt\U_i$ solution of~\eqref{eq:approximateAS}.}
-%% \STATE let $\eta_0 + \eta_1 x_i + \dots + \eta_{p-2} x_i^{p-2}=\text{\titleref{alg:push-down}(\eta)$
-%% \STATE \label{alg:AAS:loop}for $j\in[p-1,\ldots,1]$,\\ let $\mu_j =
-%%    \frac{1}{jT}\left(\eta_{j-1} -
-%%   \sum_{h=j+1}^{p-1}\binom{h}{j-1}\beta_{i-1,p^{i-1}d}^{h-j+1}\mu_h\right)$
-%% \STATE return $\text{\titleref{alg:liftup})$
-%% \end{itemize}
 
 \begin{theorem}
   \label{th:approximateAS}
@@ -178,27 +155,6 @@ algorithm \titleref{alg:approximateas} finds the required solution.
   dominated by that of the push-down and lift-up by assumptions on
   $\Lift$.
 \end{proof}
-
-%% \begin{proof} Write $\mu=\Sigma_{j=0}^{p-1}\mu_j x_i^j$ and
-%% $\eta=\Sigma_{j=0}^{p-1}\eta_j x_i^j$, with $\mu_j$ and $\eta_j \wrt
-%% \U_{i-1}$. Since all $\mu_j$ are invariant by the $p^{i-1}d$-power of
-%% the Frobenius, we get from Equation~\eqref{eq:frobeniussum}
-%% \begin{equation*}
-%%     \begin{array}{c}
-%% {\mu}^{p^{p^{i-1}d}}=\sum_{j=0}^{p-1} \mu_j x_i^{jp^{p^{i-1}d}} = \sum_{j=0}^{p-1}  \mu_j(x_i +\beta_{i-1,p^{i-1}d}))^j,
-%%     \end{array}
-%% \end{equation*}
-%% where $\beta_{i-1,p^{i-1}d}$ is the trace of $\gamma_{i-1}$ over $\F_p$.
-%% Thus, $\mu$ is a solution of~\eqref{eq:approximateAS} if and only if
-%% the polynomials $D=\sum_{j=0}^{p-1} \mu_j X^j$ and $E=\sum_{j=0}^{p-1}
-%% \eta_j X^j$ satisfy $D(X+\beta_{i-1,p^{i-1}d}) - D(X) = E(X).$ Remark that
-%% $\eta_{p-1}$ must be $0$ and that $\mu_0$ plays no role in the
-%% solution, so we take $\mu_0=0$. For the cost analysis, remark that
-%% $\beta_{i-1,p^{i-1}d}$ has already been precomputed to permit iterated
-%% Frobenius and pseudotrace computations (see Section
-%% \ref{sec:pseudotrace-frobenius}). Then, the overall cost is dominated
-%% by that of the push-down and lift-up by assumptions on $\Lift$. \end{proof}
-
 
 Writing the recursive algorithm is now straightforward. To solve
 Artin-Schreier equations in $\U_0$, we use a naive algorithm based on
@@ -423,9 +379,6 @@ and~\ref{sec:pseudotrace-frobenius}. After a few simplifications, we
 obtain the upper bound $O( d^\omega + \Ptr(i) + \Mult(p^{i+1} d)
 \log(p)).$ Summing over $i$ gives the first claim of the theorem. The
 second is a restatement of Proposition~\ref{Prop:apply}.
-
-%% ----AS-----   -----------------build------------------  ------level--------   -PT-
-%% d^3 + PT(i) + M(p^i+2 d) log(p) + p^i+2 d log_p(p^i d) + M(p^id) \log(p^id) + PT(i)
 
 % Local Variables:
 % mode:flyspell
