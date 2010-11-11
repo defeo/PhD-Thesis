@@ -10,14 +10,14 @@ isogeny using $O(\Mult(\ell)\log\ell)$ operations in $\F_q$, or
 $O(\Mult(\ell))$ in case the sum of the abscissas of the kernel of the
 isogeny is known.
 
-Because of the assumption on the characteristic, we can assume curves
-to be in \hyperref[th:simplified-weierstrass]{simplified Weierstrass
-  form}
+\pdfmcthree{Adapted to the case p=3.}  Because of the assumption on
+the characteristic, we can assume $p\ne 2$ and the curves to be in
+the form
 \begin{equation}
   \label{eq:140}
   \begin{aligned}
-    E \;&:\: y^2 = x^3 + ax + b\text{,}\\
-    E'\;&:\; y^2 = x^3 + a'x + b'\text{.}
+    E \;&:\: y^2 = x^3 + a_2x^2 + a_4x + a_6\text{,}\\
+    E'\;&:\; y^2 = x^3 + a_2'x^2 + a_4'x + a_6'\text{.}
   \end{aligned}
 \end{equation}
 Then, any isogeny $\I:E\ra E'$ of odd degree is of the form
@@ -54,20 +54,22 @@ possible to obtain normalized models for such curves from the
 knowledge of the partial derivatives of $\Modpol_\ell$.  Details can
 be found in \cite{schoof95,morain95,elkies98,lercier-algorithmique}.
 
+\pdfmcthree{Modified equation to work when p=3.}
 Our goal is to compute the rational fraction $\frac{g(x)}{h(x)}$. From
-the fact that $\I$ is normalized and from Eq.~\eqref{eq:156} we deduce
+the fact that $\I$ is normalized and from Eq.~\eqref{eq:149} we deduce
 \begin{equation}
   \label{eq:166}
-  (x^3 + ax + b){\left(\frac{g(x)}{h(x)}\right)'}^2 =
-  \left(\frac{g(x)}{h(x)}\right)^3 + a'\frac{g(x)}{h(x)} + b'
+  (x^3 + a_2x^2 + a_4x + b){\left(\frac{g(x)}{h(x)}\right)'}^2 =
+  \left(\frac{g(x)}{h(x)}\right)^3 + a_2'\left(\frac{g(x)}{h(x)}\right)^2 + a_4'\frac{g(x)}{h(x)} + a_6'
   \text{.}
 \end{equation}
 The key idea is to find a power series solution to this differential
 equation and then deduce the rational fraction.
 
-However, we do not know the initial condition at $0$, and we cannot
-look for an expansion at infinity either because the degree of $g$ is
-greater than the degree of $h$.  Instead we set
+\pdfmcthree{Modified equation to work when p=3.}  However, we do not
+know the initial condition at $0$, and we cannot look for an expansion
+at infinity either, because the degree of $g$ is greater than the
+degree of $h$.  Instead we set
 \begin{equation}
   \label{eq:167}
   S(x) = \sqrt{\frac{h(1/x^2)}{g(1/x^2)}}
@@ -79,7 +81,7 @@ so that $S(x) = x + O(x^3)$ from the monicity of $g$ and $h$. Now
 $S(x)$ satisfies the differential equation
 \begin{equation}
   \label{eq:168}
-  (bx^6 + ax^4 + 1){S'}^2 = 1 + a'S^4 + b'S^6
+  (a_6x^6 + a_4x^4 + a_2x^2 + 1){S'}^2 = 1 + a_2'S^2 + a_4'S^4 + a_6'S^6
   \text{,}
 \end{equation}
 hence we can use a Newton iteration to find a power series
@@ -88,12 +90,13 @@ iteration to solve Eq.~\eqref{eq:168} is used; here we present a more
 efficient iteration due to Lercier and
 Sirvent~\cite{lercier+sirvent08}.
 
+\pdfmcthree{Modified equation to work when p=3.}
 Let 
 \begin{equation}
   \label{eq:169}
-  G = \frac{1}{1 + ax^4 + bx^6}
-  \text{,}\qquad
-  H = 1 + a't^4 + b't^6
+  G = \frac{1}{1 + a_2x^2 + a_4x^4 + a_6x^6}
+  \;\text{,}\qquad
+  H = 1 + a_2't^2 + a_4't^4 + a_6't^6
   \text{,}
 \end{equation}
 Lercier and Sirvent give an algorithm to find a solution in $\K[[x]]$
@@ -219,13 +222,14 @@ Finally, the rational fraction is recovered by rational fraction
 reconstruction (see Section~\ref{sec:eucl-algor-rati}); the overall
 complexity is dominated by this last step.
 
+\pdfmcthree{Modified algorithm to work when p=3.}
 \begin{algorithm}
   \caption{\alg{BMSS}}
   \label{alg:bmss}
   \begin{algorithmic}[1]
     \REQUIRE $\ell>1$, $\ell$-normalized models of $E$ and $E'$ .
     \ENSURE An isogeny $\I:E\ra E'$ of degree $\ell$.
-    \STATE Compute $G(x) = 1/(1 + ax^4 + bx^6) \mod x^{4\ell-1}$;
+    \STATE Compute $G(x) = 1/(1 + a_2x^2 + a_4x^4 + bx^6) \mod x^{4\ell-1}$;
     \STATE find $S(x)\bmod x^{4\ell-1}$ using Algorithm~\ref{alg:le-si-diff};
     \STATE let $T(x) = \sum_{i=0}^{2\ell-1}s_{2i+1}x^i$;
     \STATE compute $R(x) = 1/T(x)^2 \mod x^{2\ell-1}$;
@@ -311,7 +315,7 @@ of degree $d$ of $\Q_p$, denoted by $\Q_q$.
     $j_{E'}$;
     
     \STATE \label{alg:le-si:elkies} Compute an $\ell$-normalized model
-    $\bar{E}'':y^2=x^3+\bar{a}'x+\bar{b}$ for $\bar{j}'$;
+    $\bar{E}'':y^2=x^3+\bar{a}'x+\bar{b}'$ for $\bar{j}'$;
     
     \STATE \label{alg:le-si:bmss}Apply \titleref{alg:bmss} to $\bar{E}$ and
     $\bar{E}''$ to obtain $\bar{\I}:\bar{E}\ra\bar{E}''$;
@@ -324,49 +328,28 @@ of degree $d$ of $\Q_p$, denoted by $\Q_q$.
   \end{algorithmic}
 \end{algorithm*}
 
-Step~\ref{alg:le-si:elkies} uses Elkies formulas~\cite{elkies98} to
+\pdfmcthree{A little detail on the model returned by Elkies' formulas}
+Step~\ref{alg:le-si:elkies} uses Elkies' formulas~\cite{elkies98} to
 find the $\ell$-normalized model of $\bar{j}'$; these formulas allow
-to compute a normalized model from the knowledge of
-$\partial\Modpol_\ell/\partial X$ and $\partial\Modpol_\ell/\partial
-Y$, and the sum of the abscissas of the kernel from the knowledge of
-$\partial^2\Modpol_\ell/\partial X^2$,
+to compute a normalized model of the form $y^2=x^3+ax+b$ from the
+knowledge of $\partial\Modpol_\ell/\partial X$ and
+$\partial\Modpol_\ell/\partial Y$, and the sum of the abscissas of the
+kernel from the knowledge of $\partial^2\Modpol_\ell/\partial X^2$,
 $\partial^2\Modpol_\ell/\partial X\partial Y$ and
-$\partial^2\Modpol_\ell/\partial Y^2$, using $O(\ell^2)$
-operations in the base field ($\Q_q$, in this case). Analogous
-formulas exist for other types of modular polynomials, we address the
-interested reader
+$\partial^2\Modpol_\ell/\partial Y^2$, using $O(\ell^2)$ operations in
+the base field ($\Q_q$, in this case). Analogous formulas exist for
+other types of modular polynomials, we address the interested reader
 to~\cite{schoof95,morain95,elkies98,lercier-algorithmique}. Notice
 that this step fails when $(j_E,j_{E'})$ is a singular point of the
 curve $X_0(\ell)$; this condition is very rare for ordinary curves of
 large discriminant, as pointed out in~\cite[$\S7$]{schoof95}.
-
-\begin{nota}
-  \pdfmctwo{Changed this note again.}  In the cases $p=2,3$, Elkies'
-  formulas yield a curve over $\Q_q$ that reduces badly in $\F_q$,
-  thus it is not possible to apply
-  \titleref{alg:le-si} as is.
-  In~\cite{lercier+sirvent08}, Lercier and Sirvent say:
-  \begin{quote}
-    ``For $p = 2$ (or $p = 3$), Weierstrass models of the form $y^2 + xy
-    = x^3 + a_2 x^2 + a_6$ (or $y^2 = x^3 + a_2 x^2 + a_6$) must be
-    considered. This yields completely different equations\dots{} [The
-    algorithm] can be easily extended to these fields but for the
-    sake of simplicity we prefer to omit the details here.''
-  \end{quote}
-  
-  However, in both cases we could not find a way to obtain the
-  normalized models for $\bar{E}$ and $\bar{E}''$, like in
-  Step~\ref{alg:le-si:elkies}. Furthermore, while for $p=3$ Vélu's
-  formulas give an equation as simple as Eq.~\eqref{eq:166}, in the
-  case $p=2$ we think that the equation satisfied by the isogeny is
-  too complex to be solved efficiently.
-\end{nota}
 
 Computations in $\Q_q$ must be approximated to a certain
 precision. Lercier and Sirvent show the following fundamental
 property.
 
 \begin{proposition}
+  \label{th:ls-diffeq}
   If $p\ge5$, on inputs $\ell$, $E$, $E'$, the previous algorithm
   computes the correct answer using at most $O(\log^2\ell/\log p)$
   $p$-adic digits.
@@ -391,10 +374,10 @@ Building on this, we now analyze the complexity of the algorithm.
   Step~\ref{alg:le-si:modpol} can be done in $\tildO(\ell\log q)$
   using Hensel lifting. Step~\ref{alg:le-si:elkies} takes $O(\ell^2)$
   operations in $\Q_q$, that is $\tildO(\ell^2\log
-  q)$. \titleref{alg:bmss} takes $O(\Mult(\ell)\log\ell)$
-  operations in $\Q_q$ at worse (better if the sum of the abscissas of
-  the kernel of the isogeny is computed by Elkies formulas), that is
-  $\tildO(\ell^2\log q)$. The rest of the computation is
+  q)$. \titleref{alg:bmss} takes $O(\Mult(\ell)\log\ell)$ operations
+  in $\Q_q$ at worse (better if the sum of the abscissas of the kernel
+  of the isogeny is computed by Elkies formulas), that is
+  $\tildO(\Mult(\ell)\log q)$. The rest of the computation is
   negligible. Thus, the dominating step is~\ref{alg:le-si:elkies}.
 \end{proof}
 
@@ -423,6 +406,40 @@ Building on this, we now analyze the complexity of the algorithm.
   operations, instead of $\tildO(\ell^3)$.
 \end{remark}
 
+
+\begin{nota}
+  \pdfmcthree{Changed this note again, moved to the bottom of the
+    section.}  In the cases $p=2,3$, Elkies' formulas yield a curve
+  over $\Q_q$ that reduces badly in $\F_q$. As a consequence, each
+  iteration of algorithm~\ref{alg:le-si-diff} introduces some
+  additional divisions by $p$, and Proposition~\ref{th:ls-diffeq}
+  fails to hold. While it is still possible to apply
+  \titleref{alg:le-si} in this case, its complexity gets much worse
+  because of the higher $p$-adic precision needed.
+
+  In~\cite{lercier+sirvent08}, Lercier and Sirvent say:
+  \begin{quote}
+    ``For $p = 2$ (or $p = 3$), Weierstrass models of the form $y^2 + xy
+    = x^3 + a_2 x^2 + a_6$ (or $y^2 = x^3 + a_2 x^2 + a_6$) must be
+    considered. This yields completely different equations\dots{} [The
+    algorithm] can be easily extended to these fields but for the
+    sake of simplicity we prefer to omit the details here.''
+  \end{quote}
+  
+  It is true that in the case $p=3$ it is possible to obtain, via
+  isomorphism, normalized models for $\bar{E}$ and $\bar{E}''$ of the
+  form $y^2 = x^3 + a_2 x^2 + a_6$ that reduce well in $\F_q$. Hence,
+  algorithm \ref{alg:le-si-diff} can still be applied to solve the
+  differential equation, and the isogeny can be computed using the
+  same $p$-adic precision as in Proposition~\ref{th:ls-diffeq}.
+
+  On the other hand, when $p=2$, while it is still possible to obtain
+  models of the form $y^2 + xy = x^3 + a_2 x^2 + a_6$ that reduce well
+  in $\F_q$, isogenies in such models do not verify an equation as
+  simple as Eq.~\eqref{eq:166}. We think that in this case the
+  techniques known to solve differential equations are not enough to
+  find a solution to this problem.
+\end{nota}
 
 
 % Local Variables:
