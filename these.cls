@@ -309,6 +309,7 @@
 \SetTracking[context=romannum]{encoding={OT1, T1, T2A, LY1, OT4, QX, T5}}{0}
 \addtoiargdef{\@Roman}{\begingroup\microtypecontext{tracking=romannum}}{\endgroup}
 
+
 %%%%%%%%%%%%%% Making the class work better with hyperref
 %% Modify title and author so that they add the information to the pdf metadata
 \addtoiargdef{\title}{}{\hypersetup{pdftitle={#1}}}

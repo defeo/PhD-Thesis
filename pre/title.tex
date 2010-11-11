@@ -43,10 +43,18 @@
       présentée à l'École Polytechnique,\\
       le 13 décembre 2010.
     \end{flushright}}
+
+  % Publisher
   \vfill
+  \parbox{0.9\textwidth}{
+    \begin{flushright}
+      \Huge
+      \includegraphics[height=1.5em]{logos/x\suffix}
+    \end{flushright}}
 \end{titlingpage}
 
-%% Institutional title page style (header and footer)
+
+%% Headers and footers style for the institutional title
 \makepagestyle{insttitle}
 \makerunningwidth{insttitle}{\textwidth}
 \makefootrule{insttitle}{\textwidth}{\normalrulethickness}{\footruleskip}
@@ -55,8 +63,11 @@
   \footnotesize Laboratoire d'Informatique de l'X\\INRIA Scaclay -- Équipe-projet TANC}{
   \includegraphics[height=1.5\onelineskip]{logos/inria\suffix}}
 \makeheadrule{insttitle}{\textwidth}{\normalrulethickness}
-\makeoddhead{insttitle}{\includegraphics[height=1.5\onelineskip]{logos/edx.png}}{
-  \footnotesize École Doctorale de l'École Polytechnique}{}
+\makeoddhead{insttitle}{
+  \raisebox{-0.6ex}{\includegraphics[height=1.5\onelineskip]{logos/x\suffix}}}{
+  \footnotesize EDX -- École Doctorale de l'École Polytechnique}{}
+  %\includegraphics[height=1.5\onelineskip]{logos/edx.png}}
+
 
 \begin{titlingpage}
   \setlength{\parindent}{0pt}

@@ -82,9 +82,14 @@ Besides the algorithms of Chapter~\ref{cha:artin-schr-towers},
 Section~\ref{sec:C2-AS-FI} for minimal polynomials, evaluation and
 interpolation.
 
+\pdfmcthree{Moved to Magma 2.16}
 \paragraph{Experimental results} We compare our timings with those
-obtained in Mag\-ma 2.11~\cite{MAGMA} for similar questions.  All
-results are obtained on an Intel Xeon E5430 (2.6GHz).
+obtained in Mag\-ma 2.16~\cite{MAGMA} for similar questions.  All
+results are obtained on an Intel Xeon E5520 (2.26GHz). Our experiments
+revealed a regression in the performances of Magma 2.16, concerning
+one algorithm. When such difference is noticeable, we also plot the
+timings obtained with Magma 2.11 on an equivalent machine (Intel Xeon
+E5430).
 
 
 The experiments for the \texttt{FAAST} library were only made for the
@@ -147,12 +152,14 @@ describe the following situations:
   \label{fig:p-d}
 \end{figure}
 
+\pdfmcthree{A little comment on magma(2) for p increasing.}
 The timings of our code are significantly better for increasing height
 or increasing $d$. Not surprisingly, for increasing $p$, the magma(1)
 approach performs better than any other: the \texttt{quo} operation
 simply creates a residue class ring, regardless of the
 (ir)reducibility of the modulus, so the timing for building two levels
-barely depend on $p$. Yet, we notice that \texttt{FAAST} has
+barely depend on $p$. The most adapted approach for this situation
+presumably is magma(2); yet we notice that \texttt{FAAST} has
 reasonable performances for characteristics up to about $p=50$.
 
 In Tables~\ref{tab:arith-gf2} and~\ref{tab:arith-zzp} we provide some

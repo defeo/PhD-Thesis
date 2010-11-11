@@ -1,11 +1,10 @@
 \section{Benchmarks}
 \label{sec:benchmarks}
 We ran various experiments to compare the different variants of the
-algorithm \ctwo{} between themselves and to
-\titleref{alg:le-si}. All the experiments were
-run on four dual-core Intel Xeon E5430 (2.6GHz), using the
-parallelized version of the algorithm in some cases. Magma 2.11 was
-used to run Magma experiments.
+algorithm \ctwo{} between themselves and to \titleref{alg:le-si}. All
+the experiments were run on four dual-core Intel Xeon E5520 (2.26GHz),
+using the parallelized version of the algorithm in some cases. Magma
+2.16 was used to run Magma experiments.
 
 \paragraph{Magma vs. \texttt{FAAST}}
 \label{sec:magma-vs.-textttf}
@@ -145,6 +144,7 @@ reconstruction, its rapid growth is justified by the fact that we
 implemented it on top of a quadratic XGCD algorithm.
 
 \begin{table}
+  \pdfmcthree{This table has changed.}
   \centering
   \begin{tabular}{r r r r}
     \hline
@@ -158,7 +158,7 @@ implemented it on top of a quadratic XGCD algorithm.
     389 & 147.340 & 5166.730 & 7.360\\
   \end{tabular}
   \caption{Comparative timings for the phases of \titleref{alg:le-si} 
-    for curves over $\F_{5^{43}}$.}
+    for curves over $\F_{3^{64}}$.}
   \label{tab:ls}
 \end{table}
 
@@ -175,13 +175,14 @@ implemented it on top of a quadratic XGCD algorithm.
 
 We also compared the running times of \ctwoasfimc{} and
 \titleref{alg:le-si} over curves of half the cryptographic size in
-figure~\ref{fig:comp} (left). We only plot average times for \ctwo{}, in
-characteristic $2$ we only plot the timings for \texttt{GF2}. From the
-plot it is clear that \ctwoasfimc{} only performs better than
+figure~\ref{fig:comp} (left) and five times the cryptographic size in
+figure~\ref{fig:comp} (right). We only plot average times for \ctwo{},
+in characteristic $2$ we only plot the timings for \texttt{GF2}. From
+the plot it is clear that \ctwoasfimc{} only performs better than
 \titleref{alg:le-si} for $p=2$, but in this case Lercier's
-algorithm~\cite{lercier96} is much faster.  Figure~\ref{fig:comp}
-(right) shows that our implementation of \titleref{alg:le-si} slowly
-gets worse than \ctwo{}, however, comparing a Magma prototype to our highly
+algorithm~\cite{lercier96} is much faster.  Contradicting theory, the
+asymptotic behavior of \titleref{alg:le-si} looks worse than the one
+of \ctwoasfimc{}; however comparing a Magma prototype to our highly
 optimized implementation of \ctwoasfimc{} is somewhat unfair.
 
 Furthermore, it is unlikely that \ctwoasfimc{} could be practical for
