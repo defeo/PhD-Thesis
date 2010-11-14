@@ -1,3 +1,12 @@
+%% these.tex
+%% Copyright 2010 Luca De Feo
+%% All rights reserved
+
+\ifafive
+\setlength{\absleftindent}{0pt}
+\setlength{\absrightindent}{0pt}
+\fi
+~\vfill
 \begin{abstract}
 In this thesis we apply techniques from computer algebra and language
 theory to speed up the elementary operations in some specific towers
@@ -5,34 +14,25 @@ of finite fields. We apply our construction to the problem of
 computing isogenies between elliptic curves and obtain faster (both
 asymptotically and in practice) variants of Couveignes' algorithm.
 
-After some preliminaries, we introduce in Part~\ref{part:transp-princ}
-one of our main tools: transposition of linear programs. Previously,
-Bostan, Schost and Lecerf had shown that transposition of programs is
-possible, without losses in time and space complexity, in a slightly
-generalized straight-line-program model. We generalize their
-construction and devise a fully featured functional language together
-with an algorithm to transpose programs written in it. Our new
-transposition is as efficient as theirs on programs that fit into
-their model, but it also permits to treat more generic programs with a
-minor loss in space complexity. We also describe the implementation of
-a compiler materializing our ideas.
-
-In Part~\ref{part:fast-arithm-using}, we combine our transposition
-method with well known techniques coming from computer algebra and
-elimination theory, then we show some new results on towers of
-Artin-Schreier extensions over finite fields. This allows us to design
-a complete set of algorithms to perform the most common arithmetic
-operations on Artin-Schreier towers in quasi-optimal time. We
-implemented all our algorithms in a software package that we describe
-at the end of this part.
-
-Finally, Part~\ref{part:appl-isog-comp} discusses the problem of
-isogeny computation. We apply our techniques to a fast variant of
-Couveignes' algorithm that we had obtained in our Masters thesis, and
-make comparisons to other algorithms to compute isogenies.
+The document is divided in four parts. In
+Part~\ref{part:prerequisites} we recall some basic notions from
+algebra and complexity theory. Part~\ref{part:transp-princ} deals with
+the transposition principle: in it we generalize ideas of Bostan,
+Schost and Lecerf, and show that it is possible to automatically
+transpose computer programs without losses in time complexity and with
+a small loss in space complexity. Part~\ref{part:fast-arithm-using}
+combines the results on the transposition principle with classical
+techniques from elimination theory; we apply these ideas to obtain
+asymptotically optimal algorithms for the arithmetic of Artin-Schreier
+towers of finite fields. We also describe an implementations of these
+algorithms. Finally, in Part~\ref{part:appl-isog-comp} we use the
+previous results to speed up Couveignes' algorithm and compare the
+result with the other state of the art algorithms for isogeny
+computation. We also present a new generalization of Couveignes'
+algorithm that computes isogenies of unknown degree.
 \end{abstract}
 
-
+\vfill
 
 \selectlanguage{french}
 
@@ -44,37 +44,28 @@ notre constructions au problème du calcul d'isogénies entre courbes
 elliptiques et obtenons une variante plus rapide (à la fois en théorie
 et en pratique) de l'algorithme de Couveignes.
 
-Après avoir introduit les notions de base, nous présentons dans la
-Partie~\ref{part:transp-princ} un de nos outils principaux: la
-transposition de programmes linéaires. Précédemment, Bostan, Schost et
-Lecerf avaient prouvé qu'il est possible transposer des programmes,
-sans pertes en complexité temps ou espace, dans un modèle qui est une
-modeste généralisation des programmes sans branchements. Nous
-généralisons leur construction en concevant un langage fonctionnel
-standard pour lequel nous donnons un algorithme de
-transposition. Notre nouvelle transposition est aussi efficace que la
-leur sur des programmes qui font partie de leur modèle, mais elle
-permet aussi de traiter des programmes plus généraux avec des pertes
-mineures en complexité espace. Nous décrivons l'implantation d'un
-compilateur réalisant nos idées.
-
-Dans la Partie~\ref{part:fast-arithm-using}, nous combinons notre
-transposition avec des techniques classiques de calcul formel et de
-théorie de l'élimination, puis nous montrons des nouveaux résultats
-sur les tours d'Artin-Schreier sur des corps finis. Ceci nous permet
-de concevoir une gamme d'algorithmes qui calculent en temps
-quasi-optimal les opérations arithmétiques les plus communes sur les
-tours d'Artin-Schreier. Nous avons implanté ces algorithmes dans une
-bibliothèque logicielle que nous décrivons à la fin de cette partie.
-
-Enfin, la Partie~\ref{part:appl-isog-comp} traite le problème du
-calcul d'isogénies. Nous appliquons nos techniques à une variante
-rapide de l'algorithme de Couveignes que nous avions proposée dans
-notre mémoire de Master, puis nous comparons les résultats avec
-d'autres algorithmes pour le calcul d'isogénies.
+Le document est divisé en quatre parties. Dans la
+partie~\ref{part:prerequisites} nous faisons des rappels d'algèbre et
+de théorie de la complexité. La partie~\ref{part:transp-princ} traite
+du principe de transposition: nous généralisons des idées de Bostan,
+Schost et Lecerf et nous montrons qu'il est possible de transposer
+automatiquement des programmes sans pertes en complexité-temps et avec
+une petite perte en complexité-espace. La
+partie~\ref{part:fast-arithm-using} combine les résultats sur le
+principe de transposition avec des techniques classiques en théorie de
+l'élimination; nous appliquons ces idées pour obtenir des algorithmes
+asymptotiquement optimaux pour l'arithmétique des tours
+d'Artin-Schreier de corps finis. Nous décrivons aussi une implantation
+de ces algorithmes. Enfin, dans la partie~\ref{part:appl-isog-comp}
+nous utilisons les résultats précédents afin d'accélérer l'algorithme
+de Couveignes et de comparer le résultat avec les autres algorithmes
+pour le calcul d'isogénies qui font l'état de l'art. Nous présentons
+aussi une nouvelle généralisation de l'algorithme de Couveignes qui
+calcule des isogénies de degré inconnu.
 \end{abstract}
-
 \selectlanguage{american}
+
+\vfill
 
 % Local Variables:
 % mode:flyspell

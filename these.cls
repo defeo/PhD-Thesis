@@ -1,17 +1,10 @@
 %% these.cls
 %% Copyright 2010 Luca De Feo
 % 
-% This work may be distributed and/or modified under the
-% conditions of the LaTeX Project Public License, either version 1.3
-% of this license or (at your option) any later version.
-% The latest version of this license is in
-% http://www.latex-project.org/lppl.txt
-% and version 1.3 or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
-% 
-% This work has the LPPL maintenance status `unmaintained'.
-% 
-% This work consists of the files these.cls
+% To the extent possible under law, Luca De Feo has waived all
+% copyright and related or neighboring rights to these.cls
+%
+% http://creativecommons.org/publicdomain/zero/1.0/
 
 
 \NeedsTeXFormat{LaTeX2e}
@@ -32,7 +25,7 @@
 \PassOptionsToClass{twoside}{memoir}
 \PassOptionsToClass{openany}{memoir}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{memoir}}
-\ProcessOptions
+\ProcessOptions*
 \LoadClass{memoir}
 
 %% Maths/CS
@@ -85,8 +78,6 @@
   \checkandfixthelayout
 
   \def\back@cover@layout{
-    \settypeblocksize{*}{33pc}{1.618}%
-    \setulmargins{*}{*}{1.2}%
     \setlrmargins{*}{*}{1}%
     \checkandfixthelayout%
   }

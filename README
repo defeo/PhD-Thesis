@@ -1,0 +1,55 @@
+Copyright 2010 Luca De Feo
+
+These are the LaTeX sources of my PhD thesis. I distribute them for
+two reasons: 
+    - so that you can produce a printable document adapted to
+      your needs;
+    - so that you can give a look at the sources and use them for your
+      thesis.
+
+For the copying conditions, see COPYING .
+
+
+Requirements
+------------
+This document should compile with any recent version of TeX Live. I
+used Tex Live 2009-11 as available on a Debian squeeze. You may have
+to install the Optima font, available here:
+   http://www.ctan.org/tex-archive/fonts/urw/classico/
+(only a warning will be issued if you don't have it).
+
+I used pdflatex to compile the document, but it shouldn't be too hard
+to set sources up to compile with other programs (you will need to
+convert pdf images if you want to compile with latex).
+
+
+Compiling
+---------
+To compile the document, simply type
+    $ make
+at the command prompt. This will produce a pdf document with a B5
+layout and color artwork.
+
+The class these.cls accepts some configuration options, that you may
+pass directly through make. Type
+    $ THESEOPT=<list-of-options> make
+to modify the pdf output. The accepted options are
+   a4layout   	  A layout adapted for A4 paper.
+   a5layout	  A layout adapted for A5 paper.
+   b5layout	  A layout adapted for B5 paper (default).
+   a4papersaver	  A layout for A4 paper with a very large typeblock.
+   		  Not so good for reading, but very good for the planet
+   noartwork	  Do not produce drawings, in case you think they are
+   		  inappropriate for a scientific work.
+   artwork	  Produce drawings (default).
+   bw		  Produce grayscale graphics. Gives better results than 
+   		  printing color graphics on a black and white printer.
+   color	  Produce color graphics (default).
+   openleft	  Chapters start on a verso page.
+   openright	  Chapters start on a recto page.
+   openany	  Chapters start on any page (default).
+
+Any other option accepted by the class Memoir will work.
+
+Alternatively you can modify the files these.tex and/or these.cls if
+you want to make more radical changes.

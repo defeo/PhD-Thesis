@@ -2,8 +2,9 @@
 %% Copyright 2010 Luca De Feo
 %
 % This file is based over basic.gst, generated from memoir.dtx, part
-% of the memoir class by Peter Wilson and Lars Madsen, available from
-% http://www.ctan.org/tex-archive/macros/latex/contrib/memoir/ 
+% of the memoir class v1.61803398b by Peter Wilson and Lars Madsen,
+% available from
+% http://www.ctan.org/tex-archive/macros/latex/contrib/memoir/
 %
 % The only difference between symb.gst and basic.gst is the
 % "group-skip" clause.
