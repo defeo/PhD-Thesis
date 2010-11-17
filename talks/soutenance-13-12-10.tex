@@ -31,12 +31,15 @@
 % \renewcommand{\sfdefault}{uop}
 % \usepackage[T1]{eulervm}
 
+\renewcommand{\emph}[1]{{\usebeamercolor[fg]{structure}#1}}
 
 \mode<presentation>{%
-  \usetheme[]{Madrid}
-  \usefonttheme{professionalfonts}
-  \usecolortheme{crane}
-% \usecolortheme{rose}
+  \usetheme[]{Boadilla}
+%  \usefonttheme{professionalfonts}
+  \usefonttheme[onlymath]{serif}
+  \usecolortheme[rgb={0.56,0.3,0}]{structure}
+  \setbeamercolor{alerted text}{fg=blue}
+  \setbeamertemplate{navigation symbols}{}
 }
 
 
@@ -68,7 +71,7 @@
 %%
 %%
 
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{The Discrete Logarithm Problem}
   
   \begin{columns}
@@ -105,7 +108,8 @@
         
         \begin{uncoverenv}<3->
           \foreach \alpha in {0,...,4}
-          \draw[dashed,red] (-65-25*\alpha:2) -- ++(0,-3cm);
+          \usebeamercolor[fg]{alerted text}
+          \draw[dashed] (-65-25*\alpha:2) -- ++(0,-3cm);
         \end{uncoverenv}
       \end{tikzpicture}
     \end{column}
@@ -127,7 +131,7 @@
         \end{align*}
 
         \begin{uncoverenv}<3-> Computing it is called the
-          \alert{\emph{Discrete Logarithm Problem}} (DLP) of $G$.
+          \alert{Discrete Logarithm Problem} (DLP) of $G$.
         \end{uncoverenv}
       \end{block}
     \end{column}
@@ -135,45 +139,109 @@
 \end{frame}
 
 %%
-{\setbeamertemplate{navigation symbols}{}
+
 \begin{frame}
   \frametitle{Elliptic curve cryptography}
 
-  \begin{block}{Finite field based cryptography}
-    \begin{itemize}
-    \item The discrete log in $\F_p^\ast$ is widely used in
-      cryptography (El Gamal, DSA, \dots).
-    \item However, NIST\footfullcite{nist07} recommends $\log_2p=1024$
-      for an 80-bit security level.
-    \end{itemize}
-  \end{block}
-
   \begin{columns}
-    \begin{column}{0.4\textwidth}
+    \begin{column}{0.45\textwidth}
       \includegraphics[width=\textwidth]{../isogeny/ec-add.pdf}
     \end{column}
-    \begin{column}{0.6\textwidth}
-      \begin{block}{Elliptic curve cryptography}
+    \begin{column}{0.5\textwidth}
+      \begin{block}{Elliptic curve (Weierstrass form)}
+        \[E : y^2 = x^3 + ax + b\text{;}\]
+      
         The set of points of an elliptic curve is endowed with a group
         law via the chord-and-tangent law.
-        
-        \smallskip
-
-        \begin{description}
-        \item[Weierstrass form:] $E : y^2 = x^3 + ax + b$;
-        \item[Hasse bound:] $\card{E(\F_q)} \sim q$.
-        \end{description}
-
-        \smallskip
-
-        Comparatively, NIST recommends $\log_2q=160$ for the same
-        security level.
+      \end{block}
+    
+      \begin{block}{}
+        \emph{Hasse bound:} $\card{E(\F_q)} \sim q$.
       \end{block}
     \end{column}
   \end{columns}
-\end{frame}
-}
 
+  \begin{center}
+    \begin{tabular}{l | l | l}
+      &\emph{\textbf{Finite field crypto}} & \emph{\textbf{Elliptic curve crypto}}\\
+      \hline
+      \emph{Group} & $\F_q^\ast$ & $E(\F_q)$\\
+      \emph{Protocols} & El Gamal, DSA, \dots & ECDH, ECDSA, ECMQV, \dots\\
+      \emph{Key sizes}\footfullcite[Table~2]{nist07-2}  & 1024, 2048, 3072 & 160, 225, 256 \\
+    \end{tabular}
+  \end{center}
+
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Isogenies between elliptic curves}
+  
+  \vspace{-2mm}
+
+  {\large \[\I:E\to E'\]} 
+  \emph{\textbf{(Separable) isogeny:}} (separable)
+  non-constant rational morphism preserving the identity.
+  
+  \begin{block}{Properties}
+    \begin{itemize}
+    \item Isogeny = rational map $\;+\;$ group morphism;
+    \item Finite kernel, surjective (in $\clot{\K}$);
+    \item \emph{Bijection:} Isogenies from
+      $E\;\Leftrightarrow\;$ subgroups of $E$;
+    \item $\card{E(\F_{q^n})} \;=\; \card{E'(\F_{q^n})}\;$ for every $n$.
+    \end{itemize}
+  \end{block}
+
+  \vspace{-1mm}
+
+  \begin{block}{
+	\begin{overprint}
+	\onslide<1> Multiplication	
+	\onslide<2> Frobenius endomorphism
+	\onslide<3> Separable isogeny, odd degree (simplified Weierstrass model)
+	\end{overprint}
+      }
+    \begin{overprint}
+      \onslide<1>
+      \[\begin{aligned}
+	{}[m] : E(\clot{\K}) &\rightarrow E(\clot{\K})\\
+	                   P &\mapsto [m]P
+      \end{aligned}\]
+      $\ker\I = E[m], \quad\deg\I = m^2$.
+
+      \onslide<2>
+      \[\begin{aligned}
+	\frob : E(\clot{\K}) &\rightarrow E(\clot{\K})\\
+	               (X,Y) &\mapsto (X^q,Y^q)
+      \end{aligned}\]
+      $\ker\frob = \{\0\}, \quad\deg\I = q$.
+
+      \onslide<3>
+      \[\quad\I(X,Y) = \left(\frac{g(X)}{h^2(X)},
+      cY\left(\frac{g(X)}{h^2(X)}\right)'\right)\]
+      $\;\ell\;=\;\deg\I\;=\;
+      \card{\ker\I} \;=\; 2\deg h + 1\;$ odd.
+    \end{overprint}
+  \end{block}  
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Why isogenies?}
+
+  \begin{block}{What do you do with an isogeny over a finite field?}
+    \begin{itemize}
+    \item Point counting (\cite{schoof95});
+    \item Speed up point multiplication (\cite{gallant+lambert+vanstone01});
+    \item Reduce a Discrete Logarithm Problem to another (\cite{gaudry+hess+smart02,smith09});
+    \item Construct new cryptosystems (\cite{teske06,rostovtsev+stolbunov06});
+    \item Construct hash functions (\cite{charles+lauter+goren09}).
+    \end{itemize}
+  \end{block}  
+\end{frame}
 
 \end{document}
 
