@@ -47,16 +47,17 @@
 \renewcommand{\sfdefault}{uop}  % Warning: Optima is not in texlive !
 \RequirePackage[T1]{eulervm}
 \RequirePackage[tracking=true]{microtype}
-\RequirePackage{color}
+\RequirePackage{xcolor}
+
+%% Others
+\RequirePackage{float}
+\ifartwork \RequirePackage{graphicx} \fi
+\RequirePackage{xstring}
 
 %% Hypertext
 \RequirePackage{hyperref}
 \hypersetup{pdfborderstyle={/S/U/W 0.5},citebordercolor={0 0.4 1}}
 \RequirePackage{bookmark}
-
-%% Others
-\ifartwork \RequirePackage{graphicx} \fi
-\RequirePackage{xstring}
 
 %%%%%%%%%%%%%% Style
 
@@ -236,8 +237,6 @@
 \newtheorem*{nota}{Note}
 
 %% Floats
-\RequirePackage{float}
-
 % hacking back caption to make it work with titleref
 \let\@oldcapt\float@caption
 \long\def\float@caption#1[#2]#3{\M@gettitle{#2}\@oldcapt{#1}[{#2}]{#3}}
