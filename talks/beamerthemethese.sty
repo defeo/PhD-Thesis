@@ -1,0 +1,88 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemethese}[2010/11/19 beamer theme for my PhD defense, V1.0]
+
+\RequirePackage{calc}
+
+\RequirePackage[T1]{fontenc}
+\renewcommand{\rmdefault}{pplx}
+\renewcommand{\sfdefault}{uop}
+%\RequirePackage[T1]{eulervm}
+
+\mode<presentation>
+
+\usecolortheme{rose}
+\useinnertheme[shadow]{rounded}
+\usecolortheme{dolphin}
+%\usefonttheme{professionalfonts}
+\usefonttheme[onlymath]{serif}
+\usecolortheme[rgb={0.56,0.3,0}]{structure}
+\setbeamercolor{alerted text}{fg=blue}
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamercolor*{author in head/foot}{parent=palette tertiary}
+\setbeamercolor*{title in head/foot}{parent=palette primary}
+%\setbeamercolor*{date in head/foot}{parent=palette primary}
+
+\defbeamertemplate*{frametitle}{these theme}[1][left]
+{
+  \begin{beamercolorbox}[wd=\textwidth,#1]{frametitle}
+    \usebeamerfont{frametitle}%
+    \strut\insertframetitle\strut\par%
+  \end{beamercolorbox}
+}
+
+\defbeamertemplate*{headline}{these theme}
+{
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,right,rightskip=4ex]{author in head/foot}%
+      \usebeamerfont{author in head/foot}\insertshortauthor~~(\insertshortinstitute)
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.25ex,dp=1ex,left,leftskip=4ex]{title in head/foot}%
+      \usebeamerfont{title in head/foot}\insertshorttitle
+      \hspace{\stretch{4}}\raisebox{-0.4ex}{\includegraphics[height=1em]{../artwork/escargot}}
+    \end{beamercolorbox}%
+    % \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    %   \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    %   \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+    % \end{beamercolorbox}%
+  }%
+  \vskip0pt%
+}
+
+
+\newlength{\escargot}
+\defbeamertemplate*{footline}{these theme}
+{
+  \leavevmode%
+  \setlength{\escargot}{(\textwidth-2.1em)*(\insertframenumber-1)/(\inserttotalframenumber-1)}
+  \hbox{\hspace{\escargot}%
+    \if\insertframenumber\inserttotalframenumber%
+    \includegraphics[height=1em]{../artwork/bigescargot-excl-color}%
+    \else%
+    \includegraphics[height=1em]{../artwork/bigescargot-color}%
+    \fi%
+  }%
+  \vskip1pt%
+}
+
+\defbeamertemplate{footline}{these theme title}
+{
+  \leavevmode%
+  \hbox{
+    \begin{beamercolorbox}[wd=\paperwidth,ht=6mm,sep=5mm]{default}
+      \raisebox{-1mm}[0pt][0pt]{\includegraphics[height=6mm]{../logos/x-color.pdf}}\hfill
+      \includegraphics[height=5mm]{../logos/lix-color.pdf}\hfill
+      \includegraphics[height=5mm]{../logos/inria-color.pdf}
+    \end{beamercolorbox}
+  }
+  \vskip10pt%
+}
+
+\setbeamerfont{title}{shape=\scshape}
+
+\setbeamersize{text margin left=1em,text margin right=1em}
+
+\renewcommand{\emph}[1]{{\usebeamercolor[fg]{structure}#1}}
+
+\mode<all>

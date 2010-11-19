@@ -26,47 +26,25 @@
 \usepackage{../mysymbols}
 \usepackage{array}
 
-\usepackage[T1]{fontenc}
-\renewcommand{\rmdefault}{pplx}
-\renewcommand{\sfdefault}{uop}
-% \usepackage[T1]{eulervm}
-
-\renewcommand{\emph}[1]{{\usebeamercolor[fg]{structure}#1}}
-
 \mode<presentation>{%
-  \usetheme[]{Boadilla}
-%  \usefonttheme{professionalfonts}
-  \usefonttheme[onlymath]{serif}
-  \usecolortheme[rgb={0.56,0.3,0}]{structure}
-  \setbeamercolor{alerted text}{fg=blue}
-  \setbeamertemplate{navigation symbols}{}
+  \usetheme{these}
 }
 
-
-\title{Fast Algorithms for Towers of Finite Fields and Isogenies}
+\title[Fast Algorithms for Towers of Finite Fields and Isogenies]{
+  \includegraphics[height=1.7ex]{../artwork/bigescargot-excl-color}~~~Fast Algorithms\\
+  \normalsize\textcolor{black}{for Towers of Finite Fields\\and Isogenies}}
 \author{Luca~De~Feo}
 \institute[LIX \& INRIA Saclay]{LIX, École Polytechnique \& INRIA Saclay, Projet TANC}
 \date[December 13, 2010]{December 13, 2010\\École Polytechnique, Palaiseau}
 
 
-\AtBeginSection[]
-{
-  \begin{frame}<beamer>
-    \frametitle{Plan}
-    \tableofcontents[currentsection]
-  \end{frame}
-}
-
 \begin{document}
 
+{\setbeamertemplate{footline}[these theme title]
 \begin{frame}
   \titlepage
-  \includegraphics[height=2em]{../logos/x-color.pdf}
-  \hfill
-  \includegraphics[height=2em]{../logos/lix-color.pdf}
-  \hfill
-  \includegraphics[height=2em]{../logos/inria-color.pdf}
 \end{frame}
+}
 
 %%
 %%
@@ -144,10 +122,10 @@
   \frametitle{Elliptic curve cryptography}
 
   \begin{columns}
-    \begin{column}{0.45\textwidth}
+    \begin{column}{0.4\textwidth}
       \includegraphics[width=\textwidth]{../isogeny/ec-add.pdf}
     \end{column}
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.55\textwidth}
       \begin{block}{Elliptic curve (Weierstrass form)}
         \[E : y^2 = x^3 + ax + b\text{;}\]
       
@@ -167,7 +145,7 @@
       \hline
       \emph{Group} & $\F_q^\ast$ & $E(\F_q)$\\
       \emph{Protocols} & El Gamal, DSA, \dots & ECDH, ECDSA, ECMQV, \dots\\
-      \emph{Key sizes}\footfullcite[Table~2]{nist07-2}  & 1024, 2048, 3072 & 160, 225, 256 \\
+      \emph{Key sizes}\footfullcite{nist07-2}  & 1024, 2048, 3072 & 160, 225, 256 \\
     \end{tabular}
   \end{center}
 
