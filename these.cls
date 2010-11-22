@@ -194,7 +194,9 @@
 
   % The chapter pumpkin
   \def\potiron{\raisebox{-0.8\onelineskip}[0pt][0pt]{%
-      \makebox[0pt][\side]{\includegraphics[width=0.25\textwidth]{\artdir/potiron-\side\bw@suffix}}}}
+      \def\tmp@side{l}
+      \if\side\tmp@side\def\tmp@reflection{\reflectbox}\else\def\tmp@reflection{}\fi
+      \makebox[0pt][\side]{\tmp@reflection{\includegraphics[width=0.25\textwidth]{\artdir/potiron\bw@suffix}}}}}
   \setlength{\titleboxwidth}{0.77\textwidth}
 
   % Halmos' snail

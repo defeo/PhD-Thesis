@@ -57,13 +57,9 @@
   \leavevmode%
   \setlength{\escargot}{(\textwidth-2.1em)*(\insertframenumber-1)/(\inserttotalframenumber-1)}
   \hbox{\hspace{\escargot}%
-    \if\insertframenumber\inserttotalframenumber%
-    \includegraphics[height=1em]{../artwork/bigescargot-excl-color}%
-    \else%
-    \includegraphics[height=1em]{../artwork/bigescargot-color}%
-    \fi%
+    \includegraphics[width=1.55em]{\artdir/bigescargot\suffix}%
   }%
-  \vskip1pt%
+  \vskip0.3pt%
 }
 
 \defbeamertemplate{footline}{these theme title}
@@ -84,5 +80,8 @@
 \setbeamersize{text margin left=1em,text margin right=1em}
 
 \renewcommand{\emph}[1]{{\usebeamercolor[fg]{structure}#1}}
+
+\def\artdir{../artwork}
+\def\suffix{-color}
 
 \mode<all>
