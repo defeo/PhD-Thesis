@@ -34,7 +34,7 @@ requirements of Theorem~\ref{th:cantor}
 Selecting a random polynomial $Q_1$ and testing for irreducibility is
 usually enough to meet these conditions, as we saw in
 Remark~\ref{rk:comp-minim-polyn}.  This costs $O\bigl(pd\Mult(pd)\log
-(pd)\log(p^2d)\bigr)$ according to \cite[Th.  14.42]{vzGG}.
+(pd)\log(p^2d)\bigr)$ according to~\cite[Th.  14.42]{vzGG}.
 
 Now we need to compute the embedding $\F_q\subset\F_q[c]$. Supposing
 $\F_q$ is represented as $\F_p[X]/Q_0(X)$, we factor $Q_0$ in
@@ -50,7 +50,7 @@ compared to the rest of the algorithm.
 Now we can compute $c$ and $c'$ by factoring the polynomials
 $Y^{p-1}-H_E$ and $Y^{p-1}-H_{E'}$ in $\F_p[X]/Q_1(X)$. This costs
 \[O\bigl((p\ModComp(pd) + \ModComp(p)\Mult(pd) + \Mult(p)\Mult(pd)\log
-p)(\log^2 p+\log d)\bigr)\] using \cite[Section 3]{kaltofen+shoup97}.
+p)(\log^2 p+\log d)\bigr)\] using~\cite[Section 3]{kaltofen+shoup97}.
 
 Finally, computing the determinants needed by Gunji's formulas takes
 $\Theta(p^2)$ multiplications in $\F_q[c]$, that is

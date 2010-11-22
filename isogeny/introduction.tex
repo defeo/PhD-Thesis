@@ -34,14 +34,14 @@ efficient algorithms to solve this problem is given in
 \cite{bostan+morain+salvy+schost08}, together with a new quasi-optimal
 algorithm that we will review in Section~\ref{sec:bmss}.
 
-All the algorithms of \cite{bostan+morain+salvy+schost08} only work
+All the algorithms of~\cite{bostan+morain+salvy+schost08} only work
 when $\ell\ll p$. The case where $p$ is small compared to $\ell$ was
-first treated by Couveignes in \cite{couveignes94}, making use of
+first treated by Couveignes in~\cite{couveignes94}, making use of
 formal groups. The complexity of his method is $\tildO(\ell^3\log q)$ operations in
 $\F_p$ assuming $p$ is constant, however it has an exponential
 complexity in $\log p$.
 
-Later, Lercier \cite{lercier96} gave an algorithm specific to
+Later, Lercier~\cite{lercier96} gave an algorithm specific to
 characteristic $2$, that uses some linear properties of the problem to
 build a linear system from whose solution the isogeny can be deduced.
 Its complexity is conjectured to be $\tildO(\ell^3\log q)$ operations
@@ -51,7 +51,7 @@ magnitude the fastest algorithm to solve practical instances of the
 problem when $p=2$, thus being the \emph{de facto} standard for
 cryptographic use.
 
-Couveignes, again, proposed an algorithm in \cite{couveignes96}
+Couveignes, again, proposed an algorithm in~\cite{couveignes96}
 working for any $p$, based on the structure of the $p^k$ torsion of
 ordinary elliptic curves. Using improvements
 from~\cite{couveignes00,df+schost09,df10}, this algorithm has a
@@ -61,7 +61,7 @@ to~\ref{sec:bounded}.
 
 \pdfmcone{A little more crypto here.}
 After the discovery of $p$-adic alternatives to Schoof's
-algorithm\cite{satoh00,fouquet+gaudry+harley00}, interest in computing
+algorithm~\cite{satoh00,fouquet+gaudry+harley00}, interest in computing
 isogenies in small characteristic was lost for some time. However,
 other cryptographic applications of isogenies soon appeared.  The
 \index{GHS~attack}GHS attack uses Weil descent to reduce the
@@ -84,7 +84,7 @@ behind a random path of isogenies.
 
 On the wave of the renewed interest for isogenies, two $p$-adic
 algorithms were recently proposed by Joux and Lercier
-\cite{joux+lercier06} and Lercier and Sirvent \cite{lercier+sirvent08}
+\cite{joux+lercier06} and Lercier and Sirvent~\cite{lercier+sirvent08}
 to compute isogenies in arbitrary characteristic. The former method
 has complexity $\tildO(\ell^2(1 + \ell/p)\log q)$ operations in
 $\F_p$, which makes it well adapted to the case where $p\sim\log q$.

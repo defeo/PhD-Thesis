@@ -347,7 +347,7 @@ generic \emph{ad-hoc} polymorphism; it perfectly fits the needs of our
 special case, though.
 
 First observe that type classes can be translated to ordinary types of
-the Hindley-Milner type system as explained in \cite[$\S
+the Hindley-Milner type system as explained in~\cite[$\S
 4$]{Walder+Blott-ad-hoc-polymorphism}, thus it suffices to modify the
 classic type inference algorithm
 \cite{Damas+Milner,Cardelli:Typechecking}. Second, observe that there
@@ -359,7 +359,7 @@ that a more concise version is
 \end{lstlisting}
 
 A review of the Hindley-Milner algorithm and its implementation can be
-found in \cite{Cardelli:Typechecking}. The idea is to first assign
+found in~\cite{Cardelli:Typechecking}. The idea is to first assign
 type variables to terms, then solve type equations by unifying them.
 In our generalization, instead of handling a single unification, we
 keep a list of possible unifications: when a type equation implies
@@ -386,7 +386,7 @@ lists. Elements of type \lstinline{L}, \lstinline{[L]},
 \lstinline{(L,L)}, etc. share a common pattern: they can be viewed as
 $R$-modules. It is convenient to summarize their properties in an
 unique interface\footnote{We make use of some experimental modules of
-  Haskell: this codes needs the flags
+  Haskell: this code needs the flags
   \lstinline{-XMultiParamTypeClasses},
   \lstinline{-XFunctionalDependencies} and
   \lstinline{-XFlexibleInstances} in order to work.}

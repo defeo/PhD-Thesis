@@ -44,7 +44,7 @@ ring is clear from the context. To simplify expressions, following
 \item superlinear: $\Mult(n)/n \ge \Mult(m)/m$ if $n\ge m$,
 \item at most quadratic: $\Mult(mn)\le m^2\Mult(n)$.
 \end{itemize}
-We shall see soon that this assumptions are reasonable ones.
+We shall see soon that these assumptions are reasonable ones.
 
 The cost of \index{modular~composition}\emph{modular composition}
 --that is computing $f\circ g \bmod h$, for $f,g,h\in R[X]$ of degrees
@@ -173,7 +173,7 @@ series $f$ such that $f(0)=0$, is defined as
 All the usual identities involving multiplication, derivatives,
 integrals, logarithms and exponentials are verified on power
 series. An immediate consequence of this is a formula to solve first
-order linear differential equations to Brent and
+order linear differential equations due to Brent and
 Kung~\cite{brent+kung}.
 
 Let $f,g\in
@@ -210,10 +210,10 @@ be applied at the same cost.
 
 \subsection{Newton's iteration}
 \label{sec:newtons-iteration}
-Let $\Phi:\R\ra\R$ be a $C^1$ function, the
+Let $\Phi:\R\ra\R$ be a $C^1$ function,
 \index{Newton's~iteration}Newton's iteration is a classical method to
-approximate a root $x$ of $\Phi$. Start from an approximation $x_0$, and
-\emph{linearize} $\Phi$ to compute
+approximate a root $x$ of $\Phi$. Start from an approximation $x_0$,
+and \emph{linearize} $\Phi$ to compute
 \begin{equation}
   \label{eq:192}
   x_1 = x_0 - \frac{\Phi(x_0)}{\Phi'(x_0)}
@@ -284,16 +284,14 @@ the special case where $h=X^n$ permits us to compute the
 
 Modular composition is a fundamental algorithm with lots of
 applications, the most relevant being polynomial
-factorization\cite{vzgathen+shoup92,kaltofen+shoup98} and computation
-of minimal polynomials (see Remark~\ref{rk:shoups-algorithm-1}). In
-the next subsection we shall also see an application of composition of
-power series to solve differential equations.
+factorization~\cite{vzgathen+shoup92,kaltofen+shoup98} and computation
+of minimal polynomials (see Remark~\ref{rk:shoups-algorithm-1}).
 
 Since many algorithms in this document make use of modular
 composition, we introduced the notation $\ModComp(n)$ for its
 complexity. A naive algorithm implies $\ModComp(n)\in
 O(n\Mult(n))$. The first improvement to this bound was given by Brent
-and Kung in~\cite{brent+kung}: they devise a baby step-giant step
+and Kung in~\cite{brent+kung}: they devised a baby step-giant step
 algorithm of complexity $O\left(\sqrt{n}\Mult(n) +
   n^{\frac{\omega+1}{2}}\right)$; in the same paper they also gave an
 algorithm of complexity $O\left(\sqrt{n\log n}\Mult(n)\right)$ for
@@ -301,7 +299,7 @@ composition of power series. Bernstein~\cite{bernstein98} found the
 bound $O(\Mult(n)\log n)$ for the composition of power series in case
 the characteristic of the base ring is small, however for a long time
 Brent and Kung's algorithm and its
-variants\cite{huang+pan98,kaltofen+shoup98} have stood as the only
+variants~\cite{huang+pan98,kaltofen+shoup98} have stood as the only
 generic algorithm for modular composition. A major breakthrough has
 been recently achieved by Kedlaya and
 Umans~\cite{umans:08,kedlaya+umans08}, who give an algorithm for
@@ -312,6 +310,7 @@ multivariate multipoint evaluation.
 
 \paragraph{Computing iterated Frobenius and pseudotrace}
 \label{sec:comp-frob-trace}
+\index{iterated~Frobenius}\index{Frobenius~automorphism}
 Fast modular composition can be used to compute Frobenius
 automorphisms and \emph{pseudotraces} in finite fields. This algorithm
 is due to von zur Gathen and Shoup~\cite{vzgathen+shoup92}, who
@@ -344,7 +343,8 @@ algorithms.
 
 
 \begin{algorithm}
-  \caption{\label{alg:itfrob}Iterated Frobenius}
+  \caption{Iterated Frobenius}
+  \label{alg:itfrob}
   \begin{algorithmic}[1]
     \REQUIRE $0<i<d$, $a\in\F_q[X]/f(x)$, $\Phi_1(X) = X^q\bmod f(x)$.
     \ENSURE $\frob_q^i(a)$.
@@ -366,7 +366,7 @@ algorithms.
 
 We suppose that elements of $\F_{q^d}$ are represented as residue
 classes in $\F_q[X]/f(X)$ for some irreducible polynomial $f$, then
-the Frobenius morphism can be computed with $O(\log q)$
+the Frobenius automorphism can be computed with $O(\log q)$
 multiplications in $\F_{q^d}$ plus one modular composition as
 \begin{align}
   \label{eq:203}
@@ -376,7 +376,7 @@ multiplications in $\F_{q^d}$ plus one modular composition as
 \end{align}
 
 
-Iterating $i$ times the $\frob_q$ can be done with only $O(\log i)$
+Iterating $i$ times $\frob_q$ can be done with only $O(\log i)$
 modular compositions via square-and-multiply as shown in
 Algorithm~\ref{alg:itfrob}.
 
@@ -390,6 +390,7 @@ q)$.
 
 \begin{algorithm}
   \caption{Pseudotrace}
+  \label{alg:pseudotrace-vzgs}
   \begin{algorithmic}[1]
     \REQUIRE $0<i<d$, $a\in\F_q[X]/f(x)$, $\Phi_1(X) = X^q\bmod f(x)$.
     \ENSURE $\PTr_n(a)$.
@@ -408,9 +409,10 @@ q)$.
   \end{algorithmic}
 \end{algorithm}
 
-We apply the same idea to compute the $n$-th pseudotrace in time
-$O(\ModComp(d)\log n)$; note that we use a dynamic programming
-technique to keep the complexity into this bound. The key equation is
+In Algorithm~\ref{alg:pseudotrace-vzgs} we apply the same idea to
+compute the $n$-th pseudotrace in time $O(\ModComp(d)\log n)$; note
+that we use a dynamic programming technique to keep the complexity
+into this bound. The key equation is
 \begin{equation}
   \label{eq:205}
   \PTr_{n+m}(a) = \PTr_{n}(a)+\frob_q^n(\PTr_{m}(a))
@@ -470,9 +472,10 @@ to evaluate a polynomial at the points $x_1,\ldots,x_n$.
   \end{algorithmic}
 \end{algorithm}
 
-If $a$ has degree at most $n$, computing the multipoint evaluation
-also takes $O(\Mult(n)\log n)$ operations using a fast Newton
-iteration for Euclidean division.
+If $a$ has degree at most $n$, computing the
+\index{multipoint~evaluation}multipoint evaluation also takes
+$O(\Mult(n)\log n)$ operations using a fast Newton iteration for
+Euclidean division.
 
 For the inverse operation, we use the
 \index{Lagrange~interpolant}\emph{Lagrange interpolants} 
@@ -508,9 +511,10 @@ hence
   \text{.}
 \end{equation}
 
-To interpolate the polynomial $a$ from the values $a(x_i)$, we start
-by computing the values $f'(x_1),\ldots,f'(x_n)$ by the previous
-algorithm. Then we reconstruct $a$ using the subproduct tree.
+To \index{interpolation}interpolate the polynomial $a$ from the values
+$a(x_i)$, we start by computing the values $f'(x_1),\ldots,f'(x_n)$ by
+the previous algorithm. Then we reconstruct $a$ using the subproduct
+tree.
 
 \begin{algorithm}
   \caption{\label{alg:interp}Interpolation}
@@ -533,7 +537,7 @@ operations in $\K$. These algorithms can be generalized to compute the
 Chinese remainder isomorphism and its inverse for arbitrary moduli
 $f_1,\ldots,f_r\in\K[X]$ such that $\gcd(f_i,f_j)=1$ for $i\ne j$. The
 complexity is again $O(\Mult(n)\log n)$, where $n$ is the sum of the
-degrees of $f_1,\ldots,f_n$. See \cite[$\S10$]{vzGG} for details.
+degrees of $f_1,\ldots,f_n$. See~\cite[$\S10$]{vzGG} for details.
 
 
 
@@ -573,7 +577,7 @@ by the \index{extended Euclidean algorithm}\emph{extended Euclidean
   \end{algorithmic}
 \end{algorithm}
 
-One important application of XGCD's is computing modular inverses. Let
+One important application of XGCD's is computing modular inverses: let
 $f,g\in\K[X]$ with $\deg(g)<\deg(f)$ and $f$ prime to $g$, then $r$ is
 a unit in $\K$, and a Bézout relation implies
 \begin{equation}
@@ -642,16 +646,16 @@ fraction reconstruction can be computed in time $O(\Mult(n)\log n)$.
 
 \subsection{Multivariate polynomials}
 \label{sec:mult-polyn}
-Computing with multivariate polynomials adds many complications to the
-univariate case. Part~\ref{part:fast-arithm-using} will be dedicated
-to some advanced algorithms for some specific instances of quotient
-rings of multivariate polynomials. Here, we just recall the basic
-techniques that permit us to reduce the multivariate to the univariate
-case.
+Computing with multivariate polynomials has many complications,
+compared to the univariate case. Part~\ref{part:fast-arithm-using}
+will be dedicated to some advanced algorithms for some specific
+instances of quotient rings of multivariate polynomials. Here, we just
+recall the basic techniques that permit us to reduce the multivariate
+to the univariate case.
 
 Multiplication of polynomials in $R[X,Y]$ can be reduced to univariate
 multiplication by \index{Kronecker~substitution}\emph{Kronecker
-  substitution} \cite{vzGG,vzgathen+shoup92,harvey09}. If $f,g\in
+  substitution}~\cite{vzGG,vzgathen+shoup92,harvey09}. If $f,g\in
 R[X,Y]$ have degree at most $m$ in $X$ and at most $n$ in $Y$, the
 product $fg$ can be computed as
 \begin{equation}
@@ -833,7 +837,7 @@ for any $i\le n$.
 \pdfmcone{Cited Shoup 99.}
 Thus, the dual of modular reduction consists in extending a linear
 recurring sequence of order $n$ from its first $n$ coefficients. Any
-algorithm for such task (for example, \cite[$\S$3]{shoup99}) can be
+algorithm for such task (for example,~\cite[$\S$3]{shoup99}) can be
 used to compute $\dual{\bmod_f}$, however one can also directly obtain
 one such algorithm by applying the transposition principle to any
 algorithm for Euclidean division. In any case,

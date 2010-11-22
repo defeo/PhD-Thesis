@@ -288,6 +288,7 @@
 \renewcommand{\algorithmicelse}{\textsc{else}}
 \renewcommand{\algorithmicfor}{\textsc{for}}
 \renewcommand{\algorithmicforall}{\textsc{for all}}
+\renewcommand{\algorithmicto}{\textsc{to}}
 \renewcommand{\algorithmicdo}{\textsc{do}}
 \renewcommand{\algorithmicwhile}{\textsc{while}}
 \renewcommand{\algorithmicloop}{\textsc{loop}}

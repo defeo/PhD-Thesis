@@ -12,7 +12,7 @@ was originally presented in~\cite{couveignes96}. In the next sections
 we will discuss more efficient variants of this algorithm; to
 distinguish between the variants, we call \ctwo{} this original
 version (it is to be understood that \alg{C1} would be the code-name
-of the other algorithm by Couveignes, appeared in\cite{couveignes94},
+of the other algorithm by Couveignes, appeared in~\cite{couveignes94},
 that we will not present in this document).
 
 \ctwo{} takes as input two elliptic curves $E, E'$ and an integer
@@ -56,7 +56,7 @@ We now go through the details of the algorithm.
 
 \paragraph{The $p$-torsion}
 The computation of the $p$-torsion points follows from the work of
-Gunji \cite{gunji76}. Here we suppose $p\ne2$.
+Gunji~\cite{gunji76}. Here we suppose $p\ne2$.
 
 \begin{definition}
   \label{def:hasse}
@@ -186,7 +186,7 @@ The reason why this is more efficient than a standard descent is the
 shape of equation \eqref{th:voloch:cover}: it is an Artin-Schreier
 equation and it can be solved by the techniques of
 Chapter~\ref{cha:artin-schr-towers} (or by linear algebra, as was
-suggested in \cite{couveignes96}). Once a solution $\tilde{z}$ to
+suggested in~\cite{couveignes96}). Once a solution $\tilde{z}$ to
 \eqref{th:voloch:cover} is known, solving in $x$ and $y$ the bivariate
 polynomial system \eqref{th:voloch:isom} takes just a GCD computation
 (explicit formulas were given by Lercier in
@@ -295,7 +295,7 @@ of $\F_p$.
 
 Subsequently, the main cost in Gunji's formulas is the computation of
 the determinant of a $\frac{p-1}{2}\times\frac{p-1}{2}$
-quadri-diagonal matrix (see \cite{gunji76}). This takes $\Theta(p^2)$
+quadri-diagonal matrix (see~\cite{gunji76}). This takes $\Theta(p^2)$
 operations in $\F_q[c]$ by Gauss elimination, that is no less than
 $\Omega(p^3d)$ operations in $\F_p$.
 
@@ -321,7 +321,7 @@ likely this case is.
 \end{proposition}
 
 Before proving the proposition, we shall state a lemma. Its proof is
-elementary and can be found in \cite[$\S6.1$]{lercier-algorithmique}.
+elementary and can be found in~\cite[$\S6.1$]{lercier-algorithmique}.
 
 \begin{lemma}
   \label{th:lercier-p-adic}
@@ -383,7 +383,7 @@ degree $p^k-1$ in $\U_k[X]$ takes $\Theta(p^{2k}d)$ elements of
 $\F_p$, thus at least $\Omega(\ell^2d)$ operations are needed to
 interpolate unless special care is taken\footnote{This contribution
   due to arithmetics in $\U_k$ had been underestimated in the
-  complexity analysis of \cite{couveignes96}, where an estimate of
+  complexity analysis of~\cite{couveignes96}, where an estimate of
   $\Omega(\ell d\log\ell)$ operations was given.}. We will give more
 details on interpolation in Section \ref{sec:C2-AS-FI}.
 

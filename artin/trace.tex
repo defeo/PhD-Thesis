@@ -18,7 +18,7 @@ The most popular tools to compute in generic residue class rings are
 Gröbner
 bases~\cite{buchberger,cox+little+oshea,Cox-Little-OShea:UAG2005,faugere99,faugere02}.
 An alternative to Gröbner bases, called \emph{geometric resolution} is
-presented in \cite{giusti+lecerf+salvy01}. In the bivariate case,
+presented in~\cite{giusti+lecerf+salvy01}. In the bivariate case,
 resultants~\cite{cox+little+oshea,Cox-Little-OShea:UAG2005} are a
 classic tool.
 
@@ -78,7 +78,7 @@ $\algeb{A}=\K[\lst{x}]/I$.  To simplify the exposition, from now on we
 assume that $\K$ is a perfect field and $I$ is radical, this is
 equivalent to all the points of $V(I)=\{a\in\clot{\K}^n|f(a)=0,
 \forall f\in I\}$ being simple. We address the reader interested in
-the case of arbitrary multiplicity to \cite{mourrain+elkadi}.
+the case of arbitrary multiplicity to~\cite{mourrain+elkadi}.
 
 \pdfmcone{Changed "variety" to "algebraic set" for consistency.}
 To better understand the structure of $\algeb{A}$ it will be important
@@ -373,7 +373,7 @@ structure under an analogous law.
 \begin{nota}
   We have thus identified $\dual{\clot{\algeb{A}}}$ to
   $\clot{\algeb{A}}$ as $\clot{\algeb{A}}$-modules, this implies that
-  $\clot{\algeb{A}}$ is a Gorenstein algebra \cite[Chapter
+  $\clot{\algeb{A}}$ is a Gorenstein algebra~\cite[Chapter
   8]{mourrain+elkadi}. The theory of Gorenstein algebras is much
   deeper than the exposition we give here, and giving a complete
   account of it would be beyond the scope of this
@@ -439,7 +439,7 @@ In particular, from Eqs.~\eqref{eq:17} and~\eqref{eq:2} we deduce the
   $\dual{\clot{\algeb{A}}}$.  The name ``residue'' comes from complex
   analysis, because in $\C[\lst{x}]/I$ this concept coincides with the
   classical analytic residue. See
-  \cite{bykov+kytmanov+lazman,mourrain+elkadi}.
+ ~\cite{bykov+kytmanov+lazman,mourrain+elkadi}.
 \end{nota}
 
 
@@ -772,7 +772,7 @@ in order to deduce $g_i(T)$ as in the representation~\eqref{eq:22}.
 
 \begin{nota}
   Theorem~\ref{th:rur} was introduced
-  in\cite{alonso+becker+roy+wormann}. It was used by
+  in~\cite{alonso+becker+roy+wormann}. It was used by
   Rouiller~\cite{rouiller99} to give an explicit algorithm to compute
   a rational univariate representation of an arbitrary
   zero-dimensional ideal. This algorithm requires to have a monomial
@@ -1033,31 +1033,31 @@ advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
   
   As we saw in Section~\ref{sec:modular-composition}, the most
   efficient algorithms for modular composition are Brent and Kung's
-  \cite{brent+kung}, having complexity $O(\Mult(d)\sqrt{d} +
+ ~\cite{brent+kung}, having complexity $O(\Mult(d)\sqrt{d} +
   d^{\frac{\omega+1}{2}})$, and Kedlaya and Umans'
-  \cite{umans:08,kedlaya+umans08}, having quasi-linear
+ ~\cite{umans:08,kedlaya+umans08}, having quasi-linear
   complexity. Each of these has a dual algorithm solving power
-  projection with the same complexity \cite{shoup94,kedlaya+umans08},
+  projection with the same complexity~\cite{shoup94,kedlaya+umans08},
   thus, at least in the univariate case, power projection can be
   solved in subquadratic time.  Some extensions to the bivariate and
-  multivariate case also exist \cite{shoup99,kedlaya+umans08}.
+  multivariate case also exist~\cite{shoup99,kedlaya+umans08}.
 \end{remark}
 
 \begin{remark}
   \label{rk:shoups-algorithm-1}
   \pdfmcone{Added reference to Kaltofen 2k.}
   Algorithm~\ref{alg:rur} first appeared in
-  \cite{bostan+salvy+schost03}, which combined the ideas of
-  \cite{rouiller99} and
-  \cite{shoup94,shoup95,shoup99}. Lemma~\ref{th:shoup94} was first
-  used in \cite{shoup94} to compute minimal polynomials of elements of
+ ~\cite{bostan+salvy+schost03}, which combined the ideas of
+ ~\cite{rouiller99} and
+ ~\cite{shoup94,shoup95,shoup99}. Lemma~\ref{th:shoup94} was first
+  used in~\cite{shoup94} to compute minimal polynomials of elements of
   a residue class field $\K[x]/(f)$, based on a transposed modular
   composition algorithm. The method was extended to the bivariate case
-  in \cite{shoup99}. A review of the methods
+  in~\cite{shoup99}. A review of the methods
   of~\cite{shoup94,shoup95,shoup99} can be found
   in~\cite[$\S$6]{Ka2K}.
   
-  In \cite{shoup94,shoup99}, a generic linear form $\ell$ is taken, so
+  In~\cite{shoup94,shoup99}, a generic linear form $\ell$ is taken, so
   that by Theorem \ref{th:rur}
   \[\sum_{i\ge0}\frac{\ell(t^i)}{T^{i+1}}=\frac{A(T)}{Q(T)}\]
   for some $A(T)$. Since $\ell$ is arbitrary, $A(T)$ is \emph{a
