@@ -61,6 +61,8 @@
 %%
 %%
 
+\section{Introduction}
+
 \begin{frame}
   \frametitle{The Discrete Logarithm Problem}
   
@@ -148,7 +150,7 @@
       \end{block}
     
       \begin{block}{}
-        \emph{Hasse bound:} $\card{E(\F_q)} = \sim q$.
+        \emph{Hasse bound:} $\card{E(\F_q)} \sim q$.
       \end{block}
     \end{column}
   \end{columns}
@@ -159,10 +161,17 @@
       \hline
       \emph{Group} & $\F_q^\ast$ & $E(\F_q)$\\
       \emph{Protocols} & El Gamal, DSA, \dots & ECDH, ECDSA, ECMQV, \dots\\
-      \emph{Key sizes}\footfullcite{nist07-2}  & 1024, 2048, 3072 & 160, 225, 256 \\
+      \emph{Key sizes}\footnote{\url{http://csrc.nist.gov/publications/nistpubs/800-57/sp800-57-Part1-revised2_Mar08-2007.pdf}}  & 1024, 2048, 3072 & 160, 225, 256 \\
     \end{tabular}
   \end{center}
 
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Multiplication}
+  
 \end{frame}
 
 %%
@@ -180,9 +189,6 @@
     \begin{itemize}
     \item Isogeny = rational map $\;+\;$ group morphism;
     \item Finite kernel, surjective (in $\clot{\K}$);
-    \item \emph{Bijection:} Isogenies from
-      $E\;\Leftrightarrow\;$ subgroups of $E$;
-    \item $\card{E(\F_{q^n})} \;=\; \card{E'(\F_{q^n})}\;$ for every $n$.
     \end{itemize}
   \end{block}
 
@@ -201,20 +207,19 @@
 	{}[m] : E(\clot{\K}) &\rightarrow E(\clot{\K})\\
 	                   P &\mapsto [m]P
       \end{aligned}\]
-      $\ker\I = E[m], \quad\deg\I = m^2$.
+      $\ker\I = E[m]$.
 
       \onslide<2>
       \[\begin{aligned}
 	\frob : E(\clot{\K}) &\rightarrow E(\clot{\K})\\
 	               (X,Y) &\mapsto (X^q,Y^q)
       \end{aligned}\]
-      $\ker\frob = \{\0\}, \quad\deg\I = q$.
+      $\ker\frob = \{\0\}$.
 
       \onslide<3>
       \[\quad\I(X,Y) = \left(\frac{g(X)}{h^2(X)},
       cY\left(\frac{g(X)}{h^2(X)}\right)'\right)\]
-      $\;\ell\;=\;\deg\I\;=\;
-      \card{\ker\I} \;=\; 2\deg h + 1\;$ odd.
+      $\card{\ker\I} \;=\; 2\deg h + 1\;$ odd.
     \end{overprint}
   \end{block}  
 \end{frame}
@@ -222,18 +227,18 @@
 %%
 
 \begin{frame}
-  \frametitle{Why compute (big) isogenies over finite fields?}
+  \frametitle{Why compute (large) isogenies over finite fields?}
   
-  \begin{block}{SEA algorithm (\cite{schoof95,elkies98,atkin88})}
+  \begin{block}{SEA algorithm (\cite{schoof85,elkies92,atkin88})}
     \begin{description}
     \item[Hasse bound] \hfill{\large\emph{$\card{E(\F_q)}= q-t+1$}};\hfill\strut
     \item[Schoof] Compute $t$ modulo small primes
       $\ell\;\Leftrightarrow$ compute the action of $\frob_q$ on
       \emph{$E[\ell]\isom(\Z/\ell\Z)^2$};
-    \item[Elkies] Compute an $\ell$-isogeny $\I$ and the action of
-      $\frob_q$ on \emph{$\ker\I\isom\Z/\ell\Z\subset E[\ell]$};
     \item[Atkin] Determine the order of the roots of $X^2 -tX +q$ by
       factoring the $\ell$-th modular polynomial.
+    \item[Elkies] Compute an $\ell$-isogeny $\I$ and the action of
+      $\frob_q$ on \emph{$\ker\I\isom\Z/\ell\Z\subset E[\ell]$};
     \end{description}
   \end{block}
 
@@ -249,92 +254,12 @@
 \end{frame}
 
 %%
-
-\begin{frame}
-  \frametitle{Isogenies: an example}
-
-  \vspace{-1mm}
-
-  \begin{block}{The GHS attack (\cite{gaudry+hess+smart02})}
-    \centering $E/F_{q^d}\uncover<2->{\ra J_H/F_q}$
-
-    \begin{itemize}
-    \item Given an elliptic curve $E$ defined over a composite field $\F_{q^d}$;
-    \item<2-> Computes a group morphism to an hyperelliptic Jacobian
-      $J_H$ defined over $\F_q$.
-    \item<2-> For certain parameters, the discrete log is easier on
-      $J_H$ than on $E$.
-    \end{itemize}
-  \end{block}
-
-  \vspace{-0.3mm}
-
-  \begin{block}<3->{A trapdoor cryptosystem (\cite{teske06})}
-    \textbf{Fact:} Only a small fraction of the curves over $\F_{q^d}$
-    is vulnerable to GHS
-
-    \centering
-    $\xymatrix@R=0pt{
-      E_{\mathrm{trap}} \only<4->{\ar[dr]} &         & \only<4->{\ar[dr]} &\\
-      & \only<4->{\ar[ur]} &         & \only<4->{E_{\mathrm{pub}}}
-    }$
-    \begin{itemize}
-    \item Select a curve $E_{\mathrm{trap}}$ vulnerable to GHS;
-    \item<4-> Take a random walk through the \emph{isogeny graph},
-      land on a curve $E_{\mathrm{pub}}$ not vulnerable to GHS;
-    \item<5-> Use $E_{\mathrm{pub}}$ for public key cryptography, give
-      $E_{\mathrm{trap}}$ to a \emph{trusted authority} for \emph{key
-        escrow}.
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-%%
-
-\begin{frame}
-  \frametitle{Isogenies: a challenge}
-  Let
-  \[\F_q = \F_2[Z]/(Z^{101} + Z^7 + Z^6 + Z + 1)\]
-
-  The following two curves are isogenous:
-  
-  \begin{block}{}
-    $y^2 + xy = x^3 + 1/(Z^{100} + Z^{99} + Z^{97} + Z^{96} + Z^{95} +
-    Z^{91} + Z^{90} + Z^{89} + Z^{86} + Z^{84} + Z^{82} + Z^{80} +
-    Z^{79} + Z^{78} + Z^{77} + Z^{76} + Z^{73} + Z^{71} + Z^{69} +
-    Z^{68} + Z^{65} +Z^{63} + Z^{62} + Z^{61} + Z^{59} + Z^{58} +
-    Z^{56} + Z^{53} + Z^{52} + Z^{51} + Z^{50} + Z^{49} +Z^{47} +
-    Z^{45} + Z^{44} + Z^{43} + Z^{40} + Z^{38} + Z^{36} + Z^{32} +
-    Z^{31} + Z^{30} + Z^{26} +Z^{24} + Z^{23} + Z^{22} + Z^{20} +
-    Z^{19} + Z^{18} + Z^{17} + Z^{15} + Z^{11} + Z^{9} + Z^{7} + Z^{2}
-    + 1)$
-  \end{block}
-
-  \begin{block}{}
-    $y^2 + xy = x^3 + 1/(Z^{99} + Z^{98} + Z^{96} + Z^{93} + Z^{92} +
-    Z^{91} + Z^{89} + Z^{88} + Z^{85} + Z^{81} + Z^{80} + Z^{79} +
-    Z^{78} + Z^{76} + Z^{73} + Z^{72} + Z^{64} + Z^{61} + Z^{57} +
-    Z^{56} + Z^{54} +Z^{52} + Z^{51} + Z^{50} + Z^{47} + Z^{45} +
-    Z^{44} + Z^{42} + Z^{40} + Z^{39} + Z^{38} + Z^{37} +Z^{34} +
-    Z^{31} + Z^{30} + Z^{29} + Z^{28} + Z^{26} + Z^{25} + Z^{23} +
-    Z^{22} + Z^{20} + Z^{19} +Z^{18} + Z^{16} + Z^{15} + Z^{14} +
-    Z^{13} + Z^{12} + Z^{8} + Z^{7} + Z^{6} + Z^{5} + Z^{3} + Z^{2} +
-    Z + 1)$
-  \end{block}
-  
-  \begin{itemize}
-  \item Can you tell of what degree (i.e. size of the kernel)? 
-  \item Can you compute the isogeny?
-  \end{itemize}
-\end{frame}
-
-%%
 %%
 
 \section{Computing isogenies over finite fields}
 
 \begin{frame}
-  \frametitle{Vélu formulas}
+  \frametitle{Vélu's formulas}
   
   \begin{block}{Compute an isogeny with given kernel (\cite{velu71})}
     Given the kernel $H$, computes $\;\I : E\to E/H\;$ given by
@@ -365,38 +290,27 @@
 
 %%
 
-
 \begin{frame}
   \frametitle{Isogeny computation}
   
-  \vspace{-4mm}
-
   \begin{center}
     \large
     Given $E, E', \ell$, compute $\I:E\to E'$
   \end{center}
 
-  By Vélu formulas:
+  By Vélu's formulas:
   $\I(x,y) = \left(\frac{g(x)}{h(x)}, y\left(\frac{g(x)}{h(x)}\right)'\right)$,
   hence
   \[(x^3 + ax + b){\left(\frac{g(x)}{h(x)}\right)'}^2 =
   \left(\frac{g(x)}{h(x)}\right)^3 + a'\frac{g(x)}{h(x)} + b'\]
   
-  \vspace{-1mm}
-
   \begin{block}{BMSS algorithm \parencite{bostan+morain+salvy+schost08}}
-    \begin{enumerate}
-    \item Change variables $ S(x) =
-      \sqrt{\frac{h(1/x^2)}{g(1/x^2)}} \quad\Leftrightarrow\quad
-      \frac{g(x)}{h(x)} = \frac{1}{S(1/\sqrt{x})^2}$;
-    \item Power series solution of 
-      $\;(bx^6 + ax^4 + 1){S'}^2 = 1 + a'S^4 + b'S^6$;
-    \item Inverse the change of variables, reconstruct a rational
-      fraction.
-    \end{enumerate}
+    Power series solution 
   \end{block}
 
-  \vspace{-1mm}
+  \begin{block}{Lercier $p=2$}
+    
+  \end{block}
 
   \begin{block}{\cite{lercier+sirvent08}}
     When $p$ exceeds the precision, a division by zero happens:
@@ -424,23 +338,133 @@
   \begin{itemize}
   \item \alert<4>{Compute the extensions $\U_i/\F_q$
     such that $E[p^i]$ is defined in $\U_i$;}
-    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{$\tildO(\Mult(\ell))$}}
+    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}
   \item Pick $\;k\;$ \emph{large enough} ($k\sim\log_p4\ell$);
   \item \alert<4>{Compute $\;P$, a generator of $\;E[p^k]$;}
-    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{$\tildO(\Mult(\ell))$}}
+    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}
   \item \alert<4>{Compute $\;P'$, a generator of $\;E'[p^k]$;}
-    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{$\tildO(\Mult(\ell))$}}
+    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}
   \item Compute the polynomial $\;T\;$ vanishing $\;E[p^k]$;
-    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{$\tildO(\Mult(\ell))$}}
-  \item Interpolate $\;A : x(P) \mapsto x(P')$;
-    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{$\tildO(\Mult(\ell))$}}
-  \item Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$;
-    \hfill\emph{\alt<1>{}{$\tildO(\Mult(\ell))$}}
-  \item If $\frac{g}{h}$ is an isogeny, done; otherwise pick another $P'$.
+    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert<3>{$\tildO(\Mult(\ell))$}}}
+  \item For $j\in\left(\Z/p^k\Z\right)^\ast$
+    \begin{itemize}
+      \normalsize
+    \item Interpolate $\;A : x(P) \mapsto x([j]P')$;
+      \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert<3>{$\tildO(\Mult(\ell))$}}}
+    \item Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$;
+      \hfill\emph{\alt<1>{}{$\tildO(\Mult(\ell))$}}
+    \end{itemize}
+    Stop when $\frac{g}{h}$ is an isogeny.
     \hfill\emph{\alt<1>{}{$\ell$ times on average}}
   \end{itemize}
 \end{frame}
 
+%%
+
+\begin{frame}
+  \frametitle{Couveignes' algorithm (\cite{couveignes96})}
+  
+  \begin{center}
+    \large
+    Given $E, E', \ell$, compute $\I:E\to E'$
+  \end{center}
+
+  \begin{center}
+    \emph{\textbf{Idea:}} Send $E[p^k]$ over $E'[p^k]$
+  \end{center}
+  
+  \begin{itemize}
+  \item Compute the extensions $\U_i/\F_q$ such that $E[p^i]$ is
+    defined in $\U_i$;
+  \item Pick $\;k\;$ \emph{large enough} ($k\sim\log_p4\ell$);
+  \item Compute $\;P$, a generator of $\;E[p^k]$;
+  \item Compute $\;P'$, a generator of $\;E'[p^k]$;
+  \item Compute the polynomial $\;T\;$ vanishing $\;E[p^k]$;
+  \item Interpolate $\;A : x(P) \mapsto x(P')$;
+  \item Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$;
+  \item \alert{If $\frac{g}{h}$ is an isogeny}, done; otherwise pick another $P'$.
+  \end{itemize}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{How to recognize an isogeny?}
+
+  \begin{itemize}
+    \setlength{\itemsep}{\baselineskip}
+  \item \emph{\textbf{Degree:}} $\frac{g}{h}\;$ with $\;\deg g=\ell$, $\;\deg h = \ell-1$;\hfill\alert{$O(1)$}
+  \item \emph{\textbf{Square factor:}} $h = \prod_{Q\in H^\ast}(X-
+    x(Q)) = f^2\;$ if $\ell$ odd;\hfill\emph{$\tildO(\Mult(\ell))$}
+  \item \emph{\textbf{Group action:}} Test with random points;\hfill\emph{$O(\ell)$}
+  \item \emph{\textbf{Factor of the $\ell$-division polynomial:}}
+    Compute $\phi_\ell\bmod h$.\hfill\emph{$\tildO(\Mult(\ell))$}
+  \end{itemize}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{How to recognize an isogeny?}
+  
+  \[AU_i + TV_i = R_i  \qquad\Leftrightarrow\qquad  A\equiv \frac{R_i}{U_i} \bmod T\]
+  \[\ell = 11\]
+  \pause
+  \begin{center}
+  \begin{tabular}{c | c}
+    $\deg R_i$ & $\deg U_i$ \\
+    $3141592653589793238462643$ & 0 \\
+    \pause
+    $3141592653589793238462642$ & 1 \\
+    \pause
+    $3141592653589793238462641$ & $2$ \\
+    \pause
+    \vdots & \vdots\\
+    $3141592653589793238462634$ & $9$ \\
+    \pause\pause
+    \Huge\alert{$11$} & \Huge\alert{$10$}\\
+    \pause
+    $10$ & $3141592653589793238462633$\\
+    \vdots & \vdots
+  \end{tabular}
+  \end{center}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Isogenies of unknown degree}
+  
+  \begin{itemize}
+  \item This pattern is extremely rare.
+  \item This is the only phase of Couveignes' algorithm that depends on $\ell$.
+  \end{itemize}
+
+  \begin{itemize}
+  \item<2-> \large Actually, this does not really depend on $\ell$,
+    just on the existence of a \emph{gap}.
+  \item<2-> \large If $\ell$ is not known in advance, it is enough to
+    look for a \emph{gap}.
+  \item<2-> \large Thus, any isogeny of degree $\ll p^k$ can be
+    computed with one single run of Couveignes' algorithm.
+  \end{itemize}  
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Comparison of isogeny algorithms}
+  
+  \begin{figure}
+    \centering
+    \includegraphics[height=0.5\textwidth]{../isogeny/C2-LS}
+    \includegraphics[height=0.5\textwidth]{../isogeny/C2-LS2}
+    \caption{Comparative timings for \cite{couveignes96} (C2) and
+      \cite{lercier+sirvent08} (LS) over various curves. Plot in
+      logarithmic scale.}
+  \label{fig:comp}
+\end{figure}
+\end{frame}
 
 %%
 %%
@@ -476,20 +500,20 @@
     \end{column}
     \begin{column}{0.65\textwidth}
       \begin{block}{$p$-descent (\cite{voloch90})}
-        If $\;P=(x_p,y_p)\;$ generates $\;E[p^i]$, the solution to
-        \[X^p - X = \frac{\sqrt[p]{y_P\beta_E(x_p)}}{\sqrt[p-1]{H_E}}\]
-        generates $\;E[p^{i+1}]$.
+        If $\;P_i=(x_i,y_i)\;$ generates $\;E[p^i]$, the solution to
+        \[X^p - X = \frac{\sqrt[p]{y_i\beta_E(x_i)}}{\sqrt[p-1]{H_E}}\]
+        generates $\;E[p^{i+1}]$. $y_i=?$
       \end{block}
 
       \begin{block}<2>{Artin-Schreier Towers over finite fields}
-        Artin-Schreier polynomial:
+        $\LK/\K$ extension: Artin-Schreier polynomial:
         
         \begin{center}
-          \Large\emph{$P_i = X^p - X - \alpha_i$}
+          \Large\emph{$X^p - X - \alpha$}
         \end{center}
 
         \alert{ANY} separable extension of degree $p$ can be expressed
-        this way
+        this way.
       \end{block}
     \end{column}
   \end{columns}
@@ -498,8 +522,17 @@
 %%
 
 \begin{frame}
-  \frametitle{One fast tower, many fast towers! (\cite{couveignes00})}
+  \frametitle{Slow towers}
+  
+\end{frame}
 
+%%
+
+\begin{frame}
+  \frametitle{One fast tower, many fast towers! (\cite{couveignes00})}
+  
+  Theorem (Couveignes): Be fast!
+  
   \begin{center}
     Fast tower
 
@@ -520,34 +553,41 @@
 \begin{frame}
   \frametitle{A fast tower}
 
+\end{frame}
+
+%% 
+
+\begin{frame}
+  \frametitle{A fast tower}
+
   \vspace{-2mm}
 
   \begin{columns}
     \begin{column}{0.3\textwidth}
       \Large\[\xymatrix{
-        *+[r]{\U_k = \frac{\U_{k-1}[X_k]}{P_{k-1}(X_k)}}\ar@{-}[d]^p\\
-        *+[r]{\U_{k-1}} \ar@{--}[d]\\
-        *+[r]{\U_1 = \frac{\U_0[X_1]}{P_0(X_1)}} \ar@{-}[d]^p\\
-        *+[r]{\U_0 = \F_q = \frac{\F_p[X_0]}{Q(X_0)}}
+        *+[r]{\LK_k = \frac{\U_{k-1}[X_k]}{P_{k-1}(X_k)}}\ar@{-}[d]^p\\
+        *+[r]{\LK_{k-1}} \ar@{--}[d]\\
+        *+[r]{\LK_1 = \frac{\U_0[X_1]}{P_0(X_1)}} \ar@{-}[d]^p\\
+        *+[r]{\LK_0 = \F_q = \frac{\F_p[X_0]}{Q(X_0)}}
       }\]
     \end{column}
     \begin{column}{0.65\textwidth}
       \begin{block}{Our construction}
         Let $\;x_0 = X_0\;$ such that
-        $\;\Tr_{\U_0/\F_p}(x_0) \ne 0$, let
+        $\;\Tr_{\LK_0/\F_p}(x_0) \ne 0$, let
         \begin{align*}
           P_0 \quad&=\quad X^p - X - x_0\\
           P_i \quad&=\quad X^p - X - x_i^{2p-1}
         \end{align*}
-        with $\;x_{i+1}\;$ a root of $\;P_i\;$ in $\;\U_{i+1}$.
+        with $\;x_{i+1}\;$ a root of $\;P_i\;$ in $\;\LK_{i+1}$.
 
-        \alert{This tower is such that $x_i$ generates $\U_i/\F_p$.}
+        \alert{This tower is such that $x_i$ generates $\LK_i/\F_p$.} Howzat?
       \end{block}
 
-      \begin{block}{Two ways to represent $\U_k$}
+      \begin{block}{Two ways to represent $\LK_k$}
         \begin{itemize}
-        \item Univariate basis: $\;\U_k=\F_p[Z]/Q_k(Z)$;
-        \item Multivariate basis: $\;\U_k=\F_p[X_0,X_1,\ldots,X_k]/(Q,P_0,\ldots,P_{k-1})$.
+        \item Univariate basis: $\;\LK_k=\F_p[Z]/Q_k(Z)$;
+        \item Multivariate basis: $\;\LK_k=\F_p[X_0,X_1,\ldots,X_k]/(Q,P_0,\ldots,P_{k-1})$.
         \end{itemize}
         \alert{A fast change of basis is the key to fast arithmetic:}
         \begin{itemize}
@@ -557,6 +597,13 @@
       \end{block}
     \end{column}
   \end{columns}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Fast tower example}
+  
 \end{frame}
 
 %%
@@ -648,36 +695,9 @@
 %%
 
 \begin{frame}
-  \frametitle{The dual of a diagram}
-  
-  \[\vcenter{\xymatrix{
-    A \ar[r]\ar[d]_f & B\ar[dr] \\
-    C \ar[r]_g & D\ar[r]_h & E
-  }}
-  \qquad
-  \text{\Large$\Rightarrow$}
-  \qquad
-  \vcenter{\xymatrix{
-    \dual{A} \ar@{<-}[r]\ar@{<-}[d]_{\dual{f}} & \dual{B}\ar@{<-}[dr] \\
-    \dual{C} \ar@{<-}[r]_{\dual{g}} & \dual{D}\ar@{<-}[r]_{\dual{h}} & \dual{E}
-  }}\]
-  
-  \begin{block}{Duality and complexity}
-    \begin{itemize}
-    \item $\dual{(f\circ g\circ h)} = \dual{h}\circ\dual{g}\circ\dual{f}$;
-    \item $\dual{}$ is \emph{contravariant};
-    \item A classical example is transposition of matrices: $\trans{(AB)}=\trans{B}\trans{A}$;
-    \item From an algorithmic point of view, the \alert{number of
-        \emph{arrows}} is a measure of complexity, and it is
-      \alert{preserved} under dualization.
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-%%
-
-\begin{frame}
   \frametitle{Transposition of arithmetic circuits}
+
+  Plus dynamique !!
 
   \begin{columns}
     \begin{column}{0.6\textwidth}
@@ -774,81 +794,6 @@
       \end{gather*}
     \end{column}
   \end{columns}
-\end{frame}
-
-%%
-
-\begin{frame}[fragile]
-  \frametitle{Transposition of straight line programs}
-
-  \begin{center}
-    \large
-    Straight line programs $=$ Arithmetic circuits
-  \end{center}
-
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \begin{center}
-        \begin{minipage}{0.7\textwidth}
-\begin{semiverbatim}
-  a[1] = a[0] + a[1]
-  a[0] = 0
-  a[2] = a[1] + a[2]
-  a[1] = 0
-  ...
-  a[n-1] = a[n-2] + a[n-1]
-  a[n-2] = 0
-\end{semiverbatim}
-        \end{minipage}
-      \end{center}
-    \end{column}
-
-    \begin{column}{0.5\textwidth}
-      \begin{center}
-        \begin{minipage}{0.7\textwidth}
-\begin{semiverbatim}
-  a[n-2] = 0
-  a[n-2] = a[n-2] + a[n-1]
-  ...
-  a[1] = 0
-  a[1] = a[1] + a[2]
-  a[0] = 0
-  a[0] = a[0] + a[1]
-\end{semiverbatim}
-        \end{minipage}
-      \end{center}
-    \end{column}
-    \end{columns}
-  
-  \vfill
-
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \begin{equation*}
-        \begin{pmatrix}
-          0 & \hdotsfor{3} & 0\\
-          \vdots  &  &\vdots&& \vdots \\
-          0 & \hdotsfor{3} & 0\\
-          1 & \hdotsfor{3} & 1
-        \end{pmatrix}
-      \end{equation*}
-    \end{column}
-
-    \begin{column}{0.5\textwidth}
-      \begin{equation*}
-        \begin{pmatrix}
-          0 & \hdots & 0 & 1\\
-          \vdots  &  \cdots & \vdots & \vdots \\
-          0 & \hdots & 0 & 1
-        \end{pmatrix}
-      \end{equation*}
-    \end{column}
-  \end{columns}
-
-  \begin{center}
-    \large
-    Programs $=$ Families of straight line programs
-  \end{center}
 \end{frame}
 
 %%
@@ -1082,114 +1027,6 @@
 \end{frame}
 
 %%
-%%
-
-\section{Isogenies, again}
-
-\begin{frame}
-  \frametitle{Comparison of isogeny algorithms}
-  
-  \begin{figure}
-    \centering
-    \includegraphics[height=0.5\textwidth]{../isogeny/C2-LS}
-    \includegraphics[height=0.5\textwidth]{../isogeny/C2-LS2}
-    \caption{Comparative timings for \cite{couveignes96} (C2) and
-      \cite{lercier+sirvent08} (LS) over various curves. Plot in
-      logarithmic scale.}
-  \label{fig:comp}
-\end{figure}
-\end{frame}
- 
-%%
-
-\begin{frame}
-  \frametitle{Couveignes' algorithm (\cite{couveignes96})}
-  
-  \begin{center}
-    \large
-    Given $E, E', \ell$, compute $\I:E\to E'$
-  \end{center}
-
-  \begin{center}
-    \emph{\textbf{Idea:}} Send $E[p^k]$ over $E'[p^k]$
-  \end{center}
-  
-  \begin{itemize}
-  \item Compute the extensions $\U_i/\F_q$ such that $E[p^i]$ is
-    defined in $\U_i$;
-  \item Pick $\;k\;$ \emph{large enough} ($k\sim\log_p4\ell$);
-  \item Compute $\;P$, a generator of $\;E[p^k]$;
-  \item Compute $\;P'$, a generator of $\;E'[p^k]$;
-  \item Compute the polynomial $\;T\;$ vanishing $\;E[p^k]$;
-  \item Interpolate $\;A : x(P) \mapsto x(P')$;
-  \item Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$;
-  \item \alert{If $\frac{g}{h}$ is an isogeny}, done; otherwise pick another $P'$.
-  \end{itemize}
-\end{frame}
-
-%%
-
-\begin{frame}
-  \frametitle{How to recognize an isogeny?}
-
-  \begin{itemize}
-    \setlength{\itemsep}{\baselineskip}
-  \item \emph{\textbf{Degree:}} $\frac{g}{h}\;$ with $\;\deg g=\ell$, $\;\deg h = \ell-1$;\hfill\alert{$O(1)$}
-  \item \emph{\textbf{Square factor:}} $h = \prod_{Q\in H^\ast}(X-
-    x(Q)) = f^2\;$ if $\ell$ odd;\hfill\emph{$\tildO(\Mult(\ell))$}
-  \item \emph{\textbf{Group action:}} Test with random points;\hfill\emph{$O(\ell)$}
-  \item \emph{\textbf{Factor of the $\ell$-division polynomial:}}
-    Compute $\phi_\ell\bmod h$.\hfill\emph{$\tildO(\Mult(\ell))$}
-  \end{itemize}
-\end{frame}
-
-%%
-
-\begin{frame}
-  \frametitle{How to recognize an isogeny?}
-  
-  \[AU_i + TV_i = R_i  \qquad\Leftrightarrow\qquad  A\equiv \frac{R_i}{U_i} \bmod T\]
-  \[\ell = 11\]
-  \pause
-  \begin{center}
-  \begin{tabular}{c | c}
-    $\deg R_i$ & $\deg U_i$ \\
-    $3141592653589793238462643$ & 0 \\
-    \pause
-    \alt<7>{\textcolor{blue}{$3141592653589793238462642$}}{$3141592653589793238462642$} & 1 \\
-    \pause
-    $3141592653589793238462641$ & \alt<7>{\textcolor{blue}{$2$}}{$2$} \\
-    \pause
-    \vdots & \vdots\\
-    $3141592653589793238462634$ & $9$ \\
-    \pause\pause
-    \Huge\alert{$11$} & \Huge\alert{$10$}\\
-    \pause
-    $10$ & $3141592653589793238462633$\\
-    \vdots & \vdots
-  \end{tabular}
-  \end{center}
-\end{frame}
-
-%%
-
-\begin{frame}
-  \frametitle{Isogenies of unknown degree}
-  
-  \begin{itemize}
-  \item This pattern is extremely rare.
-  \item This is the only phase of Couveignes' algorithm that depends on $\ell$.
-  \end{itemize}
-
-  \begin{itemize}
-  \item<2-> \large Actually, this does not really depend on $\ell$,
-    just on the existence of a \emph{gap}.
-  \item<2-> \large If $\ell$ is not known in advance, it is enough to
-    look for a \emph{gap}.
-  \item<2-> \large Thus, any isogeny of degree $\ll p^k$ can be
-    computed with one single run of Couveignes' algorithm.
-  \end{itemize}  
-\end{frame}
 
 %%
 %%
