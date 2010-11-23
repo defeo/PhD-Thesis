@@ -6,11 +6,14 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{mysymbols}[2010/09/28 Symbols for my PhD thesis, V1.0]
 
+\RequirePackage{amsmath}
+
 %% Basics
 \newcommand{\card}[1]{\# #1}  % cardinality
 \newcommand{\diffset}{\,\backslash\,}  % difference between sets
 \newcommand{\ndiv}{\nmid}  % does not divied
-\newcommand{\wrt}{\dashv}  % strong membership, as in the ISSAC '09 paper
+\DeclareSymbolFont{mdsym}{OMS}{mdugm}{b}{n}
+\DeclareMathSymbol{\wrt}{\mathrel}{mdsym}{"32}  % strong membership, as in the ISSAC '09 paper
 \newcommand{\isom}{\cong}  % isomorphisms
 \newcommand{\eqdef}{\overset{\mathrm{def}}{\equiv}}  % equal by definition
 
