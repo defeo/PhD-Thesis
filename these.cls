@@ -207,8 +207,8 @@
     \StrSubstitute{#1}{ }{_}[\@filename]%
     \def\p@th{\artdir/\@filename\bw@suffix}%
     \IfGraphicsExists{\p@th}{%
-      \par\vfil%
-      \includegraphics[width=\textwidth,height=0.5\textheight,keepaspectratio=true]{\p@th}%
+      \par\vfil\vfil%
+      \includegraphics[width=\textwidth,height=0.6\textheight,keepaspectratio=true]{\p@th}%
     }{\ClassWarning{these}{Artwork file \p@th\space not found. Skipping it.}}}
 \else
   \def\potiron{}

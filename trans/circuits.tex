@@ -179,9 +179,9 @@ $\outp(\hub)$ because they are not relevant for the linear basis: in
 fact, all operators are commutative.
 
 \begin{definition}[Arithmetic circuit]
-  Let $\mathcal{B}$ be an $R$-basis. A (linear) \index{arithmetic
-    circuit}\emph{arithmetic circuit} over $(R,\mathcal{B})$ is a
-  tuple $C=(V,E,\le,\le_i,\le_o)$ such that
+  Let $\mathcal{B}$ be an $R$-basis. A (linear)
+  \index{arithmetic~circuit}\emph{arithmetic circuit} over
+  $(R,\mathcal{B})$ is a tuple $C=(V,E,\le,\le_i,\le_o)$ such that
   \begin{enumerate}
   \item $V$ is a finite set of nodes over $(R,\mathcal{B})$;
   \item $<$ is a total order on $V$, $<_i$ is a total order on the
@@ -207,8 +207,8 @@ In what follows, we shall call $(V,E)$ the
 classic graph theoretic terms to refer to its properties. We shall
 often implicitly make this identification. Thus, we shall represent
 $E$ as a set of edges $(o,i)$, and make use of the classic concepts of
-\emph{incident} edge, nodes \emph{connected} by an edge, \emph{paths},
-etc.
+\emph{incident} edge, nodes \emph{connected} by an edge,
+\index{path}\emph{paths}, etc.
 
 Figure~\ref{fig:circuit} shows two examples of arithmetic circuits.
 Input and output nodes are ordered from left to right; ports are not
@@ -546,6 +546,7 @@ same. In Appendix~\ref{cha:basic-categ-theory} we will give a
 conceptually simpler proof, using category theory.
 
 \begin{definition}[Evaluation of a path]
+  \index{path!evaluation}
   Let $x$ and $y$ be nodes of $C$ and let $p=(e_1,\ldots,e_k)$ be a
   path from $x$ to $y$.
 
@@ -572,6 +573,7 @@ conceptually simpler proof, using category theory.
 
 \begin{lemma}[The electrical network lemma]
   \label{th:electrical-network}
+  \index{electrical~network~lemma}
   Let $C$ be an arithmetic circuit, let $x_1\le_i\cdots\le_ix_n$ be
   its input nodes and $y_1\le_o\cdots\le_oy_m$ its output nodes. 
   We have the following identity
@@ -711,9 +713,9 @@ size. This leads to study families of circuits.
   \index{circuit~family}\emph{circuit family} over
   $(R,\mathcal{B},\pspace)$ is a family of circuits over
   $(R,\mathcal{B})$ indexed by $\pspace$.  $\pspace$ is called the
-  \emph{parameter space} of the family. When the mapping from
-  $\pspace$ to the circuits is Turing-computable, the family is called
-  \index{circuit~family!uniform}\emph{uniform}.
+  \index{parameter~space}\emph{parameter space} of the family. When
+  the mapping from $\pspace$ to the circuits is Turing-computable, the
+  family is called \index{circuit~family!uniform}\emph{uniform}.
 \end{definition}
 
 Algebraic complexity textbooks usually take $\pspace=\N$ and force
