@@ -170,8 +170,32 @@
 %%
 
 \begin{frame}
-  \frametitle{Multiplication}
+  \frametitle{Group law and scalar multiplication}
   
+  \begin{columns}
+    \begin{column}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{../isogeny/ec-add.pdf}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \begin{gather*}
+        y^2 = x^3 + ax + b\\
+        P = (x_0, y_0), Q = (x_1, y_1)\\
+        \lambda = \frac{y_1 - y_0}{x_1 - x_0}\\
+        P+Q = (\lambda^2 - x_0 - x_1, (x_0 - x_2)\lambda - y_0)
+      \end{gather*}
+    \end{column}
+  \end{columns}
+
+  {\large
+    \begin{description}
+    \item[\emph{Multiplication:}] $[m]P = \overbrace{P + P + \cdots + P}^{\text{$m$ times}}$
+    \item[\emph{$m$-torsion:}] $E[m] = \{P\in E | [m]P=\0\} \isom (\Z/m\Z)^2$
+    \end{description}}
+  
+  \[[m](x,y) = \left(\frac{\psi_m(x,y)}{\phi_m^2(x,y)}, \frac{\omega_m(x,y)}{\psi_m^3(x,y)}\right)\]
+  
+  \emph{Division polynomials:} $\phi_m$ can be computed with $O(\log
+  m)$ polynomial multiplications, $\deg\phi_m=O(m^2)$.
 \end{frame}
 
 %%
@@ -179,9 +203,9 @@
 \begin{frame}
   \frametitle{Isogenies between elliptic curves}
   
-  \vspace{-2mm}
+  \vspace{-5mm}
 
-  {\large \[\I:E\to E'\]} 
+  {\large \[\xymatrix{E\ar[d]_{[m]}\ar[r]^{\I} & E'\ar[dl]^{\hat{\I}}\\E}\]} 
   \emph{\textbf{(Separable) isogeny:}} (separable)
   non-constant rational morphism preserving the identity.
   
@@ -189,6 +213,7 @@
     \begin{itemize}
     \item Isogeny = rational map $\;+\;$ group morphism;
     \item Finite kernel, surjective (in $\clot{\K}$);
+    \item \emph{Dual isogeny theorem:} they factor the multiplication map into two pieces.
     \end{itemize}
   \end{block}
 
@@ -212,13 +237,13 @@
       \onslide<2>
       \[\begin{aligned}
 	\frob : E(\clot{\K}) &\rightarrow E(\clot{\K})\\
-	               (X,Y) &\mapsto (X^q,Y^q)
+	               (x,y) &\mapsto (x^q,y^q)
       \end{aligned}\]
       $\ker\frob = \{\0\}$.
 
       \onslide<3>
-      \[\quad\I(X,Y) = \left(\frac{g(X)}{h^2(X)},
-      cY\left(\frac{g(X)}{h^2(X)}\right)'\right)\]
+      \[\quad\I(X,Y) = \left(\frac{g(x)}{h^2(x)},
+      cy\left(\frac{g(x)}{h^2(x)}\right)'\right)\]
       $\card{\ker\I} \;=\; 2\deg h + 1\;$ odd.
     \end{overprint}
   \end{block}  
@@ -292,71 +317,28 @@
 
 \begin{frame}
   \frametitle{Isogeny computation}
-  
-  \begin{center}
-    \large
-    Given $E, E', \ell$, compute $\I:E\to E'$
-  \end{center}
-
-  By Vélu's formulas:
-  $\I(x,y) = \left(\frac{g(x)}{h(x)}, y\left(\frac{g(x)}{h(x)}\right)'\right)$,
-  hence
+  By Vélu's formulas: $\I(x,y) = \left(\frac{g(x)}{h(x)},
+    y\left(\frac{g(x)}{h(x)}\right)'\right)$, hence
   \[(x^3 + ax + b){\left(\frac{g(x)}{h(x)}\right)'}^2 =
   \left(\frac{g(x)}{h(x)}\right)^3 + a'\frac{g(x)}{h(x)} + b'\]
   
-  \begin{block}{BMSS algorithm \parencite{bostan+morain+salvy+schost08}}
-    Power series solution 
-  \end{block}
-
-  \begin{block}{Lercier $p=2$}
-    
-  \end{block}
-
-  \begin{block}{\cite{lercier+sirvent08}}
-    When $p$ exceeds the precision, a division by zero happens:
+  \begin{block}{\textbf{Algorithms:} Given $E, E', \ell$, compute $\I:E\to E'$}
     \begin{itemize}
-    \item Lift $E$ and $E'$ in the $p$-adics while keeping $\Phi_\ell\left(j(\tilde{E}),j(\tilde{E}')\right)=0$;
-    \item Apply BMSS in $\Q_q$.
+    \item \emph{\cite{couveignes94}:} Compute morphisms of formal
+      groups, look for one that corresponds to an isogeny.
+    \item \emph{\cite{couveignes96}:} Interpolate over the
+      $p$-torsion, look for a polynomial that corresponds to an
+      isogeny.
+    \item \emph{\cite{lercier96}:} (only for $p=2$) solve a linear
+      system.
+    \item \emph{BMSS
+        algorithm \parencite{bostan+morain+salvy+schost08}:} Find a
+      power series solution to the differential equation, then
+      reconstruct the isogeny.
+    \item \emph{\cite{lercier+sirvent08}:} Lift $E$ and $E'$ in the
+      $p$-adics to avoid divisions by zero, then apply BMSS.
     \end{itemize}
   \end{block}
-\end{frame}
-
-%%
-
-\begin{frame}
-  \frametitle{Couveignes' algorithm (\cite{couveignes96})}
-  
-  \begin{center}
-    \large
-    Given $E, E', \ell$, compute $\I:E\to E'$
-  \end{center}
-
-  \begin{center}
-    \emph{\textbf{Idea:}} Send $E[p^k]$ over $E'[p^k]$
-  \end{center}
-  
-  \begin{itemize}
-  \item \alert<4>{Compute the extensions $\U_i/\F_q$
-    such that $E[p^i]$ is defined in $\U_i$;}
-    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}
-  \item Pick $\;k\;$ \emph{large enough} ($k\sim\log_p4\ell$);
-  \item \alert<4>{Compute $\;P$, a generator of $\;E[p^k]$;}
-    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}
-  \item \alert<4>{Compute $\;P'$, a generator of $\;E'[p^k]$;}
-    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}
-  \item Compute the polynomial $\;T\;$ vanishing $\;E[p^k]$;
-    \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert<3>{$\tildO(\Mult(\ell))$}}}
-  \item For $j\in\left(\Z/p^k\Z\right)^\ast$
-    \begin{itemize}
-      \normalsize
-    \item Interpolate $\;A : x(P) \mapsto x([j]P')$;
-      \hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert<3>{$\tildO(\Mult(\ell))$}}}
-    \item Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$;
-      \hfill\emph{\alt<1>{}{$\tildO(\Mult(\ell))$}}
-    \end{itemize}
-    Stop when $\frac{g}{h}$ is an isogeny.
-    \hfill\emph{\alt<1>{}{$\ell$ times on average}}
-  \end{itemize}
 \end{frame}
 
 %%
@@ -376,13 +358,24 @@
   \begin{itemize}
   \item Compute the extensions $\U_i/\F_q$ such that $E[p^i]$ is
     defined in $\U_i$;
+    \uncover<1-3>{\hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
   \item Pick $\;k\;$ \emph{large enough} ($k\sim\log_p4\ell$);
   \item Compute $\;P$, a generator of $\;E[p^k]$;
+    \uncover<1-3>{\hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
   \item Compute $\;P'$, a generator of $\;E'[p^k]$;
+    \uncover<1-3>{\hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
   \item Compute the polynomial $\;T\;$ vanishing $\;E[p^k]$;
-  \item Interpolate $\;A : x(P) \mapsto x(P')$;
-  \item Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$;
-  \item \alert{If $\frac{g}{h}$ is an isogeny}, done; otherwise pick another $P'$.
+    \uncover<1-3>{\hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
+  \item For $j\in\left(\Z/p^k\Z\right)^\ast$
+    \begin{itemize}
+      \normalsize
+    \item Interpolate $\;A : x(P) \mapsto x([j]P')$;
+      \uncover<1-3>{\hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
+    \item Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$;
+      \uncover<1-3>{\hfill\emph{\alt<1>{}{$\tildO(\Mult(\ell))$}}}
+    \end{itemize}
+    \alert<4>{Stop when $\frac{g}{h}$ is an isogeny.}
+    \uncover<1-3>{\hfill\emph{\alt<1>{}{$\ell$ times on average}}}
   \end{itemize}
 \end{frame}
 
@@ -466,6 +459,21 @@
 \end{figure}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Isogenies of unknown degree}
+
+  \begin{itemize}
+  \item This variant of \cite{couveignes96} is at the moment the
+    fastest (both in theory and in practice) algorithm for this
+    task.
+  \item We tested two curves over $\F_{2^{161}}$, isogenous of
+    unknown degree, taken from \cite{teske06}: proven in 694
+    cpu-hours that no isogeny of degree less then $2^{13}$ exists.
+  \item Interesting applications for this algorithm are yet to be
+    found.
+  \end{itemize}
+\end{frame}
+
 %%
 %%
 
@@ -501,17 +509,21 @@
     \begin{column}{0.65\textwidth}
       \begin{block}{$p$-descent (\cite{voloch90})}
         If $\;P_i=(x_i,y_i)\;$ generates $\;E[p^i]$, the solution to
-        \[X^p - X = \frac{\sqrt[p]{y_i\beta_E(x_i)}}{\sqrt[p-1]{H_E}}\]
-        generates $\;E[p^{i+1}]$. $y_i=?$
+        \begin{align*}
+          z^p - z &= \frac{\sqrt[p]{y_i\beta_E(x_i)}}{\sqrt[p-1]{H_E}}\\
+          x_{i+1} &= \sqrt[p]{x_i}\\
+          y_{i+1} &= \sqrt[p]{y_i}
+        \end{align*}
+        generates $\;E[p^{i+1}]$ (on an isomorphic curve).
       \end{block}
 
       \begin{block}<2>{Artin-Schreier Towers over finite fields}
         $\LK/\K$ extension: Artin-Schreier polynomial:
-        
+        \vspace{-.5mm}
         \begin{center}
-          \Large\emph{$X^p - X - \alpha$}
+          \large\emph{$X^p - X - \alpha$}
         \end{center}
-
+        \vspace{-.5mm}
         \alert{ANY} separable extension of degree $p$ can be expressed
         this way.
       \end{block}
@@ -522,23 +534,54 @@
 %%
 
 \begin{frame}
-  \frametitle{Slow towers}
+  \frametitle{Arithmetic in towers of extensions}
   
+  \begin{columns}
+    \begin{column}{0.3\textwidth}
+      \Large\[\xymatrix{
+        *+[r]{\U_k = \frac{\U_{k-1}[X_k]}{P_{k-1}(X_k)}}\ar@{-}[d]^p\\
+        *+[r]{\U_{k-1}} \ar@{--}[dd]\\
+        \\
+        *+[r]{\U_{1} = \frac{\U_0[X_1]}{P_0(X_1)}} \ar@{-}[d]^p\\
+        *+[r]{\U_{0} = \F_{p^d} = \frac{\F_p[X_0]}{Q(X_0)}}
+      }\]
+    \end{column}
+    \begin{column}{0.65\textwidth}
+      \begin{block}{Multiplication}
+        \vspace{-\baselineskip}
+        \begin{align*}
+          \Mult(\U_0) &= O\bigl(\Mult(d)\bigr)\\
+          \Mult(\U_1) &= O\bigl(p^2\Mult(d)\bigr)\\
+          \Mult(\U_2) &= O\bigl(p^4\Mult(d)\bigr)\\
+          &\vdots\\
+          \Mult(\U_k) &= O\bigl(p^{2k}\Mult(d)\bigr) \varsupsetneq \tildO(p^kd)
+        \end{align*}
+        
+        Even using Karatsuba or FFT multiplication, we are far from
+        optimality.
+      \end{block}
+      \vspace{-1.5mm}
+      \begin{block}{Other operations}
+        \begin{itemize}
+        \item Exponentiation, Inversion, GCD, all depend upon $\;\Mult(\U_k)$,
+        \item The canonical injection $\;\U_{i-1}\ra\U_i$ can be computed in $O(p^i)$.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 %%
 
 \begin{frame}
-  \frametitle{One fast tower, many fast towers! (\cite{couveignes00})}
-  
-  Theorem (Couveignes): Be fast!
+  \frametitle{One fast tower, many fast towers!}
   
   \begin{center}
     Fast tower
 
-    \bigskip
+    \smallskip
 
-    \Large$\xymatrix{
+    \large$\xymatrix{
       \only<3>{E[p^k]\ar@{-->}[r]} & \only<2->{\U_k \ar@{-}[d]\ar[r]}      & \LK_k \ar@{-}[d]      & \only<2->{\U_k' \ar@{-}[d]\ar[l]}& \only<3>{E[p^k]\ar@{-->}[l]}\\
       &\only<2->{\U_{k-1} \ar@{--}[dd]\ar[r]} & \LK_{k-1} \ar@{--}[dd] & \only<2->{\U_{k-1}' \ar@{--}[dd]\ar[l]}\\
       \\
@@ -546,6 +589,10 @@
       &                    &\LK_0
     }$
   \end{center}
+
+  \uncover<2->{ \emph{Theorem (\cite{couveignes00}):} There exist an
+    isomorphism algorithm that runs in \alert{$O(k^3\Mult(\LK_k))$}
+    operations in $\LK_0$.}
 \end{frame}
 
 %%
@@ -553,6 +600,34 @@
 \begin{frame}
   \frametitle{A fast tower}
 
+  \begin{tikzpicture}
+    \begin{scope}
+      \draw (0,0) node {\Large$\xymatrix{
+          *+[r]{\LK_k = \frac{\U_{k-1}[X_k]}{P_{k-1}(X_k)}}\ar@{-}[d]^p\\
+          *+[r]{\LK_{k-1}} \ar@{--}[d]\\
+          *+[r]{\LK_1 = \frac{\U_0[X_1]}{P_0(X_1)}} \ar@{-}[d]^p\\
+          *+[r]{\LK_0 = \F_q = \frac{\F_p[X_0]}{Q(X_0)}} \ar@{-}[d]^d\\
+          *+[r]{\F_p}
+        }$};
+    \end{scope}
+
+    \begin{scope}[xshift=1.8cm]
+      \draw (2,1) node {\parbox{3.3cm}{\emph{Idea:} Convert to a univariate basis \alert{over $\F_p$}}};
+      \uncover<2->{\draw[<->] (0,0) -- (4,0);}
+    \end{scope}
+      
+    \begin{uncoverenv}<2->
+      \begin{scope}[xshift=8cm]
+        \draw (0,0) node {\Large$\xymatrix{
+            *+[r]{\LK_k = \frac{\F_{k-1}[X_k]}{Q_{k-1}(X_k)}}\ar@{-}[d]^p\\
+            *+[r]{\LK_{k-1}} \ar@{--}[d]\\
+            *+[r]{\LK_1 = \frac{\F_p[X_1]}{Q_1(X_1)}} \ar@{-}[d]^p\\
+            *+[r]{\LK_0 = \F_q = \frac{\F_p[X_0]}{Q(X_0)}} \ar@{-}[d]^d\\
+            *+[r]{\F_p}
+          }$};
+      \end{scope}
+    \end{uncoverenv}
+  \end{tikzpicture}
 \end{frame}
 
 %% 
@@ -563,16 +638,18 @@
   \vspace{-2mm}
 
   \begin{columns}
-    \begin{column}{0.3\textwidth}
+    \begin{column}{0.1\textwidth}
       \Large\[\xymatrix{
-        *+[r]{\LK_k = \frac{\U_{k-1}[X_k]}{P_{k-1}(X_k)}}\ar@{-}[d]^p\\
-        *+[r]{\LK_{k-1}} \ar@{--}[d]\\
-        *+[r]{\LK_1 = \frac{\U_0[X_1]}{P_0(X_1)}} \ar@{-}[d]^p\\
-        *+[r]{\LK_0 = \F_q = \frac{\F_p[X_0]}{Q(X_0)}}
+        \LK_k \ar@{-}[d]^p\\
+        \LK_{k-1} \ar@{--}[dd]\\
+        \\
+        \LK_1 \ar@{-}[d]^p\\
+        \LK_0 \ar@{-}[d]^d\\
+        \F_p
       }\]
     \end{column}
-    \begin{column}{0.65\textwidth}
-      \begin{block}{Our construction}
+    \begin{column}{0.85\textwidth}
+      \begin{block}{Our construction (inspired by \cite{cantor89})}
         Let $\;x_0 = X_0\;$ such that
         $\;\Tr_{\LK_0/\F_p}(x_0) \ne 0$, let
         \begin{align*}
@@ -581,13 +658,13 @@
         \end{align*}
         with $\;x_{i+1}\;$ a root of $\;P_i\;$ in $\;\LK_{i+1}$.
 
-        \alert{This tower is such that $x_i$ generates $\LK_i/\F_p$.} Howzat?
+        \alert{This tower is such that $x_i$ generates $\LK_i/\F_p$.}
       \end{block}
 
-      \begin{block}{Two ways to represent $\LK_k$}
+      \begin{block}{Two bases to represent $\LK_k$}
         \begin{itemize}
-        \item Univariate basis: $\;\LK_k=\F_p[Z]/Q_k(Z)$;
-        \item Multivariate basis: $\;\LK_k=\F_p[X_0,X_1,\ldots,X_k]/(Q,P_0,\ldots,P_{k-1})$.
+        \item Univariate: \hfill\emph{$\LK_k=\F_p[Z]/Q_k(Z)$}\hfill
+        \item Multivariate: \hfill\emph{$\LK_k=\F_p[X_0,X_1,\ldots,X_k]/(Q,P_0,\ldots,P_{k-1})$}\hfill
         \end{itemize}
         \alert{A fast change of basis is the key to fast arithmetic:}
         \begin{itemize}
@@ -601,10 +678,10 @@
 
 %%
 
-\begin{frame}
-  \frametitle{Fast tower example}
+% \begin{frame}
+%   \frametitle{Fast tower example}
   
-\end{frame}
+% \end{frame}
 
 %%
 
@@ -673,162 +750,185 @@
 \end{frame}
 
 %%
-%%
-
-\section{The transposition principle}
 
 \begin{frame}
   \frametitle{The transposition principle}
 
-  \begin{quote}
-    \large ``Let $\pspace$ be an arbitrary set. To any $R$-algebraic
+  \large
+  
+  \begin{theorem}
+    ``Let $\pspace$ be an arbitrary set. To any $R$-algebraic
     algorithm $A$ computing a family of linear functions $(f_p:M\ra
     N)_{p\in\pspace}$ corresponds an $R$-algebraic algorithm
     $\dual{A}$ computing the \emph{dual family}
     $(\dual{f}_p:\dual{N}\ra\dual{M})_{p\in\pspace}$. The algebraic
     time and space complexities of $\dual{A}$ are bounded by the time
     complexity of $A$.''
-  \end{quote}
+  \end{theorem}
   
 \end{frame}
 
 %%
 
 \begin{frame}
-  \frametitle{Transposition of arithmetic circuits}
+  \frametitle{Change of basis}
 
-  Plus dynamique !!
-
-  \begin{columns}
-    \begin{column}{0.6\textwidth}
-      \begin{center}
-        Arithmetic circuits are like diagrams enriched with a
-        \emph{product}. In particular they can be \emph{transposed}:
-      \end{center}
-
-      \begin{center}
-      \begin{tikzpicture}
-        \tikzstyle{node}=[circle,thick,draw=black,minimum size=4mm]
-        \tikzstyle{arg}=[rectangle,thin,draw=black,minimum size=4mm]
-        
-        \begin{scope}
-          \node[arg](in1){$x_1$};
-          \node[arg,right of=in1](in2){$x_2$};
-          \node[arg,right of=in2](in3){$x_3$};
-          
-          \node[node,below of=in1](plus1){$+$};
-          \node[node,right of=plus1](H){$\hub$};
-
-          \node[node,below of=plus1](plus2){$+$};
-          \node[node,right of=plus2](times){$\rmul{2}$};
-
-          \node[arg,below of=plus2,xshift=6mm](out1){$y_1$};
-          \node[arg,right of=out1](out2){$y_2$};
-
-          \path[->]
-          (in1) edge (plus1)
-          (in2) edge (H)
-          (in3) edge (out2)
-          (H) edge (plus1)
-          (H) edge (times)
-          (plus1) edge (plus2)
-          (times) edge (plus2)
-          (plus2) edge (out1);
-        \end{scope}
-
-        \begin{uncoverenv}<2->
-        \begin{scope}[xshift=3cm, yshift=-0.17\textheight]
-          \node(x){\Huge $\leftrightarrow$};
-        \end{scope}
-
-        \begin{scope}[xshift=4.2cm]
-          \node[arg](in1){$\dual{x_1}$};
-          \node[arg,right of=in1](in2){$\dual{x_2}$};
-          \node[arg,right of=in2](in3){$\dual{x_3}$};
-      
-          \node[node,below of=in1](plus1){\alt<3>{$\hub$}{$+$}};
-          \node[node,right of=plus1](H){\alt<3>{$+$}{$\hub$}};
-          
-          \node[node,below of=plus1](plus2){\alt<3>{$\hub$}{$+$}};
-          \node[node,right of=plus2](times){$\rmul{2}$};
-          
-          \node[arg,below of=plus2,xshift=6mm](out1){$\dual{y_1}$};
-          \node[arg,right of=out1](out2){$\dual{y_2}$};
-          
-          \path[<-]
-          (in1) edge (plus1)
-          (in2) edge (H)
-          (in3) edge (out2)
-          (H) edge (plus1)
-          (H) edge (times) 
-          (plus1) edge (plus2)
-          (times) edge (plus2)
-          (plus2) edge (out1);
-        \end{scope}
-        \end{uncoverenv}
-      \end{tikzpicture}
-      \end{center}
-
-      \begin{center}
-        \uncover<3>{This can be made precise using category theory.}
-      \end{center}
-    \end{column}
-    \begin{column}{0.4\textwidth}
-      \begin{align*}
-        y_1 &= x_1 + 3x_2\\
-        y_2 &= x_3
-      \end{align*}
-      
-      \Large
-      \begin{gather*}
-        \begin{pmatrix}
-          1 & 3 & 0\\
-          0 & 0 & 1
-        \end{pmatrix}\\
-        \uncover<2->{\updownarrow}\\
-        \uncover<2->{\begin{pmatrix}
-          1 & 0\\
-          3 & 0\\
-          0 & 1\\
-        \end{pmatrix}}
-      \end{gather*}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-%%
-
-\begin{frame}
-  \frametitle{\emph{Automatic} transposition?}
-
-  \begin{itemize}
-  \item Algorithms are hard to transpose, transposed algorithms are
-    hard or impossible to understand;
-  \item How to be confident that a transposed algorithm is well
-    implemented if no one understands it?
-  \item When proving programs with a proof assistant, why should we do
-    the work twice?
-  \end{itemize}
-
-  \begin{block}{Previous work}
+  \begin{block}{Univariate $\ra$ multivariate}
+    Recursive algorithm: given $\;a(Z)\in\F_p[Z]/Q_k(Z)$
     \begin{itemize}
-    \item Originally discovered in \emph{electrical network theory} by
-      \cite{bordewijk57} (only works for $\C$); some authors attribute
-      the discovery to Tellegen, Bordewijk's director, but this is
-      debated;
-    \item \cite{fiduccia:phd} and \cite{hopcroft+musinski73}:
-      transposition of \emph{bilinear chains}, the most complete
-      formulation (non-commutative rings);
-    \item Special case of \emph{automatic differentiation}
-      \cite{baur+strassen83};
-    \item In \emph{computer algebra}, popularized by Shoup, von zur
-      Gathen, Kaltofen,\dots
-    \item \cite{bostan+lecerf+schost:tellegen} improve algorithms for
-      polynomial evaluation and solve an open question on space
-      complexity.
+    \item Split $a$ in $p$ parts;
+    \item convert recursively to multivariate;
+    \item recombine using Horner's rule.
+    \end{itemize}
+    Simple and fast: \emph{$\;O(\Mult(\ell) + \ell\log^2\ell)$}
+  \end{block}
+
+  \vspace{-1mm}
+
+  \begin{block}{Multivariate $\ra$ univariate\hfill\alert{$\;O(\Mult(\ell) + \ell\log^2\ell)$}}
+    By \textit{trace formulas} (\cite{rouiller99}):
+    \[
+    a(Z) = \frac{A(Z)}{Q_k'(Z)}
+    \qquad\text{where}\qquad
+    A(T) = Q_k(T)\sum_{i\ge 0}\frac{\Tr aZ^i}{T^{i+1}}
+    \text{.}\]
+    \vspace{-4mm}
+    \begin{itemize}
+    \item Compute the \textit{trace form} $\;\Tr\;$ and the form
+      $\;a\cdot\Tr : x\mapsto \Tr ax$;
+    \item compute $\;\sum_{i\ge 0}\frac{\Tr aZ^i}{T^{i+1}}$
+      \alert{using a transposed univariate $\ra$ multivariate};
+    \item deduce $\;a(Z)$.
     \end{itemize}
   \end{block}
 \end{frame}
+
+
+% %%
+% %%
+
+% \section{The transposition principle}
+
+% \begin{frame}
+%   \frametitle{The transposition principle}
+
+%   \begin{quote}
+%     \large ``Let $\pspace$ be an arbitrary set. To any $R$-algebraic
+%     algorithm $A$ computing a family of linear functions $(f_p:M\ra
+%     N)_{p\in\pspace}$ corresponds an $R$-algebraic algorithm
+%     $\dual{A}$ computing the \emph{dual family}
+%     $(\dual{f}_p:\dual{N}\ra\dual{M})_{p\in\pspace}$. The algebraic
+%     time and space complexities of $\dual{A}$ are bounded by the time
+%     complexity of $A$.''
+%   \end{quote}
+  
+% \end{frame}
+
+% %%
+
+% \begin{frame}
+%   \frametitle{Transposition of arithmetic circuits}
+
+%   Plus dynamique !!
+
+%   \begin{columns}
+%     \begin{column}{0.6\textwidth}
+%       \begin{center}
+%         Arithmetic circuits are like diagrams enriched with a
+%         \emph{product}. In particular they can be \emph{transposed}:
+%       \end{center}
+
+%       \begin{center}
+%       \begin{tikzpicture}
+%         \tikzstyle{node}=[circle,thick,draw=black,minimum size=4mm]
+%         \tikzstyle{arg}=[rectangle,thin,draw=black,minimum size=4mm]
+        
+%         \begin{scope}
+%           \node[arg](in1){$x_1$};
+%           \node[arg,right of=in1](in2){$x_2$};
+%           \node[arg,right of=in2](in3){$x_3$};
+          
+%           \node[node,below of=in1](plus1){$+$};
+%           \node[node,right of=plus1](H){$\hub$};
+
+%           \node[node,below of=plus1](plus2){$+$};
+%           \node[node,right of=plus2](times){$\rmul{2}$};
+
+%           \node[arg,below of=plus2,xshift=6mm](out1){$y_1$};
+%           \node[arg,right of=out1](out2){$y_2$};
+
+%           \path[->]
+%           (in1) edge (plus1)
+%           (in2) edge (H)
+%           (in3) edge (out2)
+%           (H) edge (plus1)
+%           (H) edge (times)
+%           (plus1) edge (plus2)
+%           (times) edge (plus2)
+%           (plus2) edge (out1);
+%         \end{scope}
+
+%         \begin{uncoverenv}<2->
+%         \begin{scope}[xshift=3cm, yshift=-0.17\textheight]
+%           \node(x){\Huge $\leftrightarrow$};
+%         \end{scope}
+
+%         \begin{scope}[xshift=4.2cm]
+%           \node[arg](in1){$\dual{x_1}$};
+%           \node[arg,right of=in1](in2){$\dual{x_2}$};
+%           \node[arg,right of=in2](in3){$\dual{x_3}$};
+      
+%           \node[node,below of=in1](plus1){\alt<3>{$\hub$}{$+$}};
+%           \node[node,right of=plus1](H){\alt<3>{$+$}{$\hub$}};
+          
+%           \node[node,below of=plus1](plus2){\alt<3>{$\hub$}{$+$}};
+%           \node[node,right of=plus2](times){$\rmul{2}$};
+          
+%           \node[arg,below of=plus2,xshift=6mm](out1){$\dual{y_1}$};
+%           \node[arg,right of=out1](out2){$\dual{y_2}$};
+          
+%           \path[<-]
+%           (in1) edge (plus1)
+%           (in2) edge (H)
+%           (in3) edge (out2)
+%           (H) edge (plus1)
+%           (H) edge (times) 
+%           (plus1) edge (plus2)
+%           (times) edge (plus2)
+%           (plus2) edge (out1);
+%         \end{scope}
+%         \end{uncoverenv}
+%       \end{tikzpicture}
+%       \end{center}
+
+%       \begin{center}
+%         \uncover<3>{This can be made precise using category theory.}
+%       \end{center}
+%     \end{column}
+%     \begin{column}{0.4\textwidth}
+%       \begin{align*}
+%         y_1 &= x_1 + 3x_2\\
+%         y_2 &= x_3
+%       \end{align*}
+      
+%       \Large
+%       \begin{gather*}
+%         \begin{pmatrix}
+%           1 & 3 & 0\\
+%           0 & 0 & 1
+%         \end{pmatrix}\\
+%         \uncover<2->{\updownarrow}\\
+%         \uncover<2->{\begin{pmatrix}
+%           1 & 0\\
+%           3 & 0\\
+%           0 & 1\\
+%         \end{pmatrix}}
+%       \end{gather*}
+%     \end{column}
+%   \end{columns}
+% \end{frame}
+
+% %%
 
 %%
 
@@ -1001,32 +1101,32 @@
 
 %%
 
-\begin{frame}
-  \frametitle{\tALpy{}}
+% \begin{frame}
+%   \frametitle{\tALpy{}}
   
-  \begin{block}{We are implementing}
-    A Python-like ad-hoc language, compiled/interpreted in Python,
-    featuring:
-    \begin{itemize}
-    \item Algebraic constructs (Rings, Modules, Fields, \ldots);
-    \item Transposition of multilinear/recursive code;
-    \item Parameterizable linearity inference (including commutative
-      multiplication);
-    \item Algebraic complexity preserving;
-    \item Easily used on top of Computer Algebra Systems that have a
-      Python interface;
-    \item Other Computer Algebra Systems will be able to work with it
-      as we will add more languages to the output of the compiler
-      (OCaml and Haskell look easy, C is somewhat harder).
-    \end{itemize}
-  \end{block}
+%   \begin{block}{We are implementing}
+%     A Python-like ad-hoc language, compiled/interpreted in Python,
+%     featuring:
+%     \begin{itemize}
+%     \item Algebraic constructs (Rings, Modules, Fields, \ldots);
+%     \item Transposition of multilinear/recursive code;
+%     \item Parameterizable linearity inference (including commutative
+%       multiplication);
+%     \item Algebraic complexity preserving;
+%     \item Easily used on top of Computer Algebra Systems that have a
+%       Python interface;
+%     \item Other Computer Algebra Systems will be able to work with it
+%       as we will add more languages to the output of the compiler
+%       (OCaml and Haskell look easy, C is somewhat harder).
+%     \end{itemize}
+%   \end{block}
 
-  \begin{center}
-    \url{http://transalpyne.gforge.inria.fr/}
-  \end{center}
-\end{frame}
+%   \begin{center}
+%     \url{http://transalpyne.gforge.inria.fr/}
+%   \end{center}
+% \end{frame}
 
-%%
+% %%
 
 %%
 %%
@@ -1035,32 +1135,38 @@
 
 \begin{frame}
   \frametitle{Automatic transposition}
-  
+
+  \begin{itemize}
+  \item Algorithms are hard to transpose, transposed algorithms are
+    hard or impossible to understand;
+  \item How to be confident that a transposed algorithm is well
+    implemented if no one understands it?
+  \item When proving programs with a proof assistant, why should we do
+    the work twice?
+  \end{itemize}
+
+  \begin{block}{\texttt{transalpyne}}
+    A Python-like ad-hoc language for automatic transposition,
+    compiled/interpreted in Python.
+
+    \begin{center}
+      \url{http://transalpyne.gforge.inria.fr/}
+    \end{center}
+  \end{block}
+
   \begin{block}{The future of \texttt{transalpyne}}
     \begin{itemize}
     \item Finish the implementation, add more output languages.
     \item Integration in a Computer Algebra System (Sage?
       Mathemagix?).
+    \item Development in a dependently typed system (Coq? Agda?).
     \end{itemize}
   \end{block}
-  
-  \begin{block}{The future of automatic transposition}
-    \begin{itemize}
-    \item Dependent types are needed to implement the categorical
-      semantics aspects of the transposition principle.
-    \item We have a working Haskell implementation of
-      \textit{self-transposing} polynomial multiplication, using faked
-      dependent types. This implementation is not satisfactory, however.
-    \item We plan to implement a Domain Specific Language in a
-      language with full support for dependent types (Coq? Agda? Some
-      extensions of Haskell?).
-    \end{itemize}
-  \end{block}  
 \end{frame}
 
 %%
 
-\begin{frame}[allowframebreaks]
+\begin{frame}
   \frametitle{Perspectives on isogenies and Artin-Schreier towers}
   
   \begin{block}{Implementations}
@@ -1073,38 +1179,20 @@
     \end{itemize}
   \end{block}
 
-  \begin{block}{Isogenies of unknown degree}
-    \begin{itemize}
-    \item This variant of \cite{couveignes96} is at the moment the
-      fastest (both in theory and in practice) algorithm for this
-      task.
-    \item We tested two curves over $\F_{2^{161}}$, isogenous of
-      unknown degree, taken from \cite{teske06}: proven in 694
-      cpu-hours that no isogeny of degree less then $2^{13}$ exists.
-    \item \textbf{Disclaimer}: this has nothing to do with breaking
-      \cite{teske06} (isogenies of degree $\sim 2^{1050}$ would be
-      needed), nor with certifying its security.
-    \item Interesting applications for this algorithm are yet to be
-      found.
-    \end{itemize}
-  \end{block}  
-
   \begin{block}{Perspectives on isogenies}
     \begin{itemize}
     \item All known algorithms to compute isogenies have suboptimal
       complexity $\Omega(\ell^2)$.
+    \item Are there models, where algorithms \textit{à la} BMSS and
+      \cite{lercier+sirvent08} may be faster?
     \item Couveignes' first isogeny algorithm (\cite{couveignes94}) is
       very similar to \cite{couveignes96} and may be modified in the
       same way. There is some hope that it may be faster in practice,
       because of the simpler arithmetic operations needed.
-    \item Using models other than the Weierstrass one, it may be
-      possible to improve $p$-adic algorithms \textit{à la}
-      \cite{lercier+sirvent08}.
     \item Generalize Couveignes' algorithms to genus $2$?
     \end{itemize}
   \end{block}
 \end{frame}
-
 \end{document}
 
 
