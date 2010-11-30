@@ -11,9 +11,9 @@ algorithms of the previous chapter and some experimental results.
 
 We implemented \ctwoasfimc{} as \texttt{C++} programs using the
 libraries \texttt{NTL}~\cite{shoup2003ntl} for finite field
-arithmetics, \texttt{gf2x}~\cite{gf2x} for fast arithmetics in
+arithmetic, \texttt{gf2x}~\cite{gf2x} for fast arithmetic in
 characteristic $2$ and \texttt{FAAST} (see
-Section~\ref{sec:artin-benchmarks}) for fast arithmetics in
+Section~\ref{sec:artin-benchmarks}) for fast arithmetic in
 Artin-Schreier towers.  We also have a Magma~\cite{MAGMA} prototype of
 the same algorithm, not making use of the fast algorithms of
 Chapter~\ref{cha:artin-schr-towers}.  This section mainly deals with
@@ -46,9 +46,9 @@ the abscissas of $E[p^k]$, this is enough to complete the
 algorithm. Scalar multiples of $P$ can be computed without knowledge
 of $y(P)$ using \hyperref[rk:montgomery]{Montgomery formulas}.
 
-\pdfmcone{"Kummer surface" -> "Kummer variety".}  Remark that
-for $p=2$ we use the same construction in an implicit way since we do
-a $p$-descent on the Kummer variety.
+\pdfmcone{"Kummer surface" -> "Kummer variety".}  Note that for $p=2$
+we use the same construction in an implicit way since we do a
+$p$-descent on the Kummer variety.
 
 
 \paragraph{$p^k$-Torsion points}
@@ -90,9 +90,9 @@ coordinates). After some substitutions this is equivalent to
   \right.
 \end{equation*}
 Then a solution in $x$ to this system is given by the GCD of the two
-equations. Remark that proposition \ref{th:voloch} ensures there is
-one unique solution. These formulas are slightly more efficient than
-the ones in~\cite[$\S$6.2]{lercier-algorithmique}.
+equations. Note that proposition \ref{th:voloch} ensures there is one
+unique solution. These formulas are slightly more efficient than the
+ones in~\cite[$\S$6.2]{lercier-algorithmique}.
 
 For $p=2$ we use the library \texttt{FAAST} (for solving
 Artin-Schreier equations) on top of \texttt{gf2x} (for better

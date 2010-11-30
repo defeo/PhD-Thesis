@@ -38,14 +38,15 @@ Remark~\ref{rk:comp-minim-polyn}.  This costs $O\bigl(pd\Mult(pd)\log
 
 Now we need to compute the embedding $\F_q\subset\F_q[c]$. Supposing
 $\F_q$ is represented as $\F_p[X]/Q_0(X)$, we factor $Q_0$ in
-$\F_q[c]$, which costs $O\bigl(pd\Mult(pd^2)\log d\log p\bigr)$ using
-\cite[Coro. 14.16]{vzGG}. Then the most naive technique to express the
-embedding is linear algebra. This requires the computation of $pd$
-elements of $\F_q[c]$ at the expense of $\Theta\bigl(pd\Mult(pd)\bigr)$
-operations in $\F_p$, then the inversion of the matrix holding such
-elements, at a cost of $\Theta\bigl((pd)^\omega\bigr)$ operations. This is
-certainly not optimal, yet this phase will have negligible cost
-compared to the rest of the algorithm.
+$\F_q[c]$, which costs $O\bigl(pd\Mult(pd^2)\log d\log p\bigr)$
+using~\cite[Coro. 14.16]{vzGG}. Then the most naive technique to
+express the embedding is linear algebra. This requires the computation
+of $pd$ elements of $\F_q[c]$ at the expense of
+$\Theta\bigl(pd\Mult(pd)\bigr)$ operations in $\F_p$, then the
+inversion of the matrix holding such elements, at a cost of
+$\Theta\bigl((pd)^\omega\bigr)$ operations. This is certainly not
+optimal, yet this phase will have negligible cost compared to the rest
+of the algorithm.
 
 Now we can compute $c$ and $c'$ by factoring the polynomials
 $Y^{p-1}-H_E$ and $Y^{p-1}-H_{E'}$ in $\F_p[X]/Q_1(X)$. This costs

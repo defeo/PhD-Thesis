@@ -28,11 +28,11 @@ Section~\ref{sec:bounded}.
 
 The problem of computing an explicit degree $\ell$ isogeny between two
 given elliptic curves over $\F_q$ was originally motivated by point
-counting methods based on Schoof's algorithm
-\cite{atkin88,elkies98,schoof95}. A review of the most
-efficient algorithms to solve this problem is given in
-\cite{bostan+morain+salvy+schost08}, together with a new quasi-optimal
-algorithm that we will review in Section~\ref{sec:bmss}.
+counting methods based on Schoof's
+algorithm~\cite{atkin88,elkies98,schoof95}. A review of the most
+efficient algorithms to solve this problem is given
+in~\cite{bostan+morain+salvy+schost08}, together with a new
+quasi-optimal algorithm that we will review in Section~\ref{sec:bmss}.
 
 All the algorithms of~\cite{bostan+morain+salvy+schost08} only work
 when $\ell\ll p$. The case where $p$ is small compared to $\ell$ was
@@ -45,10 +45,10 @@ Later, Lercier~\cite{lercier96} gave an algorithm specific to
 characteristic $2$, that uses some linear properties of the problem to
 build a linear system from whose solution the isogeny can be deduced.
 Its complexity is conjectured to be $\tildO(\ell^3\log q)$ operations
-in $\F_p$, but it has a much better constant factor than
-\cite{couveignes94}. At the moment we write, this is by many orders of
-magnitude the fastest algorithm to solve practical instances of the
-problem when $p=2$, thus being the \emph{de facto} standard for
+in $\F_p$, but it has a much better constant factor
+than~\cite{couveignes94}. At the moment we write, this is by many
+orders of magnitude the fastest algorithm to solve practical instances
+of the problem when $p=2$, thus being the \emph{de facto} standard for
 cryptographic use.
 
 Couveignes, again, proposed an algorithm in~\cite{couveignes96}
@@ -83,15 +83,15 @@ constructs a trapdoor cryptosystem by hiding a GHS-vulnerable curve
 behind a random path of isogenies.
 
 On the wave of the renewed interest for isogenies, two $p$-adic
-algorithms were recently proposed by Joux and Lercier
-\cite{joux+lercier06} and Lercier and Sirvent~\cite{lercier+sirvent08}
-to compute isogenies in arbitrary characteristic. The former method
-has complexity $\tildO(\ell^2(1 + \ell/p)\log q)$ operations in
-$\F_p$, which makes it well adapted to the case where $p\sim\log q$.
-The latter has complexity $\tildO(\ell^2\log q)$ operations in $\F_p$,
-making it the best algorithm to compute isogenies is small
-characteristics. We review the second algorithm in
-Section~\ref{sec:lercier-sirvent}.
+algorithms were recently proposed by Joux and
+Lercier~\cite{joux+lercier06} and Lercier and
+Sirvent~\cite{lercier+sirvent08} to compute isogenies in arbitrary
+characteristic. The former method has complexity $\tildO(\ell^2(1 +
+\ell/p)\log q)$ operations in $\F_p$, which makes it well adapted to
+the case where $p\sim\log q$.  The latter has complexity
+$\tildO(\ell^2\log q)$ operations in $\F_p$, making it the best
+algorithm to compute isogenies is small characteristics. We review the
+second algorithm in Section~\ref{sec:lercier-sirvent}.
 
 
 \section{Vélu formulas}
@@ -119,11 +119,11 @@ $\ell$-isogeny we mean a separable isogeny with kernel isomorphic to
 $\Z/\ell\Z$.
 
 
-For any finite subgroup $G \subset E(\clot{\K})$, Vélu formulas
-\cite{velu71} give in a canonical way an elliptic curve $\bar{E}$ and
-an explicit separable isogeny $\I:E\rightarrow \bar{E}$ such that
-$\ker\I=G$. The isogeny is $\K$-rational if and only if the polynomial
-vanishing on the abscissas of $G$ belongs to $\K[X]$.
+For any finite subgroup $G \subset E(\clot{\K})$, Vélu
+formulas~\cite{velu71} give in a canonical way an elliptic curve
+$\bar{E}$ and an explicit separable isogeny $\I:E\rightarrow \bar{E}$
+such that $\ker\I=G$. The isogeny is $\K$-rational if and only if the
+polynomial vanishing on the abscissas of $G$ belongs to $\K[X]$.
 
 The isogeny computed by Vélu formulas is the map
 \begin{multline}

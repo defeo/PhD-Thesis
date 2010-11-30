@@ -13,22 +13,23 @@ algebraic and algorithmic techniques, and developed new tools that
 have an interest of their own. Our contributions span three directions.
 
 \paragraph{Transposition principle}
-Before this work, the transposition principle used to be regarded
-merely as an existential result about algebraic algorithms.
-Following~\cite{bostan+lecerf+schost:tellegen}, it could be applied in
-an automatic fashion to a very special class of algebraic algorithms,
-that we call \emph{algebraic transforms} in
-Section~\ref{sec:stra-line-progr}. More general algebraic algorithms,
-such as polynomial multiplication or Euclidean division, were
-previously treated case-by-case.
+\pdfmcthree{Kaltofen did not like this sentence.}  Before this work,
+the transposition principle used to be considered difficult to apply,
+and transposed algorithms were notoriously difficult to interpret and
+implement correctly.  Following~\cite{bostan+lecerf+schost:tellegen},
+one could apply the principle in an automatic fashion to a very
+special class of algebraic algorithms, that we call \emph{algebraic
+  transforms} in Section~\ref{sec:stra-line-progr}. More general
+algebraic algorithms, such as polynomial multiplication or Euclidean
+division, were still treated case-by-case.
 
 In this document we have shown that typed functional languages allow
 to automatically infer the linear algebraic structure of any algebraic
 algorithm. Once this structure is known, the transposition of the
 algebraic algorithm is automatically produced by partial evaluation.
 It would be interesting to explore new ways of implementing the
-transposition principle in higher order languages such as Haskell or
-Coq, as this could have applications to the formal verification of
+transposition principle in higher order languages such as Haskell, Coq
+or Agda, as this could have applications to the formal verification of
 computer algebra systems by automated theorem provers.  We have
 sketched some relevant ideas in Appendix~\ref{cha:basic-categ-theory}.
 
@@ -36,7 +37,7 @@ sketched some relevant ideas in Appendix~\ref{cha:basic-categ-theory}.
 With the help of transposed algorithms, we have constructed a family
 of Artin-Schreier towers of finite fields with quasi-optimal
 arithmetic operations. Thanks to Couveignes'
-algorithm~\cite{couveignes00}, such fast arithmetics generalize to any
+algorithm~\cite{couveignes00}, such fast arithmetic generalize to any
 Artin-Schreier tower.
 
 Since any separable extension of degree equal to the characteristic is

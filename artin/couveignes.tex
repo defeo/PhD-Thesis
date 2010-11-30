@@ -19,7 +19,7 @@ $(\U_0,\ldots,\U_k)$ be as in Section~\ref{sec:fast-tower}.
 We also consider another sequence $(G'_i)_{0 \le i < k}$, that defines
 another tower $(\U'_0,\ldots,\U'_k)$.  Since $(\U'_0,\ldots,\U'_k)$ is
 not necessarily primitive, we fall back to the multivariate basis of
-Subsection~\ref{ssec:rep}: we write elements of $\U'_i$ on the basis
+Subsection~\ref{ssec:rep}: we write elements of $\U'_i$ in the basis
   \begin{equation}
   \basis{B'}_i=
   \{{x'_0}^{e_0} \cdots {x'_i}^{e_i} \;|\; 0 \le e_0 < d,\; 0\le e_j < p 
@@ -32,7 +32,7 @@ To compute in $\U'_i$, we will use an isomorphism $\U'_i \ra \U_i$.
 Such an isomorphism is determined by the images
 $\lst{s}_i=(s_0,\dots,s_i)$ of $(x'_0,\dots,x'_i)$, with $s_i \wrt
 \U_i$ (we always take $s_0=x_0$). This isomorphism, denoted by
-$\sigma_{\lst{s}_i}$, takes as input $v$ written on the basis
+$\sigma_{\lst{s}_i}$, takes as input $v$ written in the basis
 $\basis{B}'_i$ and outputs $\sigma_{\lst{s}_i}(v)\wrt \U_i$.
 
 To analyze costs, we use the functions $\Lift$ and $\Ptr$ introduced
@@ -41,16 +41,14 @@ feasible exponent for linear algebra over $\F_p$ (see
 Section~\ref{sec:asympt-compl}).
 \begin{theorem}\label{theo:main}
   Given $Q_0$ and $(G'_i)_{0 \le i < k}$, one can find
-  $\lst{s}_k=(s_0,\dots,s_k)$ in time 
+  $\lst{s}_k=(s_0,\dots,s_k)$ in 
   \begin{equation}
     \label{eq:105}
     O(d^\omega k + \Ptr(k) +
     \Mult(p^{k+1} d) \log(p))
-    \text{.}
   \end{equation}
-  Once they are known, one can apply
-  $\sigma_{\lst{s}_k}$ and $\sigma_{\lst{s}_k}^{-1}$ in time $O(k\,
-  \Lift(k))$.
+  operations. Once they are known, one can apply $\sigma_{\lst{s}_k}$
+  and $\sigma_{\lst{s}_k}^{-1}$ using $O(k\, \Lift(k))$ operations.
 \end{theorem}
 Thus, we can compute products, inverses, etc, in $\U'_k$ for
 the cost of the corresponding operation in $\U_k$, plus $O(k\,
@@ -112,7 +110,7 @@ computed as the solution of a new, simpler, Artin-Schreier equation.
 First we tackle the problem of finding a solution
 of~\eqref{eq:approximateAS}.  For this purpose, observe that the left
 hand side of~\eqref{eq:approximateAS} is $\U_{i-1}$-linear and its
-matrix on the basis $(1,\ldots,x_i^{p-1})$ is
+matrix in the basis $(1,\ldots,x_i^{p-1})$ is
 \begin{equation}
   \pdfmctwo{More entries in the matrix.}
   \label{eq:approximate-matrix}
@@ -148,12 +146,13 @@ algorithm \titleref{alg:approximateas} finds the required solution.
 
 \begin{theorem}
   \label{th:approximateAS}
-  Algorithm \titleref{alg:approximateas} is correct and takes time $O(\Lift(i))$.
+  Algorithm \titleref{alg:approximateas} is correct and takes
+  $O(\Lift(i))$ operations.
 \end{theorem}
 
 \begin{proof}
   Correctness is clear by Gaussian elimination.  For the cost
-  analysis, remark that $\beta_{i-1,p^{i-1}d}$ has already been
+  analysis, note that $\beta_{i-1,p^{i-1}d}$ has already been
   precomputed as a prerequisite for the iterated Frobenius and
   pseudotrace algorithms. Step~\ref{alg:AAS:loop} takes $O(p^2)$
   additions and scalar operations in $\U_{i-1}$; the overall cost is
@@ -182,12 +181,12 @@ linear algebra, written \alg{NaiveSolve}.
 
 \begin{theorem}\label{theo:AS}
   Algorithm \titleref{alg:artin-schreier} is
-  correct and takes time
+  correct and takes 
   \begin{equation}
     \label{eq:109}
     O(d^\omega + \Ptr(i))
-    \text{.}
   \end{equation}
+  operations.
 \end{theorem}
 \begin{proof} 
   Correctness follows from the previous discussion.  For the
@@ -214,7 +213,7 @@ $\lst{s}_i=(s_0,\dots,s_i)$ is known and we give the cost of applying
 $\sigma_{\lst{s}_i}$ and its inverse.  We first discuss the forward
 direction.
 
-As input, $v \in \U'_i$ is written on the multivariate basis $\basis{B}'_i$
+As input, $v \in \U'_i$ is written in the multivariate basis $\basis{B}'_i$
 of $\U'_i$; the output is $t=\sigma_{\lst{s}_i}(v) \wrt \U_i$. As before,
 the algorithm is recursive: we write $v=\Sigma_{j <p}
 v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$, whence
@@ -233,7 +232,7 @@ through a push-down and a lift-up.
   \caption{\alg{ApplyIsomorphism}} 
   \label{alg:applyisomorphism}
   \begin{algorithmic}[1]
-    \REQUIRE $v,i$ with $v\in \U'_i$ written on the basis $\basis{B}'_i$.
+    \REQUIRE $v,i$ with $v\in \U'_i$ written in the basis $\basis{B}'_i$.
     \ENSURE $\sigma_{\lst{s}_i}(v) \wrt \U_i$.
     \STATE if $i=0$ then return $v$;
     \STATE write $v=\Sigma_{j <p} v_j(x'_0,\dots,x'_{i-1}) {x'_i}^j$;
@@ -261,8 +260,8 @@ moment we just state a result about its complexity.
 
 \begin{lemma}
   \label{th:rur-s}
-  Algorithm \titleref{alg:RUR-si} computes
-  its output in time $O(p\Mult(p^id))$.
+  Algorithm \titleref{alg:RUR-si} computes its output in
+  $O(p\Mult(p^id))$ operations.
 \end{lemma}
 
 \begin{algorithm}
@@ -270,7 +269,7 @@ moment we just state a result about its complexity.
   \label{alg:applyinverse}
   \begin{algorithmic}[1]
     \REQUIRE $t,i$ with $t \wrt \U_i$.
-    \ENSURE $\sigma_{\lst{s}_i}^{-1}(t)\in \U'_i$ written on the basis $\basis{B}'_i$.
+    \ENSURE $\sigma_{\lst{s}_i}^{-1}(t)\in \U'_i$ written in the basis $\basis{B}'_i$.
     \STATE if $i=0$ then return $t$;
     \STATE let $t_0 + \cdots + t_{p-1}x_i^{p-1} =$ \titleref{alg:push-down}$(t)$;
     \STATE let $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=$ \titleref{alg:push-down}$(s_i)$;
@@ -281,8 +280,8 @@ moment we just state a result about its complexity.
 
 \begin{proposition}\label{Prop:apply}
   Algorithms \titleref{alg:applyisomorphism} and
- \titleref{alg:applyinverse} are correct
-  and both take time $O(i\Lift(i))$.
+  \titleref{alg:applyinverse} are correct and both take $O(i\Lift(i))$
+  operations.
 \end{proposition}
 \begin{proof}
   In both cases, correctness is clear, since the algorithms translate
@@ -306,7 +305,7 @@ of transposed subroutines.
 
 We consider the algebra $\U_i[X_i]/(P_i)$. We have an element $s_i$,
 its minimal polynomial $P'_i$, and we know that $s_i$ separates
-$V(P_i)$. We want to express an element $t\in\U_i$ written on the
+$V(P_i)$. We want to express an element $t\in\U_i$ written in the
 basis $\basis{D}_i$ as a rational fraction in $s_i$.
 
 We first observe that the values of $\Tr_{\U_i/\U_{i-1}}$ over the
@@ -371,10 +370,11 @@ $X_i^p-X_i-\sigma_{\lst{s}_i}(\gamma'_{i-1})=X_i^p-X_i-\sigma_{\lst{s}_{i-1}}(\g
 in $\U_i$.
 
 Using Proposition~\ref{Prop:apply}, we can compute
-$\alpha=\sigma_{\lst{s}_{i-1}}(\gamma'_{i-1}) \wrt\U_{i-1}$ in time
-$O((i-1)\Lift(i-1)) \subset O(i\Lift(i))$.  Applying a lift-up to $\alpha$,
-we are then in the conditions of Theorem~\ref{theo:AS}, so we can find
-$s_i$ for an extra $O(d^\omega + \Ptr(i))$ operations.
+$\alpha=\sigma_{\lst{s}_{i-1}}(\gamma'_{i-1}) \wrt\U_{i-1}$ in
+$O((i-1)\Lift(i-1)) \subset O(i\Lift(i))$ operations.  Applying a
+lift-up to $\alpha$, we are then in the conditions of
+Theorem~\ref{theo:AS}, so we can find $s_i$ for an extra $O(d^\omega +
+\Ptr(i))$ operations.
 
 We can then summarize the cost of all precomputations: to the cost of
 determining $\lst{s}_i$, we add the costs related to the tower

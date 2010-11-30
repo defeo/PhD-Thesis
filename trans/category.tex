@@ -340,13 +340,14 @@ already implemented in Haskell. Alternatively, they might think that
 Haskell is concrete nonsense.
 
 The package \lstinline+Control.Arrow+ implements what are commonly
-called \emph{arrows} in Haskell jargon. Arrows were introduced in
-\cite{hughes98} as a generalization of \emph{monads}, they have been
-successfully applied to many different settings such as, for example,
-solving ordinary differential equations
-\cite{liu+hudak10}. Paterson~\cite{paterson01} was the first to
-realize the relationship between circuits and arrows, and to propose a
-DSL for arrows that is amazingly similar to straight line programs.
+called \emph{arrows} in Haskell jargon. Arrows were introduced
+in~\cite{hughes98} as a generalization of \emph{monads}, they have
+been successfully applied to many different settings such as, for
+example, solving ordinary differential
+equations~\cite{liu+hudak10}. Paterson~\cite{paterson01} was the first
+to realize the relationship between circuits and arrows, and to
+propose a DSL for arrows that is amazingly similar to straight line
+programs.
 
 The standard library class \lstinline+Arrow+ is roughly equivalent to
 arithmetic circuits valued in $\Hask$ (or $\Set$),
@@ -360,10 +361,10 @@ thus they share some similarities with \emph{invertible
   arrows}~\cite{alimarine+al:invertible-arrows}.
 
 We sketch what an additive arrow should look like, by giving an
-hypothetical list of type classes; following
-\cite{yorgey:typeclassopedia}, we use infix operators \lstinline+(~>)+
-instead of prefix ones as in the standard Haskell library.  As for
-arrows, we start from the class \lstinline+Category+.
+hypothetical list of type classes;
+following~\cite{yorgey:typeclassopedia}, we use infix operators
+\lstinline+(~>)+ instead of prefix ones as in the standard Haskell
+library.  As for arrows, we start from the class \lstinline+Category+.
 
 \begin{lstlisting}
   class Category (~>) => where
@@ -406,7 +407,7 @@ $R^m$.
 
 After some unsuccessful experiments with GADT's, we succeeded in
 implementing additive circuits in the category of $\Z$-modules and
-transposable multiplication in $\Z[X]$ using type level arithmetics
+transposable multiplication in $\Z[X]$ using type level arithmetic
 from the package \lstinline+Data.TypeLevel+. We thank Jacques Carette
 for having suggested this solution to us.
 

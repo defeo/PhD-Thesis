@@ -34,9 +34,9 @@ We let $Q_0$ be in $\F_p[X_0]$ and $\U_0=\F_p[X_0]/Q_0$.
   \end{equation}
   in $\F_p[X_0,\dots,X_i]$, and if $\U_i$ is a field. 
 
-  The residue class of $X_i$ (resp. $G_i$) in $\U_i$, and thus in
-  $\U_{i+1},\dots$, is written $x_i$ (resp. $\gamma_i$), so that we
-  have $x_i^p-x_i=\gamma_{i-1}$.
+  The residue class of $X_i$ (resp. $G_{i-1}$) in $\U_i$, and thus in
+  $\U_{i+1},\dots$, is written $x_i$ (resp. $\gamma_{i-1}$), so that
+  we have $x_i^p-x_i=\gamma_{i-1}$.
 \end{definition}
 
 Finding a suitable $\F_p$-basis to represent elements of a tower
@@ -85,24 +85,25 @@ As a workaround, we introduce the notion of a {\em primitive tower}.
     \basis{C}_i=\{x_i^a \;|\; 0\le a<p^id\}
     \text{.}  
   \end{equation}
-  To stress the fact that $v\in\U_i$ is represented on the univariate
+  To stress the fact that $v\in\U_i$ is represented in the univariate
   basis, we write $v\wrt\U_i$.
 \end{definition}
 
 In a primitive tower, unless otherwise stated, we represent the
-elements of $\U_i$ on the univariate basis. In this basis, assuming
-$Q_i$ is known, additions and subtractions are done in time $p^id$,
-multiplications in time $O(\Mult(p^id))$ and inversions in time
-$O(\Mult(p^id)\log(p^id))$ (see Section~\ref{sec:fund-algor}).
+elements of $\U_i$ in the univariate basis. In this basis, assuming
+$Q_i$ is known, additions and subtractions are done in $p^id$
+operations, multiplications in $O(\Mult(p^id))$ operations and
+inversions in $O(\Mult(p^id)\log(p^id))$ operations (see
+Section~\ref{sec:fund-algor}).
 
-Remark that having fast arithmetic operations in $\U_i$ enables us to
+Note that having fast arithmetic operations in $\U_i$ enables us to
 write fast algorithms for polynomial arithmetic in $\U_i[Y]$, where
 $Y$ is a new variable. Extending the previous notation, let us write
 $A \wrt\U_i[Y]$ to indicate that a polynomial $A \in \U_i[Y]$ is
-written on the basis $(x_i^\alpha Y^\beta)_{0 \le \alpha < p^id, 0 \le
+written in the basis $(x_i^\alpha Y^\beta)_{0 \le \alpha < p^id, 0 \le
   \beta}$ of $\U_i[Y]$.  Then, given $A,B \wrt \U_i[Y]$, both of
-degrees less than $n$, one can compute $AB \wrt \U_i[Y]$ in time
-$O(\Mult(p^id n))$ using Kronecker's substitution (see
+degrees less than $n$, one can compute $AB \wrt \U_i[Y]$ in
+$O(\Mult(p^id n))$ operations using Kronecker's substitution (see
 Section~\ref{sec:mult-polyn}).
 
 One can extend the fast Euclidean division algorithm to this context,
@@ -110,13 +111,13 @@ as Newton iteration reduces Euclidean division to polynomial
 multiplication (see Section~\ref{sec:newtons-iteration}). This implies
 that Euclidean division of a degree $n$ polynomial $A \wrt \U_i[Y]$ by
 a monic degree $m$ polynomial $B \wrt \U_i[Y]$, with $m \le n$, can be
-done in time $O(\Mult(p^id n))$.
+done in $O(\Mult(p^id n))$ operations.
 
 Finally, fast GCD techniques carry over as well, as they are based on
 multiplication and division. As we saw in
 Section~\ref{sec:eucl-algor-rati}, the extended GCD of two monic
 polynomials $A,B \wrt \U_i[Y]$ of degree at most $n$ can be computed
-in time $O(\Mult(p^id n \log(n)))$.
+in $O(\Mult(p^id n \log(n)))$ operations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

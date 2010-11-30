@@ -44,10 +44,10 @@ algorithm.
   \titleref{alg:naivecompose} has cost $O(\deg(P)^2k\ell)$.  
 \end{lemma}
 \begin{proof} At step $i$, $\rho$ and $S$ have degree at most
-$ik$. Computing the sum $S + p_i \rho$ takes time $O(ik)$ and
-computing the product $\rho R$ takes time $O(ik\ell)$, since $R$ has
-$\ell$ terms. The total cost of step $i$ is thus $O(ik\ell)$, 
-whence a total cost of $O(\deg(P)^2 k\ell)$.
+  $ik$. Computing the sum $S + p_i \rho$ takes $O(ik)$ operations and
+  computing the product $\rho R$ takes $O(ik\ell)$ operations, since
+  $R$ has $\ell$ terms. The total cost of step $i$ is thus
+  $O(ik\ell)$, whence a total cost of $O(\deg(P)^2 k\ell)$.
 \end{proof}
 
 
@@ -72,17 +72,16 @@ whence a total cost of $O(\deg(P)^2 k\ell)$.
   \label{theo:comp}
   If $R$ has degree $k$ and $\ell$ non-zero coefficients and if
   $\deg(P)=s$, then \titleref{alg:compose}$(P,R)$ outputs $P(R)$ in
-  time $O(ps \log_p(s)k\ell)$.
+  $O(ps \log_p(s)k\ell)$ operations.
 \end{theorem}
 \begin{proof}
-  Correctness is clear, since $R^{p^n}=R(X^{p^n})$. To analyze the
-  cost, we let $\sC(c,n)$ be the cost of \titleref{alg:compose} when
-  $\deg(P)\le (c+1)p^n$, with $c<p$. Then $\sC(c,0) \in O(c^2k\ell)$.
-  For $n > 0$, at each pass in the loop at step~\ref{c:loop}, $\deg(Q)
-  < cp^n k$, so that the multiplication (using the naive algorithm)
-  and addition take time $O(cp^nk\ell)$. Thus the time spent in the
-  loop is $O(c^2p^{n}k\ell)$, and the running time
-  satisfies
+  To analyze the cost, we let $\sC(c,n)$ be the cost of
+  \titleref{alg:compose} when $\deg(P)\le (c+1)p^n$, with $c<p$. Then
+  $\sC(c,0) \in O(c^2k\ell)$.  For $n > 0$, at each pass in the loop
+  at step~\ref{c:loop}, $\deg(Q) < cp^n k$, so that the multiplication
+  (using the naive algorithm) and addition take $O(cp^nk\ell)$
+  operations. Thus the cost of the loop is $O(c^2p^{n}k\ell)$, and the
+  total cost satisfies
   \begin{equation}
     \label{eq:70}
     \sC(c,n) \le (c+1)\sC(p-1,n-1) + O(c^2p^nk\ell)
@@ -148,7 +147,7 @@ deduce that $Q_1=Q_0(X_1^p-X_1)$. To compute it, we use algorithm
 $O(p^2d \log_p(d))$ by Theorem~\ref{theo:comp}. The same arguments
 hold for $i=2$ when $p=2$ and $d$ is odd.
 
-To deal with other indexes $i$, we follow Cantor's construction.  Let
+To deal with other indices $i$, we follow Cantor's construction.  Let
 $\Cyclo\in \F_p[X]$ be the reduction modulo $p$ of the $(2p-1)$-th
 cyclotomic polynomial. Cantor implicitly works modulo an irreducible
 factor of $\Cyclo$. The following shows that we can avoid
@@ -217,11 +216,11 @@ following algorithm.
 
 \begin{theorem}
   Algorithm \titleref{alg:minimalpolynomial}
-  is correct and computes its output in time
+  is correct and computes its output in 
   \begin{equation}
     O( p^{i+2}d\log_p(p^id)+\Mult(p^{i+2}d)\log(p))
-    \text{.}    
   \end{equation}
+  operations.
 \end{theorem}
 \begin{proof}
   Since $x_i$ is a root of $Q_i$, it is a root of $Q_i^\star$ too. So
@@ -231,11 +230,11 @@ following algorithm.
   $x_{i+1}$ over $\F_p$.
 
   As for the complexity, the algorithm of~\cite{brent93} computes
-  $\Cyclo$ in time $O(p^2)$; then, polynomial multiplications of
-  degree $s$ in $\algeb{A}[Y]$ can be done in time $O(\Mult(sp))$ by
-  \hyperref[sec:mult-polyn]{Kronecker substitution}. The overall cost
-  of step~\ref{alg:minpol-Qstar} is $O(\Mult(p^{i+2}d)\log p)$ using a
-  subproduct tree (see
+  $\Cyclo$ in $O(p^2)$ operations; then, polynomial multiplications of
+  degree $s$ in $\algeb{A}[Y]$ can be done in $O(\Mult(sp))$
+  operations by \hyperref[sec:mult-polyn]{Kronecker substitution}. The
+  overall cost of step~\ref{alg:minpol-Qstar} is
+  $O(\Mult(p^{i+2}d)\log p)$ using a subproduct tree (see
   Section~\ref{sec:chin-rema-algor}). Step~\ref{alg:minpol-qstar} is
   free and step~\ref{alg:minpol-Q} costs $O(p^{i+2}d\log_p(p^id))$.
 \end{proof}

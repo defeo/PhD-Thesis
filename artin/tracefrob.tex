@@ -51,7 +51,7 @@ v^{p^n}
 \end{array}
 \end{equation}
 Then, we compute all $v_h^{p^n}$ recursively; the final sum is
-computed using Horner's scheme. Remark that these equations are not
+computed using Horner's scheme. Note that these equations are not
 limited to the case where $n<d$ or of the form $p^jd$: an arbitrary
 $n$ would do as well. However, we impose this limitation since these
 are the only values we need to compute $\PTr_{p^jd}$.
@@ -87,12 +87,12 @@ function $\Lift$ of Section~\ref{sec:level-embedding}.
 \begin{theorem}
   \label{th:b-ifrob}
   On input $v\wrt\U_i$ and $n=p^jd$, algorithm \titleref{alg:iterfrobenius}
-  correctly computes $v^{p^n}$ and takes time
+  correctly computes $v^{p^n}$ and takes 
   \begin{equation}
     \label{eq:95}
     O((i-j)\Lift(i))
-    \text{.}
   \end{equation}
+  operations.
 \end{theorem}
 \begin{proof}
   Correctness is clear. We write $\Frob(i,j)$ for the complexity on
@@ -115,12 +115,12 @@ function $\Lift$ of Section~\ref{sec:level-embedding}.
 \begin{theorem}
   \label{th:l-ifrob}
   On input $v\wrt\U_i$ and $n<d$, algorithm \titleref{alg:iterfrobenius}
-  correctly computes $v^{p^n}$ and takes time 
+  correctly computes $v^{p^n}$ and takes 
   \begin{equation}
     \label{eq:94}
     O(p^i\ModComp(d)\log (n) + i\Lift(i))
-    \text{.}    
   \end{equation}
+  operations.
 \end{theorem}
 \begin{proof}
   The analysis is identical to the previous one, except that
@@ -182,12 +182,12 @@ Frobenius-es for such $n$; when $j=0$, it invokes the first algorithm.
 
 \begin{theorem}
   \label{th:l-pseudo}
-  Algorithm \titleref{alg:littlepseudotrace} is correct and takes time
+  Algorithm \titleref{alg:littlepseudotrace} is correct and takes 
   \begin{equation}
     \label{eq:96}
     O(p^i\ModComp(d)\log^2 (n) + i \Lift(i)\log (n))
-    \text{.}
   \end{equation}
+  operations.
 \end{theorem}
 \begin{proof}
   Correctness is clear. For the cost analysis, we write $\Ptr(i,n)$
@@ -216,13 +216,12 @@ Frobenius-es for such $n$; when $j=0$, it invokes the first algorithm.
 
 \begin{theorem}
   \label{th:b-pseudo}
-  Algorithm \titleref{alg:pseudotrace} is correct and takes time
+  Algorithm \titleref{alg:pseudotrace} is correct and takes 
   \begin{equation}
     \label{eq:97}
     \Ptr(i)=O((pi+\log (d))i\Lift(i)+p^i\ModComp(d)\log^2 (d))    
   \end{equation}
-  for $j \le
-  i$.
+  operations for $j \le i$.
 \end{theorem}
 \begin{proof}
   Correctness is clear. For the cost analysis, we write $\Ptr(i,j)$
@@ -266,18 +265,17 @@ algorithm. The inner calls to
 \titleref{alg:iterfrobenius} only use
 pseudotraces that are already known. Besides, a single call to
 \titleref{alg:littlepseudotrace}$(\gamma_i,i,d)$
-actually computes {\em all} $\PTr_{n}(\gamma_i)$ in time
+actually computes {\em all} $\PTr_{n}(\gamma_i)$ in 
 \begin{equation}
   \label{eq:104}
   O(p^i\ModComp(d)\log^2 d + i
   \Lift(i)\log d)
-  \text{.}
 \end{equation}
-Same goes for the precomputation of all
+operations. Same goes for the precomputation of all
 $\beta_{i,p^jd}=\PTr_{p^jd}(\gamma_i) \wrt\U_i$, for $j\le i$, using
-the \titleref{alg:pseudotrace} algorithm: this costs $\Ptr(i)$. Observe that in
-total we only store $O(k^2 + k\log d)$ elements of the tower, thus the
-space requirements are quasi-linear.
+the \titleref{alg:pseudotrace} algorithm: this costs
+$\Ptr(i)$. Observe that in total we only store $O(k^2 + k\log d)$
+elements of the tower, thus the space requirements are quasi-linear.
 
 \begin{remark}
   A dynamic programming version of \titleref{alg:littlepseudotrace} as

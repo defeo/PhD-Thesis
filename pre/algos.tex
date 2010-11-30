@@ -35,11 +35,11 @@ $\tildO$ when the variables are clear from the context.
 Many algorithms below rely on fast multiplication; thus, we let
 $\Mult_R : \N \rightarrow \N$ be a
 \index{multiplication~function}\emph{multiplication
-  function}\symb[complex]{$\Mult(n)$}{Multiplication function},
-such that polynomials in $R[X]$ of degree less than $n$ can be
-multiplied in $\Mult_R(n)$ operations. We drop the index $R$ when the
-ring is clear from the context. To simplify expressions, following
-\cite[$\S$8.3]{vzGG}, we shall assume that $\Mult(n)$ is
+  function}\symb[complex]{$\Mult(n)$}{Multiplication function}, such
+that polynomials in $R[X]$ of degree less than $n$ can be multiplied
+in $\Mult_R(n)$ arithmetic operations. We drop the index $R$ when the
+ring is clear from the context. To simplify expressions,
+following~\cite[$\S$8.3]{vzGG}, we shall assume that $\Mult(n)$ is
 \begin{itemize}
 \item superlinear: $\Mult(n)/n \ge \Mult(m)/m$ if $n\ge m$,
 \item at most quadratic: $\Mult(mn)\le m^2\Mult(n)$.
@@ -65,8 +65,8 @@ is~\cite{poly-formel}.
 \subsection{Polynomial multiplication}
 \label{sec:polyn-mult}
 Multiplication of polynomials with coefficients in a ring is a
-fundamental brick to which most of the algorithms in computer algebra
-reduce.
+fundamental underpinning to which most of the algorithms in computer
+algebra reduce.
 
 In the previous section we introduced the notation $\Mult(n)$ to
 denote the number of operations in $R$ required to multiply two
@@ -94,14 +94,13 @@ they all go under the generic name of
 \index{FFT}\index{fast~Fourier~transform}\emph{fast Fourier transform}
 (FFT).
 
-\pdfmcone{More bibliography around Schönage and Strassen.}
-Thus, multiplication in certain fields can be carried out in time
-$O(n\log n)$. Schönhage and Strassen's
-method~\cite{schonage+strassen}, along with its
-generalizations~\cite{schonhage77,cantor+kaltofen91}, adjoins enough
-roots of unit to any ring $R$ by taking an extension of it; this
-yields an algorithm of complexity $O(n\log n\log\log n)$ to multiply
-polynomials of degree $n$ in $R[X]$.
+\pdfmcone{More bibliography around Schönage and Strassen.}  Thus,
+multiplication in certain fields can be carried out in $O(n\log n)$
+operations. Schönhage and Strassen's method~\cite{schonage+strassen},
+along with its generalizations~\cite{schonhage77,cantor+kaltofen91},
+adjoins enough roots of unit to any ring $R$ by taking an extension of
+it; this yields an algorithm of complexity $O(n\log n\loglog n)$ to
+multiply polynomials of degree $n$ in $R[X]$.
 
 \subsection{Formal power series}
 \label{sec:formal-power-series}
@@ -192,8 +191,8 @@ where $j = \exp(-\int f)$; the verification is immediate.
 
 In the next subsection we shall see that multiplicative inverses,
 logarithms, exponentials and powers up to precision $n$ can all be
-computed in time $O(\Mult(n))$, thus formula~\eqref{eq:209} can also
-be applied at the same cost.
+computed in $O(\Mult(n))$ operations, thus formula~\eqref{eq:209} can
+also be applied at the same cost.
 
 
 \begin{nota}
@@ -293,7 +292,7 @@ complexity. A naive algorithm implies $\ModComp(n)\in
 O(n\Mult(n))$. The first improvement to this bound was given by Brent
 and Kung in~\cite{brent+kung}: they devised a baby step-giant step
 algorithm of complexity $O\left(\sqrt{n}\Mult(n) +
-  n^{\frac{\omega+1}{2}}\right)$; in the same paper they also gave an
+  n^{(\omega+1)/2}\right)$; in the same paper they also gave an
 algorithm of complexity $O\left(\sqrt{n\log n}\Mult(n)\right)$ for
 composition of power series. Bernstein~\cite{bernstein98} found the
 bound $O(\Mult(n)\log n)$ for the composition of power series in case
@@ -410,9 +409,9 @@ q)$.
 \end{algorithm}
 
 In Algorithm~\ref{alg:pseudotrace-vzgs} we apply the same idea to
-compute the $n$-th pseudotrace in time $O(\ModComp(d)\log n)$; note
-that we use a dynamic programming technique to keep the complexity
-into this bound. The key equation is
+compute the $n$-th pseudotrace in $O(\ModComp(d)\log n)$ operations;
+note that we use a dynamic programming technique to keep the
+complexity into this bound. The key equation is
 \begin{equation}
   \label{eq:205}
   \PTr_{n+m}(a) = \PTr_{n}(a)+\frob_q^n(\PTr_{m}(a))
@@ -640,7 +639,8 @@ computes, using $O(\Mult(n)\log n)$ operations, the rows $u_i,v_i,r_i$
 and $u_{i+1},v_{i+1},r_{i+1}$ of the Extended Euclidean algorithm such
 that $\deg(r_i)\ge n-\ell$ and $\deg(r_{i+1})<n-\ell$. A consequence
 of this algorithm is that both Cauchy interpolation and rational
-fraction reconstruction can be computed in time $O(\Mult(n)\log n)$.
+fraction reconstruction can be computed in $O(\Mult(n)\log n)$
+operations.
 
 
 
@@ -653,11 +653,12 @@ instances of quotient rings of multivariate polynomials. Here, we just
 recall the basic techniques that permit us to reduce the multivariate
 to the univariate case.
 
+\pdfmcthree{Cited Kaltofen.}
 Multiplication of polynomials in $R[X,Y]$ can be reduced to univariate
 multiplication by \index{Kronecker~substitution}\emph{Kronecker
-  substitution}~\cite{vzGG,vzgathen+shoup92,harvey09}. If $f,g\in
-R[X,Y]$ have degree at most $m$ in $X$ and at most $n$ in $Y$, the
-product $fg$ can be computed as
+  substitution}~\cite{kaltofen87,vzGG,vzgathen+shoup92,harvey09}. If
+$f,g\in R[X,Y]$ have degree at most $m$ in $X$ and at most $n$ in $Y$,
+the product $fg$ can be computed as
 \begin{equation}
   \label{eq:222}
   fg \equiv f(X,X^{2m-1})\cdot g(X,X^{2m-1}) \mod Y-X^{2m-1}
@@ -677,15 +678,15 @@ is a \emph{triangular ideal}
   I = \left\langle f(X), g(X,Y)\right\rangle
   \qquad\text{with $g$ monic in $Y$,}
 \end{equation}
-in time $O(\Mult(mn))$, where $m=\deg f$ and $n=\deg_Y g$; the
-algorithm and the complexity analysis can be found
+using $O(\Mult(mn))$ operations, where $m=\deg f$ and $n=\deg_Y g$;
+the algorithm and the complexity analysis can be found
 in~\cite[Proposition~4]{pascal+schost06}.
 
 All the algorithms presented previously that use multiplication as a
 black box, can be generalized to the bivariate case using Kronecker
 substitution. Thus, for example, Euclidean division in
-$\left(\K[X]/f(x)\right)[Y]$ can be done in time $O(\Mult(mn))$,
-inversion in $\K[X,Y]/I$ in time $O(\Mult(mn)\log mn)$, etc.
+$\left(\K[X]/f(x)\right)[Y]$ can be done in $O(\Mult(mn))$ operations,
+inversion in $\K[X,Y]/I$ in $O(\Mult(mn)\log mn)$ operations, etc.
 
 \pdfmcone{Cowardly removed false statement about known
   algorithms for multivariate multiplication.}  Unfortunately,
@@ -834,13 +835,13 @@ the initial conditions for $\beta$ are
 \end{equation}
 for any $i\le n$.
 
-\pdfmcone{Cited Shoup 99.}
-Thus, the dual of modular reduction consists in extending a linear
-recurring sequence of order $n$ from its first $n$ coefficients. Any
-algorithm for such task (for example,~\cite[$\S$3]{shoup99}) can be
-used to compute $\dual{\bmod_f}$, however one can also directly obtain
-one such algorithm by applying the transposition principle to any
-algorithm for Euclidean division. In any case,
+\pdfmcone{Cited Shoup 99.}  Thus, the dual of modular reduction
+consists in extending a linear recurring sequence of order $n$ from
+its first $n$ elements. Any algorithm for such task (for
+example,~\cite[$\S$3]{shoup99}) can be used to compute
+$\dual{\bmod_f}$, however one can also directly obtain one such
+algorithm by applying the transposition principle to any algorithm for
+Euclidean division. In any case,
 \index{transposed~modular~reduction}\emph{transposed modular
   reduction} to the order $N$ can be computed using $O(\Mult(N))$
 operations\footnote{One can do better when $N$ is much larger than

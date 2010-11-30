@@ -26,7 +26,7 @@ In this chapter we shall abandon the algebraic RAM model we used in
 Section~\ref{sec:stra-line-progr} and work on source code
 transformation. Implementation details such as knowing what the cost
 of copying variables is, shall be ignored: one can assume that a good
-compiler will optimize most of these details. Hence, we shall assume
+compiler will optimize most of those details. Hence, we shall assume
 that Theorem~\ref{th:tellegen-R-algeb} really reflects the behavior of
 the code we generate.
 
@@ -131,9 +131,9 @@ If we define \lstinline{L} and \lstinline{S} as wrappers around
   newtype L = Lin R
   newtype S = Sca R
 \end{lstlisting}
-then, using Haskell type classes
-\cite{Walder+Blott-ad-hoc-polymorphism}, we can conveniently express
-all the equations above as
+then, using Haskell type
+classes~\cite{Walder+Blott-ad-hoc-polymorphism}, we can conveniently
+express all the equations above as
 \begin{lstlisting}
   class Ring r where
     zero :: r
@@ -338,21 +338,21 @@ allowing multiplication on the left by a scalar
 but this would force the user to choose between the two operators any
 time he multiplies two elements of $R$. To avoid this we need to
 overload the operator \lstinline{(<*>)} with both type signatures, a
-technique sometimes called \emph{ad-hoc} polymorphism
-\cite{strachey00}, but this is not possible in the Haskell type system
-since the two types are contradictory.  To make it possible we need to
-extend the type inference algorithm: our idea is not new, but it has
-been rarely implemented because it is not practical for solving
-generic \emph{ad-hoc} polymorphism; it perfectly fits the needs of our
-special case, though.
+technique sometimes called \emph{ad-hoc}
+polymorphism~\cite{strachey00}, but this is not possible in the
+Haskell type system since the two types are contradictory.  To make it
+possible we need to extend the type inference algorithm: our idea is
+not new, but it has been rarely implemented because it is not
+practical for solving generic \emph{ad-hoc} polymorphism; it perfectly
+fits the needs of our special case, though.
 
 First observe that type classes can be translated to ordinary types of
 the Hindley-Milner type system as explained in~\cite[$\S
 4$]{Walder+Blott-ad-hoc-polymorphism}, thus it suffices to modify the
-classic type inference algorithm
-\cite{Damas+Milner,Cardelli:Typechecking}. Second, observe that there
-is some redundancy between the two signatures of \lstinline{(<*>)} and
-that a more concise version is
+classic type inference
+algorithm~\cite{Damas+Milner,Cardelli:Typechecking}. Second, observe
+that there is some redundancy between the two signatures of
+\lstinline{(<*>)} and that a more concise version is
 \begin{lstlisting}
   (<*>) :: Ring r => r -> S -> r
   (<*>) :: S -> L -> L

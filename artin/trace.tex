@@ -438,8 +438,8 @@ In particular, from Eqs.~\eqref{eq:17} and~\eqref{eq:2} we deduce the
   $\clot{\algeb{A}}$-isomorphism between $\clot{\algeb{A}}$ and
   $\dual{\clot{\algeb{A}}}$.  The name ``residue'' comes from complex
   analysis, because in $\C[\lst{x}]/I$ this concept coincides with the
-  classical analytic residue. See
- ~\cite{bykov+kytmanov+lazman,mourrain+elkadi}.
+  classical analytic
+  residue. See~\cite{bykov+kytmanov+lazman,mourrain+elkadi}.
 \end{nota}
 
 
@@ -518,7 +518,7 @@ last section.
     q(a) = \Tr(a^2)
     \text{.}
   \end{equation}
-  Its matrix on the basis $(\basis{e}_1,\ldots,\basis{e}_d)$ is the
+  Its matrix in the basis $(\basis{e}_1,\ldots,\basis{e}_d)$ is the
   identity matrix, thus it has rank $d$. Now let
   $\basis{B}=(\basis{b}_1,\ldots,\basis{b}_d)$ be a basis of
   $\algeb{A}$, then it is a basis of $\clot{\algeb{A}}$ too. The
@@ -535,13 +535,13 @@ last section.
 
 \section{Rational Univariate Representation}
 \label{sec:rati-univ-repr}
-\pdfmcone{Eliminated redundant "variety".}  In many
-circumstances it is useful to switch from a multivariate
-representation of the elements of $\algeb{A}$ to an univariate one. A
-\emph{rational univariate representation} (RUR)~\cite{rouiller99},
-sometimes also called \emph{geometric resolution}
-\cite{giusti+lecerf+salvy01}, of $\K[x_1,\ldots,x_n]/I$ consists in
-expressing $V(I)$ as the solution of the system
+\pdfmcone{Eliminated redundant "variety".}  In many circumstances it
+is useful to switch from a multivariate representation of the elements
+of $\algeb{A}$ to an univariate one. A \emph{rational univariate
+  representation} (RUR)~\cite{rouiller99}, sometimes also called
+\emph{geometric resolution}~\cite{giusti+lecerf+salvy01}, of
+$\K[x_1,\ldots,x_n]/I$ consists in expressing $V(I)$ as the solution
+of the system
 \begin{equation}
   \label{eq:22}
   \begin{aligned}
@@ -1015,7 +1015,7 @@ $\Tr$.
 \end{algorithm}
 
 In order to apply this algorithm, prior knowledge of the expression of
-$\Tr$ on the basis $\dual{\basis{B}}$, i.e.\ $\{\Tr(b) |
+$\Tr$ in the basis $\dual{\basis{B}}$, i.e.\ $\{\Tr(b) |
 b\in\basis{B}\}$, is needed. When $B$ is a polynomial basis
 $\{1,b,\ldots,b^d\}$, and the minimal polynomial of $b$ is known in
 advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
@@ -1032,10 +1032,10 @@ advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
   $\ModComp(d)\in O(d^2)$.
   
   As we saw in Section~\ref{sec:modular-composition}, the most
-  efficient algorithms for modular composition are Brent and Kung's
- ~\cite{brent+kung}, having complexity $O(\Mult(d)\sqrt{d} +
-  d^{\frac{\omega+1}{2}})$, and Kedlaya and Umans'
- ~\cite{umans:08,kedlaya+umans08}, having quasi-linear
+  efficient algorithms for modular composition are Brent and
+  Kung's~\cite{brent+kung}, having complexity $O(\Mult(d)\sqrt{d} +
+  d^{(\omega+1)/2})$, and Kedlaya and
+  Umans'~\cite{umans:08,kedlaya+umans08}, having quasi-linear
   complexity. Each of these has a dual algorithm solving power
   projection with the same complexity~\cite{shoup94,kedlaya+umans08},
   thus, at least in the univariate case, power projection can be
@@ -1045,11 +1045,10 @@ advance, this can be obtained using Lemma~\ref{th:multi-newton-sums}.
 
 \begin{remark}
   \label{rk:shoups-algorithm-1}
-  \pdfmcone{Added reference to Kaltofen 2k.}
-  Algorithm~\ref{alg:rur} first appeared in
- ~\cite{bostan+salvy+schost03}, which combined the ideas of
- ~\cite{rouiller99} and
- ~\cite{shoup94,shoup95,shoup99}. Lemma~\ref{th:shoup94} was first
+  \pdfmcone{Added reference to Kaltofen 2k.}  Algorithm~\ref{alg:rur}
+  first appeared in~\cite{bostan+salvy+schost03}, which combined the
+  ideas of~\cite{rouiller99}
+  and~\cite{shoup94,shoup95,shoup99}. Lemma~\ref{th:shoup94} was first
   used in~\cite{shoup94} to compute minimal polynomials of elements of
   a residue class field $\K[x]/(f)$, based on a transposed modular
   composition algorithm. The method was extended to the bivariate case
@@ -1127,7 +1126,7 @@ map
 \end{equation}
 Then algorithm \titleref{alg:rur} on inputs
 $a\in\algeb{A}^{\basis{B}}$ and $\Tr$, outputs the expression of $a$
-on the basis $\basis{T}$. We now prove the complexity
+in the basis $\basis{T}$. We now prove the complexity
 estimates~\eqref{eq:75} and~\eqref{eq:65}.
 
 \begin{proof}[Proof of Proposition~\ref{th:uni-multi-uni}]

@@ -113,10 +113,10 @@ $p$-torsion points are known. Although this is reasonably efficient,
 pulling $V$ back may involve factoring polynomials of degree $p$ in
 some extension field.
 
-A finer way to do the $p$-descent, as suggested in the original paper
-\cite{couveignes96}, is to use the work of Voloch
-\cite{voloch90}. Suppose $p\ne2$, let $E$ and $\widetilde{E}$ have
-equations respectively
+A finer way to do the $p$-descent, as suggested in the original
+paper~\cite{couveignes96}, is to use the work of
+Voloch~\cite{voloch90}. Suppose $p\ne2$, let $E$ and $\widetilde{E}$
+have equations respectively
 \begin{align*}
   y^2&=f(x)=x^3+a_2x^2+a_4x+a_6 \;\text{,}\\
   \tilde{y}^2&=\tilde{f}(\tilde{x}) = \tilde{x}^3 +
@@ -189,10 +189,10 @@ Chapter~\ref{cha:artin-schr-towers} (or by linear algebra, as was
 suggested in~\cite{couveignes96}). Once a solution $\tilde{z}$ to
 \eqref{th:voloch:cover} is known, solving in $x$ and $y$ the bivariate
 polynomial system \eqref{th:voloch:isom} takes just a GCD computation
-(explicit formulas were given by Lercier in
-\cite[$\S$6.2]{lercier-algorithmique}, we give some slightly improved
-ones in Section \ref{sec:implementation}). Compare this with a generic
-factoring algorithm needed by standard descent.
+(explicit formulas were given by Lercier
+in~\cite[$\S$6.2]{lercier-algorithmique}, we give some slightly
+improved ones in Section \ref{sec:implementation}). Compare this with
+a generic factoring algorithm needed by standard descent.
 
 In this section we assume that the Artin-Schreier equations are solved
 using linear algebra. The impact of
@@ -308,8 +308,8 @@ Proposition~\ref{th:artin-schreier}), so at each step of the
 $p$-descent we either stay in the same field or we take a degree $p$
 extension. This shows that in the worst case we have to take an
 extension of degree $p^{k-1}$ over $F_q[c]$. The following
-proposition, which is a generalization of
-\cite[Proposition~26]{lercier-algorithmique}, states precisely how
+proposition, which is a generalization
+of~\cite[Proposition~26]{lercier-algorithmique}, states precisely how
 likely this case is.
 
 \begin{proposition}
@@ -371,9 +371,10 @@ $\F_p$, plus a storage of $\Theta(\ell^2d)$ elements of
 $\F_p$. Observe that this precomputation may be used to compute any
 other isogeny with domain $E$.
 
-After the precomputation has been done, \ctwo{} successively applies the
-two inverse matrices; details can be found in
-\cite[$\S$2.4]{couveignes96}. This costs at least $\Omega(\ell^2d)$.
+After the precomputation has been done, \ctwo{} successively applies
+the two inverse matrices; details can be found
+in~\cite[$\S$2.4]{couveignes96}. This costs at least
+$\Omega(\ell^2d)$.
 
 
 \paragraph{Interpolation}

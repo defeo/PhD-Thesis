@@ -36,8 +36,8 @@ Chapter~\ref{cha:trace-computations}), we will use
 Proposition~\ref{th:uni-multi-uni} to go from $\basis{B}_i$ to
 $\basis{C}_i$, but we shall need an algorithm for the inverse map first.
 
-Instead of converting from $\basis{C}_i$ to $\basis{B}_i$ in one shot,
-we will pass through some intermediate bivariate bases to keep the
+Instead of converting from $\basis{C}_i$ to $\basis{B}_i$ directly, we
+will pass through some intermediate bivariate bases to keep the
 complexity low. By Theorem~\ref{th:cantor}, $\U_i$ equals
 $\F_p[X_{i-1},X_i]/I$, where the ideal $I$ admits the following
 Gr{\"o}bner bases, for respectively the lexicographic orders
@@ -73,7 +73,7 @@ the following $\F_p$-bases of $\U_i$ to each system:
  \text{.}  
 \end{align}
 We describe an algorithm called \titleref{alg:push-down} which takes $v$
-written on the basis $\basis{C}_i$ and returns its coordinates on the
+written in the basis $\basis{C}_i$ and returns its coordinates in the
 basis $\basis{D}_i$. Then, using Proposition~\ref{th:uni-multi-uni},
 we will be able to describe the inverse operation, called
 \titleref{alg:liftup}.
@@ -90,10 +90,9 @@ repeatedly applying \titleref{alg:push-down}, and the opposite is obtained by
 repeatedly applying \titleref{alg:liftup}.
 
 Hereafter, we let $\Lift:\N-\{0\} \to \N$ be such that both
-\titleref{alg:push-down} and
-\titleref{alg:liftup} can be performed in time
-$\Lift(i)$; to simplify some expressions appearing later on, we add
-the mild constraints that $p\,\Lift(i) \le \Lift(i+1)$ and
+\titleref{alg:push-down} and \titleref{alg:liftup} can be performed in
+$\Lift(i)$ operations; to simplify some expressions appearing later
+on, we add the mild constraints that $p\,\Lift(i) \le \Lift(i+1)$ and
 $p\,\Mult(p^{i}d) \in O(\Lift(i))$.  To reflect the behavior of the
 implementation, we also allow precomputations. These precomputations
 are performed when we build the tower; further details are at the end
@@ -166,15 +165,15 @@ with columns and rows indexed by
   (X_i^j,\dots,Y^{k+p^{n-1}-1}X_i^j)_{j < p}  
 \end{equation}
 respectively.  Since this matrix has $O(pnk)$ non-zero entries, we can
-compute both \titleref{eq:89} and its dual
-$\dual{\titleref{eq:89}}$ in time $O(pnk)$.
+compute both \titleref{eq:89} and its dual $\dual{\titleref{eq:89}}$
+in $O(pnk)$ operations.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \subsection{Push-down}\label{sec:level-embedding:push-down}
 
-The input of \titleref{alg:push-down} is $v \wrt \U_i$, that is, given on the
+The input of \titleref{alg:push-down} is $v \wrt \U_i$, that is, given in the
 basis $\basis{C}_i$; we see it as a polynomial $V \in \F_p[X_i]$ of degree
 less than $p^id$. The output is the normal form of $V$ modulo
 $X_i^p-X_i-X_{i-1}^{2p-1}$ and $Q_{i-1}(X_{i-1})$. We first use a
@@ -248,30 +247,29 @@ $X_i+R_n$ modulo $X_i^p-X_i-Y$ are done using \titleref{eq:89}.
 \end{algorithm}
 
 \begin{proposition}\label{prop:pd}
-  Algorithm \titleref{alg:push-down} is correct and takes time 
+  Algorithm \titleref{alg:push-down} is correct and takes 
   \begin{equation}
     \label{eq:92}
     O(p^{i+1}d
     \log_p(p^id)^2 + p\,\Mult(p^id))
-    \text{.}
   \end{equation}
+  operations.
 \end{proposition}
 \begin{proof}
   Correctness is straightforward; note that at step~\ref{pd:loop} of
-  \titleref{alg:push-down-rec},
-  $\deg_Y(W) < (c+1)p^{n-1}$, so our call to
-  \titleref{eq:89} is justified. By
-  the claim of Subsection~\ref{ssec:mulmod} on the cost of
-  \titleref{eq:89}, the total time spent in that loop is
-  $O(nc^2p^n)$. As in Theorem~\ref{theo:comp}, we deduce that the time
-  spent in \titleref{alg:push-down-rec} is $O(n^2c^2p^n)$.
+  \titleref{alg:push-down-rec}, $\deg_Y(W) < (c+1)p^{n-1}$, so our
+  call to \titleref{eq:89} is justified. By the claim of
+  Subsection~\ref{ssec:mulmod} on the cost of \titleref{eq:89}, the
+  total cost of that loop is $O(nc^2p^n)$. As in
+  Theorem~\ref{theo:comp}, we deduce that the cost of
+  \titleref{alg:push-down-rec} is $O(n^2c^2p^n)$.
 
-  In \titleref{alg:push-down}, we have $cp^n< p^id$ and $n<\log_p (p^id)$, so
-  the previous cost is seen to be $O(p^{i+1}d
+  In \titleref{alg:push-down}, we have $cp^n< p^id$ and $n<\log_p
+  (p^id)$, so the previous cost is seen to be $O(p^{i+1}d
   \log_p(p^id)^2)$. Reducing one coefficient of $Z$ modulo $Q_{i-1}$
-  takes time $O(\Mult(p^id))$, so step~\ref{step:pd:mod} has cost
-  $O(p\,\Mult(p^id))$. Step~\ref{step:pd:return} is free, since at
-  this stage $Z$ is already reduced. 
+  takes $O(\Mult(p^id))$ operations, so step~\ref{step:pd:mod} has
+  cost $O(p\,\Mult(p^id))$. Step~\ref{step:pd:return} is free, since
+  at this stage $Z$ is already reduced.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -280,10 +278,10 @@ $X_i+R_n$ modulo $X_i^p-X_i-Y$ are done using \titleref{eq:89}.
 
 \subsection{Transposed push-down}
 
-Before giving the details for \titleref{alg:liftup}, we discuss here the
-transpose of \titleref{alg:push-down}.  As in
-Section~\ref{sec:from-univ-bivar}, \titleref{alg:push-down} is the same thing
-as the map
+Before giving the details for \titleref{alg:liftup}, we discuss here
+the transpose of \titleref{alg:push-down}.  As in
+Section~\ref{sec:from-univ-bivar}, \titleref{alg:push-down} is
+equivalent to the map
 \begin{equation}
   \label{eq:81}
   \begin{aligned}
@@ -373,7 +371,7 @@ generated by the polynomial $Q_{i-1}$ from its first $p^{i-1}d$ values
 \subsection{Lift-up}
 \label{sec:level-embedding:lift-up}
 
-Let $v$ be given on the basis $\basis{D}_i$ and $W$ its canonical
+Let $v$ be given in the basis $\basis{D}_i$ and $W$ its canonical
 preimage in $\F_p[X_{i-1},X_i]$.  The lift-up algorithm finds $V$ in
 $\F_p[X_i]$ such that
 \begin{equation}
@@ -408,12 +406,12 @@ in~\cite{shoup99}; it is however more efficient to use
 \end{algorithm}
 
 \begin{proposition}\label{prop:lu}
-  Algorithm \titleref{alg:liftup} is correct and takes time
+  Algorithm \titleref{alg:liftup} is correct and takes 
   \begin{equation}
     \label{eq:85}
     O(p^{i+1}d\log_p(p^id)^2+p\,\Mult(p^{i}d))
-    \text{.}    
   \end{equation}
+  operations.
 \end{proposition}
 \begin{proof}
   Correctness is a consequence of Theorem~\ref{th:rur} and of the
@@ -459,12 +457,13 @@ Thus the values of $\Tr_{\U_i/\F_p}$ on the basis $\basis{D}_i$ are
   0, \ldots, 0, -\Tr_{\U_{i-1}/\F_p}(1), -\Tr_{\U_{i-1}/\F_p}(x_{i-1}), \ldots, -\Tr_{\U_{i-1}/\F_p}(x_{i-1}^{p^{i-1}d-1})
   \text{.}
 \end{equation}
-They can be computed in time $O(\Mult(p^{i-1}d))$ using
+They can be computed in $O(\Mult(p^{i-1}d))$ operations using
 Lemma~\ref{th:multi-newton-sums}.
 
-Then, we need ${Q_i'}^{-1} \bmod Q_i$; this takes time $O(\Mult(p^id)
-\log(p^id))$ by fast extended GCD computation.  These precomputations
-save logarithmic factors at best, but are useful in practice.
+Then, we need ${Q_i'}^{-1} \bmod Q_i$; this takes $O(\Mult(p^id)
+\log(p^id))$ operations by fast extended GCD computation.  These
+precomputations save logarithmic factors at best, but are useful in
+practice.
 
 
 % Local Variables:
