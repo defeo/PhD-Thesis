@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+
+AvailableTransitions = [None]
+EstimatedDuration = ParseTime('45m')
+
+PageProps = {
+    1: {'progress': 0},
+    2: {
+        'progress': 0,
+        'reset': 'FirstTimeOnly'
+        },
+    16: {'transition': WipeDown},
+    57: {'transition': WipeCenterIn,
+         'transtime': 5000}
+}
