@@ -19,7 +19,7 @@
 }
 \usepackage[all]{xy}
 \usepackage{tikz}
-%\usetikzlibrary{arrows,shapes,automata}
+\usetikzlibrary{arrows,shapes,automata}
 \usepackage{graphicx}
 \usepackage[bibstyle=beamer,citestyle=authoryear-comp,doi=false,isbn=false,eprint=false,maxnames=10]{biblatex}
 \bibliography{../defeo}
@@ -52,6 +52,36 @@
 
 \begin{document}
 
+{\setbeamertemplate{footline}[default]
+\begin{frame}
+  \frametitle{PhD 2.0}
+  
+  \begin{center}
+    \Large Connect to the WiFi network\footnote{This WiFi does not
+      give you access to the WWW (not even DNS, sorry for
+      IP-over-DNSers)}\footnote{No
+      DOSes, please.}:\\
+    \emph{\textbf{Luca's defense}} \end{center}
+
+  \bigskip
+
+  Open your browser, navigate to any page, and experience free
+  access to:
+  \begin{itemize}
+  \item electronic manuscript,
+  \item electronic presentation, %(in three languages),
+  \item live cast of the defense,
+  \item many other goodies!
+  \end{itemize}
+
+  \bigskip
+
+  Also check us out on: \emph{\url{http://crypto.lix.polytechnique.fr/}}
+\end{frame}
+}
+
+%%
+
 {\setbeamertemplate{footline}[these theme title]
 \begin{frame}
   \titlepage
@@ -61,6 +91,7 @@
 %%
 %%
 
+\setcounter{framenumber}{0}
 \section{Introduction}
 
 \begin{frame}
@@ -161,7 +192,7 @@
       \hline
       \emph{Group} & $\F_q^\ast$ & $E(\F_q)$\\
       \emph{Protocols} & El Gamal, DSA, \dots & ECDH, ECDSA, ECMQV, \dots\\
-      \emph{Key sizes}\footnote{\url{http://csrc.nist.gov/publications/nistpubs/800-57/sp800-57-Part1-revised2_Mar08-2007.pdf}}  & 1024, 2048, 3072 & 160, 225, 256 \\
+      \emph{Key sizes} & 1024, 2048, 3072 & 160, 225, 256 \\
     \end{tabular}
   \end{center}
 
@@ -177,8 +208,8 @@
       \includegraphics[width=\textwidth]{../isogeny/ec-add.pdf}
     \end{column}
     \begin{column}{0.55\textwidth}
+      {\large\emph{\[y^2 = x^3 + ax + b\]}}
       \begin{gather*}
-        y^2 = x^3 + ax + b\\
         P = (x_0, y_0), Q = (x_1, y_1)\\
         \lambda = \frac{y_1 - y_0}{x_1 - x_0}\\
         P+Q = (\lambda^2 - x_0 - x_1, (x_0 - x_2)\lambda - y_0)
@@ -189,10 +220,10 @@
   {\large
     \begin{description}
     \item[\emph{Multiplication:}] $[m]P = \overbrace{P + P + \cdots + P}^{\text{$m$ times}}$
-    \item[\emph{$m$-torsion:}] $E[m] = \{P\in E | [m]P=\0\} \isom (\Z/m\Z)^2$
+    \item[\emph{$m$-torsion:}] $E[m] = \{P\in E(\clot{\K}) | [m]P=\0\} \isom (\Z/m\Z)^2$
     \end{description}}
   
-  \[[m](x,y) = \left(\frac{\psi_m(x,y)}{\phi_m^2(x,y)}, \frac{\omega_m(x,y)}{\psi_m^3(x,y)}\right)\]
+  \[[m](x,y) = \left(\frac{\psi_m(x,y)}{\phi_m^2(x,y)}, \frac{\omega_m(x,y)}{\phi_m^3(x,y)}\right)\]
   
   \emph{Division polynomials:} $\phi_m$ can be computed with $O(\log
   m)$ polynomial multiplications, $\deg\phi_m=O(m^2)$.
@@ -223,7 +254,7 @@
 	\begin{overprint}
 	\onslide<1> Multiplication	
 	\onslide<2> Frobenius endomorphism
-	\onslide<3> Separable isogeny, odd degree (simplified Weierstrass model)
+	\onslide<3> Separable isogeny (simplified Weierstrass model)
 	\end{overprint}
       }
     \begin{overprint}
@@ -242,9 +273,9 @@
       $\ker\frob = \{\0\}$.
 
       \onslide<3>
-      \[\quad\I(X,Y) = \left(\frac{g(x)}{h^2(x)},
-      cy\left(\frac{g(x)}{h^2(x)}\right)'\right)\]
-      $\card{\ker\I} \;=\; 2\deg h + 1\;$ odd.
+      \[\quad\I(x,y) = \left(\frac{g(x)}{h(x)},
+      cy\left(\frac{g(x)}{h(x)}\right)'\right)\]
+      $h\;$ vanishes on the abscissas of $\;\ker\I$. \emph{$\quad\deg\I \;=\; \card{\ker\I}$}.
     \end{overprint}
   \end{block}  
 \end{frame}
@@ -259,17 +290,17 @@
     \item[Hasse bound] \hfill{\large\emph{$\card{E(\F_q)}= q-t+1$}};\hfill\strut
     \item[Schoof] Compute $t$ modulo small primes
       $\ell\;\Leftrightarrow$ compute the action of $\frob_q$ on
-      \emph{$E[\ell]\isom(\Z/\ell\Z)^2$};
+      \emph{$E[\ell]\;\isom\;(\Z/\ell\Z)^2$};
     \item[Atkin] Determine the order of the roots of $X^2 -tX +q$ by
       factoring the $\ell$-th modular polynomial.
     \item[Elkies] Compute an $\ell$-isogeny $\I$ and the action of
-      $\frob_q$ on \emph{$\ker\I\isom\Z/\ell\Z\subset E[\ell]$};
+      $\frob_q$ on \emph{$\ker\I\;\isom\;\Z/\ell\Z\;\subset\;E[\ell]$};
     \end{description}
   \end{block}
 
   \begin{block}{Other cryptographic applications}
     \begin{itemize}
-    \item Tranfer DLPs between curves (\cite{gaudry+hess+smart02,smith09});
+    \item Transfer DLPs between curves (\cite{gaudry+hess+smart02,smith09});
     \item Construct new cryptosystems (\cite{teske06,rostovtsev+stolbunov06});
     \item Construct hash functions (\cite{charles+lauter+goren09});
     \item Compute modular polynomials (\cite{sutherland10:modpol});
@@ -324,6 +355,10 @@
   
   \begin{block}{\textbf{Algorithms:} Given $E, E', \ell$, compute $\I:E\to E'$}
     \begin{itemize}
+    \item \emph{\cite{strak73}}: First algorithm in characteristic
+      $0$, using continued fractions.
+    \item \emph{\cite{elkies92,elkies98}:} Find a power series
+      solution to the differential equation.
     \item \emph{\cite{couveignes94}:} Compute morphisms of formal
       groups, look for one that corresponds to an isogeny.
     \item \emph{\cite{couveignes96}:} Interpolate over the
@@ -332,11 +367,10 @@
     \item \emph{\cite{lercier96}:} (only for $p=2$) solve a linear
       system.
     \item \emph{BMSS
-        algorithm \parencite{bostan+morain+salvy+schost08}:} Find a
-      power series solution to the differential equation, then
-      reconstruct the isogeny.
+        algorithm \parencite{bostan+morain+salvy+schost08}:} Improve
+      \cite{elkies98} to run in quasi-linear time.
     \item \emph{\cite{lercier+sirvent08}:} Lift $E$ and $E'$ in the
-      $p$-adics to avoid divisions by zero, then apply BMSS.
+      $p$-adics, then apply BMSS.
     \end{itemize}
   \end{block}
 \end{frame}
@@ -358,24 +392,24 @@
   \begin{itemize}
   \item Compute the extensions $\U_i/\F_q$ such that $E[p^i]$ is
     defined in $\U_i$;
-    \uncover<1-3>{\hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
+    \uncover<1-2>{\hfill\emph{\alt<1>{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
   \item Pick $\;k\;$ \emph{large enough} ($k\sim\log_p4\ell$);
   \item Compute $\;P$, a generator of $\;E[p^k]$;
-    \uncover<1-3>{\hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
+    \uncover<1-2>{\hfill\emph{\alt<1>{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
   \item Compute $\;P'$, a generator of $\;E'[p^k]$;
-    \uncover<1-3>{\hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
-  \item Compute the polynomial $\;T\;$ vanishing $\;E[p^k]$;
-    \uncover<1-3>{\hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
-  \item For $j\in\left(\Z/p^k\Z\right)^\ast$
+    \uncover<1-2>{\hfill\emph{\alt<1>{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
+  \item Compute the polynomial $\;T\;$ vanishing on $\;E[p^k]$;
+    \uncover<1-2>{\hfill\emph{\alt<1>{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
+  \item For $m\in\left(\Z/p^k\Z\right)^\ast$
     \begin{itemize}
       \normalsize
-    \item Interpolate $\;A : x(P) \mapsto x([j]P')$;
-      \uncover<1-3>{\hfill\emph{\temporal<2>{}{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
+    \item Interpolate $\;A : x(P) \mapsto x([m]P')$;
+      \uncover<1-2>{\hfill\emph{\alt<1>{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
     \item Reconstruct a rational fraction  $\;\frac{g}{h}\equiv A \bmod T$;
-      \uncover<1-3>{\hfill\emph{\alt<1>{}{$\tildO(\Mult(\ell))$}}}
+      \uncover<1-2>{\hfill\emph{$\tildO(\Mult(\ell))$}}
     \end{itemize}
-    \alert<4>{Stop when $\frac{g}{h}$ is an isogeny.}
-    \uncover<1-3>{\hfill\emph{\alt<1>{}{$\ell$ times on average}}}
+    \alert<3>{Stop when $\frac{g}{h}$ is an isogeny.}
+    \uncover<1-2>{\hfill\emph{$\ell$ times on average}}
   \end{itemize}
 \end{frame}
 
@@ -389,7 +423,7 @@
   \item \emph{\textbf{Degree:}} $\frac{g}{h}\;$ with $\;\deg g=\ell$, $\;\deg h = \ell-1$;\hfill\alert{$O(1)$}
   \item \emph{\textbf{Square factor:}} $h = \prod_{Q\in H^\ast}(X-
     x(Q)) = f^2\;$ if $\ell$ odd;\hfill\emph{$\tildO(\Mult(\ell))$}
-  \item \emph{\textbf{Group action:}} Test with random points;\hfill\emph{$O(\ell)$}
+  \item \emph{\textbf{Group action:}} Test on random points: $\;\I(P+Q)=\I(P)+\I(Q)$;\hfill\emph{$O(\ell)$}
   \item \emph{\textbf{Factor of the $\ell$-division polynomial:}}
     Compute $\phi_\ell\bmod h$.\hfill\emph{$\tildO(\Mult(\ell))$}
   \end{itemize}
@@ -399,6 +433,10 @@
 
 \begin{frame}
   \frametitle{How to recognize an isogeny?}
+  
+  \begin{center}
+    $T\;$ vanishes on $\;E[p^k]$, $A$ interpolates $x(P)\mapsto x(P')$
+  \end{center}
   
   \[AU_i + TV_i = R_i  \qquad\Leftrightarrow\qquad  A\equiv \frac{R_i}{U_i} \bmod T\]
   \[\ell = 11\]
@@ -414,7 +452,7 @@
     \pause
     \vdots & \vdots\\
     $3141592653589793238462634$ & $9$ \\
-    \pause\pause
+    \pause
     \Huge\alert{$11$} & \Huge\alert{$10$}\\
     \pause
     $10$ & $3141592653589793238462633$\\
@@ -428,19 +466,29 @@
 \begin{frame}
   \frametitle{Isogenies of unknown degree}
   
-  \begin{itemize}
-  \item This pattern is extremely rare.
-  \item This is the only phase of Couveignes' algorithm that depends on $\ell$.
-  \end{itemize}
+  \large 
 
-  \begin{itemize}
-  \item<2-> \large Actually, this does not really depend on $\ell$,
-    just on the existence of a \emph{gap}.
-  \item<2-> \large If $\ell$ is not known in advance, it is enough to
-    look for a \emph{gap}.
-  \item<2-> \large Thus, any isogeny of degree $\ll p^k$ can be
-    computed with one single run of Couveignes' algorithm.
-  \end{itemize}  
+  \begin{block}{It costs \textit{only} $\tildO(\ell)$}
+    \begin{itemize}
+    \item This pattern is extremely rare.
+    \item It can be detected in quasi-linear time using a fast XGCD
+      algorithm (\cite{khodadad+monagan06}).
+    \item This is the only phase of Couveignes' algorithm that depends on $\ell$.
+    \end{itemize}
+  \end{block}
+  
+  \pause 
+
+  \begin{block}{Actually, it does not even depend on $\ell$}
+    \begin{itemize}
+    \item This just depends on the bound $p^k$, not on the exact
+      degree $\ell$.
+    \item If $\ell$ is not known in advance, it is enough to look
+      for a \emph{gap}.
+    \item Thus, any isogeny of degree $\ll p^k$ can be computed with
+      one single run of Couveignes' algorithm.
+    \end{itemize} 
+  \end{block} 
 \end{frame}
 
 %%
@@ -461,6 +509,7 @@
 
 \begin{frame}
   \frametitle{Isogenies of unknown degree}
+  \large
 
   \begin{itemize}
   \item This variant of \cite{couveignes96} is at the moment the
@@ -469,8 +518,6 @@
   \item We tested two curves over $\F_{2^{161}}$, isogenous of
     unknown degree, taken from \cite{teske06}: proven in 694
     cpu-hours that no isogeny of degree less then $2^{13}$ exists.
-  \item Interesting applications for this algorithm are yet to be
-    found.
   \end{itemize}
 \end{frame}
 
@@ -479,51 +526,81 @@
 
 \section{Artin-Schreier towers}
 
-\begin{frame}<1-2>
+\begin{frame}
   \frametitle{The field of definition of $E[p^k]$}
   
   \begin{columns}
     \begin{column}{0.3\textwidth}
-      \begin{overlayarea}{\textwidth}{0.9\textheight}
-        \begin{onlyenv}<1>
-          \large\[\xymatrix@C=20pt{
-            *[r]{\U_k} \ar@{-}[d]^p & E[p^k] \ar@{-->}[l]\\
-            *[r]{\U_{k-1}} \ar@{--}[dd] & E[p^{k-1}] \ar@{-->}[l]\\
-            \\
-            *[r]{\U_2} \ar@{-}[d]^p & E[p^2] \ar@{-->}[l]\\
-            *[r]{\U_1} \ar@{-}[d] & E[p] \ar@{-->}[l]\\
-            *[r]{\F_q}
-          }\]
-        \end{onlyenv}
-        \begin{onlyenv}<2>
-          \Large\[\xymatrix{
-            *+[r]{\U_k = \frac{\U_{k-1}[X_k]}{P_{k-1}(X_k)}}\ar@{-}[d]^p\\
-            *+[r]{\U_{k-1}} \ar@{--}[dd]\\
-            \\
-            *+[r]{\U_{1} = \frac{\U_0[X_1]}{P_0(X_1)}} \ar@{-}[d]^p\\
-            *+[r]{\U_{0} = \F_q = \frac{\F_p[X_0]}{Q(X_0)}}
-          }\]
-        \end{onlyenv}
-      \end{overlayarea}
+      \large\[\xymatrix@C=20pt{
+        *[r]{\U_k} \ar@{-}[d]^p & E[p^k] \ar@{-->}[l]\\
+        *[r]{\U_{k-1}} \ar@{--}[dd] & E[p^{k-1}] \ar@{-->}[l]\\
+        \\
+        *[r]{\U_2} \ar@{-}[d]^p & E[p^2] \ar@{-->}[l]\\
+        *[r]{\U_1} \ar@{-}[d] & E[p] \ar@{-->}[l]\\
+        *[r]{\F_q}
+      }\]
     \end{column}
     \begin{column}{0.65\textwidth}
+      \begin{center}
+        \begin{tikzpicture}[node distance=4em]
+          \node(C){$C$}; 
+          \node(E)[below of=C]{$E$};
+          \node(sqE)[left of=E]{$\widetilde{E}$};
+          \scriptsize
+          \textcolor<4>{red}{\path[->] (E) edge node[auto,swap]{$\simeq$} (C);}
+          \textcolor<3>{red}{\path[->] (C) edge[bend right] (sqE);}
+          \textcolor<2>{red}{\path[->] (sqE) edge[bend left] node[auto]{$\frobisog$} (E);}
+          \path[->] (E) edge[dashed, bend left]  node[auto]{$V$} (sqE);
+        \end{tikzpicture}
+      \end{center}
       \begin{block}{$p$-descent (\cite{voloch90})}
         If $\;P_i=(x_i,y_i)\;$ generates $\;E[p^i]$, the solution to
-        \begin{align*}
-          z^p - z &= \frac{\sqrt[p]{y_i\beta_E(x_i)}}{\sqrt[p-1]{H_E}}\\
-          x_{i+1} &= \sqrt[p]{x_i}\\
-          y_{i+1} &= \sqrt[p]{y_i}
-        \end{align*}
-        generates $\;E[p^{i+1}]$ (on an isomorphic curve).
+        \begin{equation*}
+          \begin{cases}
+            \alert<3>{Z^p - Z} &\alert<3>{- \frac{\sqrt[p]{y_i\beta_E(x_i)}}{\sqrt[p-1]{H_E}}}\\
+            \alert<2>{X^p} &\alert<2>{- x_i}\\
+            \alert<2>{Y^p} &\alert<2>{- y_i}
+          \end{cases}
+        \end{equation*}
+        generates $\;C[p^{i+1}]$.\\
+        \alert<4>{Then apply the isomorphism $\;C\isom E$}.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Artin-Schreier towers}
+
+  \begin{columns}
+    \begin{column}{0.3\textwidth}
+      \Large\[\xymatrix{
+        *+[r]{\U_k = \frac{\U_{k-1}[X_k]}{X_k^p-X_k-\alpha_{k-1}}}\ar@{-}[d]^p\\
+        *+[r]{\U_{k-1}} \ar@{--}[dd]\\
+        \\
+        *+[r]{\U_{1} = \frac{\U_0[X_1]}{X_1^p-X_1-\alpha_0}} \ar@{-}[d]^p\\
+        *+[r]{\U_{0} = \F_q = \frac{\F_p[X_0]}{Q(X_0)}}
+      }\]
+    \end{column}
+    \begin{column}{0.65\textwidth}
+      \begin{block}{Artin-Schreier polynomials}
+        Artin-Schreier polynomial: 
+        \begin{center}
+          \emph{\large$X^p - X - \alpha\qquad$} with $\alpha\in\K$
+        \end{center}
+      \end{block}
+      
+      \begin{block}{Proposition}
+        $X^p-X-\alpha\;$ is either irreducible or split in $\;\K$.
       \end{block}
 
-      \begin{block}<2>{Artin-Schreier Towers over finite fields}
-        $\LK/\K$ extension: Artin-Schreier polynomial:
-        \vspace{-.5mm}
+      \begin{block}{Artin-Schreier extensions}
+        Defined by an irreducible Artin-Schreier polynomial
         \begin{center}
-          \large\emph{$X^p - X - \alpha$}
+          \large\emph{$\LK = \K[X]/(X^p - X - \alpha$)}
         \end{center}
-        \vspace{-.5mm}
         \alert{ANY} separable extension of degree $p$ can be expressed
         this way.
       \end{block}
@@ -539,11 +616,11 @@
   \begin{columns}
     \begin{column}{0.3\textwidth}
       \Large\[\xymatrix{
-        *+[r]{\U_k = \frac{\U_{k-1}[X_k]}{P_{k-1}(X_k)}}\ar@{-}[d]^p\\
+        *+[r]{\U_k = \frac{\U_{k-1}[X_k]}{X_k^p-X_k-\alpha_{k-1}}}\ar@{-}[d]^p\\
         *+[r]{\U_{k-1}} \ar@{--}[dd]\\
         \\
-        *+[r]{\U_{1} = \frac{\U_0[X_1]}{P_0(X_1)}} \ar@{-}[d]^p\\
-        *+[r]{\U_{0} = \F_{p^d} = \frac{\F_p[X_0]}{Q(X_0)}}
+        *+[r]{\U_{1} = \frac{\U_0[X_1]}{X_1^p-X_1-\alpha_0}} \ar@{-}[d]^p\\
+        *+[r]{\U_{0} = \F_q = \frac{\F_p[X_0]}{Q(X_0)}}
       }\]
     \end{column}
     \begin{column}{0.65\textwidth}
@@ -557,8 +634,8 @@
           \Mult(\U_k) &= O\bigl(p^{2k}\Mult(d)\bigr) \varsupsetneq \tildO(p^kd)
         \end{align*}
         
-        Even using Karatsuba or FFT multiplication, we are far from
-        optimality.
+        Even using Karatsuba or FFT multiplication, $\tildO(p^kd)$
+        can't be attained.
       \end{block}
       \vspace{-1.5mm}
       \begin{block}{Other operations}
@@ -577,12 +654,12 @@
   \frametitle{One fast tower, many fast towers!}
   
   \begin{center}
-    Fast tower
+    A Fast A-S tower
 
     \smallskip
 
     \large$\xymatrix{
-      \only<3>{E[p^k]\ar@{-->}[r]} & \only<2->{\U_k \ar@{-}[d]\ar[r]}      & \LK_k \ar@{-}[d]      & \only<2->{\U_k' \ar@{-}[d]\ar[l]}& \only<3>{E[p^k]\ar@{-->}[l]}\\
+      \only<2->{E[p^k]\ar@{-->}[r]} & \only<2->{\U_k \ar@{-}[d]\ar[r]}      & \LK_k \ar@{-}[d]      & \only<2->{\U_k' \ar@{-}[d]\ar[l]}& \only<2->{E'[p^k]\ar@{-->}[l]}\\
       &\only<2->{\U_{k-1} \ar@{--}[dd]\ar[r]} & \LK_{k-1} \ar@{--}[dd] & \only<2->{\U_{k-1}' \ar@{--}[dd]\ar[l]}\\
       \\
       &\only<2->{\U_1 \ar@{-}[dr]\ar[r]}     & \LK_1 \ar@{-}[d]      & \only<2->{\U_1' \ar@{-}[dl]\ar[l]}\\
@@ -592,7 +669,7 @@
 
   \uncover<2->{ \emph{Theorem (\cite{couveignes00}):} There exist an
     isomorphism algorithm that runs in \alert{$O(k^3\Mult(\LK_k))$}
-    operations in $\LK_0$.}
+    operations in $\LK_0$. (Remember that \alert{$\;k=\log_p\card{\LK_k}$})}
 \end{frame}
 
 %%
@@ -603,9 +680,9 @@
   \begin{tikzpicture}
     \begin{scope}
       \draw (0,0) node {\Large$\xymatrix{
-          *+[r]{\LK_k = \frac{\U_{k-1}[X_k]}{P_{k-1}(X_k)}}\ar@{-}[d]^p\\
+          *+[r]{\LK_k = \frac{\LK_{k-1}[X_k]}{X_k^p-X_k-\alpha_{k-1}}}\ar@{-}[d]^p\\
           *+[r]{\LK_{k-1}} \ar@{--}[d]\\
-          *+[r]{\LK_1 = \frac{\U_0[X_1]}{P_0(X_1)}} \ar@{-}[d]^p\\
+          *+[r]{\LK_1 = \frac{\LK_0[X_1]}{X_1^p-X_1-\alpha_0}} \ar@{-}[d]^p\\
           *+[r]{\LK_0 = \F_q = \frac{\F_p[X_0]}{Q(X_0)}} \ar@{-}[d]^d\\
           *+[r]{\F_p}
         }$};
@@ -613,15 +690,15 @@
 
     \begin{scope}[xshift=1.8cm]
       \draw (2,1) node {\parbox{3.3cm}{\emph{Idea:} Convert to a univariate basis \alert{over $\F_p$}}};
-      \uncover<2->{\draw[<->] (0,0) -- (4,0);}
+      \uncover<2->{\draw[<->] (0.4,0) -- (4,0);}
     \end{scope}
       
     \begin{uncoverenv}<2->
       \begin{scope}[xshift=8cm]
         \draw (0,0) node {\Large$\xymatrix{
-            *+[r]{\LK_k = \frac{\F_{k-1}[X_k]}{Q_{k-1}(X_k)}}\ar@{-}[d]^p\\
+            *+[r]{\LK_k = \frac{\F_p[Y_k]}{Q_k(Y_k)}}\ar@{-}[d]^p\\
             *+[r]{\LK_{k-1}} \ar@{--}[d]\\
-            *+[r]{\LK_1 = \frac{\F_p[X_1]}{Q_1(X_1)}} \ar@{-}[d]^p\\
+            *+[r]{\LK_1 = \frac{\F_p[Y_1]}{Q_1(Y_1)}} \ar@{-}[d]^p\\
             *+[r]{\LK_0 = \F_q = \frac{\F_p[X_0]}{Q(X_0)}} \ar@{-}[d]^d\\
             *+[r]{\F_p}
           }$};
@@ -633,7 +710,84 @@
 %% 
 
 \begin{frame}
-  \frametitle{A fast tower}
+  \frametitle{A fast tower: the multivariate side}
+
+  \vspace{-2mm}
+
+  \begin{columns}
+    \begin{column}{0.3\textwidth}
+      \Large$\xymatrix{
+          *+[r]{\LK_k = \frac{\LK_{k-1}[X_k]}{X_k^p-X_k-x_{k-1}^{2p-1}}}\ar@{-}[d]^p\\
+          *+[r]{\LK_{k-1}} \ar@{--}[d]\\
+          *+[r]{\LK_1 = \frac{\LK_0[X_1]}{X_1^p-X_1-x_0}} \ar@{-}[d]^p\\
+          *+[r]{\LK_0 = \F_q = \frac{\F_p[X_0]}{Q(X_0)}} \ar@{-}[d]^d\\
+          *+[r]{\F_p}
+        }$
+    \end{column}
+    \begin{column}{0.65\textwidth}
+      \begin{block}{Our construction (inspired by \cite{cantor89})}
+        \begin{equation*}
+          \left\{
+            \begin{array}{r@{}c@{}c@{}c@{}c@{}r@{}c@{}l}
+              X^p_i & -X_i & -X_{i-1}^{2p-1}\\
+              &&\vdots\\
+              &&&X_2^p & -X_2 & -X_1^{2p-1}\\
+              &&&&&X_1^p & -X_1 & -X_0\\
+              &&&&&&&Q(X_0)
+            \end{array}
+          \right.
+        \end{equation*}
+
+
+        \emph{Theorem:} Let $\;x_i\;$ be the class of $\;X_i\;$ in
+        $\;\LK_i\;$ (and thus in $\;\LK_{i+1},\ldots$).  If
+        $\;\Tr_{\LK_0/\F_p}(x_0) \ne 0$, each line contains an
+        irreducible polynomial and \alert{$x_i$ generates $\LK_i$ over
+          $\F_p$.}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{A fast tower: the univariate side}
+
+  \vspace{-2mm}
+
+  \begin{columns}
+    \begin{column}{0.3\textwidth}
+      \Large$\xymatrix{
+        *+[r]{\LK_k = \frac{\F_p[Y_k]}{Q_k(Y_k)}}\ar@{-}[d]^p\\
+        *+[r]{\LK_{k-1}} \ar@{--}[d]\\
+        *+[r]{\LK_1 = \frac{\F_p[Y_1]}{Q_1(Y_1)}} \ar@{-}[d]^p\\
+        *+[r]{\LK_0 = \F_q = \frac{\F_p[X_0]}{Q(X_0)}} \ar@{-}[d]^d\\
+        *+[r]{\F_p}
+      }$    
+    \end{column}
+    \begin{column}{0.65\textwidth}
+      \begin{block}{Univariate representation}
+        The minimal polynomials $\;Q_i\;$ of $\;x_i\;$ over $\;\F_p\;$
+        can be computed as follows.
+        \begin{itemize}
+        \item $Q_0 = Q$;
+        \item $Q_1 = Q_0(Z^p-Z)$.
+        \end{itemize}
+        Let $\;\omega\;$ be a $\;(2p-1)$-th root of unity,
+        \begin{itemize}
+        \item $q_{i+1}(Z^{2p-1}) = \prod_{j=0}^{2p-2}Q_i(\omega^jZ)$,
+        \item $Q_{i+1} = q_{i+1}(Z^p-Z)$.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{A fast tower: change of basis}
 
   \vspace{-2mm}
 
@@ -649,68 +803,100 @@
       }\]
     \end{column}
     \begin{column}{0.85\textwidth}
-      \begin{block}{Our construction (inspired by \cite{cantor89})}
-        Let $\;x_0 = X_0\;$ such that
-        $\;\Tr_{\LK_0/\F_p}(x_0) \ne 0$, let
-        \begin{align*}
-          P_0 \quad&=\quad X^p - X - x_0\\
-          P_i \quad&=\quad X^p - X - x_i^{2p-1}
-        \end{align*}
-        with $\;x_{i+1}\;$ a root of $\;P_i\;$ in $\;\LK_{i+1}$.
-
-        \alert{This tower is such that $x_i$ generates $\LK_i/\F_p$.}
-      \end{block}
 
       \begin{block}{Two bases to represent $\LK_k$}
         \begin{itemize}
-        \item Univariate: \hfill\emph{$\LK_k=\F_p[Z]/Q_k(Z)$}\hfill
-        \item Multivariate: \hfill\emph{$\LK_k=\F_p[X_0,X_1,\ldots,X_k]/(Q,P_0,\ldots,P_{k-1})$}\hfill
+        \item Univariate: \hfill\emph{$\LK_k=\F_p[Y_k]/Q_k(Y_k)$}\hfill
+        \item Multivariate: \hfill\emph{$\LK_k=\F_p[X_0,X_1,\ldots,X_k]/(Q,\ldots)$}\hfill
         \end{itemize}
         \alert{A fast change of basis is the key to fast arithmetic:}
         \begin{itemize}
         \item Multiplication is faster in \emph{univariate};
-        \item Embeddings are faster in \emph{multivariate}.
+        \item Field embeddings are faster in \emph{multivariate}.
+        \end{itemize}
+      \end{block}
+
+      \begin{block}{Change of basis}
+        \emph{Univariate $\ra$ multivariate}
+        \begin{itemize}
+        \item Recursively split input in $p$ slices, recombine by
+          Horner's rule;
+        \item Simple and fast: \emph{$\;O(\Mult(\ell) + \ell\log^2\ell)$}
+        \end{itemize}
+        
+        \emph{Multivariate $\ra$ univariate}
+        \begin{itemize}
+        \item Trace formulas + duality + transposed algorithms;
+        \item Same complexity: \emph{$\;O(\Mult(\ell) + \ell\log^2\ell)$}
         \end{itemize}
       \end{block}
     \end{column}
   \end{columns}
 \end{frame}
 
-%%
-
-% \begin{frame}
-%   \frametitle{Fast tower example}
+\begin{frame}
+  \frametitle{Example: univariate $\ra$ multivariate}
   
-% \end{frame}
+  \begin{center}
+    \large\emph{$\F_{3^9} \;=\; \F_3[X_1,X_2]/I \;=\; \F_3[Y_2]/Q_2(Y_2)$}
+  \end{center}
+
+  \begin{gather*}
+    I = 
+    \begin{cases}
+      &\alert<3>{X_2^3 - X_2 - X_1^5}\text{,}\\
+      &X_1^3 - X_1 - 1\text{,}
+    \end{cases}
+    \\
+    Q_2(Z) = Z^9 + Z^6 + Z^4 + Z^2 - Z - 1\text{,} \qquad Q_2(x_2) = 0\text{,}
+  \end{gather*}
+
+  \bigskip
+
+  Let $a$ be given on the univariate basis:
+
+  \smallskip
+
+  \mbox{$a = \underbrace{X_2^8 + X_2^7 + X_2^6} + \underbrace{X_2^5} +
+    \underbrace{X_2} = \uncover<2->{\alert<3>{X_2^6}(\underbrace{X_2^2
+        + X_2 + 1}_{a_2}) + \alert<3>{X_2^3}(\underbrace{X_2^2}_{a_1})
+      + (\underbrace{X_2}_{a_0})}$}
+  
+  \bigskip
+  \uncover<3->{Then, $a = \left(\alert<3>{X_2 + X_1^5}\right)\left((\alert<3>{X_2 + X_1^5})a_2
+      + a_1\right) + a_0\uncover<4->{\alert{\mod (X_2^3 - X_2 - X_1^5)=}}$}
+
+  \bigskip
+
+  \uncover<4->{\alert{$(X_1^2 - X_1 - 1)X_2^2 + (X_1 - 1)X_2 - X_1^2 - X_1 -1$}}
+\end{frame}
 
 %%
 
 \begin{frame}
-  \frametitle{Change of basis}
+  \frametitle{Multivariate $\ra$ univariate}
 
-  \begin{block}{Univariate $\ra$ multivariate}
-    Recursive algorithm: given $\;a(Z)\in\F_p[Z]/Q_k(Z)$
-    \begin{itemize}
-    \item Split $a$ in $p$ parts;
-    \item convert recursively to multivariate;
-    \item recombine using Horner's rule.
-    \end{itemize}
-    Simple and fast: \emph{$\;O(\Mult(\ell) + \ell\log^2\ell)$}!
-  \end{block}
 
-  \begin{block}{Multivariate $\ra$ univariate}
-    By \textit{trace formulas} (\cite{rouiller99}):
+  \begin{block}{Trace formulas (\cite{rouiller99})}
       \[
-      a(Z) = \frac{A(Z)}{Q_k'(Z)}
+      a(Z) = \frac{A(Z)}{Q_k'(Z)}\bmod Q_k(Z)
       \qquad\text{where}\qquad
-      A(T) = Q_k(T)\alert<2>{\sum_{i\ge 0}\frac{\Tr aZ^i}{T^{i+1}}}
+      A(T) = Q_k(T)\alert<2>{\sum_{i\ge 0}\frac{\Tr ax_k^i}{T^{i+1}}}
       \text{.}\]
     \begin{itemize}
-    \item Compute the \textit{trace form} $\;\Tr\;$ and the form
-      $\;a\cdot\Tr : x\mapsto \Tr ax$;
-    \item \alert<2>{compute $\;\sum_{i\ge 0}\frac{\Tr aZ^i}{T^{i+1}}$}, deduce $\;a(Z)$.
+    \item Compute the \textit{trace form} $\;\Tr\;$,
+    \item compute the form $\;a\cdot\Tr : x\mapsto \Tr ax$,
+    \item \alert<2>{compute $\;\sum_{i\ge 0}\frac{a\cdot\Tr x_k^i}{T^{i+1}}$},
+    \item deduce $\;a(Z)$.
     \end{itemize}
   \end{block}
+
+  \emph{Example:} Let $a = x_1$, then
+  \begin{align*}
+    A(T) &= Q_k(T) \left(\alert<2>{T^{-6} - T^{-8} - T^{-9} + O(T^{-10})}\right) = T^3 - T\text{,}\\
+    a &= \frac{x_2^3 - x_2}{x_2^3 - x_2 - 1} = x_2^6 +
+    x_2^4 - x_2^3 + x_2^2 + x_2 + 1\text{.}
+  \end{align*}
 \end{frame}
 
 %%
@@ -721,30 +907,30 @@
   \vspace{-6mm}
 
   \begin{columns}[b]
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.4\textwidth}
       \begin{center}
-        \textbf{Polynomial evaluation}$:k[T]\ra\K/k$
+        \textbf{Polynomial evaluation}$:k[Z]\ra\K/k$
         \[g\mapsto g(\sigma)\]
       \end{center}
     \end{column}
-    \begin{column}{0.5\textwidth}
+    \begin{column}{0.6\textwidth}
       \begin{center}
-        \textbf{Power projection}$:(\K/k)^\ast\ra k[T]^\ast$
+        \textbf{Power projection}$:(\K/k)^\ast\ra k[T]^\ast \simeq k[[1/T]]$
         \[\ell \mapsto \sum_{i>0} \frac{\ell(\sigma^i)}{T^i}\]
       \end{center}
     \end{column}
   \end{columns}
 
   \begin{block}{Univariate $\ra$ multivariate $=$ Polynomial evaluation}
-    If $Z \mapsto \zeta\;$ (with $\zeta\in\U_k$ written on the
+    If $Z \mapsto x_k\;$ (with $x_k\in\U_k$ written on the
     multivariate basis):
-    \[a(Z) = a_dZ^d + \cdots + a_1Z + a_0 \quad\mapsto\quad a_d\zeta^d + \cdots + a_1\zeta + a_0 =a(\zeta)\text{.}\]
+    \[a(Z) = a_dZ^d + \cdots + a_1Z + a_0 \quad\mapsto\quad a_dx_k^d + \cdots + a_1x_k + a_0 =a(x_k) = a\text{.}\]
   \end{block}
 
-  \begin{block}{$($Univariate $\ra$ bivariate$)^\ast=$ Power projection}
+  \begin{block}{Transposed univariate $\ra$ multivariate $=$ Power projection}
     \begin{align*}
-      \Tr &\quad\mapsto\quad \sum_{i\ge0}\frac{\Tr\zeta^i}{T^i}\text{,}\\
-      a\cdot\Tr &\quad\mapsto\quad \sum_{i\ge0}\frac{\Tr a\zeta^i}{T^i}\text{.}
+      \Tr &\quad\mapsto\quad \sum_{i\ge0}\frac{\Tr x_k^i}{T^i}\text{,}\\
+      a\cdot\Tr &\quad\mapsto\quad \sum_{i\ge0}\frac{\Tr ax_k^i}{T^i}\text{.}
     \end{align*}
   \end{block}
 \end{frame}
@@ -774,13 +960,11 @@
   \frametitle{Change of basis}
 
   \begin{block}{Univariate $\ra$ multivariate}
-    Recursive algorithm: given $\;a(Z)\in\F_p[Z]/Q_k(Z)$
     \begin{itemize}
-    \item Split $a$ in $p$ parts;
-    \item convert recursively to multivariate;
-    \item recombine using Horner's rule.
+    \item Recursively split input in $p$ slices, recombine by
+      Horner's rule;
+    \item Simple and fast: \emph{$\;O(\Mult(\ell) + \ell\log^2\ell)$}
     \end{itemize}
-    Simple and fast: \emph{$\;O(\Mult(\ell) + \ell\log^2\ell)$}
   \end{block}
 
   \vspace{-1mm}
@@ -788,371 +972,64 @@
   \begin{block}{Multivariate $\ra$ univariate\hfill\alert{$\;O(\Mult(\ell) + \ell\log^2\ell)$}}
     By \textit{trace formulas} (\cite{rouiller99}):
     \[
-    a(Z) = \frac{A(Z)}{Q_k'(Z)}
+    a(Z) = \frac{A(Z)}{Q_k'(Z)}\bmod Q_k(Z)
     \qquad\text{where}\qquad
-    A(T) = Q_k(T)\sum_{i\ge 0}\frac{\Tr aZ^i}{T^{i+1}}
+    A(T) = Q_k(T)\sum_{i\ge 0}\frac{\Tr ax_k^i}{T^{i+1}}
     \text{.}\]
     \vspace{-4mm}
     \begin{itemize}
     \item Compute the \textit{trace form} $\;\Tr\;$ and the form
       $\;a\cdot\Tr : x\mapsto \Tr ax$;
-    \item compute $\;\sum_{i\ge 0}\frac{\Tr aZ^i}{T^{i+1}}$
+    \item compute $\;\sum_{i\ge 0}\frac{a\cdot\Tr x_k^i}{T^{i+1}}$
       \alert{using a transposed univariate $\ra$ multivariate};
     \item deduce $\;a(Z)$.
     \end{itemize}
   \end{block}
 \end{frame}
 
-
-% %%
-% %%
-
-% \section{The transposition principle}
-
-% \begin{frame}
-%   \frametitle{The transposition principle}
-
-%   \begin{quote}
-%     \large ``Let $\pspace$ be an arbitrary set. To any $R$-algebraic
-%     algorithm $A$ computing a family of linear functions $(f_p:M\ra
-%     N)_{p\in\pspace}$ corresponds an $R$-algebraic algorithm
-%     $\dual{A}$ computing the \emph{dual family}
-%     $(\dual{f}_p:\dual{N}\ra\dual{M})_{p\in\pspace}$. The algebraic
-%     time and space complexities of $\dual{A}$ are bounded by the time
-%     complexity of $A$.''
-%   \end{quote}
-  
-% \end{frame}
-
-% %%
-
-% \begin{frame}
-%   \frametitle{Transposition of arithmetic circuits}
-
-%   Plus dynamique !!
-
-%   \begin{columns}
-%     \begin{column}{0.6\textwidth}
-%       \begin{center}
-%         Arithmetic circuits are like diagrams enriched with a
-%         \emph{product}. In particular they can be \emph{transposed}:
-%       \end{center}
-
-%       \begin{center}
-%       \begin{tikzpicture}
-%         \tikzstyle{node}=[circle,thick,draw=black,minimum size=4mm]
-%         \tikzstyle{arg}=[rectangle,thin,draw=black,minimum size=4mm]
-        
-%         \begin{scope}
-%           \node[arg](in1){$x_1$};
-%           \node[arg,right of=in1](in2){$x_2$};
-%           \node[arg,right of=in2](in3){$x_3$};
-          
-%           \node[node,below of=in1](plus1){$+$};
-%           \node[node,right of=plus1](H){$\hub$};
-
-%           \node[node,below of=plus1](plus2){$+$};
-%           \node[node,right of=plus2](times){$\rmul{2}$};
-
-%           \node[arg,below of=plus2,xshift=6mm](out1){$y_1$};
-%           \node[arg,right of=out1](out2){$y_2$};
-
-%           \path[->]
-%           (in1) edge (plus1)
-%           (in2) edge (H)
-%           (in3) edge (out2)
-%           (H) edge (plus1)
-%           (H) edge (times)
-%           (plus1) edge (plus2)
-%           (times) edge (plus2)
-%           (plus2) edge (out1);
-%         \end{scope}
-
-%         \begin{uncoverenv}<2->
-%         \begin{scope}[xshift=3cm, yshift=-0.17\textheight]
-%           \node(x){\Huge $\leftrightarrow$};
-%         \end{scope}
-
-%         \begin{scope}[xshift=4.2cm]
-%           \node[arg](in1){$\dual{x_1}$};
-%           \node[arg,right of=in1](in2){$\dual{x_2}$};
-%           \node[arg,right of=in2](in3){$\dual{x_3}$};
-      
-%           \node[node,below of=in1](plus1){\alt<3>{$\hub$}{$+$}};
-%           \node[node,right of=plus1](H){\alt<3>{$+$}{$\hub$}};
-          
-%           \node[node,below of=plus1](plus2){\alt<3>{$\hub$}{$+$}};
-%           \node[node,right of=plus2](times){$\rmul{2}$};
-          
-%           \node[arg,below of=plus2,xshift=6mm](out1){$\dual{y_1}$};
-%           \node[arg,right of=out1](out2){$\dual{y_2}$};
-          
-%           \path[<-]
-%           (in1) edge (plus1)
-%           (in2) edge (H)
-%           (in3) edge (out2)
-%           (H) edge (plus1)
-%           (H) edge (times) 
-%           (plus1) edge (plus2)
-%           (times) edge (plus2)
-%           (plus2) edge (out1);
-%         \end{scope}
-%         \end{uncoverenv}
-%       \end{tikzpicture}
-%       \end{center}
-
-%       \begin{center}
-%         \uncover<3>{This can be made precise using category theory.}
-%       \end{center}
-%     \end{column}
-%     \begin{column}{0.4\textwidth}
-%       \begin{align*}
-%         y_1 &= x_1 + 3x_2\\
-%         y_2 &= x_3
-%       \end{align*}
-      
-%       \Large
-%       \begin{gather*}
-%         \begin{pmatrix}
-%           1 & 3 & 0\\
-%           0 & 0 & 1
-%         \end{pmatrix}\\
-%         \uncover<2->{\updownarrow}\\
-%         \uncover<2->{\begin{pmatrix}
-%           1 & 0\\
-%           3 & 0\\
-%           0 & 1\\
-%         \end{pmatrix}}
-%       \end{gather*}
-%     \end{column}
-%   \end{columns}
-% \end{frame}
-
-% %%
-
-%%
-
-% \begin{frame}
-%   \frametitle{Multilinearity}
-
-%   \begin{center}
-%     \large
-%     Does it make sense to transpose $\;c:=a*b$?
-%   \end{center}
-
-%   \begin{center}
-%     \begin{tikzpicture}
-%       \tikzstyle{node}=[circle,thick,draw=black,minimum size=4mm]
-%       \tikzstyle{arg}=[rectangle,thin,draw=black,minimum size=4mm]
-%       \tikzstyle{nodeg}=[circle,thick,draw=gray,minimum size=4mm]
-%       \tikzstyle{argg}=[rectangle,thin,draw=gray,minimum size=4mm]
-      
-%       \begin{scope}
-%         \node[arg](in1){$x_1$};
-%         \node[arg,right of=in1](in2){$x_2$};
-%         \node[arg,right of=in2](in3){$x_3$};
-%         \node[node,below of=in1,xshift=5mm](times1){$*$};
-%         \node[node,below of=times1,xshift=5mm](times2){$*$};
-%         \node[arg,below of=times2](out){$y_1$};
-        
-%         \path[->]
-%         (in1) edge (times1)
-%         (in2) edge (times1)
-%         (times1) edge (times2)
-%         (in3) edge (times2)
-%         (times2) edge (out);
-%       \end{scope}
-      
-%       \begin{scope}[xshift=4cm]
-%         \node[argg](in1){\color{gray}{$x_1$}};
-%         \node[arg,right of=in1](in2){$x_2$};
-%         \node[argg,right of=in2](in3){\color{gray}{$x_3$}};
-%         \node[node,below of=in1,xshift=5mm](times1){$*_{x_1}$};
-%         \node[node,below of=times1,xshift=5mm](times2){$*_{x_3}$};
-%         \node[arg,below of=times2](out){$y_1$};
-        
-%         \path[->]
-%         (in2) edge (times1)
-%         (times1) edge (times2)
-%         (times2) edge (out);
-        
-%         \path[->,draw=gray,dashed]
-%         (in1) edge (times1)
-%         (in3) edge (times2);
-%       \end{scope}
-      
-%       \begin{scope}[xshift=8cm]
-%         \node[arg](in1){$x_3$};
-%         \node[arg,right of=in1](in2){$y_1^\ast$};
-%         \node[arg,right of=in2](in3){$x_1$};
-%         \node[node,below of=in1,xshift=5mm](times1){$*$};
-%         \node[node,below of=times1,xshift=5mm](times2){$*$};
-%         \node[arg,below of=times2](out){$x_2^\ast$};
-
-%         \path[->]
-%         (in2) edge (times1)
-%         (times1) edge (times2)
-%         (times2) edge (out)
-%         (in3) edge (times2)
-%         (in1) edge (times1);
-%       \end{scope}
-%     \end{tikzpicture}  
-%   \end{center}
-
-%   \begin{itemize}
-%   \item Most applications require to \emph{linearize} a multi-linear
-%     program.
-%   \item Can we automatically deduce any possible linearisation of a
-%     program?
-%   \item \alert{Type inference systems can help us}
-%   \end{itemize}
-% \end{frame}
-
-% %%
-
-% \begin{frame}[fragile]
-%   \frametitle{Linearity inference}
-
-%   \begin{center}
-%     Suppose given a type \lstinline{R} implementing a ring. We want to
-%     define types \alert{\lstinline{L}} (for \emph{linear}) and
-%     \alert{\lstinline{S}} (for \emph{scalar}) such that the following
-%       equations hold
-%   \end{center}
-  
-%   \begin{columns}
-%     \begin{column}{0.5\textwidth}
-%   \begin{semiverbatim}
-%     plus :: L -> L -> L
-%     plus :: S -> S -> S
-%   \end{semiverbatim}
-%     \end{column}
-%     \begin{column}{0.5\textwidth}
-%       \uncover<2>{\[\forall
-%         \alpha\in\{L,S\}.\alpha\ra\alpha\ra\alpha\]}
-%     \end{column}
-%   \end{columns}
-  
-%   \begin{columns}[c]
-%     \begin{column}{0.5\textwidth}
-%   \begin{semiverbatim}
-%     times :: L -> S -> L
-%     \alt<2>{\st{times :: S {} -> L {} -> L}}{times :: S -> L -> L}
-%     times :: S -> S -> S
-%   \end{semiverbatim}
-%     \end{column}
-%     \begin{column}{0.5\textwidth}
-%       \uncover<2>{\[\forall
-%         \alpha\in\{L,S\}.\alpha\ra S\ra\alpha\]}
-%     \end{column}
-%   \end{columns}
-
-%   \begin{columns}
-%     \begin{column}{0.5\textwidth}
-%   \begin{semiverbatim}
-%     zero :: L
-%     zero :: S
-%   \end{semiverbatim}
-%     \end{column}
-%     \begin{column}{0.5\textwidth}
-%       \uncover<2>{\[\forall
-%         \alpha\in\{L,S\}.\alpha\]}      
-%     \end{column}
-%   \end{columns}
-
-%   \begin{columns}
-%     \begin{column}{0.5\textwidth}
-%   \begin{semiverbatim}
-%     one :: S
-%   \end{semiverbatim}
-%     \end{column}
-%     \begin{column}{0.5\textwidth}
-%     \end{column}
-%   \end{columns}
-% \end{frame}  
-
-% \begin{frame}[fragile]
-%   \frametitle{Linearity inference}
-  
-%   \begin{center}
-%     The solution in Haskell
-%   \end{center}
-
-%   \begin{lstlisting}
-%     data L = L R
-%     data S = S R
-    
-%     class Ring r where
-%       zero :: r
-%       (<+>) :: r -> r -> r
-%       neg :: r -> r
-%       (<*>) :: r -> S -> r
-
-%     one = S oneR
-%     (S a) == (S b) = a == b
-%   \end{lstlisting}
-
-%   \begin{center}
-%     To treat \alert{\lstinline{times :: S -> L -> L}}, we extend the
-%     Hindley-Milner type inference to handle lists of acceptable
-%     unifications.
-%   \end{center}
-% \end{frame}
-
-%%
-
-% \begin{frame}
-%   \frametitle{\tALpy{}}
-  
-%   \begin{block}{We are implementing}
-%     A Python-like ad-hoc language, compiled/interpreted in Python,
-%     featuring:
-%     \begin{itemize}
-%     \item Algebraic constructs (Rings, Modules, Fields, \ldots);
-%     \item Transposition of multilinear/recursive code;
-%     \item Parameterizable linearity inference (including commutative
-%       multiplication);
-%     \item Algebraic complexity preserving;
-%     \item Easily used on top of Computer Algebra Systems that have a
-%       Python interface;
-%     \item Other Computer Algebra Systems will be able to work with it
-%       as we will add more languages to the output of the compiler
-%       (OCaml and Haskell look easy, C is somewhat harder).
-%     \end{itemize}
-%   \end{block}
-
-%   \begin{center}
-%     \url{http://transalpyne.gforge.inria.fr/}
-%   \end{center}
-% \end{frame}
-
-% %%
-
 %%
 %%
 
-\section{Perspectives}
+\section{Implementations}
 
 \begin{frame}
-  \frametitle{Automatic transposition}
+  \frametitle{Implementations}
 
-  \begin{itemize}
-  \item Algorithms are hard to transpose, transposed algorithms are
-    hard or impossible to understand;
-  \item How to be confident that a transposed algorithm is well
-    implemented if no one understands it?
-  \item When proving programs with a proof assistant, why should we do
-    the work twice?
-  \end{itemize}
 
-  \begin{block}{\texttt{transalpyne}}
+  \begin{block}{Automatic transposition}
+    \begin{itemize}
+    \item Algorithms are hard to transpose, transposed algorithms are
+      hard or impossible to understand;
+    \item How to be confident that a transposed algorithm is well
+      implemented if no one understands it?
+    \item When proving programs with a proof assistant, why should we do
+      the work twice?
+    \end{itemize}
+
+    \hfill\emph{\url{http://transalpyne.gforge.inria.fr/}}\hfill\strut
+
     A Python-like ad-hoc language for automatic transposition,
     compiled/interpreted in Python.
-
-    \begin{center}
-      \url{http://transalpyne.gforge.inria.fr/}
-    \end{center}
   \end{block}
+  
+  \begin{block}{Artin-Schreier towers and isogenies}
+    \begin{itemize}
+    \item \emph{FAAST} (Fast Arithmetic in Artin-Schreier towers):
+      \texttt{C++} with NTL implementation released under GPL:
+
+      \hfill\emph{\url{http://www.lix.polytechnique.fr/~defeo/FAAST/}}\hfill\strut
+    \item With F.~Morain and É.~Schost, writing a \texttt{C++} library
+      for isogenies over finite fields.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+%%
+
+\section{Conclusion}
+
+\begin{frame}
+  \frametitle{Perspectives}
 
   \begin{block}{The future of \texttt{transalpyne}}
     \begin{itemize}
@@ -1160,22 +1037,6 @@
     \item Integration in a Computer Algebra System (Sage?
       Mathemagix?).
     \item Development in a dependently typed system (Coq? Agda?).
-    \end{itemize}
-  \end{block}
-\end{frame}
-
-%%
-
-\begin{frame}
-  \frametitle{Perspectives on isogenies and Artin-Schreier towers}
-  
-  \begin{block}{Implementations}
-    \begin{itemize}
-    \item \emph{FAAST (Fast Arithmetics in Artin-Schreier towers):}
-      \texttt{C++} with NTL implementation released under GPL:
-      \url{http://www.lix.polytechnique.fr/~defeo/FAAST/}
-    \item With F. Morain, writing a \texttt{C++} library for isogeny
-      over finite fields.
     \end{itemize}
   \end{block}
 
