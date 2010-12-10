@@ -397,13 +397,19 @@ Algorithm~\ref{alg:interp}.
 
 In conclusion, the total cost of computing the subproduct tree and the
 interpolation is
+\ifafourps
+\begin{equation*}
+  O\biggl(\bigl(k-i_0\bigr)p\Lift(k-i_0) + \Mult\left(\frac{p^{k-i_0+1}d}{r}\right)\log \frac{p^{k-i_0}d}{r} +
+  \frac{p^{k-i_0}}{r}\bigl(\ModComp(pd)\log d + r(pd)^2\bigr)\biggr)
+  \text{.}
+\end{equation*}
+\else
 \begin{multline*}
-  %\label{eq:T:complexity}
   O\biggl(\bigl(k-i_0\bigr)p\Lift(k-i_0) + \Mult\left(\frac{p^{k-i_0+1}d}{r}\right)\log \frac{p^{k-i_0}d}{r} +\\
-    \frac{p^{k-i_0}}{r}\bigl(\ModComp(pd)\log d + r(pd)^2\bigr)\biggr)
+  \frac{p^{k-i_0}}{r}\bigl(\ModComp(pd)\log d + r(pd)^2\bigr)\biggr)
   \text{.}
 \end{multline*}
-
+\fi
 
 \paragraph{The complete interpolation}
 We compute all the $A^{(j)}$'s using this algorithm; there are
@@ -411,10 +417,10 @@ $p^{i_0-1}r$ of them. We then recombine them through a
 \hyperref[sec:chin-rema-algor]{Chinese remainder algorithm} at a cost
 of $O\bigl(\Mult(p^kd)\log p^kd\bigr)$. The total cost of the whole
 interpolation phase is then
-\begin{multline*}
+\begin{equation*}
   O\left(\bigl(k-i_0\bigr) p\Lift(k) + p^{k-1}\ModComp(pd)\log d +
     p^{k-1}r(pd)^2 + \Mult(p^kd)\log p^kd \right)\text{,}
-\end{multline*}
+\end{equation*}
 that is
 \begin{equation}
   \label{eq:interp}

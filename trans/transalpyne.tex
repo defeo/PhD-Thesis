@@ -8,7 +8,8 @@
 
 \lstset{language=python}
 
-We present here a ``python implementation of a transposable Algebraic
+% Overfull in a4ps
+We present here a ``Python implementation of a transposable Algebraic
 Language'', in short \index{transalpyne@\tALpy{}}\tALpy{}.
 
 \tALpy{} is a limited functional language incorporating all the
@@ -21,8 +22,8 @@ features that we have discussed until now, in particular:
   Section~\ref{sec:inference});
 \item it is able to transpose any linearization of an algebraic
   program (see Section~\ref{sec:r-algebr-algor};
-\item its code can be compiled to python code, or interpreted inside
-  python interpreter.
+\item its code can be compiled to Python code, or interpreted inside
+  Python interpreter.
 \end{itemize}
 
 At the moment we write, the first stable release of \tALpy{} is not
@@ -33,23 +34,23 @@ will be available from \url{http://transalpyne.gforge.inria.fr/}.
 \subsection{Concepts}
 \tALpy{} has been conceived as a scripting language to be used on top
 of computer algebra systems. We made an effort to give syntax and
-semantics as close as possible to the python programming language.
+semantics as close as possible to the Python programming language.
 
 In \tALpy{} there is no such concept as an executable program: only
 functions can be defined in \tALpy{}.  \tALpy{} programs can be
-compiled to python code, so that their functions can be called by
-python programs; we plan to support compilation to other languages in
-the future. \tALpy{} can also be interpreted via the python
+compiled to Python code, so that their functions can be called by
+Python programs; we plan to support compilation to other languages in
+the future. \tALpy{} can also be interpreted via the Python
 interpreter. A \tALpy{} library contained in a file
-\texttt{my-library.yp} can be imported in a python program via the
+\texttt{my-library.yp} can be imported in a Python program via the
 statement
 \begin{lstlisting}
   import my-library
 \end{lstlisting}
-The python interpreter recognizes the \texttt{.yp} extension and
+The Python interpreter recognizes the \texttt{.yp} extension and
 launches the \tALpy{} interpreter on the file; the functions of the
 library are interpreted and transposed by the \tALpy{} interpreter and
-their names are exported to the python namespace.
+their names are exported to the Python namespace.
 
 \tALpy{} is mostly dynamically typed, with the only exception of
 \emph{algebraic types}. In order to transpose a function, \tALpy{}
@@ -60,7 +61,7 @@ type of the input and output parameters of a function, while all the
 other variables can be left untyped. \tALpy{} supports two sorts of
 algebraic types: ring elements and module elements; we plan to support
 more complex algebraic types, such as algebras, in the
-future. \tALpy{} relies on python operator overloading to represent
+future. \tALpy{} relies on Python operator overloading to represent
 ring operations.
 
 \tALpy{} type checker also performs a linearity inference as described
@@ -75,7 +76,7 @@ a function call, it raises a compile time error.
 \label{sec:syntax}
 We only describe \tALpy{} syntax informally. Indentation has a
 syntactic value (it delimits blocks) and keywords are pretty much the
-same as in python. A \tALpy{} file contains a \emph{type declaration}
+same as in Python. A \tALpy{} file contains a \emph{type declaration}
 section followed by a \emph{name definition} section.
 
 \subsubsection{Type declarations}
@@ -95,7 +96,7 @@ ensures that modules are consistently declared.
 
 \subsubsection{Name declarations}
 Name declarations take three forms: \emph{imports}, \emph{function
-  definitions} and \emph{aliases}. Imports are declared as in python
+  definitions} and \emph{aliases}. Imports are declared as in Python
 and have the same semantics. Note however that the type checker does
 not enter imported modules to infer linearity: any imported function
 is considered as a scalar function.
@@ -111,7 +112,7 @@ the left.
 Inside function definitions, there are four types of statements:
 \lstinline+pass+ statements (the statement that does nothing),
 assignments (including augmented assignments), \lstinline+for+ loops
-and \lstinline+if+s. The syntax is identical to python.
+and \lstinline+if+s. The syntax is identical to Python.
 
 On the left hand side of assignments, may only appear variable names
 and subscripts. On the right hand side of assignments, the following
@@ -130,7 +131,7 @@ types of expressions may appear:
 \item Variable evaluations;
 \item Function calls.
 \end{itemize}
-The syntax for all of these is identical to python. The only notable
+The syntax for all of these is identical to Python. The only notable
 exception are function calls where a keyword \lstinline+trans+ is
 added to let the user call a transposition of a function. In case a
 function has more than one linearization (and thus more than one
@@ -140,7 +141,7 @@ linearization/transposition is wanted.
 
 Finally, aliases let the user export specific
 linearization/transpositions of functions with names that can be used
-inside a python program.
+inside a Python program.
 
 Figure \ref{fig:prog} gives a complete \tALpy{} example. It defines a
 \lstinline+product+ function and two aliases (with transposition and
@@ -165,7 +166,7 @@ r_product = trans {linear R}product{const R, linear R}
 
 \subsection{Semantics}
 We only give here the points where \tALpy{} semantics differ from
-python.
+Python.
 
 \subsubsection{Types}
 \tALpy{} is statically typed for algebraic types. The type of each
@@ -186,14 +187,14 @@ user to insure that no side effect happens inside a \tALpy{} function.
 \subsubsection{Conditionals, loops}
 \label{sec:conditionals-loops}
 In order for the type inference to work, we must work around a feature
-of python. The following is correct python code, even if a is not
+of Python. The following is correct Python code, even if a is not
 defined before the if statement:
 \begin{lstlisting}
   if x:
       a = 0
   b = a
 \end{lstlisting}
-In case the if block is not executed, python simply issues a runtime
+In case the if block is not executed, Python simply issues a runtime
 error. If we want to do a type inference, we must give a more strict
 syntax.
 
@@ -226,7 +227,7 @@ if they were if blocks with an empty else block.
 Type declarations merely say that some variables belong to a type, but
 do not specify any particular implementation of the type. The
 implementation of rings and modules is left to the user and must be
-given in an external module written in python (or in general, the
+given in an external module written in Python (or in general, the
 target language, when the code is compiled to a different
 language). The user is only required to implement them as objects and
 to expose a few methods.
@@ -281,7 +282,7 @@ Function names not declared in the library are simply regarded as
 external functions. They are assumed to have one return parameter,
 thus a multi-assignment will return an error. External functions have
 no algebraic input or output parameters. This is useful to call
-built-in python functions from inside a \tALpy{} program (one common
+built-in Python functions from inside a \tALpy{} program (one common
 example is the function \lstinline+range+, needed to iterate in for
 loops).
 
@@ -322,6 +323,7 @@ with the specified modifiers, thus in this case both codes yield the
 same linearization. If more than a linearization is acceptable,
 \tALpy{} computes all of them.
 
+\ifafourps\enlargethispage{\baselineskip}\fi
 We call \index{signature}\emph{signature} a list of linear/const
 modifiers inferred for the arguments of a function. Signature
 specifiers (see Section~\ref{sec:syntax}) can be used to distinguish

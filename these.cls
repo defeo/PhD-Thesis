@@ -46,7 +46,7 @@
 \renewcommand{\rmdefault}{pplx}
 \renewcommand{\sfdefault}{uop}  % Warning: Optima is not in texlive !
 \RequirePackage[T1]{eulervm}
-\RequirePackage[tracking=true]{microtype}
+\RequirePackage[final,tracking=true]{microtype}
 \RequirePackage{xcolor}
 
 %% Others
@@ -177,6 +177,7 @@
   \renewcommand*{\partnamefont}{\normalfont\scshape\huge}
   \renewcommand*{\partnumfont}{\normalfont\scshape\huge}
   \renewcommand*{\parttitlefont}{\normalfont\scshape\Huge}
+  \renewcommand*{\abstractnamefont}{\normalfont\scshape}
 }
 \headstyles{these}
 

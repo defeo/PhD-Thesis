@@ -21,14 +21,14 @@ only made of a sequence of assignments (no branchings, no loops).
 See~\cite{burgisser+clausen-shokrollahi} for formal definitions and
 proofs.
 
-\pdfmcone{More precisions on the algebraic RAM.}
-We work in the algebraic \index{RAM~model}RAM model
-of~\cite{kaltofen88:gcd}; this is to the classic RAM model what the
-BSS model~\cite{BSS} is to the Turing machine. In a slightly
-simplified way, an $R$-algebraic RAM (Random Access Machine) has a
-memory, made of an infinite set of registers that can contain an
-arbitrary element of $R$, and a CPU, that can perform arithmetic
-operations on elements of $R$ and store the result in a register.
+\pdfmcone{More precisions on the algebraic RAM.}  We work in the
+algebraic \index{RAM~model}RAM model of~\cite{kaltofen88:gcd}; this is
+to the classic RAM model what the BSS model~\cite{BSS} is to the
+Turing machine. In a slightly simplified way, an $R$-algebraic RAM
+(Random Access Machine) has a memory made of an infinite set of
+registers that can contain an arbitrary element of $R$, and a CPU that
+can perform arithmetic operations on elements of $R$ and store the
+result in a register.
 
 An SLP can be seen as a program for an algebraic RAM: its inputs are
 initially stored in some registers, its instructions are executed in
@@ -42,11 +42,11 @@ example, the program
     R_2 &\la R_2 * R_3
   \end{aligned}
 \end{equation}
-expects is inputs in the registers $R_1$ and $R_2$, performs an
+expects its inputs in the registers $R_1$ and $R_2$, performs an
 addition, a scalar multiplication and a multiplication, and stores its
 output in the registers $R_2$ and $R_3$ (in our context, it is somehow
 arbitrary to decide which are the input and output registers). In this
-model, the time complexity of a SLP is given by the number of
+model, the time complexity of an SLP is given by the number of
 instructions, the space complexity by the number of different
 registers used.
 
@@ -187,9 +187,9 @@ and the second one by
 \end{equation}
 It is reasonable not to count multiplications by $0$, as these just
 require to free some memory, than one sees that transposing linear
-SLP's preserves the space complexity and loses a factor of at most two
-on time complexity. However this is clumsy: one can do much better by
-transposing directly the instructions~\eqref{eq:257}
+SLP's preserves the space complexity and looses a factor of at most
+two on time complexity. However this is clumsy: one can do much better
+by transposing directly the instructions~\eqref{eq:257}
 and~\eqref{eq:258}.
 
 \begin{definition}[Double use]
@@ -283,6 +283,7 @@ Schost consider SLP's parameterized by integers and booleans.
 \end{definition}
 
 \pdfmctwo{Explained what the algorithm does.}
+{\ifafourps \postdisplaypenalty=100\fi
 By extension, we shall also call $R$-algebraic transform any algorithm
 that can be expressed in this model. This is equivalent to consider
 circuit families; for example, Algorithm~\ref{alg:r-algeb} corresponds
@@ -299,7 +300,7 @@ to a circuit family with parameter space $\N$, computing the map
     \end{cases}
   \end{aligned}
 \end{equation}
-where $f_n$ is the $n$-th \index{Fibonacci~number}Fibonacci number.
+where $f_n$ is the $n$-th \index{Fibonacci~number}Fibonacci number.}
 
 \begin{algorithm}
   \caption{\label{alg:r-algeb}$R$-algebraic transform}

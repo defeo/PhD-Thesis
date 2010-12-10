@@ -91,7 +91,7 @@ evaluations at the $n$-th roots of unit is called
 \index{discrete~Fourier~transform}\emph{discrete Fourier transform},
 there are many algorithms of complexity $O(n\log n)$ to compute it,
 they all go under the generic name of
-\index{FFT}\index{fast~Fourier~transform}\emph{fast Fourier transform}
+\index{FFT|see{fast Fourier transform}}\index{fast~Fourier~transform}\emph{fast Fourier transform}
 (FFT).
 
 \pdfmcone{More bibliography around Schönage and Strassen.}  Thus,
@@ -379,6 +379,8 @@ Iterating $i$ times $\frob_q$ can be done with only $O(\log i)$
 modular compositions via square-and-multiply as shown in
 Algorithm~\ref{alg:itfrob}.
 
+\ifafourps\enlargethispage{\baselineskip}\fi
+
 Thus the cost of computing the $i$-th iterated Frobenius is
 \begin{equation}
   \label{eq:204}
@@ -511,9 +513,9 @@ hence
 \end{equation}
 
 To \index{interpolation}interpolate the polynomial $a$ from the values
-$a(x_i)$, we start by computing the values $f'(x_1),\ldots,f'(x_n)$ by
-the previous algorithm. Then we reconstruct $a$ using the subproduct
-tree.
+$a(x_i)$, we start by computing the values $f'(x_1),
+\ldots,\allowbreak f'(x_n)$ by the previous algorithm. Then we
+reconstruct $a$ using the subproduct tree.
 
 \begin{algorithm}
   \caption{\label{alg:interp}Interpolation}
@@ -616,7 +618,7 @@ extended Euclidean algorithm is such that $\deg(r_i)<\ell$ and
 $\deg(v_i)\le n-\ell$.
 
 \index{rational~fraction~reconstruction}Rational fraction
-reconstruction (\index{RFR}RFR) is very similar to Cauchy
+reconstruction (\index{RFR|see{rational fraction reconstruction}}RFR) is very similar to Cauchy
 interpolation, and it can be viewed as a generalization of it using
 multiplicities. Let $g\in\K[[X]]$ be a power series, we want to
 compute a rational fraction $\frac{r}{v}\in\K(X)$ with $\deg(r)<\ell$
@@ -788,6 +790,7 @@ of~\cite[Corollary~2]{pascal+schost06}.
 
 \paragraph{Transposed Euclidean division}
 \label{sec:transp-eucl-divis}
+{\ifafourps\postdisplaypenalty=100\fi
 We now study the dual of Euclidean division with remainder; it is
 actually only the remainder that we are interested in. Let $f$ be a
 monic polynomial in $R[X]$, the map 
@@ -798,7 +801,7 @@ monic polynomial in $R[X]$, the map
     a&\mapsto a\bmod f
   \end{aligned}
 \end{equation}
-is a linear map.
+is a linear map.}
 
 Suppose $f$ has degree $n+1$, then the dual map
 \begin{equation}

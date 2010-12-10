@@ -139,6 +139,7 @@ will restrict ourselves to normal circuits.
     $\beta(v)$ has incurred the following substitutions:
     \begin{itemize}
     \item $\eta_0$ becomes $0$; $+, \hub, \omega$ are preserved;
+      % Overfull in a4ps
     \item if $\beta(v)=*$, let $e$ be the only non-linear edge
       incident to $v$ and let
       $a=\eval_e(x_1,\ldots,x_n,\bullet,\ldots,\bullet)$, then $*$
@@ -317,6 +318,8 @@ It is however possible to transpose linear chains.
   where $\rmul{p_1},\ldots,\rmul{p_{n_p}}$ are the scalar
   multiplication nodes on the path $p$.
 
+  {
+  \ifafourps \postdisplaypenalty=100\fi
   Now, by the definition of linear chain, on any path there is at most
   one element not in the center of $R$, thus
   \begin{equation}
@@ -324,7 +327,7 @@ It is however possible to transpose linear chains.
     (p_1p_2\cdots p_{n_p})^\op=p_{1}^\op p_2^\op\cdots p_{n_p}^\op
     \text{,}
   \end{equation}
-  and the claim follows.
+  and the claim follows.}
 \end{proof}
 
 \pdfmcone{More details on Hopcroft-Musinski.}  Thus, to any

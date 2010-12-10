@@ -62,6 +62,7 @@ bivariate, one can go from one to the other using the algorithms of
 Pascal and Schost~\cite{pascal+schost06}, in fact most of the ideas of
 this section are inspired by their paper.
 
+{\ifafourps\postdisplaypenalty=100\fi
 Since $\deg(Q_{i-1})=p^{i-1}d$ and $\deg(Q_{i})=p^id$, we associate
 the following $\F_p$-bases of $\U_i$ to each system:
 \begin{align}
@@ -83,7 +84,7 @@ outputs the representation of $v$ as
   \label{eq:vectorspace}
   v = v_0 + v_1x_i + \cdots + v_{p-1}x_i^{p-1}, \quad\text{with all~} v_j \wrt \U_{i-1}
 \end{equation}
-and \titleref{alg:liftup} does the opposite.
+and \titleref{alg:liftup} does the opposite.}
 
 Then, the change from $\basis{C}_i$ to $\basis{B}_i$ is done by
 repeatedly applying \titleref{alg:push-down}, and the opposite is obtained by

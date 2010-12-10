@@ -6,18 +6,25 @@
 \section{Automatic differentiation}
 \label{sec:autom-diff}
 
+\pdfmcthree{Biblio suggested by EK.}
 \index{automatic~differentiation}\emph{Automatic differentiation}
 (\index{AD|see{automatic~differentiation}}AD) studies the following
 question: given a program to evaluate a function $f:R^n\ra R$ at a
 point of $R^n$, how much does it cost to evaluate the gradient $\nabla
 f$ at a point of $R^n$. More generally, one can consider functions
-$R^n\ra R^n$ and ask for the evaluation of the Jacobian matrix $J_f$.
+$R^n\ra R^m$ and ask for the evaluation of the Jacobian matrix
+$J_f$. The two main techniques in AD are the
+\index{automatic~differentiation!forward~mode}\index{forward~mode}\emph{forward}
+and the
+\index{automatic~differentiation!reverse~mode}\index{reverse~mode}\emph{reverse
+  mode}; Griewank~\cite{griewank2008evaluating} traces back their
+origins to \cite{beda59} and \cite{ostrowski+al71} respectively.
 
 \subsection{From automatic differentiation to transposition}
 \label{sec:from-autom-diff}
 Transposition of linear straight line programs reduces to automatic
 differentiation, in fact, if one has a program computing a linear
-function $f:R^n\ra R^m$ and a $\ell\in\dual{(R^m)}$,
+function $f:R^n\ra R^m$ and an $\ell\in\dual{(R^m)}$,
 \begin{equation}
   \label{eq:261}
   \nabla (\ell\circ f) =
@@ -32,8 +39,7 @@ $\dual{(R^n)}$ as requested.
 
 Automatic differentiation is widely used in numerical computations and
 this is why there is an extensive literature on it. In particular the
-\index{reverse~mode}\index{automatic~differentiation!reverse~mode}\emph{reverse
-  mode} with the
+reverse mode with the
 \index{automatic~differentiation!checkpoint~method}\index{checkpoint~method}\emph{checkpoint
   method} of Griewank~\cite{griewank92} implies that automatic
 differentiation of functions $R^n\ra R$ can be done with a constant
@@ -60,15 +66,15 @@ circuits.
 
 \subsection{Differentiation of arithmetic circuits}
 \label{sec:diff-arithm-circ}
-\pdfmcone{Éric: justement, "arithmetic circuits" implique
-  qu'on est dans le monde de la complexité algébrique, non? Il ne me
-  semble pas qu'il y ait des travaux précédents à Baur-Strassen qui
-  parlent de differentiation ET de circuits arithmétiques.} The first
-result on differentiation of arithmetic circuits is due to Baur and
-Strassen~\cite{baur+strassen83}. They show that a non-linear
-arithmetic circuit that computes a function $f:R^n\ra R$ can be
-transformed in a circuit to compute $f$ and $\nabla f$ with a
-three-fold increase in size. Gashkov and
+\pdfmcone{Éric: justement, "arithmetic circuits" implique qu'on est
+  dans le monde de la complexité algébrique, non? Il ne me semble pas
+  qu'il y ait des travaux précédents à Baur-Strassen qui parlent de
+  differentiation ET de circuits arithmétiques.}  One of the most
+influential results on the automatic differentiation of arithmetic
+circuits is due to Baur and Strassen~\cite{baur+strassen83}. They show
+that a non-linear arithmetic circuit that computes a function
+$f:R^n\ra R$ can be transformed in a circuit to compute $f$ and
+$\nabla f$ with a three-fold increase in size. Gashkov and
 Gashkov~\cite{gashkov+gashkov05} interpret their method as a
 transformation that yields a circuit to compute $f$ and the
 differential $\diff f$ at a point $x$ and $n$ differential inputs
@@ -83,9 +89,9 @@ in~\cite{gashkov+gashkov05,sergeev08}.
 
 For simplicity, we consider an arithmetic circuit $C$ over a
 non-linear basis $\mathcal{B}$ over $\R$ made exclusively of
-everywhere continuously derivable functions (w.r.t the standard metric
-of the Euclidean space $\R^n$). We describe a technique to compute the
-differential of $\eval_C$ at a point $a\in\R^n$.
+everywhere continuously differentiable functions (w.r.t the standard
+metric of the Euclidean space $\R^n$). We describe a technique to
+compute the differential of $\eval_C$ at a point $a\in\R^n$.
 
 \begin{definition}[Differential of a circuit]
   \index{differential~of~a~circuit}\index{arithmetic~circuit!differential}
@@ -152,7 +158,7 @@ differential of $\eval_C$ at a point $a\in\R^n$.
   The differential of a circuit satisfies $\eval_{\diff_aC}=J_{\eval_C}(a)$ for any $a\in\R^n$.
 \end{proposition}
 \begin{proof}
-  Let $e$ be and edge of $C$, we shall denote by $\eval_e$ its
+  Let $e$ be an edge of $C$, we shall denote by $\eval_e$ its
   evaluation as in Definition~\ref{def:eval}, and by $\eval_e'$ the
   evaluation of the corresponding edge in $\diff_a C$.  We prove that
   for any $a\in\R^n$ and for any edge $e$ of $C$, the differential of
@@ -193,7 +199,7 @@ differential of $\eval_C$ at a point $a\in\R^n$.
     \beta'(v)\circ (\eval_{e_1}',\ldots,\eval_{e_n}')
     \text{,}
   \end{equation}
-  where the last equality follow by induction. By
+  where the last equality follows by induction. By
   \hyperref[def:eval]{definition}, this is the evaluation of $v$ in
   $\diff_{a} C$, and the claim follows by composing with $\pi_i$.
 \end{proof}
@@ -201,11 +207,11 @@ differential of $\eval_C$ at a point $a\in\R^n$.
 It is also clear that $\diff_aC$ is defined over a linear basis over
 $\R$, thus the \hyperref[th:tellegen]{transposition theorem} applies
 to it. In other words we have defined a transformation from circuits
-computing derivable functions to linear circuits. 
+computing differentiable functions to linear circuits.
 
 Also notice that when $C$ is a linear circuit, then simply
 $C=\diff_aC$ for any $a$. In this case, Eq.~\eqref{eq:261} amounts to
-plug the form $\ell$ at the bottom of $C$, then, transposing
+plug the form $\ell$ at the bottom of $C$, so that transposing
 $\diff_aC=C$ and evaluating at $1$ gives the desired coefficients of
 $\dual{f}(\ell)$.
 
@@ -235,12 +241,11 @@ application is to compute the directional derivative in $a$ along a
 direction $u$: for this task it suffices to evaluate the circuit once,
 since $\eval_{\diff_aC}(u)$ is the desired value. Computing the
 derivative along $n$ linearly independent directions yields the whole
-Jacobian matrix and this roughly corresponds to the
-\index{direct~mode}\index{automatic~differentiation!direct~mode}\emph{direct
-  mode} in automatic differentiation.
+Jacobian matrix and this roughly corresponds to the forward mode in
+automatic differentiation.
 
 \begin{remark}
-  To be more precise, direct mode automatic differentiation constructs
+  To be more precise, forward mode automatic differentiation constructs
   $\diff_aC$ and evaluates the $n$ directions in parallel, thus
   avoiding the need to store the whole circuit in memory. This is a
   great advantage for iterative code, where $C$ can be represented
@@ -257,16 +262,17 @@ $\eval_{\dual{(\diff_aC)}}(1)$ yields this vector. This is exactly
 what is called ``reverse mode'' in automatic differentiation. 
 
 \begin{remark}
-  Unlike the direct mode, reverse mode cannot compute
+  Unlike the forward mode, reverse mode cannot compute
   $\dual{(\diff_aC)}$ and evaluate on a direction in parallel. One
   solution is to store the whole $\diff_aC$ in memory, but this object
   may be too large. The checkpoint method of
   Griewank~\cite{griewank92} computes $\diff_aC$ by \emph{slices} of
   logarithmic size and transposes them one by one. Another way to gain
-  space is to observe that the Jacobian linear operations (e.g., sums)
-  does not depend on $a$, thus it does not need to be precomputed;
-  this technique is suggested in~\cite{gilbert+levey+masse91},
-  although it has seldom been implemented.
+  space is to observe that the Jacobian of a linear operations (e.g.,
+  sums) does not depend on $a$, thus it does not need to be
+  precomputed; this technique is suggested
+  in~\cite{gilbert+levey+masse91}, although it has seldom been
+  implemented.
 
   Whatever one does to save space, the key observation is the
   following: the generation of code to compute $\diff_a f$ and its
@@ -278,12 +284,15 @@ what is called ``reverse mode'' in automatic differentiation.
 \end{remark}
 
 \begin{nota}
-  One is not limited to direct or reverse mode: any black-box
+  \pdfmcthree{Tried to be more clear.}
+  One is not limited to forward or reverse mode: any black-box
   algorithm can be combined with the differential circuit to obtain
-  information on the original function. For example Wiedemann's
-  algorithm~\cite{wiedemann:sparse} can be used to determine if the
-  function is invertible around $x$, and the directional derivatives
-  of the inverse can be computed.
+  information on the original function. For example, suppose that $C$
+  is a circuit computing a function $f:\R^n\ra\R^n$, and take
+  $a\in\R^n$; one can apply Wiedemann's
+  algorithm~\cite{wiedemann:sparse} to $\diff_aC$ to determine if $f$
+  is invertible around $a$, and to compute the directional derivatives
+  of $f^{-1}$ in a neighborhood of $f(a)$.
 \end{nota}
 
 
