@@ -21,9 +21,9 @@ features that we have discussed until now, in particular:
   variables and performs linearity inference (see
   Section~\ref{sec:inference});
 \item it is able to transpose any linearization of an algebraic
-  program (see Section~\ref{sec:r-algebr-algor};
+  program (see Section~\ref{sec:r-algebr-algor});
 \item its code can be compiled to Python code, or interpreted inside
-  Python interpreter.
+  the Python interpreter.
 \end{itemize}
 
 At the moment we write, the first stable release of \tALpy{} is not
@@ -64,12 +64,12 @@ more complex algebraic types, such as algebras, in the
 future. \tALpy{} relies on Python operator overloading to represent
 ring operations.
 
-\tALpy{} type checker also performs a linearity inference as described
-in Section~\ref{sec:inference}. The base ring is supposed to be
-commutative, we plan to add support for non commutative rings in the
-future. When a function admits more than one linearization, \tALpy{}
-computes and transposes all of them; if this leads to an ambiguity in
-a function call, it raises a compile time error.
+\tALpy{}'s type checker also performs a linearity inference as
+described in Section~\ref{sec:inference}. The base ring is supposed to
+be commutative, we plan to add support for non commutative rings in
+the future. When a function admits more than one linearization,
+\tALpy{} computes and transposes all of them; if this leads to an
+ambiguity in a function call, it raises a compile time error.
 
 
 \subsection{Syntax}
@@ -80,9 +80,9 @@ same as in Python. A \tALpy{} file contains a \emph{type declaration}
 section followed by a \emph{name definition} section.
 
 \subsubsection{Type declarations}
-Type declarations let the user declare which are the algebraic types.
-\tALpy{} supports two type constructors: a ring constructor and a free
-module constructor.
+\index{algebraic~type} Type declarations let the user declare which
+are the algebraic types.  \tALpy{} supports two type constructors: a
+ring constructor and a free module constructor.
 
 \begin{lstlisting}
   type Ring R
@@ -194,16 +194,16 @@ defined before the if statement:
       a = 0
   b = a
 \end{lstlisting}
-In case the if block is not executed, Python simply issues a runtime
-error. If we want to do a type inference, we must give a more strict
-syntax.
+In case the if-block is not executed, Python simply issues a runtime
+error. If we want to do a type inference, we must enforce a stricter
+policy.
 
-In \tALpy{} one cannot use outside of an if block a variable that has
-been first assigned in one of the branches but not in all of them.  If
-blocks have a return type: it is the product of the types of all the
-variables modified inside one of its branches, and that appear in each
-branch or were defined before the if; this type must be the same at
-the issue of any branch. For example, in the following code
+In \tALpy{} one cannot use outside of an if-block a variable that has
+been first assigned in one of the branches but not in all of them.
+If-blocks have a return type: it is the product of the types of all
+the variables modified inside one of its branches, and that appear in
+each branch or were defined before the if; this type must be the same
+at the issue of any branch. For example, in the following code
 \begin{lstlisting}
   a = R.zero()
   if True:
@@ -218,19 +218,18 @@ the if, and is the same in both branches (namely,
 generates a compile time error.
 
 For loops also have a return type. To this extent, they are treated as
-if they were if blocks with an empty else block.
+if they were if-blocks with an empty else-block.
 
 
 
 \subsubsection{Algebraic variables}
 \label{sec:algebraicvar}
-Type declarations merely say that some variables belong to a type, but
-do not specify any particular implementation of the type. The
-implementation of rings and modules is left to the user and must be
-given in an external module written in Python (or in general, the
-target language, when the code is compiled to a different
-language). The user is only required to implement them as objects and
-to expose a few methods.
+\index{algebraic~type} Type declarations merely say that some
+variables belong to a type, but do not specify any particular
+implementation of the type. The implementation of rings and modules is
+left to the user and must be given in an external module written in
+Python (or in whatever the target language is). The user is only
+required to implement them as objects and to expose a few methods.
 
 Ring objects must:
 \begin{itemize}
@@ -288,7 +287,7 @@ loops).
 
 \subsubsection{Recursion and Higher order}
 \tALpy{} allows recursion and even calling its own transpose. It does
-not allow to pass functions as arguments to a function, although the
+not allow to pass functions as arguments to functions, although the
 transposition algorithm internally uses this technique to transpose
 for loops. A higher order transposable language is theoretically
 possible and we consider adding this feature to \tALpy{} in the
@@ -297,9 +296,10 @@ future.
 \subsection{Linearization}
 \label{sec:linearization}
 
+% Overfull in b5
 After a first type checking to determine which variables are
-algebraic, \tALpy{} compiler/interpreter runs the linearization
-inference algorithm of Section~\ref{sec:inference}. 
+algebraic, \tALpy{}'s compiler/interpreter runs the linearization
+inference algorithm of Section~\ref{sec:inference}.
 
 Since a function may have more than one linearization, \tALpy{} allows
 the user to annotate the types of the algebraic arguments so that they
@@ -461,8 +461,8 @@ function call with a call to the transposed function. The example of
 Figure~\ref{fig:bad} is transposed in Figure~\ref{fig:mechant}. We
 borrow the names \index{forward~sweep}\emph{forward sweep} and
 \index{reverse~sweep}\emph{reverse sweep} from the theory of automatic
-differentiation, where a similar technique is applied in the reverse
-mode.
+differentiation~\cite{griewank2008evaluating}, where a similar
+technique is applied in the reverse mode.
 
 \begin{figure}[hb]
   \centering

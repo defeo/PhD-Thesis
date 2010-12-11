@@ -428,8 +428,7 @@ that is
     \Mult(\ell d)\log\ell d +
     \frac{\ell}{p}\ModComp(pd)\log d +
     \ell (pd)^2
-  \right)
-  \;\text{.}
+  \right)\text{.}
 \end{equation}
 
 Alternatively, once $A^{(0)}$ is known, one could compute the other
@@ -459,15 +458,20 @@ have the following theorem.
   Assuming $\Mult(n) = n\log n\loglog n$, the algorithm \ctwoasfi{} has
   worst case complexity
   \begin{equation*}
-    \tildO_{p,d,\log\ell}\left(
+    \tildO_{p,d,\log\ell}
+    \ifbfive\!\fi
+    \left(
+      \ifbfive\!\fi
       p^2d^3 +
       \ModComp(p)pd +
       (pd)^\omega\log^2\ell +
       p^3\ell^2 d\log^3\ell + 
       p^2\ell^2 d^2+
-      \left(\frac{\ell^2}{p} + p\right)\ModComp(pd)
+      \left(\ifbfive\!\fi\frac{\ell^2}{p} + p\ifbfive\!\fi\right)\ModComp(pd)
+      \ifbfive\!\fi
     \right)
-    \;\text{.}
+    \ifbfive\!\fi
+    \text{.}
   \end{equation*}
 \end{theorem}
 

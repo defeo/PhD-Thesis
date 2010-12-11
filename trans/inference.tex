@@ -39,8 +39,9 @@ By looking at Section~\ref{sec:transp-algor} one sees that often we
 want to transpose families of $R$-algebraic algorithms parameterized
 by algebraic elements (e.g., we want to transpose the code that for
 any $a\in R$ evaluates the map $b\mapsto ab$). This is also necessary
-in automatic differentiation, when the code for $\diff_x f$ not only
-depends on $\diff x_1,\ldots,\diff x_n$, but also on $x$.
+in automatic differentiation, when the code for $\diff_{\lst{x}} f$
+not only depends on $\diff x_1,\ldots,\diff x_n$, but also on
+$\lst{x}$.
 
 The next section will address the question of how to transpose such
 code. This section, instead, asks the question: can a compiler guess
@@ -131,7 +132,7 @@ If we define \lstinline{L} and \lstinline{S} as wrappers around
   newtype L = Lin R
   newtype S = Sca R
 \end{lstlisting}
-then, using Haskell type
+then, using Haskell \index{type~class}type
 classes~\cite{Walder+Blott-ad-hoc-polymorphism}, we can conveniently
 express all the equations above as
 \begin{lstlisting}
