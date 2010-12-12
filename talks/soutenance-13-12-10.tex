@@ -147,7 +147,8 @@
       \end{block}
 
       \begin{block}<2->{Discrete logarithm} $\exp_g$ is an
-        isomorphism. Its inverse is called \emph{discrete logarithm}.
+        isomorphism. Its inverse is called the \emph{discrete
+          logarithm}.
         \begin{align*}
           \log_g : G &\ra \Z/n\Z\text{,}\\
           g^x&\mapsto x\text{.}
@@ -270,7 +271,7 @@
 	\frob : E(\clot{\K}) &\rightarrow E(\clot{\K})\\
 	               (x,y) &\mapsto (x^q,y^q)
       \end{aligned}\]
-      $\ker\frob = \{\0\}$.
+      $\ker\frob = \{\0\}$ (inseparable).
 
       \onslide<3>
       \[\quad\I(x,y) = \left(\frac{g(x)}{h(x)},
@@ -386,12 +387,12 @@
   \end{center}
 
   \begin{center}
-    \emph{\textbf{Idea:}} Send $E[p^k]$ over $E'[p^k]$
+    \emph{\textbf{Idea:}} Map $E[p^k]$ onto $E'[p^k]$
   \end{center}
   
   \begin{itemize}
   \item Compute the extensions $\U_i/\F_q$ such that $E[p^i]$ is
-    defined in $\U_i$;
+    defined over $\U_i$;
     \uncover<1-2>{\hfill\emph{\alt<1>{$\tildO(\ell^2)$}{\alert{$\tildO(\Mult(\ell))$}}}}
   \item Pick $\;k\;$ \emph{large enough} ($k\sim\log_p4\ell$);
   \item Compute $\;P$, a generator of $\;E[p^k]$;
@@ -512,12 +513,11 @@
   \large
 
   \begin{itemize}
-  \item This variant of \cite{couveignes96} is at the moment the
-    fastest (both in theory and in practice) algorithm for this
-    task.
+  \item This variant of \cite{couveignes96} is currently the fastest
+    algorithm for this task (both in theory and in practice).
   \item We tested two curves over $\F_{2^{161}}$, isogenous of
     unknown degree, taken from \cite{teske06}: proven in 694
-    cpu-hours that no isogeny of degree less then $2^{13}$ exists.
+    cpu-hours that no isogeny of degree less than $2^{13}$ exists.
   \end{itemize}
 \end{frame}
 
@@ -853,7 +853,7 @@
 
   \bigskip
 
-  Let $a$ be given on the univariate basis:
+  Let $a$ be given in the univariate basis:
 
   \smallskip
 
@@ -922,7 +922,7 @@
   \end{columns}
 
   \begin{block}{Univariate $\ra$ multivariate $=$ Polynomial evaluation}
-    If $Z \mapsto x_k\;$ (with $x_k\in\U_k$ written on the
+    If $Z \mapsto x_k\;$ (with $x_k\in\U_k$ written in the
     multivariate basis):
     \[a(Z) = a_dZ^d + \cdots + a_1Z + a_0 \quad\mapsto\quad a_dx_k^d + \cdots + a_1x_k + a_0 =a(x_k) = a\text{.}\]
   \end{block}
@@ -943,13 +943,13 @@
   \large
   
   \begin{theorem}
-    ``Let $\pspace$ be an arbitrary set. To any $R$-algebraic
-    algorithm $A$ computing a family of linear functions $(f_p:M\ra
+    Let $\pspace$ be an arbitrary set. To any $R$-algebraic algorithm
+    $A$ computing a family of linear functions $(f_p:M\ra
     N)_{p\in\pspace}$ corresponds an $R$-algebraic algorithm
     $\dual{A}$ computing the \emph{dual family}
     $(\dual{f}_p:\dual{N}\ra\dual{M})_{p\in\pspace}$. The algebraic
     time and space complexities of $\dual{A}$ are bounded by the time
-    complexity of $A$.''
+    complexity of $A$.
   \end{theorem}
   
 \end{frame}
@@ -1000,7 +1000,7 @@
     \begin{itemize}
     \item Algorithms are hard to transpose, transposed algorithms are
       hard or impossible to understand;
-    \item How to be confident that a transposed algorithm is well
+    \item How can we be confident that a transposed algorithm is well
       implemented if no one understands it?
     \item When proving programs with a proof assistant, why should we do
       the work twice?

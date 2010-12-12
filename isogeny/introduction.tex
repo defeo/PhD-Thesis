@@ -126,12 +126,21 @@ such that $\ker\I=G$. The isogeny is $\K$-rational if and only if the
 polynomial vanishing on the abscissas of $G$ belongs to $\K[X]$.
 
 The isogeny computed by Vélu formulas is the map
+\ifafourps
+\begin{equation}
+  \label{eq:155}
+  \I(P) = \left(x(P) + \sum_{Q\in G\diffset\{\0\}}x(P+Q) - x(Q),\right.
+    \left.y(P) + \sum_{Q\in G\diffset\{\0\}}y(P+Q) - y(Q)\right)
+  \text{.}
+\end{equation}
+\else
 \begin{multline}
   \label{eq:155}
   \I(P) = \left(x(P) + \sum_{Q\in G\diffset\{\0\}}x(P+Q) - x(Q),\right.\\
     \left.y(P) + \sum_{Q\in G\diffset\{\0\}}y(P+Q) - y(Q)\right)
   \text{.}
 \end{multline}
+\fi
 Using the addition formulas it is straightforward to obtain the
 coefficients of the curve $\bar{E}$ and the explicit isogeny.  For
 simplicity, we do so only for the case $p\ge3$ and $E$ in the form
@@ -156,12 +165,21 @@ functions in $\K(E)$
 From the \hyperref[eq:121]{addition formulas}, after some calculations
 (see Appendix~\ref{cha:proof-velus-formulas} for an automatic proof of
 this calculation), Eq.~\eqref{eq:155} is equivalent to
+\ifafourps
+\begin{equation}
+  \label{eq:161}
+  \I(x,y) = \left(x + \sum_{Q\in G^\ast} \frac{f'(Q)}{x-x(Q)} + \frac{2f(Q)}{(x-x(Q))^2}\text{,}\right.
+  \left.y + \sum_{Q\in G^\ast} -\frac{yf'(Q)}{(x-x(Q))^2} - \frac{4yf(Q)}{(x-x(Q))^3}\right)
+  \text{.}
+\end{equation}
+\else
 \begin{multline}
   \label{eq:161}
   \I(x,y) = \left(x + \sum_{Q\in G^\ast} \frac{f'(Q)}{x-x(Q)} + \frac{2f(Q)}{(x-x(Q))^2}\text{,}\right.\\
   \left.y + \sum_{Q\in G^\ast} -\frac{yf'(Q)}{(x-x(Q))^2} - \frac{4yf(Q)}{(x-x(Q))^3}\right)
   \text{.}
 \end{multline}
+\fi
 
 Observe that if $Q\in G^\ast$ is a $2$-torsion point, then $f(Q)=0$;
 while if $Q$ is not a $2$-torsion point, $x(Q)$ is counted twice in
