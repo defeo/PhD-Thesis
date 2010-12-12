@@ -6,20 +6,21 @@
 \section{Frobenius and pseudotrace}
 \label{sec:pseudotrace-frobenius}
 
+\index{pseudotrace}\index{Frobenius~automorphism}
 In this section, we describe algorithms computing Frobenius
 and pseudotrace operators, specific to the tower of
 Section~\ref{sec:fast-tower}; they are the keys to the algorithms of
 the next section.
 
 The algorithms in this section and the next one closely follow
-Couveignes'~\cite{couveignes00}. However, the latter assumed the
-existence of a quasi-linear time algorithm for multiplication in some
-specific towers in the multivariate basis $\basis{B}_i$ of
-Subsection~\ref{ssec:rep}. To our knowledge, no such algorithm
-exists. We use here the univariate basis $\basis{C}_i$ introduced
-previously, which makes multiplication straightforward. However,
-several push-down and lift-up operations are now required to
-accommodate the recursive nature of the algorithm.
+Couveignes' \cite{couveignes00}. However, the latter
+assumed the existence of a quasi-linear time algorithm for
+multiplication in some specific towers in the multivariate basis
+$\basis{B}_i$ of Subsection~\ref{ssec:rep}. To our knowledge, no such
+algorithm exists. We use here the univariate basis $\basis{C}_i$
+introduced previously, which makes multiplication
+straightforward. However, several push-down and lift-up operations are
+now required to accommodate the recursive nature of the algorithm.
 
 Our main purpose here is to compute the pseudotrace
 \begin{equation}
@@ -216,7 +217,9 @@ Frobenius-es for such $n$; when $j=0$, it invokes the first algorithm.
 
 \begin{theorem}
   \label{th:b-pseudo}
-  Algorithm \titleref{alg:pseudotrace} is correct and takes 
+  Algorithm \titleref{alg:pseudotrace} is correct and takes
+  \symb[complex]{$\Ptr(n)$}{Pseudotrace function
+    (Artin-Schreier towers)}
   \begin{equation}
     \label{eq:97}
     \Ptr(i)=O((pi+\log (d))i\Lift(i)+p^i\ModComp(d)\log^2 (d))    
@@ -254,18 +257,16 @@ factors, for an input and output size of $p^id$: this time, due to
 modular compositions in $\U_0$, the cost is not linear in $d$.
 
 Finally, let us discuss precomputations. On input $v$, $i$, $d$, the
-algorithm \titleref{alg:littlepseudotrace}
-makes less than $2\log d$ calls to
-\titleref{alg:iterfrobenius}$(x,i,n)$ for
-some value $x\in\U_i$ and for $n\in N$ where the set $N$ only depends
-on $d$. When we construct $\U_{i+1}$, we compute (only) all
+algorithm \titleref{alg:littlepseudotrace} makes less than $2\log d$
+calls to \titleref{alg:iterfrobenius}$(x,i,n)$ for some value
+$x\in\U_i$ and for $n\in N$ where the set $N$ only depends on
+$d$. When we construct $\U_{i+1}$, we compute (only) all
 $\beta_{i,n}=\PTr_{n}(\gamma_i) \wrt\U_i$, for increasing $n\in N$,
-using the \titleref{alg:littlepseudotrace}
-algorithm. The inner calls to
-\titleref{alg:iterfrobenius} only use
-pseudotraces that are already known. Besides, a single call to
-\titleref{alg:littlepseudotrace}$(\gamma_i,i,d)$
-actually computes {\em all} $\PTr_{n}(\gamma_i)$ in 
+using the \titleref{alg:littlepseudotrace} algorithm. The inner calls
+to \titleref{alg:iterfrobenius} only use pseudotraces that are already
+known. Besides, a single call to
+\titleref{alg:littlepseudotrace}$(\gamma_i,i,d)$ actually computes
+\emph{all} $\PTr_{n}(\gamma_i)$ in
 \begin{equation}
   \label{eq:104}
   O(p^i\ModComp(d)\log^2 d + i

@@ -6,10 +6,11 @@
 \section{Arbitrary towers}
 \label{sec:couveignes-algorithm}
 
-Finally, we bring our previous algorithms to an arbitrary tower, using
-Couveignes' isomorphism algorithm~\cite{couveignes00}. As in the
-previous section, we adapt this algorithm to our context, by adding
-suitable push-down and lift-up operations.
+\index{Artin-Schreier!isomorphism~of~towers} Finally, we bring our
+previous algorithms to an arbitrary tower, using Couveignes'
+isomorphism algorithm~\cite{couveignes00}. As in the previous section,
+we adapt this algorithm to our context, by adding suitable push-down
+and lift-up operations.
 
 Let $Q_0$ be irreducible of degree $d$ in $\F_p[X_0]$, such that
 $\Tr_{\U_0/\F_p}(x_0)\ne0$, with as before
@@ -156,8 +157,8 @@ algorithm \titleref{alg:approximateas} finds the required solution.
   precomputed as a prerequisite for the iterated Frobenius and
   pseudotrace algorithms. Step~\ref{alg:AAS:loop} takes $O(p^2)$
   additions and scalar operations in $\U_{i-1}$; the overall cost is
-  dominated by that of the push-down and lift-up by assumptions on
-  $\Lift$.
+  dominated by the one of the push-down and lift-up steps, by
+  assumptions on $\Lift$.
 \end{proof}
 
 Writing the recursive algorithm is now straightforward. To solve
@@ -298,6 +299,7 @@ moment we just state a result about its complexity.
 
 
 \paragraph{Rational univariate representation}
+\index{rational~univariate~representation}
 We describe now the algorithm to change from the basis $\basis{D}_i$
 to the basis $\basis{D}_i'$, based on the rational univariate
 representation. Unlike \titleref{alg:liftup}, this algorithm will not make use

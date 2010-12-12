@@ -69,11 +69,20 @@ Gunji shows the following proposition.
 
 \begin{proposition}
   \label{th:gunji}
+  \index{Gunji's~formulas}
   Let $c_1,\ldots,c_{p-1}$ be the roots of $X^{p-1}-H_E$ in its
   splitting field. The abscissas of the abscissas of the $p$-torsion
   points of $E$ are given by
   \[X_i^p = \frac{\Delta_0^2 - a_6c_i^2\Delta_1^2}{4c_i^2}\text{,}\]
-  where $\Delta_0$ and $\Delta_1$ are the following determinants
+  where $\Delta_0$ and $\Delta_1$ are the determinants of the matrices
+  shown in Figure~\ref{fig:gunji}.
+
+  with $r = \frac{p-1}{2}$, $\alpha_\nu = \nu(\nu-1)a_6$, $\beta_\nu =
+  \nu(\nu-\frac{1}{2})a_4$, $\gamma_\nu = \nu^2a_2$ and $\delta_\nu =
+  \nu(\nu+\frac{1}{2})$ ($\Delta_1$ is set to $1$ when $r = 1$).
+\end{proposition}
+
+\begin{figure}[ht]
   \begin{equation}
     \begin{gathered}
       \Delta_0 = \begin{vmatrix}
@@ -93,10 +102,10 @@ Gunji shows the following proposition.
       \end{vmatrix}\text{,}
     \end{gathered}
   \end{equation}
-  with $r = \frac{p-1}{2}$, $\alpha_\nu = \nu(\nu-1)a_6$, $\beta_\nu =
-  \nu(\nu-\frac{1}{2})a_4$, $\gamma_\nu = \nu^2a_2$ and $\delta_\nu =
-  \nu(\nu+\frac{1}{2})$ ($\Delta_1$ is set to $1$ when $r = 1$).
-\end{proposition}
+  
+  \caption{The determinants $\Delta_0$ and $\Delta_1$ appearing in Gunji's formulas.}
+  \label{fig:gunji}
+\end{figure}
 
 In what follows we let $c$ be any $(p-1)$-th root of $H_E$. Then
 Gunji's formulas imply that the $p$-torsion points are defined in
@@ -115,8 +124,8 @@ some extension field.
 
 A finer way to do the $p$-descent, as suggested in the original
 paper~\cite{couveignes96}, is to use the work of
-Voloch~\cite{voloch90}. Suppose $p\ne2$, let $E$ and $\widetilde{E}$
-have equations respectively
+\index{Voloch's~formulas}Voloch~\cite{voloch90}. Suppose $p\ne2$, let
+$E$ and $\widetilde{E}$ have equations respectively
 \begin{align*}
   y^2&=f(x)=x^3+a_2x^2+a_4x+a_6 \;\text{,}\\
   \tilde{y}^2&=\tilde{f}(\tilde{x}) = \tilde{x}^3 +

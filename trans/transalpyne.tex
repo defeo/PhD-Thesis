@@ -163,7 +163,7 @@ r_product = trans {linear R}product{const R, linear R}
   \label{fig:prog}
 \end{figure}
 
-
+\ifbfive\pagebreak\fi
 \subsection{Semantics}
 We only give here the points where \tALpy{} semantics differ from
 Python.
@@ -450,7 +450,7 @@ of lazy evaluation of functions in the scalar part.
   original one.
 \end{remark}
 
-
+\ifbfive\enlargethispage{\baselineskip}\fi
 \subsection{Transposition}
 \label{sec:transposition}
 Finally, the linear part of each linearized function is transposed as
@@ -464,7 +464,7 @@ borrow the names \index{forward~sweep}\emph{forward sweep} and
 differentiation~\cite{griewank2008evaluating}, where a similar
 technique is applied in the reverse mode.
 
-\begin{figure}[hb]
+\begin{figure}[t]
   \centering
 \begin{lstlisting}
 def (R c, R b)fT(R a, R d):

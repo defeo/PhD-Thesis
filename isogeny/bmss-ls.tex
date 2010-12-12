@@ -134,8 +134,8 @@ with $G\in\K[[x]]$ and $H\in\K[t]$.
 \begin{theorem}
   Let $\K$ be a field of characteristic $0$ or $p>2^\mu$. Let
   $\alpha,\beta,H,G$ be the inputs to algorithm~\ref{alg:le-si-diff}
-  such that $G(0)H(\alpha)=\beta^2$. Then the algorithm computes a
-  solution to
+  such that $G(0)H(\alpha)=\beta^2$. Then
+  Algorithm~\ref{alg:le-si-diff} computes a solution to
   \begin{equation}
     \label{eq:171}
     {S'}^2 = (H\circ S)G
@@ -203,7 +203,7 @@ with $G\in\K[[x]]$ and $H\in\K[t]$.
   Then, at each iteration, the algorithm computes the quantities
   \begin{equation}
     \label{eq:174}
-    S,\quad U = 1/S',\quad V = \sqrt{H\circ S},\quad J = 1/V
+    S,\quad U = 1/S',\quad V = \sqrt{H\circ S},\quad J = 1/V\text{,}
   \end{equation}
   doubling the precision at each iteration. Since the only operations
   are integrals and multiplications of power series, the $i$-th
@@ -364,9 +364,8 @@ Building on this, we now analyze the complexity of the algorithm.
 
 \begin{proposition}
   \label{th:lercier-sirvent}
-  Algorithm \titleref{alg:le-si} computes an
-  $\ell$-degree isogeny in $\tildO_{\ell,\log q}(\ell^2\log q)$
-  operations in $\F_p$.
+  Algorithm \titleref{alg:le-si} computes an $\ell$-degree isogeny
+  in \[\tildO_{\ell,\log q}(\ell^2\log q)\] operations in $\F_p$.
 \end{proposition}
 \begin{proof}
   We do not take into account the complexity of building the field
@@ -389,9 +388,9 @@ Building on this, we now analyze the complexity of the algorithm.
 \begin{remark}
   \pdfmcone{More details on how we changed the complexity analysis.}
   Our presentation of the algorithm slightly deviates from the
-  original paper~\cite{lercier+sirvent08}. Since we want to compare
-  its running time with Couveignes' algorithm, we assume that the
-  elliptic curve $E'$ isogenous to $E$ is provided as an input, while
+  original paper~\cite{lercier+sirvent08}. Since we want to compare it
+  to Couveignes' algorithm, we assume that the elliptic curve $E'$
+  isogenous to $E$ is provided as an input, while
   in~\cite{lercier+sirvent08} it is assumed that only $E$ is known.
 
   The consequence is that in the original version, before

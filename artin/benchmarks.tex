@@ -10,7 +10,7 @@ We discuss here the implementation of the algorithms of this Chapter
 and some experimental results.
 
 \paragraph{Implementation}
-We packaged the algorithms of this document in a \texttt{C++} library
+We packaged the algorithms of this chapter in a \texttt{C++} library
 called \texttt{FAAST} and made it available under the terms of the
 \texttt{GNU GPL} software license from
 \url{http://www.lix.polytechnique.fr/Labo/Luca.De-Feo/FAAST/}.
@@ -82,10 +82,9 @@ Figure~\ref{fig:lattice}.
   \label{fig:lattice}
 \end{figure}
 
-Besides the algorithms of Chapter~\ref{cha:artin-schr-towers},
-\texttt{FAAST} also implements the algorithms described in
-Section~\ref{sec:C2-AS-FI} for minimal polynomials, evaluation and
-interpolation.
+Besides the algorithms of this Chapter, \texttt{FAAST} also implements
+the algorithms described in Section~\ref{sec:C2-AS-FI} for minimal
+polynomials, evaluation and interpolation.
 
 \pdfmcthree{Moved to Magma 2.16}
 \paragraph{Experimental results} We compare our timings with those
@@ -116,10 +115,10 @@ The parameters to our algorithms are $(p,d,k)$. Thus, our experiments
 describe the following situations:
 
 \begin{itemize}
-\item {\em Increasing the height $k$.} Here we take $p=2$ and $d=1$ (that is,
-  $\U_0=\F_2$); the $x$-coordinate gives the number of levels we
-  construct and the $y$-coordinate gives timings in seconds, in {\em
-    logarithmic} scale.
+\item \emph{Increasing the height $k$.} Here we take $p=2$ and $d=1$
+  (that is, $\U_0=\F_2$); the $x$-coordinate gives the number of
+  levels we construct and the $y$-coordinate gives timings in seconds,
+  in \emph{logarithmic} scale.
 
   This is done in Figure~\ref{fig:height}. We let the height of the
   tower increase and we give timings for (1) building the tower of
@@ -127,11 +126,11 @@ describe the following situations:
   random arbitrary tower as in Section~\ref{sec:couveignes-algorithm}.
   In the latter experiment, only the magma(2) approach was meaningful
   for Magma.
-\item {\em Increasing the degree $d$ of $\U_0$.} Here we take $p=5$
+\item \emph{Increasing the degree $d$ of $\U_0$.} Here we take $p=5$
   and we construct $2$ levels; the $x$-coordinate gives the degree $d
   = [\U_0:\F_p]$ and the $y$-coordinate gives timings in seconds.
   This is done in Figure~\ref{fig:p-d} (left).
-\item {\em Increasing $p$.} Here we take $d=1$ (thus $\U_0=\F_p$) and
+\item \emph{Increasing $p$.} Here we take $d=1$ (thus $\U_0=\F_p$) and
   we construct $2$ levels; the $x$-coordinate gives the characteristic
   $p$ and the $y$-coordinate gives timings in seconds.  This is done
   in Figure~\ref{fig:p-d} (right).
@@ -175,9 +174,7 @@ precomputation of the data as described in
 Subsection~\ref{sec:level-embedding:lift-up}); the other entries are
 self-explanatory. Product and inversion are just wrappers around
 \texttt{NTL} routines: in these operations we did not observe any
-overhead compared to the native \texttt{NTL} code. All the operations
-stay within a factor of $30$ of the cost of multiplication, which is
-satisfactory.
+overhead compared to the native \texttt{NTL} code. 
 
 \begin{table}
   \centering
@@ -199,7 +196,7 @@ satisfactory.
   \centering
   \begin{tabular}{l r r r r r r r}
     \hline
-    \small level & \small Primitive & \small Push-d. & \small Lift-up & \small Product & \small Reciprocal & \small $\sigma^{-1}$ & \small  $\sigma$ \\
+    \small level & \small Primitive & \small Push-d. & \small Lift-up & \small Product & \small Reciprocal & \small apply $\sigma^{-1}$ & \small apply $\sigma$ \\
     \hline
     18 &  13.618 &  0.884 &  13.712 & 0.476 &  10.753 &  1.337 &  3.578\\
     19 &  30.288 &  1.814 &  30.432 & 1.001 &  23.046 &  2.850 &  7.798\\

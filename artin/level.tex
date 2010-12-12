@@ -25,10 +25,10 @@ Recall the two families of $\F_p$-bases we have defined so far:
 The first one arises naturally when constructing the tower as a
 succession of Artin-Schreier extensions, and we expect our inputs to
 be given in such basis. Furthermore, lifting in $\basis{B}_j$ an
-element written on $\basis{B}_i$ for $i<j$ is immediate in this basis,
-and so is the inverse operation. The basis $\basis{C}_i$, on the
-other hand, is practical for multiplication, inversion, etc., but it
-is not evident how to lift elements.
+element written in $\basis{B}_i$ for $i<j$ is immediate in this basis,
+and so is the inverse operation. The basis $\basis{C}_i$, on the other
+hand, is practical for multiplication, inversion, etc., but it is not
+evident how to lift elements.
 
 We shall thus need algorithms to change between these two bases. Since
 $x_i$ is clearly a separating element for the variety $V(K_i)$ (see
@@ -53,7 +53,7 @@ $X_i>X_{i-1}$ and $X_{i-1}>X_i$:
   \left |
   \begin{array}{rl}
     X_{i-1} - R_i(X_i) \\
-    Q_i(X_i),
+    Q_i(X_i)
   \end{array}
 \right.
 \end{equation}
@@ -73,13 +73,14 @@ the following $\F_p$-bases of $\U_i$ to each system:
  \basis{C}_i&=\{x_i^a \;|\; 0\le a<p^id\}
  \text{.}  
 \end{align}
-We describe an algorithm called \titleref{alg:push-down} which takes $v$
-written in the basis $\basis{C}_i$ and returns its coordinates in the
-basis $\basis{D}_i$. Then, using Proposition~\ref{th:uni-multi-uni},
-we will be able to describe the inverse operation, called
-\titleref{alg:liftup}.
-In other words, \titleref{alg:push-down} inputs $v\wrt\U_i$ and
-outputs the representation of $v$ as
+We describe an algorithm called
+\index{push-down}\titleref{alg:push-down} which takes $v$ written in
+the basis $\basis{C}_i$ and returns its coordinates in the basis
+$\basis{D}_i$. Then, using Proposition~\ref{th:uni-multi-uni}, we will
+be able to describe the inverse operation, called
+\index{lift-up}\titleref{alg:liftup}.  In other words,
+\titleref{alg:push-down} inputs $v\wrt\U_i$ and outputs the
+representation of $v$ as
 \begin{equation}
   \label{eq:vectorspace}
   v = v_0 + v_1x_i + \cdots + v_{p-1}x_i^{p-1}, \quad\text{with all~} v_j \wrt \U_{i-1}
@@ -90,7 +91,8 @@ Then, the change from $\basis{C}_i$ to $\basis{B}_i$ is done by
 repeatedly applying \titleref{alg:push-down}, and the opposite is obtained by
 repeatedly applying \titleref{alg:liftup}.
 
-Hereafter, we let $\Lift:\N-\{0\} \to \N$ be such that both
+\symb[complex]{$\Lift(n)$}{Push-down/Lift-up function (Artin-Schreier
+  towers)} Hereafter, we let $\Lift:\N-\{0\} \to \N$ be such that both
 \titleref{alg:push-down} and \titleref{alg:liftup} can be performed in
 $\Lift(i)$ operations; to simplify some expressions appearing later
 on, we add the mild constraints that $p\,\Lift(i) \le \Lift(i+1)$ and
@@ -257,9 +259,10 @@ $X_i+R_n$ modulo $X_i^p-X_i-Y$ are done using \titleref{eq:89}.
   operations.
 \end{proposition}
 \begin{proof}
+  % Overfull in b5
   Correctness is straightforward; note that at step~\ref{pd:loop} of
-  \titleref{alg:push-down-rec}, $\deg_Y(W) < (c+1)p^{n-1}$, so our
-  call to \titleref{eq:89} is justified. By the claim of
+  \titleref{alg:push-down-rec}, $\deg_Y(W)\allowbreak < (c+1)p^{n-1}$,
+  so our call to \titleref{eq:89} is justified. By the claim of
   Subsection~\ref{ssec:mulmod} on the cost of \titleref{eq:89}, the
   total cost of that loop is $O(nc^2p^n)$. As in
   Theorem~\ref{theo:comp}, we deduce that the cost of

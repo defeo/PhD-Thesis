@@ -18,14 +18,13 @@ defined before.  Given $P$ and $R$ in $\F_p[X]$, we want to compute
 $P(R)$. For the cost analysis, it will be useful later on to consider
 both the degree $k$ and the number of terms $\ell$ of $R$.
 
-\pdfmctwo{Cited Bernstein.}
-\titleref{alg:compose} is a recursive process that cuts
-$P$ into $c+1$ ``slices'' of degree less than $p^n$, recursively
-composes them with $R$, and concludes using Horner's scheme and the
-linearity of the $p$-power; a similar recursive step was used
-in~\cite{bernstein98} to compose power series in small characteristic.
-At the leaves of the recursion tree, we use the following naive
-algorithm.
+\pdfmctwo{Cited Bernstein.}  \titleref{alg:compose} is a recursive
+process that cuts $P$ into $c+1$ ``slices'' of degree less than $p^n$,
+recursively composes them with $R$, and concludes using Horner's
+scheme and the linearity of the $p$-power; a similar recursive step
+was used in~\cite{bernstein98} to compose power series in small
+characteristic.  At the leaves of the recursion tree, we use the
+algorithm \titleref{alg:naivecompose}.
 
 \begin{algorithm}
   \caption{\alg{NaiveCompose}}
@@ -136,8 +135,8 @@ Theorem~\ref{th:cantor}.
   So, the only case we cannot handle is when $p$ divides $d$ and the
   trace of $x_0$ is zero. By Lemma~\ref{th:multi-newton-sums}, this
   happens if and only if the $(d-1)$-th coefficient of $Q$ is equal to
-  $0$. Heuristically, if the polynomial $Q$ is chosen at random, this
-  happens with probability $1/q$.
+  $0$. If the polynomial $Q$ is chosen at random, this happens with
+  probability $1/q$.
 \end{remark}
 
 For $i=1$, we know that $x_1^p-x_1=x_0$, so $x_1$ is a root of
@@ -172,7 +171,7 @@ factorization, by working modulo $\Cyclo$.
     Q^\star_j = Q^\star \bmod F_j    
   \end{equation}
   is in $\F_p[Y]$ and independent from $j$; the claim follows by
-  \hyperref[th:chinese-remainder]{Chinese Remaindering}.
+  \hyperref[th:chinese-remainder]{Chinese remaindering}.
 
   For $j \le e$, let $a_j$ be a root of $F_j$ in the algebraic closure
   of $\F_p$, so that
@@ -182,8 +181,8 @@ factorization, by working modulo $\Cyclo$.
   \end{equation}
   Since $\gcd(p^f,2p-1)=1$, $Q^\star_j$ is invariant under
   $\Gal(\F_{p^f}/\F_p)$, and thus in $\F_p[Y]$. Besides, for
-  $j,j'\le e$, $a_j = a_{j'}^k$, for some $k$ coprime to $2p-1$, so
-  that $Q^\star_j= Q^\star_{j'}$, as needed.
+  $j,j'\le e$, $a_j = a_{j'}^k$ for some $k$ coprime to $2p-1$, so
+  that $Q^\star_j= Q^\star_{j'}$ as needed.
 
   To conclude, note that for $j \le e$,
   \begin{equation}
@@ -192,14 +191,14 @@ factorization, by working modulo $\Cyclo$.
   \end{equation}
   so that all coefficients of degree not a multiple of $2p-1$ are
   zero.  Thus, $Q^\star_j$ has the form $q^\star_j(Y^{2p-1})$; by
-  \hyperref[th:chinese-remainder]{Chinese Remaindering}, this proves
+  \hyperref[th:chinese-remainder]{Chinese remaindering}, this proves
   the existence of the polynomial $q^\star$.
 \end{proof}
 
 
 We conclude as in~\cite{cantor89}: supposing that we know the minimal
-polynomial $Q_i$ of $x_i$ over $\F_p$, we compute $Q_{i+1}$ using the
-following algorithm.
+polynomial $Q_i$ of $x_i$ over $\F_p$, we compute $Q_{i+1}$ using
+algorithm \titleref{alg:minimalpolynomial}.
 
 \begin{algorithm}
   \caption{\alg{MinimalPolynomial}}

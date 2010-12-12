@@ -61,7 +61,8 @@ locus of zeros of Eq.~\eqref{eq:112} in $\clot{\K}^2$ (or, more
 exactly, in the affine plane $\mathbb{A}^2$), plus the extra point at
 infinity $\0$.
 
-The \index{discriminant~of~an~elliptic~curve}discriminant of
+The \index{discriminant~of~an~elliptic~curve}discriminant
+\symb[D]{$\Delta_E$}{Discriminant of an elliptic curve $E$} of
 Eq.~\eqref{eq:112} is
 \begin{equation}
   \label{eq:118}
@@ -486,8 +487,9 @@ It turns out that isogenies preserve the group structure.
   \end{equation}
   The \emph{separable (resp. inseparable) degree} of $\I$, denoted by
   $\deg_s\I$ (resp. $\deg_i\I$), is the separable (resp. inseparable)
-  degree of the field extension $\clot{\K}(E)/\I(\clot{\K}(E'))$. The
-  \emph{degree} of $\I$ is $\deg\I=\deg_s\I\deg_i\I$.
+  degree of the field extension
+  $\clot{\K}(E)/\dual{\I}(\clot{\K}(E'))$. The \emph{degree} of $\I$
+  is $\deg\I=\deg_s\I\deg_i\I$.
 
   An isogeny is called \index{isogeny!separable}\emph{separable} if
   $\deg_i\I=1$, \index{isogeny!inseparable}\emph{inseparable}
@@ -529,7 +531,7 @@ multiplication by $m$ map.
   \index{dual~isogeny}\index{isogeny!dual}\emph{dual isogeny} such
   that
   \[\I\circ\hat{\I} = [m]_E \qquad\text{and}\qquad \hat{\I}\circ\I =
-  [m]_{E'}\]
+  [m]_{E'}\text{.}\]
 \end{definition}
 
 By endomorphism we mean an isogeny $E\ra E$. The multiplication maps
@@ -546,7 +548,7 @@ If $\car(\K)\ne0$, we can exclude the case $\Z$, because $\End(E)$
 contains the Frobenius isogeny. Furthermore, in the two cases
 \begin{itemize}
 \item $\car(\K)=0$,
-\item $\K$ perfect and $E$ ordinary
+\item $\K$ perfect and $E$ ordinary,
 \end{itemize}
 $\End(E)$ cannot be an order in a quaternion algebra, thus it is
 commutative.
@@ -591,7 +593,7 @@ An example of elliptic function is the
 \begin{equation}
   \label{eq:142}
   \wp(z;\Lambda) = \frac{1}{z^2} + \sum_{\omega\in\Lambda\diffset\{0\}}\frac{1}{(z-\omega)^2}-\frac{1}{\omega^2}
-  \text{,}
+  \text{.}
 \end{equation}
 \begin{theorem}
   Let $\Lambda$ be a lattice, then $\C(\Lambda) = \C(\wp(z),\wp'(z))$.
@@ -696,11 +698,11 @@ isogeny
 \end{equation}
 
 The map $\frobisog_q$ is an endomorphism of $E$ and fixes the points
-of $E(\F_q)$; it is called the \index{Frobenius
-  endomorphism}\emph{Frobenius
-  endomorphism}\symb[f]{$\frobisog_q$,
-  $\frobisog_E$}{Frobenius endomorphism of an elliptic curve} of $E$. It plays an important role in
-determining the cardinality of $E(\F_q)$.
+of $E(\F_q)$; it is called the
+\index{Frobenius~endomorphism}\emph{Frobenius
+  endomorphism}\symb[f]{$\frobisog_q$, $\frobisog_E$}{Frobenius
+  endomorphism of an elliptic curve} of $E$. It plays an important
+role in determining the cardinality of $E(\F_q)$.
 
 \begin{theorem}[Hasse]
   \index{Hasse~bound}
@@ -736,7 +738,7 @@ $z\mapsto\ell z$.
 
 \pdfmcone{It is the minimal polynomial "over C".}  For any prime
 $\ell$, the minimal polynomial over $\C$ of the modular function
-$j(\ell\tau)$ is called the \index{modular polynomial}\emph{$\ell$-th
+$j(\ell\tau)$ is called the \index{modular~polynomial}\emph{$\ell$-th
   modular polynomial}, it is denoted by
 $\Modpol_\ell(X,Y)$\symb[f]{$\Modpol_\ell$}{$\ell$-th modular
   polynomial}. It is a bivariate polynomial with coefficients in $\Z$,
