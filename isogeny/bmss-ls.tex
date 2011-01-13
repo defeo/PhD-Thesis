@@ -120,7 +120,7 @@ with $G\in\K[[x]]$ and $H\in\K[t]$.
     \REQUIRE $\mu>1$, $\alpha\in\K$, $\beta\in\K^\ast$, $H\in\K[t]$, $G\in\K[[x]]$.
     \ENSURE $S\in\K[[x]]$, solution to ${S'}^2=(H\circ S)G$ modulo $x^{2^\mu}$.
     \STATE let $U \la 1/\beta +O(x^2)$, $J \la 1 + O(x^2)$, $V \la 1 + O(x^2)$;
-    \STATE let $S \la \alpha + \beta x +  \frac{G'(0)H(\alpha) + G(0)G('\alpha)\beta}{4\beta}x^2+O(x^3)$;
+    \STATE let $S \la \alpha + \beta x +  \frac{G'(0)H(\alpha) + G(0)H'(\alpha)\beta}{4\beta}x^2+O(x^3)$;
     \FORALL {$d\in[2^2, \ldots, 2^\mu]$}
     \STATE \label{alg:le-si-diff:int}$S \la S + V\displaystyle\int\left((H\circ S)G - {S'}^2\right)UJ/2 \mod x^{d+1}$;
     \STATE $U \la U(2 - S' U) \mod x^{d+1}$;
@@ -255,14 +255,17 @@ complexity is dominated by this last step.
   $h$ from $\frac{g(x)}{h(x)}$. From Eq.~\eqref{eq:165} we deduce
   \begin{equation}
     \label{eq:181}
-    \begin{gathered}
-      \frac{g(x)}{h(x)} = x + \sum_{i\ge1}\frac{h_i}{x^i}\text{,}\\
-      h_i = (2i+1)p_{i+1} + a(2i-1)p_{i-1} + 2b(i-1)p_{i-2}
-      \quad\text{for $i\ge1$;}
-    \end{gathered}
+    \begin{aligned}
+      &\frac{g(x)}{h(x)} = x + \sum_{i\ge1}\frac{h_i}{x^i},
+      \quad\text{where, for any $i\ge1$}\\
+      &h_i = (2i+1)p_{i+1} + 2ia_2p_i + (2i-1)a_4p_{i-1} + (2i-2)a_6p_{i-2}
+      \text{.}
+    \end{aligned}
   \end{equation}
-  thus, knowing $p_0=\ell-1$ and $p_1$ is enough to compute all the
-  Newton sums up to $p_{\ell-1}$ using $O(\ell)$ operations.
+  Thus, knowing $p_0=\ell-1$ and $p_1$ is enough to compute all the
+  Newton sums up to $p_{\ell-1}$ using $O(\ell)$ operations (observe,
+  in fact, that the equation for $h_1$ has only three non-zero
+  summands).
 
   From the power sums, we can recover $h(x)$ using
   Remark~\ref{rk:newton-sums} in $O(\Mult(\ell))$ operations. Then,
