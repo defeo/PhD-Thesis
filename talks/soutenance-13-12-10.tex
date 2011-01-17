@@ -329,19 +329,16 @@
     \end{align*}
   \end{block}
 
-  \begin{block}{In practice, given $h(x)$ vanishing on $H$}
+  \begin{block}{In practice, given $h(x)$, of degree $\ell-1$,
+      vanishing on $H$}
     {\footnotesize
       \[
-      y^2 = f(x)
+      y^2 = f(x)\text{,}
       \qquad
-      t = \sum_{Q\in H^\ast} f'(Q)\text{,}
-      \quad
-      u = \sum_{Q\in H^\ast} 2f(Q)\text{,}
-      \quad
-      w = u + \sum_{Q\in H^\ast} x(Q)f'(Q)\text{,}\]}
-    \[\alert{\I(x,y) = \left(\frac{g(x)}{h(x)}, y\left(\frac{g(x)}{h(x)}\right)'\right)}
-    \quad\text{with}\quad
-    \frac{g(x)}{h(x)} = x + t\frac{h'(x)}{h(x)} - u\left(\frac{h'(x)}{h(x)}\right)'\]
+      p_1 = \sum_{Q\in H^\ast} x(Q)\text{,}
+      \qquad
+      \frac{g(x)}{h(x)} = \ell x - p_1 - f'(x)\frac{h'(x)}{h(x)} - 2f(x)\left(\frac{h'(x)}{h(x)}\right)'\]}
+    \[\alert{\I(x,y) = \left(\frac{g(x)}{h(x)}, y\left(\frac{g(x)}{h(x)}\right)'\right)}\]
   \end{block}
 \end{frame}
 

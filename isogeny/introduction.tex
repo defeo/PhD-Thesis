@@ -184,61 +184,56 @@ this calculation), Eq.~\eqref{eq:155} is equivalent to
 Observe that if $Q\in G^\ast$ is a $2$-torsion point, then $f(Q)=0$;
 while if $Q$ is not a $2$-torsion point, $x(Q)$ is counted twice in
 the sum of the previous equation. Then, the denominator of $\I_x$ is
-  \begin{equation}
-    \label{eq:158}
-    h(x) = \prod_{Q\in G^\ast}(x - x(Q))
-    \text{.}
-  \end{equation}
-We set
 \begin{equation}
-  \label{eq:164}
-  \begin{gathered}
-    t = \sum_{Q\in G^\ast} f'(Q)\text{,}
-    \qquad
-    u = \sum_{Q\in G^\ast} 2f(Q)\text{,}
-    \qquad
-    w = u + \sum_{Q\in G^\ast} x(Q)f'(Q)\text{,}\\
-    \frac{g(x)}{h(x)} = x + t\frac{h'(x)}{h(x)} - u\left(\frac{h'(x)}{h(x)}\right)'
-    \text{,}
-  \end{gathered}
+  \label{eq:158}
+  h(x) \eqdef \prod_{Q\in G^\ast}(x - x(Q))
+  \text{,}
 \end{equation}
-then Eq.~\eqref{eq:161} becomes
+and by Eq.~\eqref{eq:161} it is evident that
 \begin{equation}
   \label{eq:159}
   \I(x,y) = \left(\frac{g(x)}{h(x)}, y\left(\frac{g(x)}{h(x)}\right)'\right)
-  \text{,}
 \end{equation}
-and the isogenous curve has equation
+for some polynomial $g$.  Finally, if we set \pdfmcfour{There was a
+  huge mistake in this equation! This whole page has changed to
+  reflect the corrections.}
+\begin{equation}
+  \label{eq:164}
+  t = \sum_{Q\in G^\ast} f'(Q)\text{,}
+  \qquad
+  u = \sum_{Q\in G^\ast} 2f(Q)\text{,}
+  \qquad
+  w = u + \sum_{Q\in G^\ast} x(Q)f'(Q)\text{,}
+\end{equation}
+the isogenous curve has equation
 \begin{equation}
   \label{eq:163}
   \bar{E}\;:\;y^2 = x^3 + a_2x^2 + (a_4-5t)x + a_6 - 4a_2t - 7w
   \text{.}
 \end{equation}
-Thus, from the knowledge of $h(x)$ one can deduce the isogeny and the
-isogenous curve in $O(\Mult(\deg\I))$ operations in $\K$.
 
 \begin{remark}
-  Traditionally, Eqs.~\eqref{eq:164} and~\eqref{eq:159} are used to
-  deduce the isogeny and the curve from $h(x)$ and its first three
-  power sums.
-
-  % Overfull in b5
+  Eqs.~\eqref{eq:161} and~\eqref{eq:163} can be used to deduce the
+  isogeny and the image curve from the knowledge of the kernel.
   \pdfmctwo{The sentence "When the isogenous curve is of no interest"
-    wasn't really useful. I stripped it.}  It is sometimes more
-  convenient to use the reformulation given by Elkies~\cite{elkies98}
+    wasn't really useful. I stripped it.}  It is often more convenient
+  to use the reformulation given by Elkies~\cite{elkies98}
   \begin{equation}
     \label{eq:157}
     \frac{g(x)}{h(x)} = x + \sum_{Q\in G^\ast}x - x(Q) - \frac{f'(x)}{x-x(Q)} + \frac{2f(x)}{(x-x(Q))^2}
   \end{equation}
   (this equality is shown in Appendix~\ref{cha:proof-velus-formulas},
-  too). This implies
+  too), which implies
   \begin{equation}
     \label{eq:165}
     \frac{g(x)}{h(x)} = \ell x - p_1 - f'(x)\frac{h'(x)}{h(x)} -
     2f(x)\left(\frac{h'(x)}{h(x)}\right)'
     \text{,}
   \end{equation}
-  where $p_1$ is the first power sum of $h$.
+  where $p_1$ is the first power sum of $h$.  
+
+  Thus, from the knowledge of $h(x)$, one can deduce the isogeny and
+  the isogenous curve in $O(\Mult(\deg\I))$ operations in $\K$.
 \end{remark}
 
 Given two curves $E$ and $E'$, Vélu formulas reduce the problem of
