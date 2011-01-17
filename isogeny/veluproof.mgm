@@ -39,7 +39,7 @@ elkiesX := (xp - xq)*denlambda^2
     - Evaluate(fprim,xp)*denlambda
     + 2*Evaluate(f,xp);
 
-// The proof, again (thus time we directly get 0)
+// The proof, again (this time we directly get 0)
 elkiesX - veluX;
 // Done!\end{lstlisting}\endinput
 

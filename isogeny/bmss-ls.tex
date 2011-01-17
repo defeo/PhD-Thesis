@@ -64,7 +64,7 @@ Our goal is to compute the rational fraction $\frac{g(x)}{h(x)}$. From
 the fact that $\I$ is normalized and from Eq.~\eqref{eq:149} we deduce
 \begin{equation}
   \label{eq:166}
-  (x^3 + a_2x^2 + a_4x + b){\left(\frac{g(x)}{h(x)}\right)'}^2 =
+  (x^3 + a_2x^2 + a_4x + a_6){\left(\frac{g(x)}{h(x)}\right)'}^2 =
   \left(\frac{g(x)}{h(x)}\right)^3 + a_2'\left(\frac{g(x)}{h(x)}\right)^2 + a_4'\frac{g(x)}{h(x)} + a_6'
   \text{.}
 \end{equation}
@@ -302,7 +302,7 @@ of obtaining a pair of $\ell$-normalized models, thus
 \titleref{alg:bmss} cannot apply.
 
 To circumvent this problem, Lercier and
-Sirvent~\cite{lercier+sirvent08} use Elkies formulas to obtain
+Sirvent~\cite{lercier+sirvent08} use Elkies' formulas to obtain
 normalized models in the $p$-adic, and then apply
 \titleref{alg:bmss}. The algorithm is summarized below; it
 requires $p\ge5$ and it makes computations in an unramified extension
@@ -383,7 +383,7 @@ Building on this, we now analyze the complexity of the algorithm.
   operations in $\Q_q$, that is $\tildO(\ell^2\log
   q)$. \titleref{alg:bmss} takes $O(\Mult(\ell)\log\ell)$ operations
   in $\Q_q$ at worse (better if the sum of the abscissas of the kernel
-  of the isogeny is computed by Elkies formulas), that is
+  of the isogeny is computed by Elkies' formulas), that is
   $\tildO(\Mult(\ell)\log q)$. The rest of the computation is
   negligible. Thus, the dominating step is~\ref{alg:le-si:elkies}.
 \end{proof}

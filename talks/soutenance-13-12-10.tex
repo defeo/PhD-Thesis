@@ -1054,11 +1054,37 @@
 
 %%
 
-\addtocounter{framenumber}{-1}
+\newcounter{lastframe}
+\setcounter{lastframe}{\theframenumber}
+
 \begin{frame}[plain]
   \frametitle{Thank you all for coming\dots}
   \includegraphics[width=\textwidth]{marcheneige.jpg}
 \end{frame}
+
+%%
+
+{\setbeamertemplate{navigation symbols}{}
+\begin{frame}[allowframebreaks]
+  \frametitle{References}
+
+  \defbibfilter{books}{\type{book} \or \type{booklet} \or \type{thesis}
+    \or \type{report} \or \type{collection} \or \type{manual}
+    \or \type{periodical} \or \type{proceedings}}
+  \defbibfilter{articles}{\not \(\type{book} \or \type{booklet} \or \type{thesis}
+    \or \type{report} \or \type{collection} \or \type{manual}
+    \or \type{periodical} \or \type{proceedings}\)}
+
+  \beamertemplatebookbibitems
+  \printbibliography[filter=books]
+  \beamertemplatearticlebibitems
+  \printbibliography[filter=articles]
+\end{frame}
+}
+
+\setcounter{framenumber}{\thelastframe}
+
+
 \end{document}
 
 
