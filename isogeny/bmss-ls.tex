@@ -119,7 +119,7 @@ with $G\in\K[[x]]$ and $H\in\K[t]$.
   \begin{algorithmic}[1]
     \REQUIRE $\mu>1$, $\alpha\in\K$, $\beta\in\K^\ast$, $H\in\K[t]$, $G\in\K[[x]]$.
     \ENSURE $S\in\K[[x]]$, solution to ${S'}^2=(H\circ S)G$ modulo $x^{2^\mu}$.
-    \STATE let $U \la 1/\beta +O(x^2)$, $J \la 1 + O(x^2)$, $V \la 1 + O(x^2)$;
+    \STATE let $U \la 1/\beta +O(x)$, $J \la 1/\sqrt{H(\alpha)} + O(x)$, $V \la \sqrt{H(\alpha)} + O(x)$;
     \STATE let $S \la \alpha + \beta x +  \frac{G'(0)H(\alpha) + G(0)H'(\alpha)\beta}{4\beta}x^2+O(x^3)$;
     \FORALL {$d\in[2^2, \ldots, 2^\mu]$}
     \STATE \label{alg:le-si-diff:int}$S \la S + V\displaystyle\int\left((H\circ S)G - {S'}^2\right)UJ/2 \mod x^{d+1}$;
