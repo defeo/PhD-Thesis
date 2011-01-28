@@ -121,11 +121,11 @@ with $G\in\K[[x]]$ and $H\in\K[t]$.
     \ENSURE $S\in\K[[x]]$, solution to ${S'}^2=(H\circ S)G$ modulo $x^{2^\mu}$.
     \STATE let $U \la 1/\beta +O(x)$, $J \la 1/\sqrt{H(\alpha)} + O(x)$, $V \la \sqrt{H(\alpha)} + O(x)$;
     \STATE let $S \la \alpha + \beta x +  \frac{G'(0)H(\alpha) + G(0)H'(\alpha)\beta}{4\beta}x^2+O(x^3)$;
-    \FORALL {$d\in[2^2, \ldots, 2^\mu]$}
-    \STATE \label{alg:le-si-diff:int}$S \la S + V\displaystyle\int\left((H\circ S)G - {S'}^2\right)UJ/2 \mod x^{d+1}$;
-    \STATE $U \la U(2 - S' U) \mod x^{d+1}$;
-    \STATE $V \la (V +  (H\circ S) J (2 - VJ))/2 \mod x^{d+1}$;
-    \STATE $J \la J(2-VJ)) \mod x^{d+1}$;
+    \FORALL {$d\in\{2, 2^2, \ldots, 2^{\mu-1}\}$}
+    \STATE $U \la U(2 - S' U) \mod x^d$;
+    \STATE $V \la (V +  (H\circ S) J (2 - VJ))/2 \mod x^d$;
+    \STATE $J \la J(2-VJ)) \mod x^d$;
+    \STATE \label{alg:le-si-diff:int}$S \la S + V\displaystyle\int\left((H\circ S)G - {S'}^2\right)UJ/2 \mod x^{2d+1}$;
     \ENDFOR
     \STATE output $S$.
   \end{algorithmic}
