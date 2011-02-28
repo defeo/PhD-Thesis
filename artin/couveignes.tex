@@ -334,7 +334,7 @@ this value is just $-1$. Finally, the algorithm
   \caption{\alg{RUR}$_{\lst{s}_i}$}
   \label{alg:RUR-si}
   \begin{algorithmic}[1]
-    \REQUIRE $t_0,\ldots,t_{p-1}\wrt\U_{i-1}$.
+    \REQUIRE $t_0,\ldots,t_{p-1},s_{i,0},\ldots,s_{i,p-1}\wrt\U_{i-1}$ such that $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=s_i$.
     \ENSURE $t_0',\ldots,t_{p-1}'\wrt\U_{i-1}$ such that $t_0+\cdots+t_{p-1}x_i^{p-1}=t_0'+\cdots+t_{p-1}'s_i^{p-1}$.
     \STATE \label{alg:rur-s:1}let $\ell = t\cdot\rho(1) =  -\frac{t_{p-1}}{X_i^{p-1}} - \sum_{j=0}^{p-1} \frac{t_{p-1-j}}{X_i^j}$;
     \STATE \label{alg:rur-s:2}let $M = \frac{1}{T}\sum_{j=0}^{p-1}\frac{\ell(s_i^j)}{T^j}$;
@@ -350,9 +350,8 @@ this value is just $-1$. Finally, the algorithm
   operations cost respectively $O(p\Mult(p^id))$ and
   $O(p^2\Mult(p^{i-1}d))$.
 
-  Then, step~\ref{alg:rur-s:1} just costs one addition in $\U_{i-1}$
-  and step~\ref{alg:rur-s:3} costs $O(d)$ additions in $\U_{i-1}$
-  because $P_i'(T)=T^p-T'-\gamma_{i-1}'$.
+  Then, steps~\ref{alg:rur-s:1} and~\ref{alg:rur-s:3} cost one
+  addition in $\U_{i-1}$ each, because $P_i'(T)=T^p-T-\gamma_{i-1}'$.
 \end{proof}
 
 \begin{nota}
