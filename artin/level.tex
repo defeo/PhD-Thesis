@@ -101,7 +101,7 @@ implementation, we also allow precomputations. These precomputations
 are performed when we build the tower; further details are at the end
 of this section.
 \begin{theorem}\label{theo:L}
-  One can take $\Lift(i)$ in $O( p^{i+1}d\log_p(p^id)^2 \ + \
+  One can take $\Lift(i)$ in $O( p^{i+1}d\log_p^2(p^id) \ + \
 \,p\,\Mult(p^{i}d))$.
 \end{theorem}
 Remark that the input and output have size $p^id$; using fast
@@ -254,7 +254,7 @@ $X_i+R_n$ modulo $X_i^p-X_i-Y$ are done using \titleref{eq:89}.
   \begin{equation}
     \label{eq:92}
     O(p^{i+1}d
-    \log_p(p^id)^2 + p\,\Mult(p^id))
+    \log_p^2(p^id) + p\,\Mult(p^id))
   \end{equation}
   operations.
 \end{proposition}
@@ -270,7 +270,7 @@ $X_i+R_n$ modulo $X_i^p-X_i-Y$ are done using \titleref{eq:89}.
 
   In \titleref{alg:push-down}, we have $cp^n< p^id$ and $n<\log_p
   (p^id)$, so the previous cost is seen to be $O(p^{i+1}d
-  \log_p(p^id)^2)$. Reducing one coefficient of $Z$ modulo $Q_{i-1}$
+  \log_p^2(p^id))$. Reducing one coefficient of $Z$ modulo $Q_{i-1}$
   takes $O(\Mult(p^id))$ operations, so step~\ref{step:pd:mod} has
   cost $O(p\,\Mult(p^id))$. Step~\ref{step:pd:return} is free, since
   at this stage $Z$ is already reduced.
@@ -413,7 +413,7 @@ in~\cite{shoup99}; it is however more efficient to use
   Algorithm \titleref{alg:liftup} is correct and takes 
   \begin{equation}
     \label{eq:85}
-    O(p^{i+1}d\log_p(p^id)^2+p\,\Mult(p^{i}d))
+    O(p^{i+1}d\log_p^2(p^id)+p\,\Mult(p^{i}d))
   \end{equation}
   operations.
 \end{proposition}
