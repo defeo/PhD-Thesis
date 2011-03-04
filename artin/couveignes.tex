@@ -290,11 +290,12 @@ moment we just state a result about its complexity.
   recursive calls, $O(1)$ push-downs and lift-ups, and a few extra
   operations: for \titleref{alg:applyisomorphism}, these are $p$
   multiplications / additions in the bivariate basis $\basis{D}_i$ of
-  Section~\ref{sec:level-embedding}; for \titleref{alg:applyinverse}, this is
-  calling the algorithm
-  \titleref{alg:RUR-si}.  The cost is
-  $O(p\Mult(p^id))$ in both cases, which is in $O(\Lift(i))$ by
-  assumptions on $\Lift$. We conclude as in Theorem~\ref{th:b-ifrob}.
+  Section~\ref{sec:level-embedding}; for \titleref{alg:applyinverse},
+  this is calling the algorithm \titleref{alg:RUR-si}.  By using
+  Kronecker substitution to multiply elements in the basis
+  $\basis{D}_i$, the cost is $O(p\Mult(p^id))$ in both cases, which is
+  in $O(\Lift(i))$ by assumptions on $\Lift$. We conclude as in
+  Theorem~\ref{th:b-ifrob}.
 \end{proof}
 
 
@@ -326,9 +327,9 @@ writing down the multiplication matrix of $t$, we verify that
 \end{equation}
 
 Also observe that we need the inverse of the derivative of $P'_i$, as
-in step~\ref{alg:rur:5} of \titleref{alg:rur}. Since $P'_i$ is Artin-Schreier,
-this value is just $-1$. Finally, the algorithm
-\titleref{alg:RUR-si} is as follows.
+in step~\ref{alg:rur:5} of \titleref{alg:rur}. Since $P'_i$ is
+Artin-Schreier, this value is just $-1$. The algorithm
+\titleref{alg:RUR-si} is given below.
 
 \begin{algorithm}
   \caption{\alg{RUR}$_{\lst{s}_i}$}
@@ -347,11 +348,11 @@ this value is just $-1$. Finally, the algorithm
   Step~\ref{alg:rur-s:2} is the most expensive one. We use $p-1$
   multiplications in the bivariate basis $\basis{D}_i$ to compute
   $s_i,\ldots,s_i^{p-1}$, then we apply $\ell$ to each of them. These
-  operations cost respectively $O(p\Mult(p^id))$ and
-  $O(p^2\Mult(p^{i-1}d))$.
-
-  Then, steps~\ref{alg:rur-s:1} and~\ref{alg:rur-s:3} cost one
-  addition in $\U_{i-1}$ each, because $P_i'(T)=T^p-T-\gamma_{i-1}'$.
+  operations cost respectively $O(p\Mult(p^id))$ by
+  \hyperref[sec:mult-polyn]{Kronecker substitution}, and
+  $O(p^2\Mult(p^{i-1}d))$.  Then, steps~\ref{alg:rur-s:1}
+  and~\ref{alg:rur-s:3} cost one addition in $\U_{i-1}$ each, because
+  $P_i'(T)=T^p-T-\gamma_{i-1}'$.
 \end{proof}
 
 \begin{nota}
