@@ -49,7 +49,7 @@ bilinear form that results by applying linear forms to elements.
   $\mathcal{S}_n$ over $R^n$ (i.e.\ under permutation of coordinates).
 \end{definition}
 
-\ifafourps \pagebreak[1] \fi
+\ifafourps \pagebreak[4] \fi
 \pdfmctwo{Added parentheses in the definition of the bases,
   hope it helps reading.}  The arithmetic basis we will work with is
 the \index{standard~left-linear~basis}\emph{standard left-linear
@@ -370,7 +370,7 @@ semantically.
   Let $\mathcal{I}$ and $\mathcal{O}$ be monotone bijections
   respectively from $\inp(v)$ to $\inp(C')$ and from $\outp(C')$ to
   $\outp(v)$. We denote by $C[C'/v]$ the circuit
-  $(V'',E'',\le'',\le_i'',\le_o'')$ over
+  $(V'',E'',{\le'',}\allowbreak\le_i'',\le_o'')$ over
   $(R,\mathcal{B}\cup\mathcal{B}')$ defined as follows:
   \begin{itemize}
   \item $V'' = V\uplus (V' - \inp(C') - \outp(C'))$;
@@ -382,8 +382,11 @@ semantically.
     \item $v'\in V$ and $v''\in V'$ and $v'\le v$;
     \item $v'\in V'$ and $v''\in V$ and $v\le v''$;
     \end{itemize}
-  \item $E''(o) = \begin{cases}
-      E'(o') & \text{if $E(o)\in\inp(v)$ and $\mathcal{I}(E(o))=v'$ and $\outp(v')=\{o'\}$,}\\
+  \item \newlength{\tmp}\settowidth{\tmp}{$\bullet E''(o) = \begin{cases}(E\uplus E')(o)\end{cases}$}
+    \addtolength{\tmp}{\parindent}\addtolength{\tmp}{\leftmargini}\addtolength{\tmp}{1ex}
+    \addtolength{\tmp}{-\textwidth}
+    $E''(o) = \begin{cases}
+      E'(o') & \text{\parbox{-\tmp}{if $E(o)\in\inp(v)$ and $\mathcal{I}(E(o))=v'$ and $\outp(v')=\{o'\}$,}}\\
       E(o') & \text{if $E'(o)\in\outp(C')$ and $\mathcal{O}(E'(o))=o'$,}\\
       (E\uplus E')(o) & \text{otherwise.}
     \end{cases}$
@@ -633,7 +636,7 @@ conceptually simpler proof, using category theory.
   and composing on both sides with $\iota_i$ gives Eq.~\eqref{eq:248}.
 \end{proof}
 
-
+% Overfull in a4
 \begin{proof}[Proof of the transposition theorem]
   The proof of the transposition theorem is now straightforward. By linearity
   it is enough to prove that
@@ -688,7 +691,7 @@ conceptually simpler proof, using category theory.
   Bordweijk's advisor, but this is debated~\cite{djb:tellegen}.
 
   The first complete algebraic proof, treating the case of an
-  arbitrary non-commutative ring, is due to
+  arbitrary non-com\-mu\-ta\-tive ring, is due to
   Fiduccia~\cite{fiduccia:phd}. There have been many rediscoveries of
   the theorem (see~\cite{djb:tellegen}), but Fiduccia's statement stays
   the most general.

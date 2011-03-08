@@ -635,9 +635,9 @@ is one of the intermediate results computed by the extended Euclidean
 algorithm.
 
 The extended Euclidean algorithm is not optimal. We address the reader
-to~\cite[$\S$11.1]{vzGG} for the description of an algorithm that
+to \cite[$\S$11.1]{vzGG} for the description of an algorithm that
 takes $f,g\in\K[X]$ of degree at most $n$ and $\ell\le n$, and
-computes, using $O(\Mult(n)\log n)$ operations, the rows $u_i,v_i,r_i$
+computes, using $O(\Mult(n)\allowbreak\log n)$ operations, the rows $u_i,v_i,r_i$
 and $u_{i+1},v_{i+1},r_{i+1}$ of the Extended Euclidean algorithm such
 that $\deg(r_i)\ge n-\ell$ and $\deg(r_{i+1})<n-\ell$. A consequence
 of this algorithm is that both Cauchy interpolation and rational
@@ -669,6 +669,7 @@ the product $fg$ can be computed as
 Observing that the reduction modulo $Y-X^{2m-1}$ comes for free, the
 cost of the previous computation is $O(\Mult(mn))$.
 
+% Overfull in a5
 Kronecker substitution also allows to do multiplication in
 $\bigl(\K[X]/f(X)\bigr)[Y]$ by multiplying in $\K[X,Y]$ first and then
 reducing modulo $f$. The $O(\Mult(mn))$ operations in $\K$ ($m$ being

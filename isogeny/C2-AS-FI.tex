@@ -457,6 +457,20 @@ have the following theorem.
   \label{th:complexity}
   Assuming $\Mult(n) = n\log n\loglog n$, the algorithm \ctwoasfi{} has
   worst case complexity
+  \ifafive
+  \begin{multline*}
+    \tildO_{p,d,\log\ell}
+    \left(
+      p^2d^3 +
+      \ModComp(p)pd +
+      (pd)^\omega\log^2\ell +
+      p^3\ell^2 d\log^3\ell + \right.\\
+      \left. p^2\ell^2 d^2+
+      \left(\frac{\ell^2}{p} + p\right)\ModComp(pd)
+    \right)
+    \text{.}
+  \end{multline*}
+  \else
   \begin{equation*}
     \tildO_{p,d,\log\ell}
     \ifbfive\!\fi
@@ -473,6 +487,7 @@ have the following theorem.
     \ifbfive\!\fi
     \text{.}
   \end{equation*}
+  \fi
 \end{theorem}
 
 

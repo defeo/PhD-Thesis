@@ -80,6 +80,7 @@
 \tableofcontents*
 %\listoffigures
 %\listoftables
+\ifafive \clearpage \fi  % Fix this horrible table
 \ifafour \clearpage \fi  % Fix this horrible table
 \ifafourps \clearpage \fi  % Fix this horrible table
 \listofalgorithms
@@ -97,7 +98,7 @@
 \include{isogeny/veluproof}
 
 \backmatter
-\ifafour \addtocontents{toc}{\clearpage} \fi  % Fix this horrible table
+%\ifafour \addtocontents{toc}{\clearpage} \fi  % Fix this horrible table
 \input{pre/conclusion}
 \listofsymbols[5em]
 \printindex

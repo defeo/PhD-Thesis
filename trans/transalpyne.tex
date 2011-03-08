@@ -149,6 +149,19 @@ signature specifiers).
 
 \begin{figure}[!ht]
   \centering
+\ifafive
+\begin{lstlisting}
+type Ring R
+
+def (R c)product(R a, R b):
+    c = a * b
+  
+l_product = trans {linear R}product{linear R,
+                                    const R}
+r_product = trans {linear R}product{const R,
+                                    linear R}
+\end{lstlisting}
+\else
 \begin{lstlisting}
 type Ring R
 
@@ -158,7 +171,7 @@ def (R c)product(R a, R b):
 l_product = trans {linear R}product{linear R, const R}
 r_product = trans {linear R}product{const R, linear R}
 \end{lstlisting}
-  
+\fi 
   \caption{A \tALpy{} program}
   \label{fig:prog}
 \end{figure}
@@ -349,7 +362,7 @@ After the type checking and linearity inference phase, any discovered
 linearization of any function is partially evaluated and transposed as
 in Section~\ref{sec:r-algebr-algor}.
 
-\begin{figure}[b]
+\begin{figure}[\ifafive t\else b\fi]
 \begin{lstlisting}
 def (R a, R b)f(R c, R d):
   if d > R.zero():
@@ -386,6 +399,7 @@ def (R b)fS(R d):
     b = d
 \end{lstlisting}
 
+\ifafive\enlargethispage{-\baselineskip}\fi
 Now we generate the partial evaluation of \lstinline+f+ at
 \lstinline+d+ by stripping off all the values that solely depend on
 \lstinline+d+.
@@ -441,6 +455,7 @@ to \lstinline+fS+ in a memoization table, then retrieve the values
 from the table when they are needed in the linear part. This is a sort
 of lazy evaluation of functions in the scalar part.
 
+\ifafive\enlargethispage{-\baselineskip}\fi
 \begin{remark}
   Regardless of whether the code is interpreted or compiled, scalar
   parts of real world algorithms tend to be very short and simple. In

@@ -38,7 +38,7 @@ even \texttt{zz\_p} is one order of magnitude faster.
 
 \begin{table}
   \centering
-  \begin{tabular}{r r r r r r r r}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}r@{}r@{}r@{}r@{}r@{}r@{}r@{}r}
     \hline
     $\ell$ & $E[p^k]$ & $E'[p^k]$ & FI & RFR & MC & Avg tries & loop time\\
     \hline
@@ -47,7 +47,7 @@ even \texttt{zz\_p} is one order of magnitude faster.
     127 &  2.6636 &  2.6626 & 1.8927 & 0.01090 & 0.00872 & 128 &   2.511\\
     251 &  6.9809 &  6.9779 & 4.2833 & 0.03092 & 0.03494 & 256 &  16.860\\
     397 & 18.1052 & 18.0952 & 9.7385 & 0.07325 & 0.14117 & 512 & 109.783\\
-  \end{tabular}
+  \end{tabular*}
   \caption{Comparative timings in seconds for the phases of \ctwoasfimc{} for curves over $\F_{2^{101}}$.}
   \label{tab:C2}
 \end{table}

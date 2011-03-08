@@ -18,7 +18,7 @@ $\U_0=\F_p[X_0]/Q_0$. We let $(G_i)_{0 \le i < k}$ and
 $(\U_0,\ldots,\U_k)$ be as in Section~\ref{sec:fast-tower}.
 
 We also consider another sequence $(G'_i)_{0 \le i < k}$, that defines
-another tower $(\U'_0,\ldots,\U'_k)$.  Since $(\U'_0,\ldots,\U'_k)$ is
+another tower $(\U'_0,\ldots,\allowbreak\U'_k)$.  Since $(\U'_0,\ldots,\U'_k)$ is
 not necessarily primitive, we fall back to the multivariate basis of
 Subsection~\ref{ssec:rep}: we write elements of $\U'_i$ in the basis
   \begin{equation}
@@ -335,8 +335,8 @@ Artin-Schreier, this value is just $-1$. The algorithm
   \caption{\alg{RUR}$_{\lst{s}_i}$}
   \label{alg:RUR-si}
   \begin{algorithmic}[1]
-    \REQUIRE $t_0,\ldots,t_{p-1},s_{i,0},\ldots,s_{i,p-1}\wrt\U_{i-1}$ such that $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=s_i$.
-    \ENSURE $t_0',\ldots,t_{p-1}'\wrt\U_{i-1}$ such that $t_0+\cdots+t_{p-1}x_i^{p-1}=t_0'+\cdots+t_{p-1}'s_i^{p-1}$.
+    \REQUIRE $t_0,\ldots,t_{p-1},s_{i,0},\ldots,s_{i,p-1}\wrt\U_{i-1}$ \ifafive\\ \fi such that $s_{i,0}+\cdots+s_{i,p-1}x_i^{p-1}=s_i$.
+    \ENSURE $t_0',\ldots,t_{p-1}'\wrt\U_{i-1}$ \ifafive\\ \fi such that $t_0+\cdots+t_{p-1}x_i^{p-1}=t_0'+\cdots+t_{p-1}'s_i^{p-1}$.
     \STATE \label{alg:rur-s:1}let $\ell = t\cdot\rho(1) =  -\frac{t_{p-1}}{X_i^{p-1}} - \sum_{j=0}^{p-1} \frac{t_{p-1-j}}{X_i^j}$;
     \STATE \label{alg:rur-s:2}let $M = \frac{1}{T}\sum_{j=0}^{p-1}\frac{\ell(s_i^j)}{T^j}$;
     \STATE \label{alg:rur-s:3}let $V = P'_iM \bmod T^p$;

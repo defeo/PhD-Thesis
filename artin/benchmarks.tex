@@ -12,7 +12,7 @@ and some experimental results.
 \paragraph{Implementation}
 We packaged the algorithms of this chapter in a \texttt{C++} library
 called \texttt{FAAST} and made it available under the terms of the
-\texttt{GNU GPL} software license from
+\texttt{GNU GPL} software license from \ifafive\\ \fi 
 \url{http://www.lix.polytechnique.fr/Labo/Luca.De-Feo/FAAST/}.
 
 \texttt{FAAST} is implemented on top of the \texttt{NTL}
@@ -178,7 +178,7 @@ overhead compared to the native \texttt{NTL} code.
 
 \begin{table}
   \centering
-  \begin{tabular}{l r r r r r r r}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l@{}r@{}r@{}r@{}r@{}r@{}r@{}r}
     \hline
     \small level & \small Primitive & \small Push-d. & \small Lift-up & \small Product & \small Reciprocal & \small apply $\sigma^{-1}$ & \small apply $\sigma$ \\
     \hline
@@ -187,14 +187,14 @@ overhead compared to the native \texttt{NTL} code.
     21 &  5.686 & 1.225 &  6.147 & 0.187 &  3.598 &  2.409 &  2.668\\
     22 & 12.660 & 2.515 & 13.746 & 0.463 &  8.355 &  5.565 & 11.179\\
     23 & 28.511 & 5.295 & 31.200 & 1.046 & 19.522 & 12.323 & 24.740
-  \end{tabular}
+  \end{tabular*}
   \caption{Some timings in seconds for arithmetics in a generic tower built over $\F_2$ using \texttt{GF2}.}
   \label{tab:arith-gf2}
 \end{table}
 
 \begin{table}
   \centering
-  \begin{tabular}{l r r r r r r r}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l@{}r@{}r@{}r@{}r@{}r@{}r@{}r}
     \hline
     \small level & \small Primitive & \small Push-d. & \small Lift-up & \small Product & \small Reciprocal & \small apply $\sigma^{-1}$ & \small apply $\sigma$ \\
     \hline
@@ -203,12 +203,12 @@ overhead compared to the native \texttt{NTL} code.
     20 &  65.632 &  3.953 &  66.889 & 2.106 &  51.544 &  6.564 & 18.141\\
     21 & 128.190 &  8.347 & 131.271 & 4.791 & 121.349 & 14.396 & 39.296\\
     22 & 296.671 & 11.396 & 298.541 & 6.413 & 249.520 & 28.851 & 86.628
-  \end{tabular}
+  \end{tabular*}
   \caption{Some timings in seconds for arithmetics in a generic tower built over $\F_2$ using \texttt{zz\_p}.}
   \label{tab:arith-zzp}
 \end{table}
 
-
+\ifbfive\enlargethispage{\baselineskip}\fi
 Finally, we mention the cost of precomputation. The precomputation of
 the images of $\sigma$ as explained in
 Section~\ref{sec:couveignes-algorithm} is quite expensive; most of it
@@ -219,7 +219,6 @@ improvement in \texttt{FAAST}, mainly tweaking recursion thresholds
 and implementing better algorithms for small and moderate input
 sizes. Yet we think that only a major algorithmic improvement could
 consistently speed up this phase.
-
 
 
 % Local Variables: 

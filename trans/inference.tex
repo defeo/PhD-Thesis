@@ -96,9 +96,16 @@ $\ell\ra s\ra\ell$, meaning that
 is a left module homomorphism $R\ra R$ for any \lstinline{y::R}.
 
 Finally consider the following term
+\ifafive
+\begin{lstlisting}
+  z x n = if n <= 0 then zeroR
+                    else plus x (z x (n-1))
+\end{lstlisting}
+\else
 \begin{lstlisting}
   z x n = if n <= 0 then zeroR else plus x (z x (n-1))
 \end{lstlisting}
+\fi
 as before we expect something like $\ell\ra\N\ra\ell$, meaning that
 \begin{lstlisting}
   \x -> z x n
@@ -391,6 +398,20 @@ unique interface\footnote{We make use of some experimental modules of
   \lstinline{-XMultiParamTypeClasses},
   \lstinline{-XFunctionalDependencies} and
   \lstinline{-XFlexibleInstances} in order to work.}
+\ifafive
+\begin{lstlisting}
+  class Ring r => Module m r | m -> r where
+    zeroM :: m
+    (<<*) :: m -> S -> m
+    (>>>) :: m -> Integer -> r
+    (<<<) :: r -> Integer -> m
+    (<++>) :: m -> m -> m
+    add :: m -> m -> Integer -> m
+    add a b n = foldl (<++>) zeroM
+                [((a>>>i) <+> (b>>>i))<<<i 
+                | i <- [1..n]]
+\end{lstlisting}
+\else
 \begin{lstlisting}
   class Ring r => Module m r | m -> r where
     zeroM :: m
@@ -402,6 +423,7 @@ unique interface\footnote{We make use of some experimental modules of
     add a b n = foldl (<++>) zeroM
                 [((a>>>i) <+> (b>>>i))<<<i | i <- [1..n]]
 \end{lstlisting}
+\fi
 
 Instances of this class represent free $R$-modules: \lstinline{zeroM}
 is the zero element, \lstinline{(<<*)} is scalar multiplication,
