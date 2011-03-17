@@ -5,6 +5,7 @@ these.pdf: *.tex *.cls *.sty pre/*.tex trans/*.tex artin/*.tex isogeny/*.tex def
 	makeindex these.symb.glo -s symb.gst -o these.symb.gls;
 	pdflatex "\def\options{$(THESEOPT)}\input{these}";
 	pdflatex "\def\options{$(THESEOPT)}\input{these}";
+	pdflatex "\def\options{$(THESEOPT)}\input{these}";
 
 defeo.bib:
 	wget -O defeo.bib "http://www.citeulike.org/bibtex/user/defeo?key_type=0&clean_urls=0";

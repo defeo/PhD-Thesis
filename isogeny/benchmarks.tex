@@ -9,7 +9,10 @@ We ran various experiments to compare the different variants of the
 algorithm \ctwo{} between themselves and to \titleref{alg:le-si}. All
 the experiments were run on four dual-core Intel Xeon E5520 (2.26GHz),
 using the parallelized version of the algorithm in some cases. Magma
-2.16 was used to run Magma experiments.
+2.16 was used to run Magma experiments. We also report in
+figure~\ref{fig:2-101} some older timings obtained on an Intel Xeon
+E5430 with Magma 2.11, that show a regression between the two versions
+of Magma.
 
 \paragraph{Magma vs. \texttt{FAAST}}
 \label{sec:magma-vs.-textttf}
@@ -135,18 +138,14 @@ without the (surprising) discovery of \ctwoud{}.
 
 
 \paragraph{Couveignes vs. Lercier-Sirvent}
-Finally, we ran experiments on
-\titleref{alg:le-si}. 
-Table~\ref{tab:ls} shows
-timings for the different phases of the algorithm for some isogeny
-degrees. The first column is the time spent to find a root of
-$\Modpol_\ell(X,j_E)$ in $\F_q$, the second column summarizes the time
-spent to lift this root in $\Q_q$ and apply Elkies'
-formulas. DiffSolve is the time spent solving the differential
-equation, it is clearly the most expensive phase, although not the
-most important asymptotically. RFR is the time for rational fraction
-reconstruction, its rapid growth is justified by the fact that we
-implemented it on top of a quadratic XGCD algorithm.
+Finally, we ran experiments on \titleref{alg:le-si}.
+Table~\ref{tab:ls} shows timings for the different phases of the
+algorithm for some isogeny degrees. The first column is the time spent
+to lift the root of $\Modpol_\ell(X,j_E)$ in $\Q_q$ and to apply
+Elkies' formulas. DiffSolve is the time spent solving the differential
+equation, it is clearly the most expensive phase, although
+asymptotically not the most important one. RFR is the time for
+rational fraction reconstruction.
 
 \begin{table}
   \pdfmcthree{This table has changed.}
@@ -185,10 +184,10 @@ figure~\ref{fig:comp} (right). We only plot average times for \ctwo{},
 in characteristic $2$ we only plot the timings for \texttt{GF2}. From
 the plot it is clear that \ctwoasfimc{} only performs better than
 \titleref{alg:le-si} for $p=2$, but in this case Lercier's
-algorithm~\cite{lercier96} is much faster.  Contradicting theory, the
-asymptotic behavior of \titleref{alg:le-si} looks worse than the one
-of \ctwoasfimc{}; however comparing a Magma prototype to our highly
-optimized implementation of \ctwoasfimc{} is somewhat unfair.
+algorithm~\cite{lercier96} is much faster.  The slant of the plots of
+\titleref{alg:le-si} looks worse than those of \ctwoasfimc{}; however
+comparing a Magma prototype to our highly optimized implementation of
+\ctwoasfimc{} is somewhat unfair.
 
 Furthermore, it is unlikely that \ctwoasfimc{} could be practical for
 any $p>3$ because of its high dependence on $p$, while

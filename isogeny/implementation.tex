@@ -206,12 +206,6 @@ not take Remark~\ref{rk:bmss} into account, and only implemented the
 variant using rational fraction reconstruction. We used Magma native
 support for $p$-adics to construct the field $\Q_q$.
 
-Both implementations differ from the description we gave in
-Sections~\ref{sec:bmss} and~\ref{sec:lercier-sirvent} in that they
-only take the degree $\ell$ and the equation of $E$ as input, and
-compute an $\F_q$-isogenous curve, if it exists, by factoring the
-modular polynomial in $\F_q[X]$.
-
 \pdfmctwo{Atkin's MODULAR polynomial. Not "canonical".}
 Instead of the classical modular polynomials $\Modpol_\ell$ we used
 Atkin's modular polynomials $\Modpol^\ast_\ell$ since they have
@@ -220,9 +214,9 @@ of the algorithm.
 
 The modular polynomials were not computed on the fly as suggested in
 Section~\ref{sec:lercier-sirvent}, instead they were taken from the
-tables precomputed in Magma. This implies that the implementation has
-an asymptotic complexity cubic in $\ell$, however we will see that
-even this implementation behaves well in practice.
+tables precomputed in Magma, however this is not expected to
+significantly affect the running time for the sizes we treat in the
+next section (compare with \cite[Table~3]{sutherland10:modpol}).
 
 
 % Local Variables:

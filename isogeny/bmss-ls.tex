@@ -368,33 +368,40 @@ property.
 \begin{proposition}
   \label{th:ls-diffeq}
   If $p\ge5$, on inputs $\ell$, $E$, $E'$, the previous algorithm
-  computes the correct answer using at most $O(\log^2\ell/\log p)$
-  $p$-adic digits.
+  computes the correct answer using at most
+  $\left\lceil\log^2\ell/\log p\right\rceil$ $p$-adic digits.
 \end{proposition}
 
-Building on this, we now analyze the complexity of the algorithm.
+Building on this, we now analyze the complexity of the algorithm, for
+simplicity we count operations in $\F_q$ rather than in $\F_p$.
 
 \begin{proposition}
   \label{th:lercier-sirvent}
-  Algorithm \titleref{alg:le-si} computes an $\ell$-degree isogeny
-  in \[\tildO_{\ell,\log q}(\ell^2\log q)\] operations in $\F_p$.
+  Algorithm \titleref{alg:le-si} computes an $\ell$-degree isogeny in
+  $\tildO(\ell^2)$ operations in $\F_q$, plus $\tildO(\ell^3)$ binary
+  operations.
 \end{proposition}
 \begin{proof}
   We do not take into account the complexity of building the field
   $\Q_q$. Lifting $E$ in $\Q_q$ can be done for free by taking a
-  trivial lift. The coefficients of the modular polynomial
-  $\Modpol_\ell$ need only be computed modulo $p^{\log^2\ell/\log p}$,
-  this has a binary complexity of $O(\ell^2\log^2\ell)$ using the
-  techniques of~\cite{sutherland10:modpol}.
+  trivial lift. Since the computations in $\Q_q$ are truncated to a
+  fixed precision, we only need the coefficients of $\Modpol_\ell\bmod
+  p^{\left\lceil\log^2\ell/\log p\right\rceil}$; this can be computed
+  using $O(\ell^3\log^3\ell\loglog\ell)$ binary operations and
+  $O(\ell^2\log^2\ell)$ bits of space by
+  \cite[Algorithm~6.1]{sutherland10:modpol}. The output is a
+  polynomial in $\Z_p[X,Y]$ having $O(\ell^2)$ coefficients, this
+  requires an equivalent storage of $\tildO(\ell^2)$ elements of
+  $\F_p$.
 
-  Step~\ref{alg:le-si:modpol} can be done in $\tildO(\ell\log q)$
-  using Hensel lifting. Step~\ref{alg:le-si:elkies} takes $O(\ell^2)$
-  operations in $\Q_q$, that is $\tildO(\ell^2\log
-  q)$. \titleref{alg:bmss} takes $O(\Mult(\ell)\log\ell)$ operations
-  in $\Q_q$ at worse (better if the sum of the abscissas of the kernel
-  of the isogeny is computed by Elkies' formulas), that is
-  $\tildO(\Mult(\ell)\log q)$. The rest of the computation is
-  negligible. Thus, the dominating step is~\ref{alg:le-si:elkies}.
+  Then, step~\ref{alg:le-si:modpol} can be done in $\tildO(\ell)$
+  operations using Hensel lifting. Steps~\ref{alg:le-si:elkies}
+  and~\ref{alg:le-si:bmss} take $O(\ell^2)$ and
+  $O(\Mult(\ell)\log\ell)$ operations in $\Q_q$ respectively (slightly
+  less if the sum of the abscissas of the kernel of the isogeny is
+  computed by Elkies' formulas), this is equivalent to
+  $\tildO(\ell^2)$ operations in $\F_q$. The rest of the computation
+  is negligible. Thus, the dominating step is~\ref{alg:le-si:elkies}.
 \end{proof}
 
 \begin{remark}
@@ -410,16 +417,18 @@ Building on this, we now analyze the complexity of the algorithm.
   polynomial $\Modpol(X,j_E)$ in $\F_q$ to find an isogenous
   $j$-invariant. Lercier and Sirvent,
   citing~\cite{lidl+niederreiter:2}, estimate this cost to be
-  $\tildO(\ell\log^2 q)$. This contribution must be added to the
-  complexity announced in Proposition~\ref{th:lercier-sirvent} if one
-  wants to work in the original setting.
+  $O(\Mult(\ell)\log q + \Mult(\ell)\log\ell)$ operations in
+  $\F_q$. This contribution must be added to the complexity announced
+  in Proposition~\ref{th:lercier-sirvent} if one wants to work in the
+  original setting.
 
-  Another important difference is that we rely on an algorithm to
-  compute the modular polynomial $\Modpol_\ell$ in the ring
-  $\Z/m\Z[X,Y]$, recently appeared in~\cite{sutherland10:modpol}. This
-  permits to compute $\Modpol_\ell$ in $\Q_q$ truncated to the
-  required precision using only $O(\ell^2\log^2\ell)$ binary
-  operations, instead of $\tildO(\ell^3)$.
+  Another difference is that we rely on an algorithm to compute the
+  modular polynomial $\Modpol_\ell$ in the ring $\Z/m\Z[X,Y]$,
+  recently appeared in~\cite{sutherland10:modpol}. This algorithm does
+  not improve the binary complexity, however it permits to compute
+  $\Modpol_\ell$ in $\Z_p[X,Y]$ truncated to the required precision
+  using only $O(\ell^2\log^2\ell)$ bits of memory, instead of
+  $\tildO(\ell^3)$, thus improving the algebraic complexity.
 \end{remark}
 
 
