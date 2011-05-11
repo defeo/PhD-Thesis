@@ -57,6 +57,58 @@
 \end{frame}
 
 %%
+
+\begin{frame}
+  \frametitle{The last SEA record}
+
+  \begin{block}{From Andrew Sutherland's web page: \url{http://math.mit.edu/~drew/SEArecords.html}}
+    July 7, 2010
+    
+    The number of points on the elliptic curve E defined by the equation
+    
+    \[y^2 = x^3 + 2718281828x + 3141592653,\]
+    
+    modulo the prime $p=16219299585*2^{16612}-1$ is $p+1-t$, where the
+    Frobenius trace $t$ is [a 2500-digit integer].
+  \end{block}
+
+  \begin{block}{}
+    \centering
+    \begin{tabular}{l r}
+      \emph{Task} & \emph{Total CPU time}\\
+      \hline
+      Compute $\Phi^f_n(X,j(E)) \bmod p$ & 32 days\\
+      Compute $X^p \bmod \Phi^f_n(X,j(E))$ & 995 days\\
+      Construct the Elkies kernel polynomial $h_n(X)$ & 3 days\\
+      Compute $Y^p$ mod $h_n$ and derive $X^p$ mod $h_n$ & 326 days\\
+      Find the Frobenius eigenvalue $\lambda_n$ using BSGS & 22 days 
+    \end{tabular}
+  \end{block}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{The last SEA record}
+
+  What's behind the record?
+  \begin{itemize}
+    \setlength{\itemsep}{\baselineskip}
+  \item (Mildly) parallel computation;
+  \item A lot of number theory to find smaller modular polynomials
+    \parencite{enge+sutherland10};
+  \item A space efficient, CRT algorithm to compute $\Phi^f_n \bmod p$
+    and derived
+    quantities \parencite{fouquet+gaudry+harley00,sutherland10:modpol};
+  \item Fast integer arithmetic using GMP;
+  \item Highly optimized polynomial arithmetic over finite fields
+    (V. Shoup's NTL library, \cite{gaudry+morain06}, \dots);
+  \item A cache friendly truncated FFT algorithm \parencite{harvey+roche10}.
+  \end{itemize}
+
+\end{frame}
+
+%% 
 %%
 
 \section{Explicit isogenies}
@@ -603,34 +655,36 @@
     \right.
   \end{equation*}
 
-  \begin{onlyenv}<1>
-    \begin{block}{Naive approach}
-      \begin{itemize}
-      \item Let $\delta=\prod_i\deg_{X_i}T_i$, elements are represented
-        using at most $\delta$ monomials;
-      \item Plain multiplication yields a multivariate polynomial having
-        at most $2^{k+1}\delta$ monomials;
-      \item \alert{Any strategy} that multiplies and then reduces modulo
-        the ideal has an extra factor of \alert{$2^{k+1}$}.
-      \item Exponentiation, Inversion, GCD, all depend upon $\;\Mult(\U_k)$,
-      \end{itemize}
-    \end{block}
-  \end{onlyenv}
-  
-  \begin{onlyenv}<2>
-    \begin{block}{Strategies}
-      \begin{itemize}
-      \item Kronecker substitution \parencite{li+moreno+schost07}\hfill\emph{$\tildO(4^k\delta)$}
-      \item Homotopic deformation\\ \parencite{bostan+chowdhury+hoeven+schost}\hfill\emph{$\tildO(\delta)$}
-      \item Find a primitive element and change to an univariate
-        representation \parencite{alonso+becker+roy+wormann,rouiller99}
+  \begin{overlayarea}{\textwidth}{0.5\textheight}
+    \begin{onlyenv}<1>
+      \begin{block}{Naive approach}
         \begin{itemize}
-        \item Using fast modular composition \parencite{kedlaya+umans08}\hfill\emph{$O(\delta^{1+o(1)})$}
-        \item Specific to Artin-Schreier towers \parencite{df+schost09}\hfill\emph{$\tildO(\delta)$}
+        \item Let $\delta=\prod_i\deg_{X_i}T_i$, elements are represented
+          using at most $\delta$ monomials;
+        \item Plain multiplication yields a multivariate polynomial having
+          at most $2^{k+1}\delta$ monomials;
+        \item \alert{Any strategy} that multiplies and then reduces modulo
+          the ideal has an extra factor of at least \alert{$2^{k+1}$}.
+        \item Exponentiation, Inversion, GCD, all depend upon $\;\Mult(\U_k)$,
         \end{itemize}
-      \end{itemize}
-    \end{block}
-  \end{onlyenv}
+      \end{block}
+    \end{onlyenv}
+    
+    \begin{onlyenv}<2>
+      \begin{block}{Strategies}
+        \begin{itemize}
+        \item Kronecker substitution \parencite{li+moreno+schost07}\hfill\emph{$\tildO(4^k\delta)$}
+        \item Homotopic deformation\\ \parencite{bostan+chowdhury+hoeven+schost}\hfill\emph{$\tildO(\delta)$}
+        \item Find a primitive element and change to an univariate
+          representation \parencite{alonso+becker+roy+wormann,rouiller99}
+          \begin{itemize}
+          \item Using fast modular composition \parencite{kedlaya+umans08}\hfill\emph{$O(\delta^{1+o(1)})$}
+          \item Specific to Artin-Schreier towers \parencite{df+schost09}\hfill\emph{$\tildO(\delta)$}
+          \end{itemize}
+        \end{itemize}
+      \end{block}
+    \end{onlyenv}
+  \end{overlayarea}
 \end{frame}
 
 %%
@@ -708,7 +762,8 @@
   \begin{itemize}
     \setlength{\itemsep}{\baselineskip}
   \item \emph{FAAST} (Fast Arithmetic in Artin-Schreier towers):
-    \texttt{C++} with NTL implementation released under GPL:
+    \texttt{C++} with NTL implementation ($\sim6000$ lines) released
+    under GPL:
     \hfill\emph{\url{http://www.lix.polytechnique.fr/~defeo/FAAST/}}\hfill\strut
   \item \texttt{C++} benchmarks of Couveignes' algorithm, built on top
     of FAAST.
