@@ -26,6 +26,8 @@
 }
 
 
+\usepackage[T1]{fontenc}
+\usepackage{emerald}
 \usepackage[amssymb,amsfonts]{concmath}
 \renewcommand{\sfdefault}{uop}
 \mode<presentation>{%
@@ -1047,6 +1049,38 @@
     \end{itemize}
   \end{block}
 \end{frame}
+
+%%
+
+{\setbeamertemplate{footline}[default]
+\setbeamertemplate{navigation symbols}{}
+\begin{frame}
+\input random
+
+\def\randomcolor{%
+  \setrannum\ranval{0}{75}%
+  \ifnum\ranval<10 \xdef\COLr{0\the\ranval}\else\xdef\COLr{\the\ranval}\fi
+  \setrannum\ranval{0}{75}%
+  \ifnum\ranval<10 \xdef\COLg{0\the\ranval}\else\xdef\COLg{\the\ranval}\fi
+  \setrannum\ranval{0}{75}%
+  \ifnum\ranval<10 \xdef\COLb{0\the\ranval}\else\xdef\COLb{\the\ranval}\fi
+  \color[rgb]{.\COLr,.\COLg,.\COLb}%
+}
+
+
+\fontsize{18mm}{26mm}
+\selectfont
+  \begin{center}
+    \ECFTeenSpirit
+    {\let\nbsp~
+      \let~\randomcolor
+      ~J~o~y~e~u~x~\ a~n~n~i~v~e~r~s~a~i~r~e~, ~A~n~t~o~i~n~e\nbsp~!}
+  \end{center}
+\end{frame}
+}
+
+%%
+
 
 % {\setbeamertemplate{navigation symbols}{}
 % \begin{frame}[allowframebreaks]
